@@ -75,26 +75,64 @@ mark.cognishield-cat-urgency_panic {
   transition: box-shadow 0.3s ease;
 }
 
-/* Level 1: Subconscious Ambient Glow */
+/* Level 1: Subconscious Ambient Color Bubble */
+.cognishield-badge-icon {
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  min-height: 22px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.cognishield-badge-icon::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 50%;
+  opacity: 0.55;
+  animation: cognishield-bubble-breathe 2.8s infinite ease-in-out;
+}
+
+@keyframes cognishield-bubble-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.45; }
+  50% { transform: scale(1.35); opacity: 0.85; }
+}
+
 .cognishield-glow-green {
-  background: #10B981;
-  box-shadow: 0 0 12px #10B981;
+  background: radial-gradient(circle at 35% 35%, #34D399 15%, #10B981 85%) !important;
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.8), inset 0 1px 2px rgba(255, 255, 255, 0.5) !important;
+}
+.cognishield-glow-green::after {
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.6) 0%, transparent 70%);
 }
 
 .cognishield-glow-amber {
-  background: #F59E0B;
-  box-shadow: 0 0 12px #F59E0B;
+  background: radial-gradient(circle at 35% 35%, #FBBF24 15%, #F59E0B 85%) !important;
+  box-shadow: 0 0 18px rgba(245, 158, 11, 0.85), inset 0 1px 2px rgba(255, 255, 255, 0.5) !important;
+}
+.cognishield-glow-amber::after {
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.6) 0%, transparent 70%);
 }
 
 .cognishield-glow-red {
-  background: #EF4444;
-  box-shadow: 0 0 14px #EF4444;
-  animation: cognishield-pulse 2s infinite;
+  background: radial-gradient(circle at 35% 35%, #F87171 15%, #EF4444 85%) !important;
+  box-shadow: 0 0 22px rgba(239, 68, 68, 0.95), inset 0 1px 2px rgba(255, 255, 255, 0.5) !important;
+}
+.cognishield-glow-red::after {
+  background: radial-gradient(circle, rgba(239, 68, 68, 0.7) 0%, transparent 70%);
 }
 
 @keyframes cognishield-pulse {
-  0%, 100% { box-shadow: 0 0 8px #EF4444; }
-  50% { box-shadow: 0 0 18px #EF4444; }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
 }
 
 .cognishield-badge-text {
@@ -242,6 +280,25 @@ mark.cognishield-cat-urgency_panic {
   border-radius: 12px;
   padding: 14px;
   margin-bottom: 14px;
+}
+
+/* Filter-Bubble Radar Visualizer */
+.cognishield-filter-bubble-widget {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-top: 10px;
+  margin-bottom: 8px;
+}
+
+.cognishield-bubble-focal {
+  animation: cognishield-focal-pulse 1.8s infinite ease-in-out;
+}
+
+@keyframes cognishield-focal-pulse {
+  0%, 100% { r: 6px; opacity: 0.85; filter: drop-shadow(0 0 4px #F7941D); }
+  50% { r: 9px; opacity: 1; filter: drop-shadow(0 0 8px #F7941D); }
 }
 
 .cognishield-perspective-item {

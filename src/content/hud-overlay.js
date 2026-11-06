@@ -97,6 +97,7 @@ class HUDOverlayController {
    * Updates Level 1 Subconscious Ambient Glow
    */
   updateAmbientStatus(intensityScore, matchCount) {
+    const trigger = document.getElementById("cognishield-trigger-btn");
     const glowDot = document.getElementById("cognishield-glow-dot");
     const intensityBadge = document.getElementById("cognishield-badge-intensity");
     if (!glowDot || !intensityBadge) return;
@@ -107,10 +108,22 @@ class HUDOverlayController {
     glowDot.className = "cognishield-badge-icon";
     if (intensityScore < 3.5) {
       glowDot.classList.add("cognishield-glow-green");
+      if (trigger) {
+        trigger.style.borderColor = "rgba(16, 185, 129, 0.45)";
+        trigger.title = "CogniShield: Low Emotional Manipulation (Calm Analysis)";
+      }
     } else if (intensityScore < 7.0) {
       glowDot.classList.add("cognishield-glow-amber");
+      if (trigger) {
+        trigger.style.borderColor = "rgba(245, 158, 11, 0.5)";
+        trigger.title = "CogniShield: Moderate Sensationalism / Polling Bias";
+      }
     } else {
       glowDot.classList.add("cognishield-glow-red");
+      if (trigger) {
+        trigger.style.borderColor = "rgba(239, 68, 68, 0.6)";
+        trigger.title = "CogniShield Alert: High Outrage / Filter-Bubble Hook Detected";
+      }
     }
   }
 
@@ -160,6 +173,40 @@ class HUDOverlayController {
         <div style="font-size: 13px; color: #94A3B8;">
           <strong style="color: #F8FAFC;">Detected Tone:</strong> ${data.source_perspective || 'Single-Perspective Feeds'}
           <span style="float: right; color: #F7941D; font-weight: 700;">Intensity: ${data.emotional_intensity || '7.5'}/10</span>
+        </div>
+
+        <!-- Epistemic Filter-Bubble Radar Visualizer -->
+        <div class="cognishield-filter-bubble-widget">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+            <span style="font-size: 11px; font-weight: 700; color: #38BDF8; letter-spacing: 0.5px;">EPISTEMIC BUBBLE RADAR</span>
+            <span style="font-size: 10px; color: #94A3B8; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px;">4 Diversity Quadrants</span>
+          </div>
+          <svg viewBox="0 0 240 100" style="width: 100%; height: 95px; display: block; margin: 0 auto;">
+            <!-- Radar concentric rings -->
+            <circle cx="120" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.08)" stroke-dasharray="2,2" />
+            <circle cx="120" cy="50" r="22" fill="none" stroke="rgba(255,255,255,0.12)" />
+            <line x1="120" y1="8" x2="120" y2="92" stroke="rgba(255,255,255,0.08)" />
+            <line x1="78" y1="50" x2="162" y2="50" stroke="rgba(255,255,255,0.08)" />
+
+            <!-- 4 Perspective Bubbles -->
+            <circle cx="148" cy="30" r="14" fill="rgba(2, 132, 199, 0.35)" stroke="#0284C7" stroke-width="1.5" />
+            <text x="148" y="33" fill="#E0F2FE" font-size="8" font-weight="700" text-anchor="middle">Data</text>
+
+            <circle cx="152" cy="70" r="13" fill="rgba(168, 85, 247, 0.3)" stroke="#A855F7" stroke-width="1.5" />
+            <text x="152" y="73" fill="#F3E8FF" font-size="7.5" font-weight="700" text-anchor="middle">Econ</text>
+
+            <circle cx="88" cy="70" r="12" fill="rgba(245, 158, 11, 0.3)" stroke="#F59E0B" stroke-width="1.5" />
+            <text x="88" y="73" fill="#FEF3C7" font-size="7.5" font-weight="700" text-anchor="middle">Civic</text>
+
+            <circle cx="88" cy="30" r="12" fill="rgba(168, 85, 247, 0.2)" stroke="#10B981" stroke-width="1.5" />
+            <text x="88" y="33" fill="#D1FAE5" font-size="7.5" font-weight="700" text-anchor="middle">Ethic</text>
+
+            <!-- Current Feed Anchor Bubble (Glowing dot) -->
+            <circle cx="126" cy="44" r="6" fill="#F7941D" stroke="#FFFFFF" stroke-width="1.5" class="cognishield-bubble-focal" />
+          </svg>
+          <div style="font-size: 11px; color: #94A3B8; text-align: center; margin-top: 2px;">
+            Target Narrative: <span style="color: #F7941D; font-weight: 600;">Narrow Outrage Vector</span> ➔ <span style="color: #10B981; font-weight: 600;">Multi-Perspective Diligence</span>
+          </div>
         </div>
         <div style="margin-top: 12px;">${counterViews}</div>
       </div>
