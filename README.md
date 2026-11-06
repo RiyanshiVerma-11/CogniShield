@@ -5,6 +5,7 @@
 
 <div align="center">
 
+[![CogniShield CI](https://github.com/RiyanshiVerma-11/CogniShield/actions/workflows/test.yml/badge.svg)](https://github.com/RiyanshiVerma-11/CogniShield/actions/workflows/test.yml)
 ![Platform](https://img.shields.io/badge/Platform-Chrome%20%7C%20Brave%20MV3-F7941D?style=for-the-badge&logo=googlechrome)
 ![Track](https://img.shields.io/badge/Track-Stream%201%3A%20COGNITIVE-0F172A?style=for-the-badge)
 ![Tests](https://img.shields.io/badge/Tests-12%2F12%20Passing-10B981?style=for-the-badge)
