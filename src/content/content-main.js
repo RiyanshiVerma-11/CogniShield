@@ -132,7 +132,7 @@
           });
           dossier.emotional_intensity = intensityScore;
           dossier.bias_category = biasCategory;
-          window.CogniShieldHUD.loadDossier(dossier);
+          window.CogniShieldHUD.loadDossier(dossier, highlightStats.categoryCounts);
         }
 
         // 6. Live Multi-Tier AI Analysis (Gemini Flash Primary -> Groq Fallback)
@@ -166,7 +166,7 @@
                   if (!liveData.contextTitle) {
                     liveData.contextTitle = document.title.replace(/- YouTube.*$/i, "").trim();
                   }
-                  window.CogniShieldHUD.loadDossier(liveData);
+                  window.CogniShieldHUD.loadDossier(liveData, highlightStats.categoryCounts);
                   const newScore = parseFloat(liveData.emotional_intensity) || intensityScore;
                   window.CogniShieldHUD.updateAmbientStatus(newScore, highlightStats.highlightedCount);
                 }

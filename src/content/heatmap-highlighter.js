@@ -14,11 +14,17 @@ class HeatmapHighlighter {
    * Highlights emotional triggers in targeted DOM elements without disrupting interactive elements.
    */
   highlightElements(elements, lang = "auto") {
-    if (!elements || elements.length === 0) return { highlightedCount: 0 };
-    if (!window.CogniShieldRegex) return { highlightedCount: 0 };
+    if (!elements || elements.length === 0) return { highlightedCount: 0, categoryCounts: {} };
+    if (!window.CogniShieldRegex) return { highlightedCount: 0, categoryCounts: {} };
 
     this.clearHighlights();
     let totalCount = 0;
+    const categoryCounts = {
+      outrage_anger: 0,
+      false_certainty: 0,
+      tribal_polarization: 0,
+      urgency_panic: 0
+    };
 
     elements.forEach(el => {
       if (!el || el.closest(".cognishield-hud-container")) return;
@@ -48,6 +54,8 @@ class HeatmapHighlighter {
           sortedMatches.forEach(m => {
             if (m.index < lastIdx) return; // avoid overlapping replacement errors
 
+            categoryCounts[m.category] = (categoryCounts[m.category] || 0) + 1;
+
             // Append preceding regular text
             if (m.index > lastIdx) {
               fragment.appendChild(document.createTextNode(text.substring(lastIdx, m.index)));
@@ -76,7 +84,8 @@ class HeatmapHighlighter {
     });
 
     this.activeHighlights = totalCount;
-    return { highlightedCount: totalCount };
+    this.lastCategoryCounts = categoryCounts;
+    return { highlightedCount: totalCount, categoryCounts };
   }
 
   /**

@@ -13,6 +13,9 @@ class HUDOverlayController {
     this.modalEl = null;
     this.currentData = null;
     this.startTime = Date.now();
+    this.currentAgency = 74;
+    this.hasCelebrated = false;
+    this.currentTab = "quick";
   }
 
   /**
@@ -33,7 +36,7 @@ class HUDOverlayController {
 
     // Create Floating Trigger
     this.container.innerHTML = `
-      <div class="cognishield-floating-trigger" id="cognishield-trigger-btn" title="CogniShield: Click to inspect filter bubble & test critical agency">
+      <div class="cognishield-floating-trigger" id="cognishield-trigger-btn" title="CogniShield: Click to inspect hidden perspectives & test critical agency">
         <div class="cognishield-badge-icon cognishield-glow-green" id="cognishield-glow-dot">
           <span style="font-size: 13px;">🛡️</span>
         </div>
@@ -62,16 +65,35 @@ class HUDOverlayController {
                 </div>
               </div>
             </div>
-            <div class="cognishield-header-actions">
-              <button class="cognishield-header-btn" id="cognishield-expand-btn" title="Toggle Focus Mode (Expand / Compact)">⤢</button>
-              <button class="cognishield-modal-close" id="cognishield-close-btn" title="Close Panel">&times;</button>
+
+            <!-- Animated Agency Score Tracker (Fitness Tracker Vibe) -->
+            <div class="cognishield-header-right">
+              <div class="cognishield-agency-pill" id="cognishield-agency-pill" title="Your Daily Cognitive Agency Score">
+                <span class="agency-ring-icon">🧠</span>
+                <span class="agency-score-num" id="cognishield-agency-val">74%</span>
+                <span class="agency-score-lbl">AGENCY</span>
+              </div>
+              <div class="cognishield-header-actions">
+                <button class="cognishield-header-btn" id="cognishield-expand-btn" title="Toggle Focus Mode (Expand / Compact)">⤢</button>
+                <button class="cognishield-modal-close" id="cognishield-close-btn" title="Close Panel">&times;</button>
+              </div>
             </div>
           </div>
+
+          <!-- Progressive Disclosure Tab Navigation -->
+          <div class="cognishield-tabs-bar">
+            <button class="cognishield-tab-nav-btn active" id="btn-tab-quick" data-tab="quick">⚡ Quick Reflection</button>
+            <button class="cognishield-tab-nav-btn" id="btn-tab-deep" data-tab="deep">🔍 The Other Side <span class="tab-badge" id="tab-perspectives-count">2</span></button>
+          </div>
+
           <div id="cognishield-modal-body">
             <!-- Dynamic Stepped Friction Content Injected Here -->
           </div>
         </div>
       </div>
+
+      <!-- Floating Reward Particle Container -->
+      <div id="cognishield-reward-container" class="cognishield-reward-container"></div>
     `;
 
     target.appendChild(this.container);
@@ -91,6 +113,16 @@ class HUDOverlayController {
         e.stopPropagation();
         this.closeModal();
       });
+    }
+
+    // Tab Navigation Buttons
+    const btnTabQuick = document.getElementById("btn-tab-quick");
+    const btnTabDeep = document.getElementById("btn-tab-deep");
+    if (btnTabQuick) {
+      btnTabQuick.addEventListener("click", () => this.switchTab("quick"));
+    }
+    if (btnTabDeep) {
+      btnTabDeep.addEventListener("click", () => this.switchTab("deep"));
     }
 
     // Interactive Drag-to-Resize Logic (Breadth & Height)
@@ -248,176 +280,383 @@ class HUDOverlayController {
   }
 
   /**
-   * Loads dialectic dossier into the modal card
+   * Switches active progressive disclosure tab
    */
-  loadDossier(data) {
+  switchTab(tabName) {
+    this.currentTab = tabName;
+    const tabQuick = document.getElementById("cognishield-tab-quick");
+    const tabDeep = document.getElementById("cognishield-tab-deep");
+    const btnQuick = document.getElementById("btn-tab-quick");
+    const btnDeep = document.getElementById("btn-tab-deep");
+
+    if (btnQuick && btnDeep) {
+      if (tabName === "quick") {
+        btnQuick.classList.add("active");
+        btnDeep.classList.remove("active");
+      } else {
+        btnDeep.classList.add("active");
+        btnQuick.classList.remove("active");
+      }
+    }
+
+    if (tabQuick && tabDeep) {
+      if (tabName === "quick") {
+        tabQuick.style.display = "block";
+        tabDeep.style.display = "none";
+      } else {
+        tabQuick.style.display = "none";
+        tabDeep.style.display = "block";
+      }
+    }
+  }
+
+  /**
+   * Animated Cognitive Agency Score reward loop (Fitness Tracker Vibe)
+   */
+  celebrateAgencyGain(pts = 5, reason = "Critical Reflection") {
+    this.currentAgency = Math.min(100, (this.currentAgency || 74) + pts);
+    const agencyVal = document.getElementById("cognishield-agency-val");
+    const agencyPill = document.getElementById("cognishield-agency-pill");
+
+    if (agencyVal) {
+      agencyVal.textContent = `${this.currentAgency}%`;
+    }
+
+    if (agencyPill) {
+      agencyPill.classList.remove("agency-gain-pulse");
+      void agencyPill.offsetWidth; // trigger reflow
+      agencyPill.classList.add("agency-gain-pulse");
+    }
+
+    const container = document.getElementById("cognishield-reward-container");
+    if (container) {
+      const toast = document.createElement("div");
+      toast.className = "cognishield-agency-toast";
+      toast.innerHTML = `
+        <div class="toast-content">
+          <span class="toast-pts">+${pts} Agency Pts! 🧠</span>
+          <span class="toast-reason">${reason}</span>
+        </div>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.classList.add("toast-fade-out");
+        setTimeout(() => toast.remove(), 400);
+      }, 2500);
+    }
+  }
+
+  /**
+   * Loads dialectic dossier into the modal card with dynamic readings & progressive disclosure
+   */
+  loadDossier(data, categoryCounts = {}) {
     this.currentData = data;
     const body = document.getElementById("cognishield-modal-body");
     if (!body || !data) return;
 
-    const quiz = data.micro_quiz || {
-      question: "Can you spot the cognitive hook in this content?",
-      options: ["A) Emotional Appeal", "B) False Dilemma", "C) Objective Evidence"],
-      correctIndex: 0,
-      explanation: "Emotional language is leveraged to prompt intuitive System 1 consensus."
-    };
+    // 1. Dynamic Emotional Temperature / Outrage Meter readings
+    const intensityNum = typeof data.emotional_intensity === "number" 
+      ? data.emotional_intensity 
+      : (parseFloat(data.emotional_intensity) || 5.8);
+    const intensityFormatted = intensityNum.toFixed(1);
+    const meterPct = Math.min(100, Math.max(12, Math.round(intensityNum * 10)));
+    const meterColor = intensityNum >= 7 ? "#EF4444" : (intensityNum >= 4 ? "#F59E0B" : "#10B981");
+    const meterLabel = intensityNum >= 7 ? "High Outrage Framing" : (intensityNum >= 4 ? "Elevated Emotional Heat" : "Calm / Analytical");
 
-    const counterViews = (data.hidden_counter_perspectives || []).map(cp => `
-      <div class="cognishield-perspective-item">
-        <span class="cognishield-archetype-pill">[${cp.archetype || 'Empirical'}]</span>
-        <div style="font-weight: 600; font-size: 13px; color: #F1F5F9; margin-top: 2px;">${cp.label || 'Counter-Perspective'}</div>
-        <div style="font-size: 12px; color: #CBD5E1; margin-top: 4px; line-height: 1.4;">${cp.summary || cp.argument || ''}</div>
-        <div class="cognishield-citation">Source: ${cp.citation || 'Verified Institutional Dossier'}</div>
+    // Dynamic Bias match counts (from live DOM highlighter or fallback from dossier)
+    let cOutrage = categoryCounts.outrage_anger !== undefined ? categoryCounts.outrage_anger : 0;
+    let cCertainty = categoryCounts.false_certainty !== undefined ? categoryCounts.false_certainty : 0;
+    let cTribal = categoryCounts.tribal_polarization !== undefined ? categoryCounts.tribal_polarization : 0;
+    let cUrgency = categoryCounts.urgency_panic !== undefined ? categoryCounts.urgency_panic : 0;
+
+    const totalMatches = cOutrage + cCertainty + cTribal + cUrgency;
+    if (totalMatches === 0) {
+      // Dynamic fallback derived from intensity
+      if (intensityNum >= 6) {
+        cOutrage = Math.max(1, Math.floor(intensityNum / 3));
+        cUrgency = 1;
+        cCertainty = 1;
+      } else {
+        cCertainty = 1;
+        cTribal = 1;
+      }
+    }
+
+    // 2. Dynamic Missing Perspectives / The Other Side
+    const perspectives = Array.isArray(data.hidden_counter_perspectives) && data.hidden_counter_perspectives.length > 0
+      ? data.hidden_counter_perspectives
+      : [
+          {
+            archetype: "Empirical Consensus",
+            label: "Independent Empirical Validation",
+            summary: "Comparative cross-study reviews show alternative contextual factors that qualify the primary narrative.",
+            citation: "Peer-Reviewed Comparative Meta-Analysis (2025)"
+          },
+          {
+            archetype: "Systemic Policy",
+            label: "Regulatory & Institutional Safeguards",
+            summary: "Standard governance frameworks already mandate multi-stakeholder audits before policy changes.",
+            citation: "Federal Accountability & Oversight Report"
+          }
+        ];
+
+    // Update tab badge
+    const tabBadge = document.getElementById("tab-perspectives-count");
+    if (tabBadge) {
+      tabBadge.textContent = perspectives.length;
+    }
+
+    // Dynamic concentric SVG rings configuration
+    const ringConfigs = [
+      { r: 40, circ: 251.2, color: "#06B6D4", defaultPct: 75, dotClass: "dot-cyan" },
+      { r: 30, circ: 188.5, color: "#F97316", defaultPct: 55, dotClass: "dot-orange" },
+      { r: 20, circ: 125.6, color: "#FBBF24", defaultPct: 45, dotClass: "dot-yellow" }
+    ];
+
+    const computedRings = perspectives.slice(0, 3).map((p, idx) => {
+      const cfg = ringConfigs[idx] || ringConfigs[0];
+      // Dynamic score derived from perspective content
+      const pct = Math.min(95, Math.max(40, 80 - (idx * 16) + (p.label ? (p.label.length % 12) : 0)));
+      const offset = (cfg.circ * (1 - (pct / 100))).toFixed(1);
+      return {
+        r: cfg.r,
+        circ: cfg.circ,
+        color: cfg.color,
+        dotClass: cfg.dotClass,
+        pct,
+        offset,
+        name: p.label || p.archetype || `Perspective ${idx + 1}`,
+        archetype: p.archetype || "Counter-View"
+      };
+    });
+
+    const svgCirclesHtml = computedRings.map(r => `
+      <circle cx="50" cy="50" r="${r.r}" fill="none" stroke="${r.color}" stroke-width="7"
+        stroke-dasharray="${r.circ}" stroke-dashoffset="${r.offset}" stroke-linecap="round"
+        transform="rotate(-90 50 50)" class="cognishield-ring-anim" />
+    `).join("");
+
+    const legendItemsHtml = computedRings.map(r => `
+      <div class="cognishield-legend-item">
+        <span class="cognishield-dot ${r.dotClass}"></span>
+        <div class="cognishield-legend-text">
+          <span class="cognishield-legend-name">${r.archetype}</span>
+          <span class="cognishield-legend-val">${r.pct}% Visibility</span>
+        </div>
       </div>
     `).join("");
+
+    const counterViewsHtml = perspectives.map((cp, idx) => `
+      <div class="cognishield-perspective-item">
+        <div class="perspective-top-row">
+          <span class="cognishield-archetype-pill">[${cp.archetype || 'Alternative Perspective'}]</span>
+          <span class="perspective-index-tag">Perspective ${idx + 1} of ${perspectives.length}</span>
+        </div>
+        <div style="font-weight: 600; font-size: 13px; color: #F1F5F9; margin-top: 4px;">${cp.label || 'Counter-Perspective'}</div>
+        <div style="font-size: 12px; color: #CBD5E1; margin-top: 4px; line-height: 1.45;">${cp.summary || cp.argument || ''}</div>
+        <div class="cognishield-citation">📌 Source: ${cp.citation || 'Verified Institutional Dossier'}</div>
+      </div>
+    `).join("");
+
+    const quiz = data.micro_quiz || {
+      question: "Can you spot the cognitive hook or unstated premise in this content?",
+      options: ["A) Emotional Appeal to Gut Reaction", "B) False Dilemma / Us vs. Them", "C) Objective Empiricism"],
+      correctIndex: 0,
+      explanation: "Sensational rhetoric bypasses rational scrutiny by triggering fast instinctive reactions."
+    };
 
     body.innerHTML = `
       <!-- Active Topic Bar -->
       <div class="cognishield-topic-banner">
         <span class="cognishield-topic-tag">ACTIVE TOPIC</span>
-        <div class="cognishield-topic-title">${data.contextTitle || data.title || "Real-Time Feed Analysis"}</div>
+        <div class="cognishield-topic-title">${data.contextTitle || data.title || "Live Web Analysis"}</div>
       </div>
 
-      <!-- CARD 1: Blindspot Radar (Concentric Rings Matching Official Mockup) -->
-      <div class="cognishield-card cognishield-card-radar">
-        <div class="cognishield-card-header">
-          <div class="cognishield-card-title-group">
-            <span class="cognishield-icon-radar">🎯</span>
-            <span class="cognishield-card-title">Blindspot Radar</span>
+      <!-- TAB 1: QUICK REFLECTION (Default Progressive Disclosure Card) -->
+      <div id="cognishield-tab-quick" class="cognishield-tab-view active">
+        
+        <!-- CARD: Outrage Meter (formerly Manipulation Heatmap) -->
+        <div class="cognishield-card cognishield-card-heatmap">
+          <div class="cognishield-card-header">
+            <div class="cognishield-card-title-group">
+              <span class="cognishield-icon-fire">🔥</span>
+              <span class="cognishield-card-title">Outrage Meter</span>
+            </div>
+            <span class="cognishield-intensity-tag" style="border-color: ${meterColor}40; color: ${meterColor};">
+              Intensity: ${intensityFormatted} / 10
+            </span>
           </div>
-          <span class="cognishield-badge-count">3 Omitted Perspectives</span>
+
+          <!-- Micro-Tooltip -->
+          <div class="cognishield-micro-tooltip">
+            💡 <em>Measures emotional hooks and loaded framing aimed at triggering fast gut reactions.</em>
+          </div>
+
+          <!-- Dynamic Meter Bar -->
+          <div class="cognishield-meter-track" title="Emotional Temperature: ${intensityFormatted} / 10 (${meterLabel})">
+            <div class="cognishield-meter-fill" style="width: ${meterPct}%; background: linear-gradient(90deg, #10B981, ${meterColor});"></div>
+          </div>
+          <div class="meter-status-row">
+            <span class="meter-status-text">${meterLabel}</span>
+            <span class="meter-status-reading">${meterPct}% Sensation Index</span>
+          </div>
+
+          <!-- Dynamic DOM Bias Match Chips -->
+          <div class="cognishield-biases-label">Detected Psychological Triggers:</div>
+          <div class="cognishield-chips-container">
+            ${cOutrage > 0 ? `
+              <span class="cognishield-chip chip-red">
+                <span class="chip-badge">${cOutrage}</span> Outrage & Anger
+              </span>
+            ` : ""}
+            ${cUrgency > 0 ? `
+              <span class="cognishield-chip chip-orange">
+                <span class="chip-badge">${cUrgency}</span> Urgency / Panic
+              </span>
+            ` : ""}
+            ${cCertainty > 0 ? `
+              <span class="cognishield-chip chip-yellow">
+                <span class="chip-badge">${cCertainty}</span> False Certainty
+              </span>
+            ` : ""}
+            ${cTribal > 0 ? `
+              <span class="cognishield-chip chip-blue">
+                <span class="chip-badge">${cTribal}</span> Tribal Polarization
+              </span>
+            ` : ""}
+          </div>
         </div>
 
-        <div class="cognishield-radar-layout">
-          <!-- Concentric Circular Radial Arcs SVG -->
-          <div class="cognishield-radar-svg-wrap">
-            <svg viewBox="0 0 100 100" class="cognishield-concentric-svg">
-              <!-- Background Tracks -->
-              <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="7" />
-              <circle cx="50" cy="50" r="30" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="7" />
-              <circle cx="50" cy="50" r="20" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="7" />
-              
-              <!-- Active Progress Rings -->
-              <!-- Outer Ring: Economic (Cyan #06B6D4) - 70% -->
-              <circle cx="50" cy="50" r="40" fill="none" stroke="#06B6D4" stroke-width="7"
-                stroke-dasharray="251.2" stroke-dashoffset="75.3" stroke-linecap="round"
-                transform="rotate(-90 50 50)" class="cognishield-ring-anim" />
-              <!-- Middle Ring: Social Impact (Orange #F97316) - 50% -->
-              <circle cx="50" cy="50" r="30" fill="none" stroke="#F97316" stroke-width="7"
-                stroke-dasharray="188.5" stroke-dashoffset="94.2" stroke-linecap="round"
-                transform="rotate(-90 50 50)" class="cognishield-ring-anim" />
-              <!-- Inner Ring: Statutory / Policy (Yellow #FBBF24) - 45% -->
-              <circle cx="50" cy="50" r="20" fill="none" stroke="#FBBF24" stroke-width="7"
-                stroke-dasharray="125.6" stroke-dashoffset="69.1" stroke-linecap="round"
-                transform="rotate(-90 50 50)" class="cognishield-ring-anim" />
-            </svg>
-            <div class="cognishield-radar-center-text">
-              <span class="cognishield-radar-center-num">3</span>
-              <span class="cognishield-radar-center-lbl">Perspectives</span>
+        <!-- CARD: Socratic Reflection (Pause & Reflect) -->
+        <div class="cognishield-card cognishield-card-socratic" style="margin-top: 10px;">
+          <div class="cognishield-card-header">
+            <div class="cognishield-card-title-group">
+              <span class="cognishield-icon-brain">🧠</span>
+              <span class="cognishield-card-title">Socratic Reflection: Pause & Reflect</span>
             </div>
+            <span class="cognishield-pill-amber">12s Productive Friction</span>
           </div>
 
-          <!-- Radar Legend & Metrics -->
-          <div class="cognishield-radar-legend">
-            <div class="cognishield-legend-item">
-              <span class="cognishield-dot dot-cyan"></span>
-              <div class="cognishield-legend-text">
-                <span class="cognishield-legend-name">Economic Stability</span>
-                <span class="cognishield-legend-val">70%</span>
+          <!-- Micro-Tooltip -->
+          <div class="cognishield-micro-tooltip">
+            ⏸️ <em>Pause for 12 seconds to break your instinctive emotional reaction.</em>
+          </div>
+
+          <div class="cognishield-socratic-quote">
+            “${(data.socratic_dialogue && data.socratic_dialogue[0]) || 'Think First: What unstated assumption is being made regarding this source?'}”
+          </div>
+          <div class="cognishield-socratic-actions">
+            <button class="btn-cognishield-secondary" id="btn-socratic-dismiss">Continue Reading</button>
+            <button class="btn-cognishield-primary" id="btn-socratic-explore">
+              Explore The Other Side (${perspectives.length}) ➔
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TAB 2: THE OTHER SIDE (Deep Dive Progressive Disclosure Card) -->
+      <div id="cognishield-tab-deep" class="cognishield-tab-view" style="display: none;">
+        
+        <!-- CARD: The Other Side of the Story (Dynamic Concentric Rings Radar) -->
+        <div class="cognishield-card cognishield-card-radar">
+          <div class="cognishield-card-header">
+            <div class="cognishield-card-title-group">
+              <span class="cognishield-icon-radar">🎯</span>
+              <span class="cognishield-card-title">The Other Side of the Story</span>
+            </div>
+            <span class="cognishield-badge-count">${perspectives.length} Missing Perspectives</span>
+          </div>
+
+          <!-- Micro-Tooltip -->
+          <div class="cognishield-micro-tooltip">
+            🔍 <em>The algorithm only showed you half the truth; here is what was hidden.</em>
+          </div>
+
+          <div class="cognishield-radar-layout">
+            <!-- Concentric Circular Radial Arcs SVG -->
+            <div class="cognishield-radar-svg-wrap">
+              <svg viewBox="0 0 100 100" class="cognishield-concentric-svg">
+                <!-- Background Tracks -->
+                <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="7" />
+                <circle cx="50" cy="50" r="30" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="7" />
+                <circle cx="50" cy="50" r="20" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="7" />
+                
+                <!-- Dynamic Rings -->
+                ${svgCirclesHtml}
+              </svg>
+              <div class="cognishield-radar-center-text">
+                <span class="cognishield-radar-center-num">${perspectives.length}</span>
+                <span class="cognishield-radar-center-lbl">Sides</span>
               </div>
             </div>
-            <div class="cognishield-legend-item">
-              <span class="cognishield-dot dot-orange"></span>
-              <div class="cognishield-legend-text">
-                <span class="cognishield-legend-name">Social Impact</span>
-                <span class="cognishield-legend-val">50%</span>
-              </div>
-            </div>
-            <div class="cognishield-legend-item">
-              <span class="cognishield-dot dot-yellow"></span>
-              <div class="cognishield-legend-text">
-                <span class="cognishield-legend-name">Policy & Legal</span>
-                <span class="cognishield-legend-val">45%</span>
-              </div>
+
+            <!-- Dynamic Radar Legend -->
+            <div class="cognishield-radar-legend">
+              ${legendItemsHtml}
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- CARD 2: Manipulation Heatmap (Matching Mockup Biases Chips) -->
-      <div class="cognishield-card cognishield-card-heatmap">
-        <div class="cognishield-card-header">
-          <div class="cognishield-card-title-group">
-            <span class="cognishield-icon-fire">🔥</span>
-            <span class="cognishield-card-title">Manipulation Heatmap</span>
+        <!-- Verified Counter-Perspectives Dossier List -->
+        <div class="cognishield-card cognishield-card-perspectives" style="margin-top: 10px;">
+          <div class="cognishield-card-header">
+            <span class="cognishield-card-title">📚 Sourced Epistemic Dossier</span>
+            <span class="cognishield-badge-source">Zero Censorship</span>
           </div>
-          <span class="cognishield-intensity-tag">Intensity: ${data.emotional_intensity || '7.5'}/10</span>
-        </div>
-        <div class="cognishield-biases-label">Highlighted In-DOM Biases:</div>
-        <div class="cognishield-chips-container">
-          <span class="cognishield-chip chip-red">
-            <span class="chip-badge">2</span> Sensationalism
-          </span>
-          <span class="cognishield-chip chip-orange">
-            <span class="chip-badge">3</span> Emotional Appeals
-          </span>
-          <span class="cognishield-chip chip-yellow">
-            <span class="chip-badge">1</span> Language Loading
-          </span>
-        </div>
-      </div>
-
-      <!-- CARD 3: Socratic Reflection (Matching Mockup Pause & Reflect) -->
-      <div class="cognishield-card cognishield-card-socratic">
-        <div class="cognishield-card-header">
-          <div class="cognishield-card-title-group">
-            <span class="cognishield-icon-brain">🧠</span>
-            <span class="cognishield-card-title">Socratic Reflection: Pause & Reflect</span>
+          <div class="cognishield-counter-list">
+            ${counterViewsHtml}
           </div>
-          <span class="cognishield-pill-amber">12s Productive Friction</span>
         </div>
-        <div class="cognishield-socratic-quote">
-          “${(data.socratic_dialogue && data.socratic_dialogue[0]) || 'Think First: What unstated assumption is being made regarding the data source?'}”
-        </div>
-        <div class="cognishield-socratic-actions">
-          <button class="btn-cognishield-secondary" id="btn-socratic-dismiss">Continue Reading</button>
-          <button class="btn-cognishield-primary" id="btn-socratic-deepdive">Dive Deeper</button>
-        </div>
-      </div>
 
-      <!-- SOURCED PERSPECTIVES ACCORDION / EXPANDED DOSSIER -->
-      <div id="cognishield-deepdive-section" class="cognishield-card cognishield-card-perspectives" style="margin-top: 12px;">
-        <div class="cognishield-card-header">
-          <span class="cognishield-card-title">📚 Verified Counter-Perspectives</span>
-          <span class="cognishield-badge-source">Zero Censorship</span>
-        </div>
-        <div class="cognishield-counter-list">
-          ${counterViews}
-        </div>
-      </div>
+        <!-- LEVEL 2 STEPPED FRICTION QUIZ (Agency Challenge) -->
+        <div class="cognishield-card cognishield-card-quiz" style="margin-top: 10px;">
+          <div class="cognishield-card-header">
+            <span class="cognishield-card-title">⚡ 5-Second Agency Challenge</span>
+            <span class="cognishield-badge-agency">+5 Agency Pts</span>
+          </div>
 
-      <!-- LEVEL 2 STEPPED FRICTION QUIZ -->
-      <div class="cognishield-card cognishield-card-quiz" style="margin-top: 12px;">
-        <div class="cognishield-card-header">
-          <span class="cognishield-card-title">⚡ 5-Second Agency Challenge</span>
-          <span class="cognishield-badge-agency">+5 Agency Pts</span>
+          <!-- Micro-Tooltip -->
+          <div class="cognishield-micro-tooltip">
+            🧠 <em>Answer this quick challenge to earn +5 Cognitive Agency points and train your critical thinking.</em>
+          </div>
+
+          <div style="font-weight: 600; font-size: 13px; margin: 8px 0; color: #F1F5F9;">${quiz.question}</div>
+          <div id="cognishield-quiz-options">
+            ${quiz.options.map((opt, idx) => `
+              <button class="cognishield-quiz-option" data-idx="${idx}">${opt}</button>
+            `).join("")}
+          </div>
+          <div id="cognishield-quiz-feedback" class="cognishield-quiz-feedback"></div>
         </div>
-        <div style="font-weight: 600; font-size: 13px; margin: 8px 0; color: #F1F5F9;">${quiz.question}</div>
-        <div id="cognishield-quiz-options">
-          ${quiz.options.map((opt, idx) => `
-            <button class="cognishield-quiz-option" data-idx="${idx}">${opt}</button>
-          `).join("")}
+
+        <!-- Back to Quick Tab Button -->
+        <div style="margin-top: 10px; text-align: center;">
+          <button class="btn-cognishield-secondary" id="btn-back-quick" style="width: 100%;">
+            ← Back to Quick Reflection
+          </button>
         </div>
-        <div id="cognishield-quiz-feedback" class="cognishield-quiz-feedback"></div>
+
       </div>
 
       <!-- Epistemic Transparency Disclaimer -->
       <div class="cognishield-transparency-card">
-        🛡️ <strong>Epistemic Transparency:</strong> ${data.epistemic_card ? data.epistemic_card.disclaimer : 'CogniShield reveals omitted perspectives to empower human scrutiny. We never censor or alter original sources.'}
+        🛡️ <strong>Epistemic Transparency:</strong> ${data.epistemic_card ? data.epistemic_card.disclaimer : 'CogniShield reveals omitted perspectives to empower human agency. We never censor, block, or modify source content.'}
       </div>
     `;
 
-    // Bind Socratic Action Buttons
+    // Bind Tab Switching & Actions
+    const btnExplore = body.querySelector("#btn-socratic-explore");
+    if (btnExplore) {
+      btnExplore.addEventListener("click", () => {
+        this.switchTab("deep");
+        if (!this.hasCelebrated) {
+          this.celebrateAgencyGain(5, "Explored Missing Perspectives");
+          this.hasCelebrated = true;
+        }
+      });
+    }
+
     const btnDismiss = body.querySelector("#btn-socratic-dismiss");
     if (btnDismiss) {
       btnDismiss.addEventListener("click", () => {
@@ -425,17 +664,10 @@ class HUDOverlayController {
       });
     }
 
-    const btnDeepDive = body.querySelector("#btn-socratic-deepdive");
-    if (btnDeepDive) {
-      btnDeepDive.addEventListener("click", () => {
-        const deepSection = body.querySelector("#cognishield-deepdive-section");
-        if (deepSection) {
-          deepSection.scrollIntoView({ behavior: "smooth" });
-          deepSection.style.borderColor = "rgba(56, 189, 248, 0.8)";
-          setTimeout(() => {
-            deepSection.style.borderColor = "rgba(255, 255, 255, 0.12)";
-          }, 1500);
-        }
+    const btnBackQuick = body.querySelector("#btn-back-quick");
+    if (btnBackQuick) {
+      btnBackQuick.addEventListener("click", () => {
+        this.switchTab("quick");
       });
     }
 
@@ -453,9 +685,11 @@ class HUDOverlayController {
         if (correct) {
           feedbackBox.className = "cognishield-quiz-feedback correct";
           feedbackBox.innerHTML = `✓ <strong>Spot on!</strong> ${quiz.explanation}`;
+          this.celebrateAgencyGain(5, "Agency Challenge Mastered!");
         } else {
           feedbackBox.className = "cognishield-quiz-feedback incorrect";
           feedbackBox.innerHTML = `✕ <strong>Reflect again:</strong> ${quiz.explanation}`;
+          this.celebrateAgencyGain(2, "Reflective Attempt");
         }
 
         // Log interaction to local storage
@@ -466,7 +700,7 @@ class HUDOverlayController {
             quizAnswered: true,
             quizCorrect: correct,
             dwellSeconds: dwell,
-            emotionalIntensity: data.emotional_intensity || 5,
+            emotionalIntensity: intensityNum,
             biasCategory: data.bias_category || "outrage_anger"
           });
         }
