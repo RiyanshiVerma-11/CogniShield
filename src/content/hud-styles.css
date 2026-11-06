@@ -485,3 +485,375 @@ mark.cognishield-cat-urgency_panic {
   text-align: center;
 }
 
+/* ==========================================================================
+   ENHANCED EXECUTIVE UI (Matching CogniShield Official Mockup)
+   ========================================================================== */
+
+.cognishield-shield-icon-glow {
+  font-size: 24px;
+  filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.7));
+}
+
+.cognishield-status-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.cognishield-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #F59E0B;
+  box-shadow: 0 0 8px #F59E0B;
+  animation: cognishield-pulse 2s infinite ease-in-out;
+}
+
+.cognishield-status-label {
+  font-size: 11px;
+  color: #94A3B8;
+  font-weight: 500;
+}
+
+/* Active Topic Banner */
+.cognishield-topic-banner {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+}
+
+.cognishield-topic-tag {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  color: #38BDF8;
+  background: rgba(56, 189, 248, 0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
+.cognishield-topic-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #F8FAFC;
+  line-height: 1.3;
+}
+
+/* Common Card Container */
+.cognishield-card {
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.25s ease;
+}
+
+.cognishield-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.cognishield-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.cognishield-card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cognishield-card-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #F8FAFC;
+  letter-spacing: -0.2px;
+}
+
+/* Card 1: Blindspot Radar Concentric Circles */
+.cognishield-card-radar {
+  border-color: rgba(6, 182, 212, 0.35);
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.85) 0%, rgba(8, 47, 73, 0.25) 100%);
+}
+
+.cognishield-badge-count {
+  font-size: 10px;
+  font-weight: 700;
+  color: #06B6D4;
+  background: rgba(6, 182, 212, 0.15);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  padding: 3px 8px;
+  border-radius: 9999px;
+}
+
+.cognishield-radar-layout {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.cognishield-radar-svg-wrap {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  min-width: 100px;
+  min-height: 100px;
+}
+
+.cognishield-concentric-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 6px rgba(6, 182, 212, 0.4));
+}
+
+.cognishield-ring-anim {
+  transition: stroke-dashoffset 1s ease-in-out;
+}
+
+.cognishield-radar-center-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+
+.cognishield-radar-center-num {
+  display: block;
+  font-size: 18px;
+  font-weight: 800;
+  color: #F8FAFC;
+  line-height: 1;
+}
+
+.cognishield-radar-center-lbl {
+  font-size: 8px;
+  font-weight: 600;
+  color: #94A3B8;
+  text-transform: uppercase;
+}
+
+.cognishield-radar-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.cognishield-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cognishield-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot-cyan { background-color: #06B6D4; box-shadow: 0 0 6px #06B6D4; }
+.dot-orange { background-color: #F97316; box-shadow: 0 0 6px #F97316; }
+.dot-yellow { background-color: #FBBF24; box-shadow: 0 0 6px #FBBF24; }
+
+.cognishield-legend-text {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 11px;
+}
+
+.cognishield-legend-name {
+  color: #CBD5E1;
+  font-weight: 500;
+}
+
+.cognishield-legend-val {
+  color: #F8FAFC;
+  font-weight: 700;
+}
+
+/* Card 2: Manipulation Heatmap */
+.cognishield-card-heatmap {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.85) 0%, rgba(69, 10, 10, 0.15) 100%);
+}
+
+.cognishield-intensity-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: #F97316;
+}
+
+.cognishield-biases-label {
+  font-size: 11px;
+  color: #94A3B8;
+  margin-bottom: 8px;
+}
+
+.cognishield-chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cognishield-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  border: 1px solid;
+}
+
+.chip-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.chip-red {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #FCA5A5;
+}
+.chip-red .chip-badge { background: #EF4444; }
+
+.chip-orange {
+  background: rgba(249, 115, 22, 0.15);
+  border-color: rgba(249, 115, 22, 0.4);
+  color: #FDBA74;
+}
+.chip-orange .chip-badge { background: #F97316; }
+
+.chip-yellow {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #FDE68A;
+}
+.chip-yellow .chip-badge { background: #F59E0B; }
+
+/* Card 3: Socratic Reflection */
+.cognishield-card-socratic {
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.9) 0%, rgba(120, 53, 15, 0.18) 100%);
+  box-shadow: 0 0 20px -5px rgba(245, 158, 11, 0.2);
+}
+
+.cognishield-pill-amber {
+  font-size: 10px;
+  font-weight: 700;
+  color: #FBBF24;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  padding: 2px 7px;
+  border-radius: 9999px;
+}
+
+.cognishield-socratic-quote {
+  font-size: 13px;
+  font-style: italic;
+  color: #FEF3C7;
+  line-height: 1.45;
+  margin: 10px 0 14px 0;
+  padding-left: 10px;
+  border-left: 2px solid #F59E0B;
+}
+
+.cognishield-socratic-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-cognishield-primary {
+  flex: 1;
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  color: #0F172A;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.btn-cognishield-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.45);
+}
+
+.btn-cognishield-secondary {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.08);
+  color: #E2E8F0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cognishield-secondary:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #FFFFFF;
+}
+
+/* Badge for Source / Agency */
+.cognishield-badge-source,
+.cognishield-badge-agency {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+.cognishield-badge-source {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.cognishield-badge-agency {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38BDF8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+/* Floating Trigger Text Group */
+.cognishield-trigger-text-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.cognishield-badge-sub {
+  font-size: 8px;
+  color: #10B981;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+

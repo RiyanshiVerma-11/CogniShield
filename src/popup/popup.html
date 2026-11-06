@@ -34,6 +34,14 @@
       </div>
     </div>
 
+    <!-- Supported Platforms Chips -->
+    <div class="platform-chips-row">
+      <span class="chip-platform">▶ YouTube</span>
+      <span class="chip-platform">𝕏 Twitter/X</span>
+      <span class="chip-platform">💬 Reddit</span>
+      <span class="chip-platform">📰 Web News</span>
+    </div>
+
     <!-- Quick Scan Action -->
     <div class="action-section">
       <button class="btn-primary" id="btn-trigger-scan">
@@ -42,41 +50,21 @@
     </div>
 
     <!-- Live AI Engine Settings & API Keys (100% Client-Side Local Storage) -->
-    <details class="setting-row" style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 10px 14px; margin-bottom: 12px; cursor: pointer;">
+    <details class="setting-row" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; cursor: pointer;">
       <summary style="font-size: 13px; font-weight: 600; color: #38BDF8; display: flex; align-items: center; justify-content: space-between; outline: none;">
         <span>🔑 Live AI Engine (Dual Failover)</span>
-        <span id="badge-api-status" style="font-size: 10px; font-weight: 700; color: #10B981; background: rgba(16, 185, 129, 0.15); padding: 2px 6px; border-radius: 4px;">ACTIVE</span>
+        <span id="badge-api-status" style="font-size: 10px; font-weight: 700; color: #10B981; background: rgba(16, 185, 129, 0.15); padding: 2px 7px; border-radius: 9999px; border: 1px solid rgba(16, 185, 129, 0.3);">ACTIVE</span>
       </summary>
       <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px; cursor: default;">
         <div>
           <label style="font-size: 11px; color: #94A3B8; display: block; margin-bottom: 3px;">Gemini API Key (Primary - 2.5 Flash):</label>
-          <input type="password" id="input-gemini-key" placeholder="Paste Gemini API Key" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 6px 8px; color: #F8FAFC; font-size: 11px; font-family: monospace;">
+          <input type="password" id="input-gemini-key" placeholder="Paste Gemini API Key" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 7px 10px; color: #F8FAFC; font-size: 11px; font-family: monospace;">
         </div>
         <div>
           <label style="font-size: 11px; color: #94A3B8; display: block; margin-bottom: 3px;">Groq API Key (Secondary Failover):</label>
-          <input type="password" id="input-groq-key" placeholder="Paste Groq API Key" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 6px 8px; color: #F8FAFC; font-size: 11px; font-family: monospace;">
+          <input type="password" id="input-groq-key" placeholder="Paste Groq API Key" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 7px 10px; color: #F8FAFC; font-size: 11px; font-family: monospace;">
         </div>
-        <button id="btn-save-keys" class="btn-secondary" style="padding: 6px 12px; font-size: 12px; margin-top: 4px;">Save Keys to Browser</button>
-        <span id="label-keys-saved" style="font-size: 11px; color: #10B981; display: none; text-align: center;">✓ Saved Securely in Browser Storage</span>
-      </div>
-    </details>
-
-    <!-- Live AI Engine Settings & API Keys (100% Client-Side Local Storage) -->
-    <details class="setting-row" style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 10px 14px; margin-bottom: 12px; cursor: pointer;">
-      <summary style="font-size: 13px; font-weight: 600; color: #38BDF8; display: flex; align-items: center; justify-content: space-between; outline: none;">
-        <span>🔑 Live AI Engine (Dual Failover)</span>
-        <span id="badge-api-status" style="font-size: 10px; font-weight: 700; color: #10B981; background: rgba(16, 185, 129, 0.15); padding: 2px 6px; border-radius: 4px;">ACTIVE</span>
-      </summary>
-      <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px; cursor: default;">
-        <div>
-          <label style="font-size: 11px; color: #94A3B8; display: block; margin-bottom: 3px;">Gemini API Key (Primary - 2.5 Flash):</label>
-          <input type="password" id="input-gemini-key" placeholder="Paste Gemini API Key" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 6px 8px; color: #F8FAFC; font-size: 11px; font-family: monospace;">
-        </div>
-        <div>
-          <label style="font-size: 11px; color: #94A3B8; display: block; margin-bottom: 3px;">Groq API Key (Secondary Failover):</label>
-          <input type="password" id="input-groq-key" placeholder="Paste Groq API Key" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 6px 8px; color: #F8FAFC; font-size: 11px; font-family: monospace;">
-        </div>
-        <button id="btn-save-keys" class="btn-secondary" style="padding: 6px 12px; font-size: 12px; margin-top: 4px;">Save Keys to Browser</button>
+        <button id="btn-save-keys" class="btn-secondary" style="padding: 7px 12px; font-size: 12px; margin-top: 4px;">Save Keys to Browser</button>
         <span id="label-keys-saved" style="font-size: 11px; color: #10B981; display: none; text-align: center;">✓ Saved Securely in Browser Storage</span>
       </div>
     </details>

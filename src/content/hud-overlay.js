@@ -34,8 +34,13 @@ class HUDOverlayController {
     // Create Floating Trigger
     this.container.innerHTML = `
       <div class="cognishield-floating-trigger" id="cognishield-trigger-btn" title="CogniShield: Click to inspect filter bubble & test critical agency">
-        <div class="cognishield-badge-icon cognishield-glow-green" id="cognishield-glow-dot"></div>
-        <span class="cognishield-badge-text">CogniShield</span>
+        <div class="cognishield-badge-icon cognishield-glow-green" id="cognishield-glow-dot">
+          <span style="font-size: 13px;">🛡️</span>
+        </div>
+        <div class="cognishield-trigger-text-group">
+          <span class="cognishield-badge-text">CogniShield</span>
+          <span class="cognishield-badge-sub">Copilot Active</span>
+        </div>
         <span class="cognishield-badge-score" id="cognishield-badge-intensity">0.0</span>
       </div>
 
@@ -48,8 +53,14 @@ class HUDOverlayController {
 
           <div class="cognishield-modal-header">
             <div class="cognishield-header-left">
-              <span style="font-size: 20px;">🛡️</span>
-              <h3 class="cognishield-modal-title">CogniShield Dialectic Copilot</h3>
+              <div class="cognishield-shield-icon-glow">🛡️</div>
+              <div>
+                <h3 class="cognishield-modal-title">COGNISHIELD</h3>
+                <div class="cognishield-status-row">
+                  <span class="cognishield-status-dot" id="cognishield-status-indicator"></span>
+                  <span class="cognishield-status-label" id="cognishield-status-text">Cognitive Assistant: Live Analysis Active</span>
+                </div>
+              </div>
             </div>
             <div class="cognishield-header-actions">
               <button class="cognishield-header-btn" id="cognishield-expand-btn" title="Toggle Focus Mode (Expand / Compact)">⤢</button>
@@ -261,10 +272,137 @@ class HUDOverlayController {
     `).join("");
 
     body.innerHTML = `
-      <!-- Level 2: Stepped Friction Micro-Quiz -->
-      <div class="cognishield-section-badge">Level 2: 5-Second Quick-Reflect</div>
-      <div class="cognishield-quiz-card">
-        <div style="font-weight: 600; font-size: 14px; margin-bottom: 8px;">${quiz.question}</div>
+      <!-- Active Topic Bar -->
+      <div class="cognishield-topic-banner">
+        <span class="cognishield-topic-tag">ACTIVE TOPIC</span>
+        <div class="cognishield-topic-title">${data.contextTitle || data.title || "Real-Time Feed Analysis"}</div>
+      </div>
+
+      <!-- CARD 1: Blindspot Radar (Concentric Rings Matching Official Mockup) -->
+      <div class="cognishield-card cognishield-card-radar">
+        <div class="cognishield-card-header">
+          <div class="cognishield-card-title-group">
+            <span class="cognishield-icon-radar">🎯</span>
+            <span class="cognishield-card-title">Blindspot Radar</span>
+          </div>
+          <span class="cognishield-badge-count">3 Omitted Perspectives</span>
+        </div>
+
+        <div class="cognishield-radar-layout">
+          <!-- Concentric Circular Radial Arcs SVG -->
+          <div class="cognishield-radar-svg-wrap">
+            <svg viewBox="0 0 100 100" class="cognishield-concentric-svg">
+              <!-- Background Tracks -->
+              <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="7" />
+              <circle cx="50" cy="50" r="30" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="7" />
+              <circle cx="50" cy="50" r="20" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="7" />
+              
+              <!-- Active Progress Rings -->
+              <!-- Outer Ring: Economic (Cyan #06B6D4) - 70% -->
+              <circle cx="50" cy="50" r="40" fill="none" stroke="#06B6D4" stroke-width="7"
+                stroke-dasharray="251.2" stroke-dashoffset="75.3" stroke-linecap="round"
+                transform="rotate(-90 50 50)" class="cognishield-ring-anim" />
+              <!-- Middle Ring: Social Impact (Orange #F97316) - 50% -->
+              <circle cx="50" cy="50" r="30" fill="none" stroke="#F97316" stroke-width="7"
+                stroke-dasharray="188.5" stroke-dashoffset="94.2" stroke-linecap="round"
+                transform="rotate(-90 50 50)" class="cognishield-ring-anim" />
+              <!-- Inner Ring: Statutory / Policy (Yellow #FBBF24) - 45% -->
+              <circle cx="50" cy="50" r="20" fill="none" stroke="#FBBF24" stroke-width="7"
+                stroke-dasharray="125.6" stroke-dashoffset="69.1" stroke-linecap="round"
+                transform="rotate(-90 50 50)" class="cognishield-ring-anim" />
+            </svg>
+            <div class="cognishield-radar-center-text">
+              <span class="cognishield-radar-center-num">3</span>
+              <span class="cognishield-radar-center-lbl">Perspectives</span>
+            </div>
+          </div>
+
+          <!-- Radar Legend & Metrics -->
+          <div class="cognishield-radar-legend">
+            <div class="cognishield-legend-item">
+              <span class="cognishield-dot dot-cyan"></span>
+              <div class="cognishield-legend-text">
+                <span class="cognishield-legend-name">Economic Stability</span>
+                <span class="cognishield-legend-val">70%</span>
+              </div>
+            </div>
+            <div class="cognishield-legend-item">
+              <span class="cognishield-dot dot-orange"></span>
+              <div class="cognishield-legend-text">
+                <span class="cognishield-legend-name">Social Impact</span>
+                <span class="cognishield-legend-val">50%</span>
+              </div>
+            </div>
+            <div class="cognishield-legend-item">
+              <span class="cognishield-dot dot-yellow"></span>
+              <div class="cognishield-legend-text">
+                <span class="cognishield-legend-name">Policy & Legal</span>
+                <span class="cognishield-legend-val">45%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2: Manipulation Heatmap (Matching Mockup Biases Chips) -->
+      <div class="cognishield-card cognishield-card-heatmap">
+        <div class="cognishield-card-header">
+          <div class="cognishield-card-title-group">
+            <span class="cognishield-icon-fire">🔥</span>
+            <span class="cognishield-card-title">Manipulation Heatmap</span>
+          </div>
+          <span class="cognishield-intensity-tag">Intensity: ${data.emotional_intensity || '7.5'}/10</span>
+        </div>
+        <div class="cognishield-biases-label">Highlighted In-DOM Biases:</div>
+        <div class="cognishield-chips-container">
+          <span class="cognishield-chip chip-red">
+            <span class="chip-badge">2</span> Sensationalism
+          </span>
+          <span class="cognishield-chip chip-orange">
+            <span class="chip-badge">3</span> Emotional Appeals
+          </span>
+          <span class="cognishield-chip chip-yellow">
+            <span class="chip-badge">1</span> Language Loading
+          </span>
+        </div>
+      </div>
+
+      <!-- CARD 3: Socratic Reflection (Matching Mockup Pause & Reflect) -->
+      <div class="cognishield-card cognishield-card-socratic">
+        <div class="cognishield-card-header">
+          <div class="cognishield-card-title-group">
+            <span class="cognishield-icon-brain">🧠</span>
+            <span class="cognishield-card-title">Socratic Reflection: Pause & Reflect</span>
+          </div>
+          <span class="cognishield-pill-amber">12s Productive Friction</span>
+        </div>
+        <div class="cognishield-socratic-quote">
+          “${(data.socratic_dialogue && data.socratic_dialogue[0]) || 'Think First: What unstated assumption is being made regarding the data source?'}”
+        </div>
+        <div class="cognishield-socratic-actions">
+          <button class="btn-cognishield-secondary" id="btn-socratic-dismiss">Continue Reading</button>
+          <button class="btn-cognishield-primary" id="btn-socratic-deepdive">Dive Deeper</button>
+        </div>
+      </div>
+
+      <!-- SOURCED PERSPECTIVES ACCORDION / EXPANDED DOSSIER -->
+      <div id="cognishield-deepdive-section" class="cognishield-card cognishield-card-perspectives" style="margin-top: 12px;">
+        <div class="cognishield-card-header">
+          <span class="cognishield-card-title">📚 Verified Counter-Perspectives</span>
+          <span class="cognishield-badge-source">Zero Censorship</span>
+        </div>
+        <div class="cognishield-counter-list">
+          ${counterViews}
+        </div>
+      </div>
+
+      <!-- LEVEL 2 STEPPED FRICTION QUIZ -->
+      <div class="cognishield-card cognishield-card-quiz" style="margin-top: 12px;">
+        <div class="cognishield-card-header">
+          <span class="cognishield-card-title">⚡ 5-Second Agency Challenge</span>
+          <span class="cognishield-badge-agency">+5 Agency Pts</span>
+        </div>
+        <div style="font-weight: 600; font-size: 13px; margin: 8px 0; color: #F1F5F9;">${quiz.question}</div>
         <div id="cognishield-quiz-options">
           ${quiz.options.map((opt, idx) => `
             <button class="cognishield-quiz-option" data-idx="${idx}">${opt}</button>
@@ -273,64 +411,33 @@ class HUDOverlayController {
         <div id="cognishield-quiz-feedback" class="cognishield-quiz-feedback"></div>
       </div>
 
-      <!-- Level 3: Blindspot Radar & Socratic Dialectic -->
-      <div class="cognishield-section-badge">Level 3: Blindspot Radar & Sourced Counter-Views</div>
-      <div class="cognishield-radar-card">
-        <div style="font-size: 12px; color: #94A3B8; margin-bottom: 8px; line-height: 1.4;">
-          <strong style="color: #F8FAFC;">Active Topic:</strong> <span style="color: #38BDF8;">${data.contextTitle || data.title}</span>
-        </div>
-        <div style="font-size: 13px; color: #94A3B8;">
-          <strong style="color: #F8FAFC;">Detected Tone:</strong> ${data.source_perspective || 'Single-Perspective Feeds'}
-          <span style="float: right; color: #F7941D; font-weight: 700;">Intensity: ${data.emotional_intensity || '7.5'}/10</span>
-        </div>
-
-        <!-- Epistemic Filter-Bubble Radar Visualizer -->
-        <div class="cognishield-filter-bubble-widget">
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
-            <span style="font-size: 11px; font-weight: 700; color: #38BDF8; letter-spacing: 0.5px;">EPISTEMIC BUBBLE RADAR</span>
-            <span style="font-size: 10px; color: #94A3B8; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px;">4 Diversity Quadrants</span>
-          </div>
-          <svg viewBox="0 0 240 100" style="width: 100%; height: 95px; display: block; margin: 0 auto;">
-            <!-- Radar concentric rings -->
-            <circle cx="120" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.08)" stroke-dasharray="2,2" />
-            <circle cx="120" cy="50" r="22" fill="none" stroke="rgba(255,255,255,0.12)" />
-            <line x1="120" y1="8" x2="120" y2="92" stroke="rgba(255,255,255,0.08)" />
-            <line x1="78" y1="50" x2="162" y2="50" stroke="rgba(255,255,255,0.08)" />
-
-            <!-- 4 Perspective Bubbles -->
-            <circle cx="148" cy="30" r="14" fill="rgba(2, 132, 199, 0.35)" stroke="#0284C7" stroke-width="1.5" />
-            <text x="148" y="33" fill="#E0F2FE" font-size="8" font-weight="700" text-anchor="middle">Data</text>
-
-            <circle cx="152" cy="70" r="13" fill="rgba(168, 85, 247, 0.3)" stroke="#A855F7" stroke-width="1.5" />
-            <text x="152" y="73" fill="#F3E8FF" font-size="7.5" font-weight="700" text-anchor="middle">Econ</text>
-
-            <circle cx="88" cy="70" r="12" fill="rgba(245, 158, 11, 0.3)" stroke="#F59E0B" stroke-width="1.5" />
-            <text x="88" y="73" fill="#FEF3C7" font-size="7.5" font-weight="700" text-anchor="middle">Civic</text>
-
-            <circle cx="88" cy="30" r="12" fill="rgba(16, 185, 129, 0.25)" stroke="#10B981" stroke-width="1.5" />
-            <text x="88" y="33" fill="#D1FAE5" font-size="7.5" font-weight="700" text-anchor="middle">Ethic</text>
-
-            <!-- Current Feed Anchor Bubble (Glowing dot) -->
-            <circle cx="126" cy="44" r="6" fill="#F7941D" stroke="#FFFFFF" stroke-width="1.5" class="cognishield-bubble-focal" />
-          </svg>
-          <div style="font-size: 11px; color: #94A3B8; text-align: center; margin-top: 2px;">
-            Target Narrative: <span style="color: #F7941D; font-weight: 600;">Narrow Outrage Vector</span> ➔ <span style="color: #10B981; font-weight: 600;">Multi-Perspective Diligence</span>
-          </div>
-        </div>
-        <div style="margin-top: 12px;">${counterViews}</div>
-      </div>
-
-      <!-- Socratic Sparring Question -->
-      <div class="cognishield-section-badge">Socratic Reflection</div>
-      <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; font-size: 13px; color: #E2E8F0; font-style: italic;">
-        "${(data.socratic_dialogue && data.socratic_dialogue[0]) || 'What unstated premise must you accept for this narrative to hold?'}"
-      </div>
-
       <!-- Epistemic Transparency Disclaimer -->
       <div class="cognishield-transparency-card">
-        🛡️ <strong>Epistemic Transparency:</strong> ${data.epistemic_card ? data.epistemic_card.disclaimer : 'Algorithmic hypothesis for dialectic reflection, not universal truth.'}
+        🛡️ <strong>Epistemic Transparency:</strong> ${data.epistemic_card ? data.epistemic_card.disclaimer : 'CogniShield reveals omitted perspectives to empower human scrutiny. We never censor or alter original sources.'}
       </div>
     `;
+
+    // Bind Socratic Action Buttons
+    const btnDismiss = body.querySelector("#btn-socratic-dismiss");
+    if (btnDismiss) {
+      btnDismiss.addEventListener("click", () => {
+        this.closeModal();
+      });
+    }
+
+    const btnDeepDive = body.querySelector("#btn-socratic-deepdive");
+    if (btnDeepDive) {
+      btnDeepDive.addEventListener("click", () => {
+        const deepSection = body.querySelector("#cognishield-deepdive-section");
+        if (deepSection) {
+          deepSection.scrollIntoView({ behavior: "smooth" });
+          deepSection.style.borderColor = "rgba(56, 189, 248, 0.8)";
+          setTimeout(() => {
+            deepSection.style.borderColor = "rgba(255, 255, 255, 0.12)";
+          }, 1500);
+        }
+      });
+    }
 
     // Bind Quiz Option Clicks
     const optionBtns = body.querySelectorAll(".cognishield-quiz-option");

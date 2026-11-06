@@ -41,13 +41,24 @@ body {
 
 .logo-icon {
   font-size: 24px;
+  filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.75));
+  animation: cognishield-shield-float 3s infinite ease-in-out;
+}
+
+@keyframes cognishield-shield-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
 }
 
 .logo-title {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: -0.2px;
   color: #F8FAFC;
+  background: linear-gradient(135deg, #FFFFFF 0%, #CBD5E1 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .logo-sub {
@@ -57,12 +68,13 @@ body {
 
 .badge-status {
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 800;
   background: rgba(16, 185, 129, 0.15);
   color: #10B981;
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.25);
   border-radius: 9999px;
-  padding: 2px 8px;
+  padding: 3px 9px;
   letter-spacing: 0.5px;
 }
 
@@ -74,11 +86,18 @@ body {
 }
 
 .metric-card {
-  background: rgba(30, 41, 59, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 10px;
-  padding: 10px 12px;
+  background: linear-gradient(180deg, rgba(30, 41, 59, 0.75) 0%, rgba(15, 23, 42, 0.85) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 12px;
   text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s ease;
+}
+
+.metric-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
 }
 
 .metric-label {
@@ -102,27 +121,50 @@ body {
 .text-emerald { color: #10B981; }
 .text-blue { color: #38BDF8; }
 
+/* Platform Chips */
+.platform-chips-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin: -2px 0 2px 0;
+}
+
+.chip-platform {
+  flex: 1;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
+  color: #94A3B8;
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 4px 2px;
+}
+
 /* Action Buttons */
 .btn-primary {
   width: 100%;
-  background: linear-gradient(135deg, #F7941D 0%, #D97706 100%);
-  border: none;
-  border-radius: 8px;
-  color: #0F172A;
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  color: #FFFFFF;
   font-weight: 700;
   font-size: 13px;
-  padding: 10px;
+  padding: 11px;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.35);
 }
 
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(247, 148, 29, 0.35);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.5);
+  background: linear-gradient(135deg, #4338CA 0%, #6D28D9 100%);
 }
 
 .btn-secondary {
