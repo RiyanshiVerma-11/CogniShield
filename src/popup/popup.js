@@ -10,23 +10,26 @@ document.addEventListener("DOMContentLoaded", async () => {
   const btnLoadDemo = document.getElementById("btn-load-demo");
   const selectDemo = document.getElementById("select-demo-topic");
   const btnExport = document.getElementById("btn-cert-export");
+  const btnSaveKeys = document.getElementById("btn-save-keys");
+  const inputGemini = document.getElementById("input-gemini-key");
+  const inputGroq = document.getElementById("input-groq-key");
+  const labelKeysSaved = document.getElementById("label-keys-saved");
+  const badgeApiStatus = document.getElementById("badge-api-status");
 
   // Load saved state
   if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
     chrome.storage.local.get(["userMode", "forceDemoMode", "geminiApiKey", "groqApiKey"], (res) => {
       const isTrainer = res.userMode !== "zen";
-      toggleTrainer.checked = isTrainer;
-      badgeStatus.textContent = isTrainer ? "TRAINER" : "ZEN";
-      badgeStatus.style.color = isTrainer ? "#10B981" : "#38BDF8";
-      badgeStatus.style.borderColor = isTrainer ? "rgba(16, 185, 129, 0.3)" : "rgba(56, 189, 248, 0.3)";
+      if (toggleTrainer) toggleTrainer.checked = isTrainer;
+      if (badgeStatus) {
+        badgeStatus.textContent = isTrainer ? "TRAINER" : "ZEN";
+        badgeStatus.style.color = isTrainer ? "#10B981" : "#38BDF8";
+        badgeStatus.style.borderColor = isTrainer ? "rgba(16, 185, 129, 0.3)" : "rgba(56, 189, 248, 0.3)";
+      }
 
-      toggleDemo.checked = !!res.forceDemoMode;
+      if (toggleDemo) toggleDemo.checked = !!res.forceDemoMode;
 
       // Populate API key inputs if saved
-      const inputGemini = document.getElementById("input-gemini-key");
-      const inputGroq = document.getElementById("input-groq-key");
-      const badgeApiStatus = document.getElementById("badge-api-status");
-
       if (inputGemini && res.geminiApiKey) {
         inputGemini.value = res.geminiApiKey;
       }
@@ -42,12 +45,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // Save API Keys to browser local storage
-  const btnSaveKeys = document.getElementById("btn-save-keys");
-  const inputGemini = document.getElementById("input-gemini-key");
-  const inputGroq = document.getElementById("input-groq-key");
-  const labelKeysSaved = document.getElementById("label-keys-saved");
-  const badgeApiStatus = document.getElementById("badge-api-status");
-
   if (btnSaveKeys && inputGemini && inputGroq) {
     btnSaveKeys.addEventListener("click", () => {
       const geminiApiKey = inputGemini.value.trim();
