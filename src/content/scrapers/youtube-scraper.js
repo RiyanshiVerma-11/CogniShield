@@ -13,6 +13,13 @@ class YouTubeScraper {
   }
 
   /**
+   * Resets internal caches when navigating between videos in single-page apps.
+   */
+  reset() {
+    this.cachedTranscript = null;
+  }
+
+  /**
    * Main entry point to extract page content with triple redundancy.
    */
   async extractVideoContext() {

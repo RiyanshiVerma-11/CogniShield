@@ -6,7 +6,9 @@
 (function () {
   console.log("[CogniShield] Multi-Platform Cognitive Copilot active.");
 
-  let hasScanned = false;
+  let lastAnalyzedUrl = "";
+  let lastAnalyzedTitle = "";
+  let activeScanId = 0;
 
   async function initializeCogniShield() {
     // 1. Initialize HUD Overlay
@@ -14,13 +16,49 @@
       window.CogniShieldHUD.init();
     }
 
-    // Delay slightly to allow DOM content to settle
-    setTimeout(runContentAnalysis, 1200);
+    // Trigger initial scan
+    triggerDynamicScan("initial-load");
   }
 
-  async function runContentAnalysis() {
-    if (hasScanned) return;
+  /**
+   * Triggers a dynamic scan when navigating across videos or SPA routes.
+   * Handles title settlement and prevents redundant/stale race conditions.
+   */
+  async function triggerDynamicScan(reason) {
+    const targetUrl = window.location.href;
+    const currentScanId = ++activeScanId;
 
+    // Reset scraper transcript cache for new route
+    if (window.CogniShieldScraper && window.CogniShieldScraper.reset) {
+      window.CogniShieldScraper.reset();
+    }
+
+    // Wait for the new title / DOM metadata to settle
+    const isYouTube = window.location.hostname.includes("youtube.com");
+    if (isYouTube) {
+      const start = Date.now();
+      while (Date.now() - start < 2200) {
+        if (window.location.href !== targetUrl) return; // User clicked another video
+        const titleEl = document.querySelector("h1.ytd-watch-metadata yt-formatted-string, #title h1, h1.title");
+        const titleText = titleEl ? titleEl.textContent.trim() : "";
+        const docTitle = document.title.replace(/- YouTube.*$/i, "").trim();
+
+        if (titleText && titleText !== lastAnalyzedTitle && titleText.toLowerCase() !== "youtube") break;
+        if (docTitle && docTitle !== lastAnalyzedTitle && docTitle.toLowerCase() !== "youtube") break;
+
+        await new Promise(r => setTimeout(r, 120));
+      }
+    } else {
+      await new Promise(r => setTimeout(r, 500));
+    }
+
+    // If another navigation occurred while waiting, abort this scan
+    if (currentScanId !== activeScanId) return;
+
+    await runContentAnalysis(targetUrl);
+  }
+
+  async function runContentAnalysis(targetUrl = window.location.href) {
     try {
       const hostname = window.location.hostname;
       let pageText = document.title;
@@ -59,6 +97,10 @@
           if (i < 4) elementsToScan.push(el);
         });
       }
+
+      // Record this URL and title as analyzed
+      lastAnalyzedUrl = targetUrl;
+      lastAnalyzedTitle = document.title.replace(/- YouTube.*$/i, "").trim();
 
       // 2. Client-side Manipulation Highlight Pass (Tier 0: 0ms, 0W)
       let highlightStats = { highlightedCount: 0 };
@@ -115,6 +157,9 @@
                   console.warn("[CogniShield] Live bridge error:", chrome.runtime.lastError.message);
                   return;
                 }
+                // Verify the user is still on this URL
+                if (window.location.href !== targetUrl) return;
+
                 if (response && response.status === "SUCCESS" && response.data) {
                   console.log(`[CogniShield] Live analysis successfully loaded via ${response.tier}!`);
                   const liveData = response.data;
@@ -130,29 +175,24 @@
           });
         }
       }
-
-      hasScanned = true;
     } catch (err) {
       console.warn("[CogniShield] Analysis error:", err);
     }
   }
 
-  // Handle YouTube native SPA navigation
-  window.addEventListener("yt-navigate-finish", () => {
-    hasScanned = false;
-    setTimeout(runContentAnalysis, 1000);
-  });
+  // Handle YouTube native SPA navigation events
+  window.addEventListener("yt-navigate-finish", () => triggerDynamicScan("yt-navigate-finish"));
+  window.addEventListener("yt-page-data-updated", () => triggerDynamicScan("yt-page-data-updated"));
+  window.addEventListener("popstate", () => triggerDynamicScan("popstate"));
 
-  // Handle generic SPA dynamic navigation (X, Reddit)
-  let lastUrl = location.href;
-  new MutationObserver(() => {
-    const currentUrl = location.href;
-    if (currentUrl !== lastUrl) {
-      lastUrl = currentUrl;
-      hasScanned = false;
-      setTimeout(runContentAnalysis, 1500);
+  // Continuous fallback watcher for seamless Single-Page App navigation
+  let lastMonitoredUrl = location.href;
+  setInterval(() => {
+    if (location.href !== lastMonitoredUrl) {
+      lastMonitoredUrl = location.href;
+      triggerDynamicScan("url-change");
     }
-  }).observe(document, { subtree: true, childList: true });
+  }, 400);
 
   // Listen for messages from popup
   if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.onMessage) {
