@@ -50,12 +50,12 @@
           if (i < 4) elementsToScan.push(el);
         });
       } else if (window.CogniShieldNews) {
-        // Generic Web Article
+        // Generic Web Article / News / Search
         const extracted = window.CogniShieldNews.extractArticleContext();
         pageText = extracted.textPayload || document.title;
-        const h1 = document.querySelector("h1");
+        const h1 = document.querySelector("h1, [role='heading']");
         if (h1) elementsToScan.push(h1);
-        document.querySelectorAll("article p, main p").forEach((el, i) => {
+        document.querySelectorAll("article p, main p, p").forEach((el, i) => {
           if (i < 4) elementsToScan.push(el);
         });
       }
@@ -82,9 +82,12 @@
       if (window.CogniShieldHUD) {
         window.CogniShieldHUD.updateAmbientStatus(intensityScore, highlightStats.highlightedCount);
 
-        // 5. Match Dossier via Offline Cache (Tier 1 fail-safe)
+        // 5. Match Dossier via Offline Cache & Dynamic Dialectic Synthesizer
         if (window.CogniShieldOffline) {
-          const dossier = window.CogniShieldOffline.matchDossier(pageText);
+          const dossier = window.CogniShieldOffline.matchDossier(pageText, {
+            title: document.title,
+            hostname: window.location.hostname
+          });
           dossier.emotional_intensity = intensityScore;
           dossier.bias_category = biasCategory;
           window.CogniShieldHUD.loadDossier(dossier);

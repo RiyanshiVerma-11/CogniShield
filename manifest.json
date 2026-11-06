@@ -24,11 +24,7 @@
   "content_scripts": [
     {
       "matches": [
-        "https://www.youtube.com/*",
-        "https://twitter.com/*",
-        "https://x.com/*",
-        "https://www.reddit.com/*",
-        "https://*/*"
+        "<all_urls>"
       ],
       "js": [
         "src/shared/regex-trilingual.js",
@@ -55,10 +51,7 @@
     "scripting"
   ],
   "host_permissions": [
-    "https://www.youtube.com/*",
-    "https://twitter.com/*",
-    "https://x.com/*",
-    "https://www.reddit.com/*"
+    "<all_urls>"
   ],
   "web_accessible_resources": [
     {

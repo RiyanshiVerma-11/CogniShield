@@ -15,7 +15,7 @@ class HeatmapHighlighter {
    */
   highlightElements(elements, lang = "auto") {
     if (!elements || elements.length === 0) return { highlightedCount: 0 };
-    if (typeof CogniShieldRegex === "undefined") return { highlightedCount: 0 };
+    if (!window.CogniShieldRegex) return { highlightedCount: 0 };
 
     this.clearHighlights();
     let totalCount = 0;
@@ -35,7 +35,7 @@ class HeatmapHighlighter {
 
       textNodes.forEach(textNode => {
         const text = textNode.nodeValue;
-        const scanResult = CogniShieldRegex.scanText(text, lang);
+        const scanResult = window.CogniShieldRegex.scanText(text, lang);
 
         if (scanResult.matches && scanResult.matches.length > 0) {
           totalCount += scanResult.matches.length;

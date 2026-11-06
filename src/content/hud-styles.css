@@ -38,24 +38,25 @@ mark.cognishield-cat-urgency_panic {
 
 /* Floating Shield Container */
 .cognishield-floating-trigger {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
-  z-index: 9999999;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(15, 23, 42, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 9999px;
-  padding: 8px 16px 8px 10px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
-  cursor: pointer;
-  user-select: none;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: fixed !important;
+  bottom: 28px !important;
+  right: 28px !important;
+  z-index: 2147483647 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  background: rgba(15, 23, 42, 0.95) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 9999px !important;
+  padding: 8px 16px 8px 10px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.6) !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  pointer-events: auto !important;
 }
 
 .cognishield-floating-trigger:hover {
@@ -112,48 +113,81 @@ mark.cognishield-cat-urgency_panic {
   font-weight: 700;
 }
 
-/* Modal Drawer Overlay */
+/* Right-Side Copilot Drawer Container (No Background Blur / Fully Visible Page) */
 .cognishield-modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(15, 23, 42, 0.65);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  z-index: 99999999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s ease;
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: transparent !important; /* Zero dimming, webpage is 100% visible */
+  backdrop-filter: none !important;   /* Zero blur on video & webpage */
+  -webkit-backdrop-filter: none !important;
+  z-index: 2147483647 !important;
+  pointer-events: none !important;    /* Allows clicks to pass through to the page */
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transition: opacity 0.25s ease, visibility 0.25s ease !important;
 }
 
 .cognishield-modal-backdrop.active {
-  opacity: 1;
-  pointer-events: auto;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
+/* Sleek Right-Docked Copilot Panel */
 .cognishield-modal-card {
-  width: 90%;
-  max-width: 580px;
-  max-height: 85vh;
-  overflow-y: auto;
-  background: #0F172A;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 18px;
-  padding: 24px;
-  color: #F8FAFC;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  transform: translateY(20px) scale(0.97);
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: fixed !important;
+  top: 16px !important;
+  right: 16px !important;
+  bottom: 16px !important;
+  width: 440px !important;
+  max-width: calc(100vw - 32px) !important;
+  height: calc(100vh - 32px) !important;
+  max-height: calc(100vh - 32px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  background: #0F172A !important; /* Solid, crisp dark slate */
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-radius: 16px !important;
+  padding: 22px 20px !important;
+  color: #F8FAFC !important;
+  box-shadow: -8px 12px 36px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  box-sizing: border-box !important;
+  pointer-events: auto !important; /* Interactive buttons and quizzes */
+  transform: translateX(115%) !important;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  z-index: 2147483647 !important;
 }
 
 .cognishield-modal-backdrop.active .cognishield-modal-card {
-  transform: translateY(0) scale(1);
+  transform: translateX(0) !important;
+}
+
+/* Custom scrollbar for Copilot Panel */
+.cognishield-modal-card::-webkit-scrollbar {
+  width: 6px;
+}
+.cognishield-modal-card::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.4);
+  border-radius: 4px;
+}
+.cognishield-modal-card::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 4px;
+}
+.cognishield-modal-card::-webkit-scrollbar-thumb:hover {
+  background: #F7941D;
+}
+
+/* Hide floating badge while panel is open to avoid overlap */
+.cognishield-hud-container.modal-open .cognishield-floating-trigger {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: translateY(12px) scale(0.9) !important;
 }
 
 .cognishield-modal-header {

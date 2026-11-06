@@ -78,6 +78,19 @@ function runTests() {
   assert(dossier.id === "energy_transition", "Offline Cache: Correctly matches European Renewable Energy debate");
   assert(dossier.hidden_counter_perspectives.length >= 2, "Offline Cache: Provides dual-spectrum sourced counter-perspectives");
 
+  // 6. Real-Time Politics/Elections Video Context Match
+  const politicsDossier = offline.matchDossier("How Trump's 2024 coalition shifted in 2026", {
+    title: "How Trump's 2024 coalition shifted in 2026 - YouTube"
+  });
+  assert(politicsDossier.id === "politics_elections", "Context Matcher: Accurately identifies political polling / voter coalition shift video");
+  assert(politicsDossier.contextTitle === "How Trump's 2024 coalition shifted in 2026", "Context Matcher: Preserves video context title");
+
+  // 7. Dynamic Universal Synthesis Fallback
+  const universalDossier = offline.matchDossier("", {
+    title: "Quantum Computing Breakthrough in Material Synthesis - YouTube"
+  });
+  assert(universalDossier.id === "dynamic_universal", "Dynamic Synthesizer: Generates topic-accurate card for novel arbitrary video");
+
   console.log("\n=============================================================");
   console.log(`RESULTS: ${passed}/${total} TESTS PASSED (100% RELIABILITY)`);
   console.log("=============================================================");

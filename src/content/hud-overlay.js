@@ -21,6 +21,12 @@ class HUDOverlayController {
   init() {
     if (document.getElementById("cognishield-hud-root")) return;
 
+    const target = document.body || document.documentElement;
+    if (!target) {
+      window.addEventListener("DOMContentLoaded", () => this.init());
+      return;
+    }
+
     this.container = document.createElement("div");
     this.container.id = "cognishield-hud-root";
     this.container.className = "cognishield-hud-container";
@@ -40,7 +46,7 @@ class HUDOverlayController {
               <span style="font-size: 20px;">🛡️</span>
               <h3 class="cognishield-modal-title">CogniShield Dialectic Copilot</h3>
             </div>
-            <button class="cognishield-modal-close" id="cognishield-close-btn">&times;</button>
+            <button class="cognishield-modal-close" id="cognishield-close-btn" title="Close Panel">&times;</button>
           </div>
           <div id="cognishield-modal-body">
             <!-- Dynamic Stepped Friction Content Injected Here -->
@@ -49,19 +55,39 @@ class HUDOverlayController {
       </div>
     `;
 
-    document.body.appendChild(this.container);
+    target.appendChild(this.container);
 
     // Event listeners
-    document.getElementById("cognishield-trigger-btn").addEventListener("click", () => {
-      this.openModal();
+    const triggerBtn = document.getElementById("cognishield-trigger-btn");
+    if (triggerBtn) {
+      triggerBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        this.toggleModal();
+      });
+    }
+
+    const closeBtn = document.getElementById("cognishield-close-btn");
+    if (closeBtn) {
+      closeBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        this.closeModal();
+      });
+    }
+
+    // Close on click outside the right-side card
+    document.addEventListener("click", (e) => {
+      const backdrop = document.getElementById("cognishield-modal-backdrop");
+      const card = document.getElementById("cognishield-modal-card");
+      const trigger = document.getElementById("cognishield-trigger-btn");
+      if (!backdrop || !backdrop.classList.contains("active")) return;
+      if (card && !card.contains(e.target) && trigger && !trigger.contains(e.target)) {
+        this.closeModal();
+      }
     });
 
-    document.getElementById("cognishield-close-btn").addEventListener("click", () => {
-      this.closeModal();
-    });
-
-    document.getElementById("cognishield-modal-backdrop").addEventListener("click", (e) => {
-      if (e.target.id === "cognishield-modal-backdrop") {
+    // Close on Escape key
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
         this.closeModal();
       }
     });
@@ -128,6 +154,9 @@ class HUDOverlayController {
       <!-- Level 3: Blindspot Radar & Socratic Dialectic -->
       <div class="cognishield-section-badge">Level 3: Blindspot Radar & Sourced Counter-Views</div>
       <div class="cognishield-radar-card">
+        <div style="font-size: 12px; color: #94A3B8; margin-bottom: 8px; line-height: 1.4;">
+          <strong style="color: #F8FAFC;">Active Topic:</strong> <span style="color: #38BDF8;">${data.contextTitle || data.title}</span>
+        </div>
         <div style="font-size: 13px; color: #94A3B8;">
           <strong style="color: #F8FAFC;">Detected Tone:</strong> ${data.source_perspective || 'Single-Perspective Feeds'}
           <span style="float: right; color: #F7941D; font-weight: 700;">Intensity: ${data.emotional_intensity || '7.5'}/10</span>
@@ -182,14 +211,25 @@ class HUDOverlayController {
     });
   }
 
+  toggleModal() {
+    const backdrop = document.getElementById("cognishield-modal-backdrop");
+    if (backdrop && backdrop.classList.contains("active")) {
+      this.closeModal();
+    } else {
+      this.openModal();
+    }
+  }
+
   openModal() {
     const backdrop = document.getElementById("cognishield-modal-backdrop");
     if (backdrop) backdrop.classList.add("active");
+    if (this.container) this.container.classList.add("modal-open");
   }
 
   closeModal() {
     const backdrop = document.getElementById("cognishield-modal-backdrop");
     if (backdrop) backdrop.classList.remove("active");
+    if (this.container) this.container.classList.remove("modal-open");
   }
 }
 
