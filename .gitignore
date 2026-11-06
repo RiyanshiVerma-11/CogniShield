@@ -1,0 +1,27 @@
+# CogniShield - Git Ignore Configuration
+# Prevents slides, raw drafts, agent bundles, and local scratch files from cluttering GitHub
+
+# Local directory (contains all PPTs, slides, scripts, and agent skill packages)
+local/
+.tmp/
+
+# Internal AI scaffolding files (not part of public project)
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+
+# Slide and presentation files
+*.pptx
+*.ppt
+*.pdf
+slide_*.png
+
+# Environment and sensitive keys
+.env
+credentials.json
+token.json
+
+# System & OS artifacts
+.DS_Store
+Thumbs.db
+*.log

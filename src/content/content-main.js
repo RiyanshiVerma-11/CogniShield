@@ -1,0 +1,135 @@
+/**
+ * CogniShield - Content Script Main Coordinator
+ * Integrates Scrapers (YouTube, Twitter, Reddit, Web News), Regex Engine, Heatmap Highlighter, and Stepped Friction HUD.
+ */
+
+(function () {
+  console.log("[CogniShield] Multi-Platform Cognitive Copilot active.");
+
+  let hasScanned = false;
+
+  async function initializeCogniShield() {
+    // 1. Initialize HUD Overlay
+    if (window.CogniShieldHUD) {
+      window.CogniShieldHUD.init();
+    }
+
+    // Delay slightly to allow DOM content to settle
+    setTimeout(runContentAnalysis, 1200);
+  }
+
+  async function runContentAnalysis() {
+    if (hasScanned) return;
+
+    try {
+      const hostname = window.location.hostname;
+      let pageText = document.title;
+      const elementsToScan = [];
+
+      // 1. Platform-Specific Scraper Routing
+      if (hostname.includes("youtube.com") && window.CogniShieldScraper) {
+        const extracted = await window.CogniShieldScraper.extractVideoContext();
+        pageText = extracted.textPayload || document.title;
+        const titleEl = document.querySelector("h1, #title, ytd-watch-metadata");
+        if (titleEl) elementsToScan.push(titleEl);
+        document.querySelectorAll("#description, #content-text").forEach((el, i) => {
+          if (i < 4) elementsToScan.push(el);
+        });
+      } else if ((hostname.includes("twitter.com") || hostname.includes("x.com")) && window.CogniShieldTwitter) {
+        const extracted = window.CogniShieldTwitter.extractTweetContext();
+        pageText = extracted.textPayload || document.title;
+        document.querySelectorAll("article [data-testid='tweetText']").forEach((el, i) => {
+          if (i < 5) elementsToScan.push(el);
+        });
+      } else if (hostname.includes("reddit.com") && window.CogniShieldReddit) {
+        const extracted = window.CogniShieldReddit.extractRedditContext();
+        pageText = extracted.textPayload || document.title;
+        const titleEl = document.querySelector("h1, shreddit-post [slot='title']");
+        if (titleEl) elementsToScan.push(titleEl);
+        document.querySelectorAll("shreddit-comment [slot='comment'], .usertext-body").forEach((el, i) => {
+          if (i < 4) elementsToScan.push(el);
+        });
+      } else if (window.CogniShieldNews) {
+        // Generic Web Article
+        const extracted = window.CogniShieldNews.extractArticleContext();
+        pageText = extracted.textPayload || document.title;
+        const h1 = document.querySelector("h1");
+        if (h1) elementsToScan.push(h1);
+        document.querySelectorAll("article p, main p").forEach((el, i) => {
+          if (i < 4) elementsToScan.push(el);
+        });
+      }
+
+      // 2. Client-side Manipulation Highlight Pass (Tier 0: 0ms, 0W)
+      let highlightStats = { highlightedCount: 0 };
+      if (window.CogniShieldHighlighter && elementsToScan.length > 0) {
+        highlightStats = window.CogniShieldHighlighter.highlightElements(elementsToScan, "auto");
+      }
+
+      // 3. Scan overall text intensity
+      let intensityScore = 3.0;
+      let biasCategory = "outrage_anger";
+
+      if (window.CogniShieldRegex) {
+        const scanRes = window.CogniShieldRegex.scanText(pageText, "auto");
+        intensityScore = Math.max(2.5, scanRes.score);
+        if (scanRes.matches && scanRes.matches.length > 0) {
+          biasCategory = scanRes.matches[0].category;
+        }
+      }
+
+      // 4. Update Ambient Badge (Level 1 Subconscious Glow)
+      if (window.CogniShieldHUD) {
+        window.CogniShieldHUD.updateAmbientStatus(intensityScore, highlightStats.highlightedCount);
+
+        // 5. Match Dossier via Offline Cache (Tier 1 fail-safe)
+        if (window.CogniShieldOffline) {
+          const dossier = window.CogniShieldOffline.matchDossier(pageText);
+          dossier.emotional_intensity = intensityScore;
+          dossier.bias_category = biasCategory;
+          window.CogniShieldHUD.loadDossier(dossier);
+        }
+      }
+
+      hasScanned = true;
+    } catch (err) {
+      console.warn("[CogniShield] Analysis error:", err);
+    }
+  }
+
+  // Handle SPA dynamic navigation (YouTube, X, Reddit)
+  let lastUrl = location.href;
+  new MutationObserver(() => {
+    const currentUrl = location.href;
+    if (currentUrl !== lastUrl) {
+      lastUrl = currentUrl;
+      hasScanned = false;
+      setTimeout(runContentAnalysis, 1500);
+    }
+  }).observe(document, { subtree: true, childList: true });
+
+  // Listen for messages from popup
+  if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.onMessage) {
+    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+      if (request.action === "TRIGGER_SCAN") {
+        hasScanned = false;
+        runContentAnalysis().then(() => sendResponse({ status: "SUCCESS" }));
+        return true;
+      } else if (request.action === "FORCE_DEMO_TOPIC") {
+        if (window.CogniShieldOffline && window.CogniShieldHUD) {
+          const dossier = window.CogniShieldOffline.getDossierById(request.topicId);
+          window.CogniShieldHUD.loadDossier(dossier);
+          window.CogniShieldHUD.openModal();
+          sendResponse({ status: "LOADED" });
+        }
+        return true;
+      }
+    });
+  }
+
+  if (document.readyState === "complete" || document.readyState === "interactive") {
+    initializeCogniShield();
+  } else {
+    window.addEventListener("DOMContentLoaded", initializeCogniShield);
+  }
+})();

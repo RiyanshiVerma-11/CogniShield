@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CogniShield Control Panel</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="popup-header">
+      <div class="logo-group">
+        <span class="logo-icon">🛡️</span>
+        <div>
+          <h1 class="logo-title">CogniShield</h1>
+          <p class="logo-sub">Zero-Censorship Cognitive Copilot</p>
+        </div>
+      </div>
+      <span class="badge-status" id="badge-mode-status">TRAINER</span>
+    </header>
+
+    <!-- Metrics Quick View -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Agency Score</div>
+        <div class="metric-value text-emerald" id="stat-agency">74%</div>
+        <div class="metric-hint">System 2 Active</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Diversity Radar</div>
+        <div class="metric-value text-blue" id="stat-diversity">82%</div>
+        <div class="metric-hint">4 Archetypes</div>
+      </div>
+    </div>
+
+    <!-- Quick Scan Action -->
+    <div class="action-section">
+      <button class="btn-primary" id="btn-trigger-scan">
+        <span>⚡ Scan Current Feed Now</span>
+      </button>
+    </div>
+
+    <!-- Mode Selector: Zen vs Trainer -->
+    <div class="setting-row">
+      <div>
+        <div class="setting-title">Trainer Mode</div>
+        <div class="setting-desc">Enables stepped friction & Socratic quizzes</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="toggle-trainer-mode" checked>
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <!-- Jury Demo Safety Switch (Neutralizes live demo Wi-Fi failure trap) -->
+    <div class="setting-row highlight-demo">
+      <div>
+        <div class="setting-title" style="color: #F7941D;">Jury Demo Safety Net</div>
+        <div class="setting-desc">Force 100% offline dossiers (0ms latency)</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="toggle-demo-mode">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <!-- Topic Selector for Live Pitch -->
+    <div class="demo-select-row" id="demo-select-container">
+      <label class="select-label">Stage Demo Topic:</label>
+      <select id="select-demo-topic" class="select-input">
+        <option value="energy_transition">Renewable Energy (Hamburg Final)</option>
+        <option value="ai_education" selected>AI in Higher Education (Stream 1)</option>
+        <option value="inflation_economy">Macroeconomic Inflation</option>
+      </select>
+      <button class="btn-secondary" id="btn-load-demo">Launch Demo Scenario</button>
+    </div>
+
+    <!-- Academic Integrity Certificate (B2B Feature) -->
+    <div class="certificate-section">
+      <button class="btn-outline" id="btn-cert-export">
+        <span>🎓 Export Due-Diligence Certificate</span>
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="popup-footer">
+      <span>Stream 1: COGNITIVE • Sopra Steria 2026</span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
+

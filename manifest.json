@@ -1,0 +1,75 @@
+{
+  "manifest_version": 3,
+  "name": "CogniShield: Cognitive Copilot & Filter-Bubble Radar",
+  "version": "1.0.0",
+  "description": "Zero-censorship cognitive copilot detecting filter bubbles, sensationalism, and emotional manipulation while training independent critical thinking.",
+  "icons": {
+    "16": "assets/icons/icon16.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "src/popup/popup.html",
+    "default_icon": {
+      "16": "assets/icons/icon16.png",
+      "48": "assets/icons/icon48.png",
+      "128": "assets/icons/icon128.png"
+    },
+    "default_title": "CogniShield: Cognitive Health & Agency"
+  },
+  "background": {
+    "service_worker": "src/background/service-worker.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.youtube.com/*",
+        "https://twitter.com/*",
+        "https://x.com/*",
+        "https://www.reddit.com/*",
+        "https://*/*"
+      ],
+      "js": [
+        "src/shared/regex-trilingual.js",
+        "src/shared/cognitive-engine.js",
+        "src/shared/offline-cache.js",
+        "src/shared/local-storage.js",
+        "src/content/scrapers/youtube-scraper.js",
+        "src/content/scrapers/twitter-scraper.js",
+        "src/content/scrapers/reddit-scraper.js",
+        "src/content/scrapers/news-scraper.js",
+        "src/content/heatmap-highlighter.js",
+        "src/content/hud-overlay.js",
+        "src/content/content-main.js"
+      ],
+      "css": [
+        "src/content/hud-styles.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://www.youtube.com/*",
+    "https://twitter.com/*",
+    "https://x.com/*",
+    "https://www.reddit.com/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "assets/icons/*",
+        "src/shared/*",
+        "src/dashboard/*"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "name": "cognishield",
+  "version": "1.0.0",
+  "description": "Zero-censorship cognitive copilot detecting filter bubbles, sensationalism, and emotional manipulation while training independent critical thinking.",
+  "main": "src/background/service-worker.js",
+  "scripts": {
+    "test": "node tests/test-cognitive-engine.js"
+  },
+  "keywords": [
+    "chrome-extension",
+    "brave-extension",
+    "manifest-v3",
+    "cognitive-agency",
+    "filter-bubble-detector",
+    "kahneman-dual-process",
+    "green-it",
+    "gdpr-compliance",
+    "sopra-steria-challenge"
+  ],
+  "author": "Team CogniShield (Sopra Steria International Student Challenge 2026–2027)",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cognishield/cognishield"
+  }
+}
+

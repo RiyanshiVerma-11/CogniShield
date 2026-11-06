@@ -1,0 +1,300 @@
+/**
+ * CogniShield - HUD Overlay & Heatmap Styles
+ * Theme: Glassmorphic Dark (#0F172A, Accent Orange #F7941D, Emerald #10B981, Blue #0284C7)
+ */
+
+/* Manipulation Mark Highlights */
+mark.cognishield-mark {
+  border-radius: 3px;
+  padding: 1px 3px;
+  font-weight: 600;
+  cursor: help;
+  transition: background-color 0.2s ease;
+}
+
+mark.cognishield-cat-outrage_anger {
+  background-color: rgba(239, 68, 68, 0.35);
+  color: #FCA5A5;
+  border-bottom: 2px solid #EF4444;
+}
+
+mark.cognishield-cat-false_certainty {
+  background-color: rgba(245, 158, 11, 0.35);
+  color: #FCD34D;
+  border-bottom: 2px solid #F59E0B;
+}
+
+mark.cognishield-cat-tribal_polarization {
+  background-color: rgba(168, 85, 247, 0.35);
+  color: #D8B4FE;
+  border-bottom: 2px solid #A855F7;
+}
+
+mark.cognishield-cat-urgency_panic {
+  background-color: rgba(249, 115, 22, 0.35);
+  color: #FDBA74;
+  border-bottom: 2px solid #F97316;
+}
+
+/* Floating Shield Container */
+.cognishield-floating-trigger {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  padding: 8px 16px 8px 10px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  user-select: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cognishield-floating-trigger:hover {
+  transform: translateY(-2px) scale(1.02);
+  border-color: rgba(247, 148, 29, 0.5);
+  box-shadow: 0 14px 28px -4px rgba(247, 148, 29, 0.25);
+}
+
+.cognishield-badge-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: box-shadow 0.3s ease;
+}
+
+/* Level 1: Subconscious Ambient Glow */
+.cognishield-glow-green {
+  background: #10B981;
+  box-shadow: 0 0 12px #10B981;
+}
+
+.cognishield-glow-amber {
+  background: #F59E0B;
+  box-shadow: 0 0 12px #F59E0B;
+}
+
+.cognishield-glow-red {
+  background: #EF4444;
+  box-shadow: 0 0 14px #EF4444;
+  animation: cognishield-pulse 2s infinite;
+}
+
+@keyframes cognishield-pulse {
+  0%, 100% { box-shadow: 0 0 8px #EF4444; }
+  50% { box-shadow: 0 0 18px #EF4444; }
+}
+
+.cognishield-badge-text {
+  color: #F8FAFC;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.cognishield-badge-score {
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #94A3B8;
+  font-weight: 700;
+}
+
+/* Modal Drawer Overlay */
+.cognishield-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 99999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.cognishield-modal-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cognishield-modal-card {
+  width: 90%;
+  max-width: 580px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: #0F172A;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  padding: 24px;
+  color: #F8FAFC;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.75);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cognishield-modal-backdrop.active .cognishield-modal-card {
+  transform: translateY(0) scale(1);
+}
+
+.cognishield-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}
+
+.cognishield-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cognishield-modal-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #F8FAFC;
+  margin: 0;
+}
+
+.cognishield-modal-close {
+  background: transparent;
+  border: none;
+  color: #94A3B8;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.cognishield-modal-close:hover {
+  color: #F8FAFC;
+}
+
+/* Stepped Friction Sections */
+.cognishield-section-badge {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-weight: 700;
+  color: #F7941D;
+  margin-bottom: 6px;
+}
+
+.cognishield-radar-card {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.cognishield-perspective-item {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.cognishield-archetype-pill {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: rgba(2, 132, 199, 0.25);
+  color: #38BDF8;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  margin-bottom: 4px;
+}
+
+.cognishield-citation {
+  font-size: 11px;
+  color: #94A3B8;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+/* Level 2: Micro-Quiz */
+.cognishield-quiz-card {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(247, 148, 29, 0.3);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.cognishield-quiz-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #F8FAFC;
+  font-size: 13px;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cognishield-quiz-option:hover {
+  background: rgba(247, 148, 29, 0.15);
+  border-color: #F7941D;
+}
+
+.cognishield-quiz-feedback {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  display: none;
+}
+
+.cognishield-quiz-feedback.correct {
+  display: block;
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid #10B981;
+  color: #34D399;
+}
+
+.cognishield-quiz-feedback.incorrect {
+  display: block;
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid #EF4444;
+  color: #F87171;
+}
+
+/* Epistemic Transparency Disclaimer */
+.cognishield-transparency-card {
+  font-size: 11px;
+  color: #64748B;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 14px;
+  text-align: center;
+}
+
