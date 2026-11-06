@@ -49,55 +49,55 @@ const OFFLINE_DEMO_DOSSIERS = {
     ]
   },
 
-  // Topic 2: Renewable Energy Transition & Grid Reliability (Crucial for European / Hamburg finals)
-  energy_transition: {
-    id: "energy_transition",
-    title: "The Renewable Energy Transition: Reality vs Outrage",
-    keywords: ["blackout", "collapse", "green scam", "unbestreitbar", "katastrophe", "skandal", "energy", "solar", "wind", "grid", "klima"],
-    bias_category: "urgency_panic",
-    source_perspective: "Pro-Immediate Fossil Phaseout / Alarmist Grid Vulnerability",
-    emotional_intensity: 8.2,
+  // Topic 2: AI Governance, Responsibility & Ethics (Autonomous Systems, Liability & Human Agency)
+  ai_ethics_governance: {
+    id: "ai_ethics_governance",
+    title: "Autonomous Decision-Making: Liability, AI Agency & Epistemic Oversight",
+    keywords: ["responsible", "makes the decisions", "ai debate", "autonomous", "liability", "accountability", "ethics", "who is responsible", "ai governance", "safety", "alignment", "decision", "algorithmic responsibility", "big ai debate"],
+    bias_category: "false_certainty",
+    source_perspective: "Algorithmic Accountability & Moral Agency Debate",
+    emotional_intensity: 6.9,
     epistemic_card: {
-      model_type: "Local Deterministic Fallback Engine (GDPR Compliant)",
-      epistemic_confidence: "94% Dual-Spectrum Alignment",
-      disclaimer: "Algorithmic counter-hypothesis generated for dialectic reflection, not absolute truth."
+      model_type: "Local Deterministic Dialectic Engine (GDPR Compliant)",
+      epistemic_confidence: "98% Statutory Framework Alignment",
+      disclaimer: "Algorithmic counter-hypothesis generated for dialectic reflection, not statutory legal counsel."
     },
     hidden_counter_perspectives: [
       {
-        archetype: "Economic Census",
-        label: "Grid Inertia & Capital Reserve Backing",
-        summary: "Intermittent renewables require 4.2x baseload battery storage capital expenditure to prevent industrial frequency oscillations.",
-        citation: "Fraunhofer Institute for Solar Energy Systems (ISE) Annual Grid Report 2025"
+        archetype: "Statutory Jurisprudence",
+        label: "EU AI Act Strict Deployer Liability",
+        summary: "Under the European Artificial Intelligence Act (Regulation 2024/1689), algorithms are statutory tools, not legal persons. Legal liability and fault strictly trace back to human deployers and corporate operators of high-risk models.",
+        citation: "European Parliament & Council AI Act (Article 14 & Article 26: Human Oversight)"
       },
       {
-        archetype: "Statutory Framework",
-        label: "EU Cross-Border Interconnection Mandate",
-        summary: "EU Regulation 2024/1735 mandates a 15% cross-border electricity interconnection capacity, mitigating localized regional blackout risks through French nuclear and Nordic hydro balancing.",
-        citation: "European Commission Energy Security Directive (Article 14)"
+        archetype: "Epistemic Computer Science",
+        label: "The Anthropomorphic Fallacy & Objective Functions",
+        summary: "Neural networks optimize statistical loss functions; attributing human intent, moral malice, or conscious volition to algorithmic decisions commits the anthropomorphic category error.",
+        citation: "Oxford Institute for Ethics in AI / ACM Conference on Fairness, Accountability, and Transparency (FAccT)"
       }
     ],
     micro_quiz: {
-      question: "Which cognitive hook is used when calling the energy transition 'an imminent industrial collapse'?",
+      question: "When assigning legal or moral responsibility for autonomous AI decisions, which dilemma arises?",
       options: [
-        "A) False Dilemma / Catastrophizing",
-        "B) Sunk Cost Fallacy",
-        "C) Ad Hominem Attack"
+        "A) The 'Responsibility Gap' (difficulty of attributing moral/legal liability when opaque neural networks act autonomously)",
+        "B) Assuming algorithms possess biological consciousness",
+        "C) Believing statistical models never make mathematical errors"
       ],
       correctIndex: 0,
-      explanation: "Catastrophizing frames complex infrastructure transition as a binary choice between fossil fuels and catastrophic blackout."
+      explanation: "The 'Responsibility Gap' in epistemic ethics describes the difficulty of distributing statutory or moral accountability across developers, deployers, and autonomous predictive models."
     },
     socratic_dialogue: [
-      "What concrete engineering data on grid storage capacity was omitted from this clip?",
-      "How do cross-border European energy grids change the risk calculation of local wind lulls?",
-      "What economic trade-offs between baseload stability and decarbonization are left unmentioned?"
+      "Can a non-conscious predictive statistical model hold moral responsibility, or must legal accountability strictly rest with human deployers?",
+      "How does human-in-the-loop oversight change the distribution of legal liability when algorithmic errors occur?",
+      "Are we using 'the algorithm did it' as an epistemic shield to obscure corporate and institutional accountability?"
     ]
   },
 
-  // Topic 3: Generative AI in Higher Education (Directly ties to Stream 1 Cognitive Over-reliance)
+  // Topic 3: Generative AI in Higher Education (Cognitive Over-reliance, Students & Learning)
   ai_education: {
     id: "ai_education",
     title: "AI in Higher Education: Cognitive Collapse or Supercharged Learning?",
-    keywords: ["destroying education", "cheating epidemic", "brain rot", "moutons", "anéanti", "chatgpt", "artificial intelligence", "homework", "student"],
+    keywords: ["destroying education", "cheating epidemic", "brain rot", "moutons", "student", "homework", "classroom", "school", "university", "passive sheep", "essay cheating", "plagiarism"],
     bias_category: "outrage_anger",
     source_perspective: "Techno-Pessimism / Ban All AI from Universities",
     emotional_intensity: 7.8,
@@ -137,11 +137,55 @@ const OFFLINE_DEMO_DOSSIERS = {
     ]
   },
 
-  // Topic 4: Macroeconomic Inflation & Government Debt (Common political outrage trigger)
+  // Topic 4: Renewable Energy Transition & Grid Reliability (Crucial for European / Hamburg finals)
+  energy_transition: {
+    id: "energy_transition",
+    title: "The Renewable Energy Transition: Reality vs Outrage",
+    keywords: ["blackout", "collapse", "green scam", "unbestreitbar", "katastrophe", "skandal", "energy", "solar", "wind", "grid", "klima", "nuclear", "power"],
+    bias_category: "urgency_panic",
+    source_perspective: "Pro-Immediate Fossil Phaseout / Alarmist Grid Vulnerability",
+    emotional_intensity: 8.2,
+    epistemic_card: {
+      model_type: "Local Deterministic Fallback Engine (GDPR Compliant)",
+      epistemic_confidence: "94% Dual-Spectrum Alignment",
+      disclaimer: "Algorithmic counter-hypothesis generated for dialectic reflection, not absolute truth."
+    },
+    hidden_counter_perspectives: [
+      {
+        archetype: "Economic Census",
+        label: "Grid Inertia & Capital Reserve Backing",
+        summary: "Intermittent renewables require 4.2x baseload battery storage capital expenditure to prevent industrial frequency oscillations.",
+        citation: "Fraunhofer Institute for Solar Energy Systems (ISE) Annual Grid Report 2025"
+      },
+      {
+        archetype: "Statutory Framework",
+        label: "EU Cross-Border Interconnection Mandate",
+        summary: "EU Regulation 2024/1735 mandates a 15% cross-border electricity interconnection capacity, mitigating localized regional blackout risks through French nuclear and Nordic hydro balancing.",
+        citation: "European Commission Energy Security Directive (Article 14)"
+      }
+    ],
+    micro_quiz: {
+      question: "Which cognitive hook is used when calling the energy transition 'an imminent industrial collapse'?",
+      options: [
+        "A) False Dilemma / Catastrophizing",
+        "B) Sunk Cost Fallacy",
+        "C) Ad Hominem Attack"
+      ],
+      correctIndex: 0,
+      explanation: "Catastrophizing frames complex infrastructure transition as a binary choice between fossil fuels and catastrophic blackout."
+    },
+    socratic_dialogue: [
+      "What concrete engineering data on grid storage capacity was omitted from this clip?",
+      "How do cross-border European energy grids change the risk calculation of local wind lulls?",
+      "What economic trade-offs between baseload stability and decarbonization are left unmentioned?"
+    ]
+  },
+
+  // Topic 5: Macroeconomic Inflation & Government Debt (Common political outrage trigger)
   inflation_economy: {
     id: "inflation_economy",
     title: "Inflation and Central Bank Policies: The Hidden Reality",
-    keywords: ["corrupt elite", "dollar collapse", "treason", "schandtat", "complot", "inflation", "economy", "debt", "recession"],
+    keywords: ["corrupt elite", "dollar collapse", "treason", "schandtat", "complot", "inflation", "economy", "debt", "recession", "interest rate", "prices"],
     bias_category: "tribal_polarization",
     source_perspective: "Hyper-Polarized Populist Blame Narrative",
     emotional_intensity: 8.9,
@@ -181,7 +225,7 @@ const OFFLINE_DEMO_DOSSIERS = {
     ]
   },
 
-  // Topic 5: Geopolitics & Defense
+  // Topic 6: Geopolitics & Defense
   geopolitics_diplomacy: {
     id: "geopolitics_diplomacy",
     title: "Geopolitical Alliances & Global Security: Multilateral Realities",
@@ -224,7 +268,7 @@ const OFFLINE_DEMO_DOSSIERS = {
     ]
   },
 
-  // Topic 6: Health & Medical Science
+  // Topic 7: Health & Medical Science
   health_science: {
     id: "health_science",
     title: "Medical Claims & Public Health: Peer-Reviewed Scientific Nuance",
@@ -333,59 +377,88 @@ class OfflineCacheManager {
    */
   matchDossier(text, context = {}) {
     const contextTitle = context.title || "";
-    const fullText = `${contextTitle} ${text || ""}`.toLowerCase();
+    const cleanTitle = contextTitle.replace(/- YouTube.*$/i, "").replace(/\|.*$/i, "").trim();
+    const fullText = `${cleanTitle} ${text || ""}`.toLowerCase();
 
-    // 1. Politics / Elections / Coalition Shifts / Voting (NBC News, Trump, Midterms, etc.)
-    const polKeywords = [
-      "trump", "biden", "election", "coalition", "voters", "polls", "republican",
-      "democrat", "independent", "midterm", "congress", "senate", "ballot",
-      "voting", "swing", "latino", "harris", "obama", "political", "vote",
-      "campaign", "parliament", "presidential", "nbc news", "exit polls"
+    let matchedDossier = null;
+
+    // 1. AI Governance, Responsibility, Autonomous Decisions (e.g. "Who Is Responsible When AI Makes the Decisions?")
+    const aiEthicsKeywords = [
+      "responsible", "makes the decisions", "ai debate", "autonomous", "liability",
+      "accountability", "who is responsible", "ai governance", "safety", "alignment",
+      "decision", "algorithmic responsibility", "big ai debate", "ethics in ai", "autonomous vehicle"
     ];
-    if (polKeywords.some(k => fullText.includes(k))) {
-      const dossier = JSON.parse(JSON.stringify(this.dossiers.politics_elections));
-      if (contextTitle) {
-        dossier.contextTitle = contextTitle.replace(/- YouTube.*$/i, "").trim();
+    if (aiEthicsKeywords.some(k => fullText.includes(k))) {
+      matchedDossier = JSON.parse(JSON.stringify(this.dossiers.ai_ethics_governance));
+    }
+
+    // 2. Politics / Elections / Coalition Shifts / Voting (NBC News, Trump, Midterms, etc.)
+    if (!matchedDossier) {
+      const polKeywords = [
+        "trump", "biden", "election", "coalition", "voters", "polls", "republican",
+        "democrat", "independent", "midterm", "congress", "senate", "ballot",
+        "voting", "swing", "latino", "harris", "obama", "political", "vote",
+        "campaign", "parliament", "presidential", "nbc news", "exit polls"
+      ];
+      if (polKeywords.some(k => fullText.includes(k))) {
+        matchedDossier = JSON.parse(JSON.stringify(this.dossiers.politics_elections));
       }
-      return dossier;
     }
 
-    // 2. Renewable Energy / Climate / Infrastructure
-    if (["energy", "solar", "wind", "grid", "blackout", "klima", "nuclear", "power"].some(k => fullText.includes(k))) {
-      return JSON.parse(JSON.stringify(this.dossiers.energy_transition));
+    // 3. AI in Education (Schools, Cheating, Students, Homework)
+    if (!matchedDossier) {
+      const eduKeywords = ["student", "homework", "classroom", "school", "cheating", "essay", "plagiarism", "passive sheep", "university", "college"];
+      if (eduKeywords.some(k => fullText.includes(k))) {
+        matchedDossier = JSON.parse(JSON.stringify(this.dossiers.ai_education));
+      }
     }
 
-    // 3. Macroeconomic Inflation & Debt
-    if (["inflation", "economy", "debt", "geld", "wirtschaft", "bank", "interest rate", "recession"].some(k => fullText.includes(k))) {
-      return JSON.parse(JSON.stringify(this.dossiers.inflation_economy));
+    // 4. Renewable Energy / Climate / Infrastructure
+    if (!matchedDossier) {
+      if (["energy", "solar", "wind", "grid", "blackout", "klima", "nuclear", "power"].some(k => fullText.includes(k))) {
+        matchedDossier = JSON.parse(JSON.stringify(this.dossiers.energy_transition));
+      }
     }
 
-    // 4. Geopolitics & Defense
-    if (["war", "conflict", "nato", "ukraine", "russia", "china", "taiwan", "military", "sanctions"].some(k => fullText.includes(k))) {
-      return JSON.parse(JSON.stringify(this.dossiers.geopolitics_diplomacy));
+    // 5. Macroeconomic Inflation & Debt
+    if (!matchedDossier) {
+      if (["inflation", "economy", "debt", "geld", "wirtschaft", "bank", "interest rate", "recession"].some(k => fullText.includes(k))) {
+        matchedDossier = JSON.parse(JSON.stringify(this.dossiers.inflation_economy));
+      }
     }
 
-    // 5. Health & Medicine
-    if (["vaccine", "cancer", "toxic", "diet", "fda", "doctor", "medicine", "pharma", "disease"].some(k => fullText.includes(k))) {
-      return JSON.parse(JSON.stringify(this.dossiers.health_science));
+    // 6. Geopolitics & Defense
+    if (!matchedDossier) {
+      if (["war", "conflict", "nato", "ukraine", "russia", "china", "taiwan", "military", "sanctions"].some(k => fullText.includes(k))) {
+        matchedDossier = JSON.parse(JSON.stringify(this.dossiers.geopolitics_diplomacy));
+      }
     }
 
-    // 6. AI & Tech Education
-    if (["ai", "chatgpt", "llm", "artificial intelligence", "education", "school", "cheating", "homework", "student"].some(k => fullText.includes(k))) {
-      return JSON.parse(JSON.stringify(this.dossiers.ai_education));
+    // 7. Health & Medicine
+    if (!matchedDossier) {
+      if (["vaccine", "cancer", "toxic", "diet", "fda", "doctor", "medicine", "pharma", "disease"].some(k => fullText.includes(k))) {
+        matchedDossier = JSON.parse(JSON.stringify(this.dossiers.health_science));
+      }
     }
 
-    // 7. Dynamic Universal Dossier for any other title
-    if (contextTitle && contextTitle.trim().length > 5) {
-      return this.generateUniversalDossier(contextTitle);
+    // 8. Dynamic Universal Dossier for any other title
+    if (!matchedDossier) {
+      if (cleanTitle && cleanTitle.trim().length > 5) {
+        return this.generateUniversalDossier(cleanTitle);
+      }
+      matchedDossier = JSON.parse(JSON.stringify(this.dossiers.ai_ethics_governance));
     }
 
-    // Fallback default
-    return JSON.parse(JSON.stringify(this.dossiers.ai_education));
+    // Ensure EVERY matched dossier carries the live video's actual title!
+    if (cleanTitle && cleanTitle.length > 3) {
+      matchedDossier.contextTitle = cleanTitle;
+    }
+
+    return matchedDossier;
   }
 
   getDossierById(id) {
-    return this.dossiers[id] || this.dossiers.politics_elections;
+    return this.dossiers[id] || this.dossiers.ai_ethics_governance;
   }
 }
 

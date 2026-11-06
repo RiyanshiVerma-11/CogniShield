@@ -91,6 +91,13 @@ function runTests() {
   });
   assert(universalDossier.id === "dynamic_universal", "Dynamic Synthesizer: Generates topic-accurate card for novel arbitrary video");
 
+  // 8. AI Ethics, Governance & Responsibility Video Match
+  const aiEthicsDossier = offline.matchDossier("Who Is Responsible When AI Makes the Decisions? | The Big AI Debate Ep. 1", {
+    title: "Who Is Responsible When AI Makes the Decisions? | The Big AI Debate Ep. 1 - YouTube"
+  });
+  assert(aiEthicsDossier.id === "ai_ethics_governance", "Context Matcher: Accurately identifies AI ethics, responsibility & autonomous decision debate");
+  assert(aiEthicsDossier.contextTitle.includes("Who Is Responsible When AI Makes the Decisions"), "Context Matcher: Preserves and sets active video title");
+
   console.log("\n=============================================================");
   console.log(`RESULTS: ${passed}/${total} TESTS PASSED (100% RELIABILITY)`);
   console.log("=============================================================");
