@@ -41,12 +41,20 @@ class HUDOverlayController {
 
       <div class="cognishield-modal-backdrop" id="cognishield-modal-backdrop">
         <div class="cognishield-modal-card" id="cognishield-modal-card">
+          <!-- Left Edge Drag Handle (Breadth / Width Resizer) -->
+          <div class="cognishield-resize-handle-left" id="cognishield-resize-left" title="Drag to adjust breadth / width"></div>
+          <!-- Bottom-Left Corner Drag Handle (Breadth & Height Resizer) -->
+          <div class="cognishield-resize-handle-corner" id="cognishield-resize-corner" title="Drag to adjust width and height"></div>
+
           <div class="cognishield-modal-header">
             <div class="cognishield-header-left">
               <span style="font-size: 20px;">🛡️</span>
               <h3 class="cognishield-modal-title">CogniShield Dialectic Copilot</h3>
             </div>
-            <button class="cognishield-modal-close" id="cognishield-close-btn" title="Close Panel">&times;</button>
+            <div class="cognishield-header-actions">
+              <button class="cognishield-header-btn" id="cognishield-expand-btn" title="Toggle Focus Mode (Expand / Compact)">⤢</button>
+              <button class="cognishield-modal-close" id="cognishield-close-btn" title="Close Panel">&times;</button>
+            </div>
           </div>
           <div id="cognishield-modal-body">
             <!-- Dynamic Stepped Friction Content Injected Here -->
@@ -74,13 +82,113 @@ class HUDOverlayController {
       });
     }
 
+    // Interactive Drag-to-Resize Logic (Breadth & Height)
+    const card = document.getElementById("cognishield-modal-card");
+    const handleLeft = document.getElementById("cognishield-resize-left");
+    const handleCorner = document.getElementById("cognishield-resize-corner");
+    const expandBtn = document.getElementById("cognishield-expand-btn");
+
+    let isResizingLeft = false;
+    let isResizingCorner = false;
+    let startX = 0;
+    let startY = 0;
+    let startWidth = 440;
+    let startHeight = 0;
+    let isFocusMode = false;
+
+    if (handleLeft && card) {
+      handleLeft.addEventListener("mousedown", (e) => {
+        isResizingLeft = true;
+        startX = e.clientX;
+        startWidth = card.offsetWidth;
+        document.body.style.userSelect = "none";
+        handleLeft.classList.add("dragging");
+        e.preventDefault();
+        e.stopPropagation();
+      });
+    }
+
+    if (handleCorner && card) {
+      handleCorner.addEventListener("mousedown", (e) => {
+        isResizingCorner = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        startWidth = card.offsetWidth;
+        startHeight = card.offsetHeight;
+        document.body.style.userSelect = "none";
+        handleCorner.classList.add("dragging");
+        e.preventDefault();
+        e.stopPropagation();
+      });
+    }
+
+    document.addEventListener("mousemove", (e) => {
+      if (isResizingLeft && card) {
+        const deltaX = startX - e.clientX;
+        const newWidth = Math.max(360, Math.min(window.innerWidth - 32, startWidth + deltaX));
+        card.style.width = `${newWidth}px`;
+      } else if (isResizingCorner && card) {
+        const deltaX = startX - e.clientX;
+        const newWidth = Math.max(360, Math.min(window.innerWidth - 32, startWidth + deltaX));
+        card.style.width = `${newWidth}px`;
+
+        const deltaY = e.clientY - startY;
+        const newHeight = Math.max(380, Math.min(window.innerHeight - 32, startHeight + deltaY));
+        card.style.height = `${newHeight}px`;
+        card.style.bottom = "auto";
+      }
+    });
+
+    document.addEventListener("mouseup", () => {
+      if (isResizingLeft || isResizingCorner) {
+        isResizingLeft = false;
+        isResizingCorner = false;
+        document.body.style.userSelect = "";
+        if (handleLeft) handleLeft.classList.remove("dragging");
+        if (handleCorner) handleCorner.classList.remove("dragging");
+        try {
+          if (card.style.width) localStorage.setItem("cognishield_card_width", card.style.width);
+        } catch (_) {}
+      }
+    });
+
+    // Restore saved width from previous sessions
+    try {
+      const savedWidth = localStorage.getItem("cognishield_card_width");
+      if (savedWidth && card) {
+        card.style.width = savedWidth;
+      }
+    } catch (_) {}
+
+    // Focus Mode Toggle (1-Click Expand / Restore)
+    if (expandBtn && card) {
+      expandBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        isFocusMode = !isFocusMode;
+        if (isFocusMode) {
+          card.style.width = "75vw";
+          card.style.height = "calc(100vh - 32px)";
+          card.style.bottom = "16px";
+          expandBtn.textContent = "⤡";
+          expandBtn.title = "Restore Normal Width";
+        } else {
+          card.style.width = "440px";
+          card.style.height = "calc(100vh - 32px)";
+          card.style.bottom = "16px";
+          expandBtn.textContent = "⤢";
+          expandBtn.title = "Focus Mode (Expand Breadth)";
+        }
+      });
+    }
+
     // Close on click outside the right-side card
     document.addEventListener("click", (e) => {
+      if (isResizingLeft || isResizingCorner) return;
       const backdrop = document.getElementById("cognishield-modal-backdrop");
-      const card = document.getElementById("cognishield-modal-card");
+      const cardEl = document.getElementById("cognishield-modal-card");
       const trigger = document.getElementById("cognishield-trigger-btn");
       if (!backdrop || !backdrop.classList.contains("active")) return;
-      if (card && !card.contains(e.target) && trigger && !trigger.contains(e.target)) {
+      if (cardEl && !cardEl.contains(e.target) && trigger && !trigger.contains(e.target)) {
         this.closeModal();
       }
     });
