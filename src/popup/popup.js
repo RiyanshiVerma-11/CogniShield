@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Load saved state
   if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
-    chrome.storage.local.get(["userMode", "forceDemoMode"], (res) => {
+    chrome.storage.local.get(["userMode", "forceDemoMode", "geminiApiKey", "groqApiKey"], (res) => {
       const isTrainer = res.userMode !== "zen";
       toggleTrainer.checked = isTrainer;
       badgeStatus.textContent = isTrainer ? "TRAINER" : "ZEN";
@@ -21,6 +21,49 @@ document.addEventListener("DOMContentLoaded", async () => {
       badgeStatus.style.borderColor = isTrainer ? "rgba(16, 185, 129, 0.3)" : "rgba(56, 189, 248, 0.3)";
 
       toggleDemo.checked = !!res.forceDemoMode;
+
+      // Populate API key inputs if saved
+      const inputGemini = document.getElementById("input-gemini-key");
+      const inputGroq = document.getElementById("input-groq-key");
+      const badgeApiStatus = document.getElementById("badge-api-status");
+
+      if (inputGemini && res.geminiApiKey) {
+        inputGemini.value = res.geminiApiKey;
+      }
+      if (inputGroq && res.groqApiKey) {
+        inputGroq.value = res.groqApiKey;
+      }
+      if (badgeApiStatus) {
+        const hasKey = !!(res.geminiApiKey || res.groqApiKey);
+        badgeApiStatus.textContent = hasKey ? "READY" : "OFFLINE";
+        badgeApiStatus.style.color = hasKey ? "#10B981" : "#94A3B8";
+      }
+    });
+  }
+
+  // Save API Keys to browser local storage
+  const btnSaveKeys = document.getElementById("btn-save-keys");
+  const inputGemini = document.getElementById("input-gemini-key");
+  const inputGroq = document.getElementById("input-groq-key");
+  const labelKeysSaved = document.getElementById("label-keys-saved");
+  const badgeApiStatus = document.getElementById("badge-api-status");
+
+  if (btnSaveKeys && inputGemini && inputGroq) {
+    btnSaveKeys.addEventListener("click", () => {
+      const geminiApiKey = inputGemini.value.trim();
+      const groqApiKey = inputGroq.value.trim();
+
+      chrome.storage.local.set({ geminiApiKey, groqApiKey }, () => {
+        if (labelKeysSaved) {
+          labelKeysSaved.style.display = "block";
+          setTimeout(() => { labelKeysSaved.style.display = "none"; }, 2500);
+        }
+        if (badgeApiStatus) {
+          const hasKey = !!(geminiApiKey || groqApiKey);
+          badgeApiStatus.textContent = hasKey ? "READY" : "OFFLINE";
+          badgeApiStatus.style.color = hasKey ? "#10B981" : "#94A3B8";
+        }
+      });
     });
   }
 

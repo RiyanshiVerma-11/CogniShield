@@ -18,6 +18,7 @@ slide_*.png
 
 # Environment and sensitive keys
 .env
+*.local.js
 credentials.json
 token.json
 

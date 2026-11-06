@@ -82,7 +82,7 @@
       if (window.CogniShieldHUD) {
         window.CogniShieldHUD.updateAmbientStatus(intensityScore, highlightStats.highlightedCount);
 
-        // 5. Match Dossier via Offline Cache & Dynamic Dialectic Synthesizer
+        // 5. Initial Instant Load via Deterministic Cache (Zero Latency Baseline)
         if (window.CogniShieldOffline) {
           const dossier = window.CogniShieldOffline.matchDossier(pageText, {
             title: document.title,
@@ -92,6 +92,43 @@
           dossier.bias_category = biasCategory;
           window.CogniShieldHUD.loadDossier(dossier);
         }
+
+        // 6. Live Multi-Tier AI Analysis (Gemini Flash Primary -> Groq Fallback)
+        if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.sendMessage) {
+          chrome.storage.local.get(["forceDemoMode"], (settings) => {
+            if (settings.forceDemoMode) {
+              console.log("[CogniShield] Demo Safety Net active. Running 100% offline.");
+              return;
+            }
+
+            chrome.runtime.sendMessage(
+              {
+                action: "ANALYZE_LIVE_CONTENT",
+                payload: {
+                  title: document.title,
+                  textPayload: pageText,
+                  url: window.location.href
+                }
+              },
+              (response) => {
+                if (chrome.runtime.lastError) {
+                  console.warn("[CogniShield] Live bridge error:", chrome.runtime.lastError.message);
+                  return;
+                }
+                if (response && response.status === "SUCCESS" && response.data) {
+                  console.log(`[CogniShield] Live analysis successfully loaded via ${response.tier}!`);
+                  const liveData = response.data;
+                  if (!liveData.contextTitle) {
+                    liveData.contextTitle = document.title.replace(/- YouTube.*$/i, "").trim();
+                  }
+                  window.CogniShieldHUD.loadDossier(liveData);
+                  const newScore = parseFloat(liveData.emotional_intensity) || intensityScore;
+                  window.CogniShieldHUD.updateAmbientStatus(newScore, highlightStats.highlightedCount);
+                }
+              }
+            );
+          });
+        }
       }
 
       hasScanned = true;
@@ -100,7 +137,13 @@
     }
   }
 
-  // Handle SPA dynamic navigation (YouTube, X, Reddit)
+  // Handle YouTube native SPA navigation
+  window.addEventListener("yt-navigate-finish", () => {
+    hasScanned = false;
+    setTimeout(runContentAnalysis, 1000);
+  });
+
+  // Handle generic SPA dynamic navigation (X, Reddit)
   let lastUrl = location.href;
   new MutationObserver(() => {
     const currentUrl = location.href;
