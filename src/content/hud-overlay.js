@@ -193,9 +193,10 @@ class HUDOverlayController {
       }
     });
 
-    // Close on Escape key
+    // Close on Escape key (only when modal is active)
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
+      const backdrop = document.getElementById("cognishield-modal-backdrop");
+      if (e.key === "Escape" && backdrop && backdrop.classList.contains("active")) {
         this.closeModal();
       }
     });
@@ -306,7 +307,7 @@ class HUDOverlayController {
             <circle cx="88" cy="70" r="12" fill="rgba(245, 158, 11, 0.3)" stroke="#F59E0B" stroke-width="1.5" />
             <text x="88" y="73" fill="#FEF3C7" font-size="7.5" font-weight="700" text-anchor="middle">Civic</text>
 
-            <circle cx="88" cy="30" r="12" fill="rgba(168, 85, 247, 0.2)" stroke="#10B981" stroke-width="1.5" />
+            <circle cx="88" cy="30" r="12" fill="rgba(16, 185, 129, 0.25)" stroke="#10B981" stroke-width="1.5" />
             <text x="88" y="33" fill="#D1FAE5" font-size="7.5" font-weight="700" text-anchor="middle">Ethic</text>
 
             <!-- Current Feed Anchor Bubble (Glowing dot) -->
