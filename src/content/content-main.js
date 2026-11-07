@@ -41,7 +41,7 @@
         if (window.location.href !== targetUrl) return; // User clicked another video
         const titleEl = document.querySelector("h1.ytd-watch-metadata yt-formatted-string, #title h1, h1.title");
         const titleText = titleEl ? titleEl.textContent.trim() : "";
-        const docTitle = document.title.replace(/- YouTube.*$/i, "").trim();
+        const docTitle = document.title.replace(/^\(\d+\)\s*/, "").replace(/- YouTube.*$/i, "").trim();
 
         if (titleText && titleText !== lastAnalyzedTitle && titleText.toLowerCase() !== "youtube") break;
         if (docTitle && docTitle !== lastAnalyzedTitle && docTitle.toLowerCase() !== "youtube") break;
@@ -99,8 +99,9 @@
       }
 
       // Record this URL and title as analyzed
+      const cleanDocTitle = document.title.replace(/^\(\d+\)\s*/, "").replace(/- YouTube.*$/i, "").trim();
       lastAnalyzedUrl = targetUrl;
-      lastAnalyzedTitle = document.title.replace(/- YouTube.*$/i, "").trim();
+      lastAnalyzedTitle = cleanDocTitle;
 
       // 2. Client-side Manipulation Highlight Pass (Tier 0: 0ms, 0W)
       let highlightStats = { highlightedCount: 0 };
@@ -127,7 +128,7 @@
         // 5. Initial Instant Load via Deterministic Cache (Zero Latency Baseline)
         if (window.CogniShieldOffline) {
           const dossier = window.CogniShieldOffline.matchDossier(pageText, {
-            title: document.title,
+            title: cleanDocTitle,
             hostname: window.location.hostname
           });
           dossier.emotional_intensity = intensityScore;
@@ -147,7 +148,7 @@
               {
                 action: "ANALYZE_LIVE_CONTENT",
                 payload: {
-                  title: document.title,
+                  title: cleanDocTitle,
                   textPayload: pageText,
                   url: window.location.href
                 }
@@ -164,7 +165,7 @@
                   console.log(`[CogniShield] Live analysis successfully loaded via ${response.tier}!`);
                   const liveData = response.data;
                   if (!liveData.contextTitle) {
-                    liveData.contextTitle = document.title.replace(/- YouTube.*$/i, "").trim();
+                    liveData.contextTitle = cleanDocTitle;
                   }
                   window.CogniShieldHUD.loadDossier(liveData, highlightStats.categoryCounts);
                   const newScore = parseFloat(liveData.emotional_intensity) || intensityScore;

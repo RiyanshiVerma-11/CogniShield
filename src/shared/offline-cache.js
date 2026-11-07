@@ -322,6 +322,7 @@ class OfflineCacheManager {
    */
   generateUniversalDossier(title) {
     const cleanTitle = (title || "Online Narrative")
+      .replace(/^\(\d+\)\s*/, "")
       .replace(/- YouTube.*$/i, "")
       .replace(/\|.*$/i, "")
       .replace(/youtube news - Google Search/i, "Electoral & News Report")
@@ -377,7 +378,11 @@ class OfflineCacheManager {
    */
   matchDossier(text, context = {}) {
     const contextTitle = context.title || "";
-    const cleanTitle = contextTitle.replace(/- YouTube.*$/i, "").replace(/\|.*$/i, "").trim();
+    const cleanTitle = contextTitle
+      .replace(/^\(\d+\)\s*/, "")
+      .replace(/- YouTube.*$/i, "")
+      .replace(/\|.*$/i, "")
+      .trim();
     const fullText = `${cleanTitle} ${text || ""}`.toLowerCase();
 
     let matchedDossier = null;

@@ -99,7 +99,7 @@ class YouTubeScraper {
       if (titleEl && titleEl.textContent) {
         title = titleEl.textContent.trim();
       } else {
-        title = document.title.replace("- YouTube", "").trim();
+        title = document.title.replace(/^\(\d+\)\s*/, "").replace(/- YouTube.*$/i, "").trim();
       }
 
       // Extract description
