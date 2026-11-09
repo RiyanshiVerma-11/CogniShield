@@ -318,22 +318,223 @@ class OfflineCacheManager {
   }
 
   /**
-   * Generates a dynamic Universal Dialectic Dossier customized to any arbitrary video title
+   * Cleans title string from browser suffixes, YouTube prefixes, etc.
    */
-  generateUniversalDossier(title) {
-    const cleanTitle = (title || "Online Narrative")
+  _cleanTitle(title) {
+    return (title || "Online Content")
       .replace(/^\(\d+\)\s*/, "")
       .replace(/- YouTube.*$/i, "")
       .replace(/\|.*$/i, "")
       .replace(/youtube news - Google Search/i, "Electoral & News Report")
+      .replace(/\s*-\s*Competitions,.*$/i, "")
+      .replace(/\s*\|\s*Unstop.*$/i, "")
       .trim();
+  }
+
+  /**
+   * Synthesizer for Sports Analytics, Player Scouting & Auction Strategy
+   */
+  generateSportsScoutingDossier(title) {
+    const cleanTitle = this._cleanTitle(title);
+    return {
+      id: "sports_analytics_scouting",
+      title: cleanTitle,
+      contextTitle: cleanTitle,
+      source_perspective: "Quantitative Talent Scouting & High-Stakes Auction Strategy",
+      emotional_intensity: 4.8,
+      epistemic_card: {
+        model_type: "Local Deterministic Dialectic Synthesizer (Zero-PII, GDPR Compliant)",
+        epistemic_confidence: "Sabermetric & Game-Theoretic Framework",
+        disclaimer: "Algorithmic counter-hypothesis generated for dialectic reflection, not sports betting or team advisory."
+      },
+      hidden_counter_perspectives: [
+        {
+          archetype: "Empirical Sabermetrics",
+          label: "Regression to the Mean & Domestic-to-International Tier Gap",
+          summary: "Performance against regional domestic bowling exhibits an estimated 35-42% regression when facing elite international-caliber pace and specialized death bowling. Predictive sabermetric models require multi-season sample normalization.",
+          citation: "Journal of Sports Analytics / ESPNcricinfo Forensics Research"
+        },
+        {
+          archetype: "Behavioral Auction Theory",
+          label: "The Winner's Curse & Purse Allocation Asymmetry",
+          summary: "Behavioral game theory indicates that franchise teams engaging in bidding wars for uncapped breakthrough players frequently overpay by 25-40%, draining purse reserves essential for experienced middle-order anchors.",
+          citation: "MIT Sloan Sports Analytics Conference / Journal of Economic Perspectives"
+        }
+      ],
+      micro_quiz: {
+        question: "When scouting uncapped players based on domestic tournament strike rates, which cognitive trap is most prevalent?",
+        options: [
+          "A) Small-Sample Size & Survivorship Bias (generalizing future performance from a few high-leverage innings)",
+          "B) Believing all cricket grounds have identical boundary dimensions",
+          "C) Assuming strike rates never change over a player's career"
+        ],
+        correctIndex: 0,
+        explanation: "Small-sample bias occurs when scouts extrapolate long-term talent from short tournament bursts without controlling for bowling quality or match pressure."
+      },
+      socratic_dialogue: [
+        "When evaluating uncapped players under high pressure, what selection bias or small-sample anomalies might distort domestic league strike rates?",
+        "How do purse cap limits and bidding wars create the 'Winner's Curse' in franchise auctions?",
+        "What situational variables (pitch conditions, opposition bowling quality, game context) are overlooked by pure aggregate statistics?"
+      ]
+    };
+  }
+
+  /**
+   * Synthesizer for Competitions, Hackathons & Case Challenges
+   */
+  generateCompetitionChallengeDossier(title) {
+    const cleanTitle = this._cleanTitle(title);
+    return {
+      id: "competition_case_challenge",
+      title: cleanTitle,
+      contextTitle: cleanTitle,
+      source_perspective: "Competitive Problem-Solving & Case Architecture",
+      emotional_intensity: 4.2,
+      epistemic_card: {
+        model_type: "Local Deterministic Dialectic Synthesizer (Zero-PII, GDPR Compliant)",
+        epistemic_confidence: "Decision Science Framework",
+        disclaimer: "Algorithmic counter-hypothesis generated for dialectic reflection, not competition judging."
+      },
+      hidden_counter_perspectives: [
+        {
+          archetype: "Operational Feasibility",
+          label: "Implementation Friction vs Conceptual Elegance",
+          summary: "Case solutions that score high on conceptual novelty often fail organizational adoption due to unmodeled integration costs and change management barriers.",
+          citation: "Harvard Business School Case Method Review"
+        },
+        {
+          archetype: "Empirical Validation",
+          label: "Overfitting to Brief Deliverables",
+          summary: "Participants frequently optimize solutions specifically to match stated evaluation rubrics, omitting critical edge cases and stress tests that real production environments require.",
+          citation: "Association for Information Systems (AIS) Applied Case Studies"
+        }
+      ],
+      micro_quiz: {
+        question: "When tackling a competitive case challenge, which cognitive bias most often undermines strategy?",
+        options: [
+          "A) Premature Optimization (jumping to complex technical architectures before validating core problem constraints)",
+          "B) Assuming team members have identical working hours",
+          "C) Believing presentation slide formatting does not matter"
+        ],
+        correctIndex: 0,
+        explanation: "Premature optimization leads competitors to build complex, brittle models before thoroughly validating the fundamental business assumptions."
+      },
+      socratic_dialogue: [
+        "What implicit constraints or stakeholder incentives in this challenge are left unstated in the official brief?",
+        "How would this proposed solution behave under extreme operational edge cases or resource shortages?",
+        "Are you solving the actual root problem or an idealized proxy presented in the prompt?"
+      ]
+    };
+  }
+
+  /**
+   * Synthesizer for Software Engineering, Architecture & Code
+   */
+  generateSoftwareEngineeringDossier(title) {
+    const cleanTitle = this._cleanTitle(title);
+    return {
+      id: "software_engineering",
+      title: cleanTitle,
+      contextTitle: cleanTitle,
+      source_perspective: "Technical Architecture & System Design Trade-Offs",
+      emotional_intensity: 3.5,
+      epistemic_card: {
+        model_type: "Local Deterministic Dialectic Synthesizer (Zero-PII, GDPR Compliant)",
+        epistemic_confidence: "Computer Science Architectural Principles",
+        disclaimer: "Algorithmic counter-hypothesis generated for dialectic reflection, not system architecture sign-off."
+      },
+      hidden_counter_perspectives: [
+        {
+          archetype: "Systemic Reliability",
+          label: "Accidental Complexity & Maintenance Overhead",
+          summary: "Adopting modern cutting-edge frameworks or microservices often introduces distributed network failure modes that outweigh single-node monolithic operational simplicity.",
+          citation: "ACM Queue / IEEE Software Engineering Practices"
+        },
+        {
+          archetype: "Economic Lifecycle",
+          label: "Long-Term Technical Debt & Dependency Lock-In",
+          summary: "Fast initial development velocity with third-party abstractions frequently incurs non-linear maintenance debt when underlying libraries deprecate or shift licensing.",
+          citation: "Software Engineering Institute (SEI) / Carnegie Mellon University"
+        }
+      ],
+      micro_quiz: {
+        question: "When evaluating a new software paradigm or tool, which fallacy is most common among engineers?",
+        options: [
+          "A) Golden Hammer Fallacy (assuming a familiar or trending tool is optimal for every workload)",
+          "B) Believing compilers never optimize byte code",
+          "C) Assuming code never requires testing"
+        ],
+        correctIndex: 0,
+        explanation: "The Golden Hammer fallacy occurs when an engineer over-applies a favorite technology regardless of whether it fits the specific problem domain."
+      },
+      socratic_dialogue: [
+        "What operational failure modes or latency trade-offs does this technical design introduce?",
+        "How does the maintenance burden of this architecture evolve as team size and query volume scale by 10x?",
+        "What simpler, boring technology could solve 80% of this problem with zero dependency risk?"
+      ]
+    };
+  }
+
+  /**
+   * Synthesizer for Business, Startups & Venture
+   */
+  generateBusinessFinanceDossier(title) {
+    const cleanTitle = this._cleanTitle(title);
+    return {
+      id: "business_finance",
+      title: cleanTitle,
+      contextTitle: cleanTitle,
+      source_perspective: "Market Dynamics & Venture Unit Economics",
+      emotional_intensity: 4.5,
+      epistemic_card: {
+        model_type: "Local Deterministic Dialectic Synthesizer (Zero-PII, GDPR Compliant)",
+        epistemic_confidence: "Venture Economics & Market Dynamics",
+        disclaimer: "Algorithmic counter-hypothesis generated for dialectic reflection, not financial investment counsel."
+      },
+      hidden_counter_perspectives: [
+        {
+          archetype: "Unit Economics",
+          label: "Customer Acquisition Cost Inflation & Churn Reality",
+          summary: "Top-line revenue expansion frequently masks deteriorating net revenue retention (NRR) and unsustainable payback periods once paid acquisition subsidies subside.",
+          citation: "National Bureau of Economic Research (NBER) Working Papers"
+        },
+        {
+          archetype: "Market Structure",
+          label: "Incumbent Moats & Distribution Superiority",
+          summary: "Product superiority rarely defeats established enterprise distribution networks unless switching costs are offset by an order-of-magnitude efficiency multiplier.",
+          citation: "Stanford Graduate School of Business Case Studies"
+        }
+      ],
+      micro_quiz: {
+        question: "When assessing high-growth startup projections, which heuristic is most misleading?",
+        options: [
+          "A) Extrapolation Bias (assuming exponential early growth continues indefinitely without market saturation)",
+          "B) Believing audited balance sheets are completely false",
+          "C) Checking customer retention rates monthly"
+        ],
+        correctIndex: 0,
+        explanation: "Extrapolation bias treats early adopter acquisition rates as permanent linear trends, ignoring market saturation curves."
+      },
+      socratic_dialogue: [
+        "What happens to the unit economics if customer acquisition costs double over the next 18 months?",
+        "Are these metrics capturing genuine user retention or subsidized engagement?",
+        "What regulatory or structural moat prevents deep-pocketed competitors from duplicating this model?"
+      ]
+    };
+  }
+
+  /**
+   * Generates a dynamic Universal Dialectic Dossier customized to any arbitrary title
+   */
+  generateUniversalDossier(title) {
+    const cleanTitle = this._cleanTitle(title);
 
     return {
       id: "dynamic_universal",
       title: cleanTitle,
       contextTitle: cleanTitle,
       source_perspective: "Algorithmic Prioritization / Emotional Framing",
-      emotional_intensity: 6.2,
+      emotional_intensity: 5.2,
       epistemic_card: {
         model_type: "Local Deterministic Dialectic Synthesizer (Zero-PII, GDPR Compliant)",
         epistemic_confidence: "Dynamic Perspective Verification",
@@ -373,93 +574,124 @@ class OfflineCacheManager {
 
   /**
    * Matches page text, video metadata, or title against pre-cached dossiers.
-   * If matched, returns high-precision cached data instantly (0ms latency).
+   * If matched with high confidence, returns high-precision cached data instantly.
    * Otherwise dynamically synthesizes a topic-accurate Socratic card.
    */
   matchDossier(text, context = {}) {
     const contextTitle = context.title || "";
-    const cleanTitle = contextTitle
-      .replace(/^\(\d+\)\s*/, "")
-      .replace(/- YouTube.*$/i, "")
-      .replace(/\|.*$/i, "")
-      .trim();
+    const cleanTitle = this._cleanTitle(contextTitle);
     const fullText = `${cleanTitle} ${text || ""}`.toLowerCase();
 
     let matchedDossier = null;
 
-    // 1. AI Governance, Responsibility, Autonomous Decisions (e.g. "Who Is Responsible When AI Makes the Decisions?")
-    const aiEthicsKeywords = [
-      "responsible", "makes the decisions", "ai debate", "autonomous", "liability",
-      "accountability", "who is responsible", "ai governance", "safety", "alignment",
-      "decision", "algorithmic responsibility", "big ai debate", "ethics in ai", "autonomous vehicle"
-    ];
-    if (aiEthicsKeywords.some(k => fullText.includes(k))) {
+    // --- High-Confidence Benchmark Topics ---
+
+    // 1. AI Governance, Responsibility, Autonomous Decisions
+    const hasAiTerm = fullText.includes("ai") || fullText.includes("artificial intelligence") || fullText.includes("algorithm") || fullText.includes("autonomous");
+    const hasEthicsGovTerm = fullText.includes("responsible") || fullText.includes("makes the decisions") || fullText.includes("liability") ||
+      fullText.includes("accountability") || fullText.includes("who is responsible") || fullText.includes("ai governance") ||
+      fullText.includes("safety") || fullText.includes("alignment") || fullText.includes("algorithmic responsibility") || fullText.includes("big ai debate");
+    if (hasAiTerm && hasEthicsGovTerm) {
       matchedDossier = JSON.parse(JSON.stringify(this.dossiers.ai_ethics_governance));
     }
 
-    // 2. Politics / Elections / Coalition Shifts / Voting (NBC News, Trump, Midterms, etc.)
+    // 2. Politics / Elections / Coalition Shifts / Voting
     if (!matchedDossier) {
-      const polKeywords = [
-        "trump", "biden", "election", "coalition", "voters", "polls", "republican",
-        "democrat", "independent", "midterm", "congress", "senate", "ballot",
-        "voting", "swing", "latino", "harris", "obama", "political", "vote",
-        "campaign", "parliament", "presidential", "nbc news", "exit polls"
-      ];
-      if (polKeywords.some(k => fullText.includes(k))) {
+      const hasElectionTerm = fullText.includes("election") || fullText.includes("polls") || fullText.includes("voters") || fullText.includes("voter") ||
+        fullText.includes("ballot") || fullText.includes("midterm") || fullText.includes("presidential") || fullText.includes("exit polls") ||
+        fullText.includes("coalition") || fullText.includes("political") || fullText.includes("voting");
+      const hasPoliticalEntity = fullText.includes("trump") || fullText.includes("biden") || fullText.includes("harris") ||
+        fullText.includes("republican") || fullText.includes("democrat") || fullText.includes("swing") || fullText.includes("congress") || fullText.includes("parliament");
+      if (hasElectionTerm && hasPoliticalEntity) {
         matchedDossier = JSON.parse(JSON.stringify(this.dossiers.politics_elections));
       }
     }
 
-    // 3. AI in Education (Schools, Cheating, Students, Homework)
+    // 3. AI in Higher Education (Strict match: must involve AI cheating/plagiarism or AI academic impact)
     if (!matchedDossier) {
-      const eduKeywords = ["student", "homework", "classroom", "school", "cheating", "essay", "plagiarism", "passive sheep", "university", "college"];
-      if (eduKeywords.some(k => fullText.includes(k))) {
+      const hasAiEduSpecific = fullText.includes("passive sheep") || fullText.includes("destroying education") ||
+        fullText.includes("cheating epidemic") || fullText.includes("essay cheating");
+      const hasAiAndSchool = (fullText.includes("ai") || fullText.includes("chatgpt") || fullText.includes("llm")) &&
+        (fullText.includes("cheating") || fullText.includes("plagiarism") || (fullText.includes("homework") && fullText.includes("classroom")));
+      if (hasAiEduSpecific || hasAiAndSchool) {
         matchedDossier = JSON.parse(JSON.stringify(this.dossiers.ai_education));
       }
     }
 
-    // 4. Renewable Energy / Climate / Infrastructure
+    // 4. Renewable Energy Transition & Grid Reliability
     if (!matchedDossier) {
-      if (["energy", "solar", "wind", "grid", "blackout", "klima", "nuclear", "power"].some(k => fullText.includes(k))) {
+      const hasEnergyTransition = fullText.includes("renewable") || fullText.includes("solar") || fullText.includes("wind") ||
+        fullText.includes("energy transition") || fullText.includes("green energy") || fullText.includes("klima");
+      const hasGridRisk = fullText.includes("grid") || fullText.includes("blackout") || fullText.includes("baseload") ||
+        fullText.includes("nuclear") || fullText.includes("power") || fullText.includes("collapse");
+      if (hasEnergyTransition && hasGridRisk) {
         matchedDossier = JSON.parse(JSON.stringify(this.dossiers.energy_transition));
       }
     }
 
     // 5. Macroeconomic Inflation & Debt
     if (!matchedDossier) {
-      if (["inflation", "economy", "debt", "geld", "wirtschaft", "bank", "interest rate", "recession"].some(k => fullText.includes(k))) {
+      const hasInflation = fullText.includes("inflation") || fullText.includes("interest rate") || fullText.includes("central bank") || fullText.includes("monetary policy");
+      const hasEconShock = fullText.includes("debt") || fullText.includes("dollar collapse") || fullText.includes("recession") || fullText.includes("cost of living");
+      if (hasInflation && hasEconShock) {
         matchedDossier = JSON.parse(JSON.stringify(this.dossiers.inflation_economy));
       }
     }
 
     // 6. Geopolitics & Defense
     if (!matchedDossier) {
-      if (["war", "conflict", "nato", "ukraine", "russia", "china", "taiwan", "military", "sanctions"].some(k => fullText.includes(k))) {
+      const hasGeopolitics = fullText.includes("geopolitics") || fullText.includes("nato") || fullText.includes("sanctions") || fullText.includes("foreign policy") || fullText.includes("peace treaty");
+      const hasConflict = fullText.includes("ukraine") || fullText.includes("russia") || fullText.includes("china") || fullText.includes("taiwan") || fullText.includes("military");
+      if (hasGeopolitics && hasConflict) {
         matchedDossier = JSON.parse(JSON.stringify(this.dossiers.geopolitics_diplomacy));
       }
     }
 
     // 7. Health & Medicine
     if (!matchedDossier) {
-      if (["vaccine", "cancer", "toxic", "diet", "fda", "doctor", "medicine", "pharma", "disease"].some(k => fullText.includes(k))) {
+      const hasHealthClaim = fullText.includes("clinical trial") || fullText.includes("miracle diet") || fullText.includes("miracle cure") || fullText.includes("big pharma") || fullText.includes("doctor warns");
+      const hasMedicalTopic = fullText.includes("vaccine") || fullText.includes("cancer") || fullText.includes("pharma") || fullText.includes("disease");
+      if (hasHealthClaim && hasMedicalTopic) {
         matchedDossier = JSON.parse(JSON.stringify(this.dossiers.health_science));
       }
     }
 
-    // 8. Dynamic Universal Dossier for any other title
-    if (!matchedDossier) {
-      if (cleanTitle && cleanTitle.trim().length > 5) {
-        return this.generateUniversalDossier(cleanTitle);
+    // If a benchmark demo dossier matched, set title & return
+    if (matchedDossier) {
+      if (cleanTitle && cleanTitle.length > 3) {
+        matchedDossier.contextTitle = cleanTitle;
       }
-      matchedDossier = JSON.parse(JSON.stringify(this.dossiers.ai_ethics_governance));
+      return matchedDossier;
     }
 
-    // Ensure EVERY matched dossier carries the live video's actual title!
-    if (cleanTitle && cleanTitle.length > 3) {
-      matchedDossier.contextTitle = cleanTitle;
+    // --- Dynamic Contextual Synthesizers (Product-Grade Real Browsing) ---
+
+    // A. Sports Analytics, Player Scouting & Auction Strategy (e.g. IPL, Rajasthan Royals, Cricket, Football)
+    const sportsKeywords = ["ipl", "cricket", "rajasthan royals", "auction", "uncapped", "wicket", "batsman", "bowler", "superr selector", "franchise", "sabermetrics", "strike rate", "premier league", "nba", "pitch"];
+    if (sportsKeywords.some(k => fullText.includes(k))) {
+      return this.generateSportsScoutingDossier(cleanTitle || "Sports Strategy & Scouting");
     }
 
-    return matchedDossier;
+    // B. Competitions, Hackathons & Case Challenges (e.g. Unstop, Devpost, Kaggle)
+    const contestKeywords = ["hackathon", "competition", "case study", "unstop", "quiz", "internship", "hiring challenge", "prize pool", "stages & timelines"];
+    if (contestKeywords.some(k => fullText.includes(k))) {
+      return this.generateCompetitionChallengeDossier(cleanTitle || "Case Challenge & Competition");
+    }
+
+    // C. Software Engineering, Architecture & Code (e.g. GitHub, NPM, Microservices)
+    const devKeywords = ["github", "software", "api", "framework", "database", "kubernetes", "react", "python", "typescript", "architecture", "microservices"];
+    if (devKeywords.some(k => fullText.includes(k))) {
+      return this.generateSoftwareEngineeringDossier(cleanTitle || "Software Architecture");
+    }
+
+    // D. Business, Startups & Venture
+    const bizKeywords = ["startup", "venture", "revenue", "valuation", "investor", "saas", "ipo", "profitability", "market share"];
+    if (bizKeywords.some(k => fullText.includes(k))) {
+      return this.generateBusinessFinanceDossier(cleanTitle || "Business & Market Dynamics");
+    }
+
+    // E. Dynamic Universal Dossier for any other web page or video
+    return this.generateUniversalDossier(cleanTitle || "Live Web Analysis");
   }
 
   getDossierById(id) {

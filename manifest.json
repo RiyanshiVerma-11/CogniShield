@@ -17,6 +17,10 @@
     },
     "default_title": "CogniShield: Cognitive Health & Agency"
   },
+  "options_ui": {
+    "page": "src/dashboard/dashboard.html",
+    "open_in_tab": true
+  },
   "background": {
     "service_worker": "src/background/service-worker.js",
     "type": "module"

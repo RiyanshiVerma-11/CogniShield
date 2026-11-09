@@ -15,10 +15,13 @@ class NewsScraper {
     const paragraphs = [];
 
     try {
-      // 1. Article Headline
-      const h1 = document.querySelector("article h1, main h1, h1");
-      if (h1) headline = h1.innerText.trim();
-      else headline = document.title;
+      // 1. Article / Page Headline
+      const h1 = document.querySelector("article h1, main h1, h1, [role='heading'][aria-level='1'], [role='heading']");
+      if (h1 && h1.innerText && h1.innerText.trim().length > 3) {
+        headline = h1.innerText.trim();
+      } else {
+        headline = document.title;
+      }
 
       // 2. Lead paragraphs (first 3-4 paragraphs)
       const pNodes = document.querySelectorAll("article p, main p, .article-body p, .story-body p, .content p");

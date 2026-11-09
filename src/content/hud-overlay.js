@@ -36,13 +36,12 @@ class HUDOverlayController {
 
     // Create Floating Trigger
     this.container.innerHTML = `
-      <div class="cognishield-floating-trigger" id="cognishield-trigger-btn" title="CogniShield: Click to inspect hidden perspectives & test critical agency">
+      <div class="cognishield-floating-trigger" id="cognishield-trigger-btn" title="CogniShield: Drag to reposition • Click to inspect hidden perspectives">
         <div class="cognishield-badge-icon cognishield-glow-green" id="cognishield-glow-dot">
-          <span style="font-size: 13px;">🛡️</span>
+          <span style="font-size: 10px;">🛡️</span>
         </div>
         <div class="cognishield-trigger-text-group">
           <span class="cognishield-badge-text">CogniShield</span>
-          <span class="cognishield-badge-sub">Copilot Active</span>
         </div>
         <span class="cognishield-badge-score" id="cognishield-badge-intensity">0.0</span>
       </div>
@@ -74,6 +73,7 @@ class HUDOverlayController {
                 <span class="agency-score-lbl">AGENCY</span>
               </div>
               <div class="cognishield-header-actions">
+                <button class="cognishield-header-btn" id="cognishield-dash-btn" title="Open Cognitive Health Dashboard">📊</button>
                 <button class="cognishield-header-btn" id="cognishield-expand-btn" title="Toggle Focus Mode (Expand / Compact)">⤢</button>
                 <button class="cognishield-modal-close" id="cognishield-close-btn" title="Close Panel">&times;</button>
               </div>
@@ -98,11 +98,46 @@ class HUDOverlayController {
 
     target.appendChild(this.container);
 
-    // Event listeners
+    // Event listeners & Draggable floating trigger
     const triggerBtn = document.getElementById("cognishield-trigger-btn");
     if (triggerBtn) {
+      let isDragging = false;
+      let startX = 0;
+      let startY = 0;
+      let initialRight = 20;
+      let initialBottom = 20;
+      let hasMoved = false;
+
+      triggerBtn.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        hasMoved = false;
+        startX = e.clientX;
+        startY = e.clientY;
+        const rect = triggerBtn.getBoundingClientRect();
+        initialRight = window.innerWidth - rect.right;
+        initialBottom = window.innerHeight - rect.bottom;
+      });
+
+      document.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        const dx = startX - e.clientX;
+        const dy = startY - e.clientY;
+        if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+          hasMoved = true;
+        }
+        const newRight = Math.max(8, Math.min(window.innerWidth - 60, initialRight + dx));
+        const newBottom = Math.max(8, Math.min(window.innerHeight - 40, initialBottom + dy));
+        triggerBtn.style.right = `${newRight}px`;
+        triggerBtn.style.bottom = `${newBottom}px`;
+      });
+
+      document.addEventListener("mouseup", () => {
+        isDragging = false;
+      });
+
       triggerBtn.addEventListener("click", (e) => {
         e.stopPropagation();
+        if (hasMoved) return; // Ignore click if user was dragging it away from page buttons
         this.toggleModal();
       });
     }
@@ -112,6 +147,16 @@ class HUDOverlayController {
       closeBtn.addEventListener("click", (e) => {
         e.stopPropagation();
         this.closeModal();
+      });
+    }
+
+    const dashBtn = document.getElementById("cognishield-dash-btn");
+    if (dashBtn) {
+      dashBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.sendMessage) {
+          chrome.runtime.sendMessage({ action: "OPEN_DASHBOARD" });
+        }
       });
     }
 
@@ -357,11 +402,11 @@ class HUDOverlayController {
     // 1. Dynamic Emotional Temperature / Outrage Meter readings
     const intensityNum = typeof data.emotional_intensity === "number" 
       ? data.emotional_intensity 
-      : (parseFloat(data.emotional_intensity) || 5.8);
+      : (parseFloat(data.emotional_intensity) || 0);
     const intensityFormatted = intensityNum.toFixed(1);
-    const meterPct = Math.min(100, Math.max(12, Math.round(intensityNum * 10)));
+    const meterPct = Math.min(100, Math.max(0, Math.round(intensityNum * 10)));
     const meterColor = intensityNum >= 7 ? "#EF4444" : (intensityNum >= 4 ? "#F59E0B" : "#10B981");
-    const meterLabel = intensityNum >= 7 ? "High Outrage Framing" : (intensityNum >= 4 ? "Elevated Emotional Heat" : "Calm / Analytical");
+    const meterLabel = intensityNum >= 7 ? "High Outrage Framing" : (intensityNum >= 4 ? "Elevated Emotional Heat" : (intensityNum > 0 ? "Calm / Analytical" : "Neutral / Objective"));
 
     // Dynamic Bias match counts (from live DOM highlighter or fallback from dossier)
     let cOutrage = categoryCounts.outrage_anger !== undefined ? categoryCounts.outrage_anger : 0;
@@ -370,8 +415,8 @@ class HUDOverlayController {
     let cUrgency = categoryCounts.urgency_panic !== undefined ? categoryCounts.urgency_panic : 0;
 
     const totalMatches = cOutrage + cCertainty + cTribal + cUrgency;
-    if (totalMatches === 0) {
-      // Dynamic fallback derived from intensity
+    if (totalMatches === 0 && intensityNum >= 3.5) {
+      // Dynamic fallback derived from detected emotional intensity
       if (intensityNum >= 6) {
         cOutrage = Math.max(1, Math.floor(intensityNum / 3));
         cUrgency = 1;
@@ -695,14 +740,23 @@ class HUDOverlayController {
         // Log interaction to local storage
         if (window.CogniShieldStorage) {
           const dwell = Math.round((Date.now() - this.startTime) / 1000);
-          window.CogniShieldStorage.logSession({
-            domain: window.location.hostname,
-            quizAnswered: true,
-            quizCorrect: correct,
-            dwellSeconds: dwell,
-            emotionalIntensity: intensityNum,
-            biasCategory: data.bias_category || "outrage_anger"
-          });
+          if (this.activeSessionId && window.CogniShieldStorage.updateSession) {
+            window.CogniShieldStorage.updateSession(this.activeSessionId, {
+              quizAnswered: true,
+              quizCorrect: correct,
+              dwellSeconds: dwell
+            });
+          } else {
+            window.CogniShieldStorage.logSession({
+              title: document.title,
+              domain: window.location.hostname,
+              quizAnswered: true,
+              quizCorrect: correct,
+              dwellSeconds: dwell,
+              emotionalIntensity: intensityNum,
+              biasCategory: data.bias_category || "outrage_anger"
+            });
+          }
         }
       });
     });

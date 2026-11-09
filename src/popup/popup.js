@@ -16,6 +16,57 @@ document.addEventListener("DOMContentLoaded", async () => {
   const labelKeysSaved = document.getElementById("label-keys-saved");
   const badgeApiStatus = document.getElementById("badge-api-status");
 
+  const btnOpenDashboard = document.getElementById("btn-open-dashboard");
+  const statAgency = document.getElementById("stat-agency");
+  const statDiversity = document.getElementById("stat-diversity");
+
+  // Load dynamic metrics from IndexedDB
+  async function loadDynamicPopupStats() {
+    if (window.CogniShieldStorage && window.CogniShieldStorage.getAllSessions) {
+      try {
+        const sessions = await window.CogniShieldStorage.getAllSessions();
+        if (sessions && sessions.length > 0) {
+          let totalDwell = 0;
+          let correct = 0;
+          let totalQuizzes = 0;
+          const archetypes = { empirical: 0, economic: 0, statutory: 0, socio_ethical: 0 };
+
+          sessions.forEach(s => {
+            totalDwell += (typeof s.dwellSeconds === "number" ? s.dwellSeconds : (parseInt(s.dwellSeconds, 10) || 0));
+            if (s.quizAnswered) {
+              totalQuizzes++;
+              if (s.quizCorrect) correct++;
+            }
+            if (Array.isArray(s.epistemicArchetypes)) {
+              s.epistemicArchetypes.forEach(a => {
+                const k = (a || "").toLowerCase();
+                if (k.includes("econ")) archetypes.economic++;
+                else if (k.includes("statut") || k.includes("legal") || k.includes("juris")) archetypes.statutory++;
+                else if (k.includes("ethic") || k.includes("social") || k.includes("human")) archetypes.socio_ethical++;
+                else archetypes.empirical++;
+              });
+            }
+          });
+
+          const avgDwell = sessions.length > 0 ? (totalDwell / sessions.length) : 0;
+          let cas = 70;
+          let entropy = 1.6;
+          if (window.CogniShieldCognitive) {
+            cas = window.CogniShieldCognitive.calculateAgencyScore(avgDwell, correct, totalQuizzes, archetypes);
+            entropy = window.CogniShieldCognitive.calculatePerspectiveEntropy(archetypes);
+          }
+          const divPct = Math.min(100, Math.round((entropy / 2.0) * 100));
+
+          if (statAgency) statAgency.textContent = cas;
+          if (statDiversity) statDiversity.textContent = `${divPct}%`;
+        }
+      } catch (err) {
+        console.warn("[CogniShield Popup] Error loading stats:", err);
+      }
+    }
+  }
+  loadDynamicPopupStats();
+
   // Load saved state
   if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
     chrome.storage.local.get(["userMode", "forceDemoMode", "geminiApiKey", "groqApiKey"], (res) => {
@@ -40,6 +91,17 @@ document.addEventListener("DOMContentLoaded", async () => {
         const hasKey = !!(res.geminiApiKey || res.groqApiKey);
         badgeApiStatus.textContent = hasKey ? "READY" : "OFFLINE";
         badgeApiStatus.style.color = hasKey ? "#10B981" : "#94A3B8";
+      }
+    });
+  }
+
+  // Open Full Cognitive Dashboard
+  if (btnOpenDashboard) {
+    btnOpenDashboard.addEventListener("click", () => {
+      if (typeof chrome !== "undefined" && chrome.tabs && chrome.tabs.create) {
+        chrome.tabs.create({ url: chrome.runtime.getURL("src/dashboard/dashboard.html") });
+      } else {
+        window.open("../dashboard/dashboard.html", "_blank");
       }
     });
   }

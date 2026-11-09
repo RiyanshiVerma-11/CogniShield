@@ -42,10 +42,13 @@
       <span class="chip-platform">📰 Web News</span>
     </div>
 
-    <!-- Quick Scan Action -->
-    <div class="action-section">
+    <!-- Quick Scan & Dashboard Actions -->
+    <div class="action-section" style="display: flex; flex-direction: column; gap: 8px;">
       <button class="btn-primary" id="btn-trigger-scan">
         <span>⚡ Scan Current Feed Now</span>
+      </button>
+      <button class="btn-secondary" id="btn-open-dashboard" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); color: #38BDF8; font-weight: 600;">
+        <span>📊 Open Mind Fitness Dashboard ↗</span>
       </button>
     </div>
 
@@ -117,6 +120,8 @@
     </footer>
   </div>
 
+  <script src="../shared/cognitive-engine.js"></script>
+  <script src="../shared/local-storage.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

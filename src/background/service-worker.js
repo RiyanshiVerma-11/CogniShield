@@ -56,14 +56,33 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true;
   }
 
+  if (request.action === "OPEN_DASHBOARD") {
+    chrome.tabs.create({ url: chrome.runtime.getURL("src/dashboard/dashboard.html") });
+    sendResponse({ status: "OPENED" });
+    return true;
+  }
+
   if (request.action === "ANALYZE_LIVE_CONTENT") {
     chrome.storage.local.get(["forceDemoMode", "geminiApiKey", "groqApiKey"], async (settings) => {
       try {
+        let geminiKey = settings.geminiApiKey || "";
+        let groqKey = settings.groqApiKey || "";
+
+        if (!geminiKey || !groqKey) {
+          try {
+            const localMod = await import("../config/keys.local.js");
+            if (localMod?.LOCAL_AI_KEYS) {
+              if (!geminiKey) geminiKey = localMod.LOCAL_AI_KEYS.geminiApiKey || "";
+              if (!groqKey) groqKey = localMod.LOCAL_AI_KEYS.groqApiKey || "";
+            }
+          } catch (_) {}
+        }
+
         const textPayload = request.payload?.textPayload || request.payload?.title || "";
         const result = await aiBridge.dispatchAnalysis(textPayload, {
           forceDemoMode: !!settings.forceDemoMode,
-          geminiApiKey: settings.geminiApiKey || "",
-          groqApiKey: settings.groqApiKey || ""
+          geminiApiKey: geminiKey,
+          groqApiKey: groqKey
         });
         sendResponse(result);
       } catch (err) {

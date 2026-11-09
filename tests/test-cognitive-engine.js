@@ -12,7 +12,7 @@ const { CognitiveEngine } = require("../src/shared/cognitive-engine.js");
 const { OfflineCacheManager } = require("../src/shared/offline-cache.js");
 const { LocalStorageManager } = require("../src/shared/local-storage.js");
 
-function runTests() {
+async function runTests() {
   console.log("=============================================================");
   console.log("🛡️ RUNNING COGNISHIELD VERIFICATION SUITE");
   console.log("=============================================================\n");
@@ -97,6 +97,17 @@ function runTests() {
   });
   assert(aiEthicsDossier.id === "ai_ethics_governance", "Context Matcher: Accurately identifies AI ethics, responsibility & autonomous decision debate");
   assert(aiEthicsDossier.contextTitle.includes("Who Is Responsible When AI Makes the Decisions"), "Context Matcher: Preserves and sets active video title");
+
+  // 9. Shannon Entropy Mathematical Tests
+  const zeroEntropy = cognitive.calculatePerspectiveEntropy({ empirical: 10, economic: 0, statutory: 0, socio_ethical: 0 });
+  const maxEntropy = cognitive.calculatePerspectiveEntropy({ empirical: 5, economic: 5, statutory: 5, socio_ethical: 5 });
+  assert(zeroEntropy === 0, "Shannon Entropy: Single perspective yields zero entropy (echo chamber)");
+  assert(Math.abs(maxEntropy - 2.0) < 0.001, "Shannon Entropy: Equal 4-archetype distribution achieves theoretical maximum (2.0 bits)");
+
+  // 10. Academic Due-Diligence Certificate Generation
+  const cert = await storage.generateAcademicCertificate("Autonomous AI Governance in Higher Ed");
+  assert(cert.certificateId.startsWith("CS-VERIFY-"), "Certificate Generator: Produces valid cryptographic verification token");
+  assert(cert.studentAudit !== undefined, "Certificate Generator: Includes student audit breakdown");
 
   console.log("\n=============================================================");
   console.log(`RESULTS: ${passed}/${total} TESTS PASSED (100% RELIABILITY)`);

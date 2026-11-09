@@ -7,7 +7,7 @@
 
 export class AIBridge {
   constructor() {
-    this.geminiEndpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
+    this.geminiBase = "https://generativelanguage.googleapis.com/v1beta/models";
     this.groqEndpoint = "https://api.groq.com/openai/v1/chat/completions";
   }
 
@@ -62,60 +62,82 @@ Return only the raw JSON object. No markdown fences, no surrounding commentary.`
   async callGemini(contentPayload, apiKey) {
     if (!apiKey) throw new Error("No Gemini API key provided");
     const prompt = this.buildSystemPrompt(contentPayload);
-    const url = `${this.geminiEndpoint}?key=${apiKey}`;
+    const models = ["gemini-2.0-flash", "gemini-1.5-flash"];
+    let lastError = null;
 
-    const response = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: {
-          responseMimeType: "application/json",
-          temperature: 0.3
+    for (const model of models) {
+      try {
+        const url = `${this.geminiBase}/${model}:generateContent?key=${apiKey}`;
+        const response = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: {
+              responseMimeType: "application/json",
+              temperature: 0.3
+            }
+          })
+        });
+
+        if (!response.ok) {
+          const errText = await response.text();
+          throw new Error(`Gemini ${model} Error ${response.status}: ${errText}`);
         }
-      })
-    });
 
-    if (!response.ok) {
-      const errText = await response.text();
-      throw new Error(`Gemini API Error ${response.status}: ${errText}`);
+        const data = await response.json();
+        const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!rawText) throw new Error(`Empty response from Gemini ${model}`);
+
+        return this.parseCleanJson(rawText);
+      } catch (err) {
+        lastError = err;
+        console.warn(`[CogniShield Bridge] Gemini model ${model} failed:`, err.message);
+      }
     }
 
-    const data = await response.json();
-    const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!rawText) throw new Error("Empty response from Gemini");
-
-    return this.parseCleanJson(rawText);
+    throw lastError || new Error("All Gemini models failed");
   }
 
   async callGroq(contentPayload, apiKey) {
     if (!apiKey) throw new Error("No Groq API key provided");
     const prompt = this.buildSystemPrompt(contentPayload);
+    const models = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"];
+    let lastError = null;
 
-    const response = await fetch(this.groqEndpoint, {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${apiKey}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: "openai/gpt-oss-120b",
-        messages: [{ role: "user", content: prompt }],
-        temperature: 0.3,
-        response_format: { type: "json_object" }
-      })
-    });
+    for (const model of models) {
+      try {
+        const response = await fetch(this.groqEndpoint, {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${apiKey}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            model: model,
+            messages: [{ role: "user", content: prompt }],
+            temperature: 0.3,
+            response_format: { type: "json_object" }
+          })
+        });
 
-    if (!response.ok) {
-      const errText = await response.text();
-      throw new Error(`Groq API Error ${response.status}: ${errText}`);
+        if (!response.ok) {
+          const errText = await response.text();
+          throw new Error(`Groq ${model} Error ${response.status}: ${errText}`);
+        }
+
+        const data = await response.json();
+        const rawText = data.choices?.[0]?.message?.content;
+        if (!rawText) throw new Error(`Empty response from Groq ${model}`);
+
+        return this.parseCleanJson(rawText);
+      } catch (err) {
+        lastError = err;
+        console.warn(`[CogniShield Bridge] Groq model ${model} failed:`, err.message);
+      }
     }
 
-    const data = await response.json();
-    const rawText = data.choices?.[0]?.message?.content;
-    if (!rawText) throw new Error("Empty response from Groq");
-
-    return this.parseCleanJson(rawText);
+    throw lastError || new Error("All Groq models failed");
   }
 
   parseCleanJson(text) {

@@ -191,10 +191,15 @@ Our Green IT documentation benchmarks CogniShield against standard video stream 
 │   │   ├── hud-overlay.js            # 3-Tier Stepped Friction HUD & Socratic modal
 │   │   └── hud-styles.css            # Glassmorphic dark theme tokens & badge animations
 │   │
-│   └── popup/
-│       ├── popup.html                # Extension action popup
-│       ├── popup.css                 # Sleek dark styling (#0F172A, #F7941D, #10B981)
-│       └── popup.js                  # Mode switcher (Zen vs Trainer), Demo toggle, status
+│   ├── popup/
+│   │   ├── popup.html                # Extension action popup
+│   │   ├── popup.css                 # Sleek dark styling (#0F172A, #F7941D, #10B981)
+│   │   └── popup.js                  # Mode switcher (Zen vs Trainer), Demo toggle, status
+│   │
+│   └── dashboard/
+│       ├── dashboard.html            # Full-page Mind Fitness Tracker & Analytics Hub
+│       ├── dashboard.css             # Glassmorphic dark styling & responsive grid
+│       └── dashboard.js              # Radar SVG, Trends, Socratic Gym, Certificate & IndexedDB
 │
 └── assets/
     └── icons/                        # 16px, 48px, 128px shield logo icons

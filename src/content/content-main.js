@@ -9,8 +9,16 @@
   let lastAnalyzedUrl = "";
   let lastAnalyzedTitle = "";
   let activeScanId = 0;
+  let currentSessionId = null;
+  let currentSessionStartTime = Date.now();
+  let dwellTrackingInterval = null;
 
   async function initializeCogniShield() {
+    // Do not inject floating HUD trigger inside CogniShield's own dashboard or options page
+    if (window.location && window.location.pathname && window.location.pathname.includes("dashboard.html")) {
+      return;
+    }
+
     // 1. Initialize HUD Overlay
     if (window.CogniShieldHUD) {
       window.CogniShieldHUD.init();
@@ -62,13 +70,15 @@
     try {
       const hostname = window.location.hostname;
       let pageText = document.title;
+      let extractedHeadline = "";
       const elementsToScan = [];
 
       // 1. Platform-Specific Scraper Routing
       if (hostname.includes("youtube.com") && window.CogniShieldScraper) {
         const extracted = await window.CogniShieldScraper.extractVideoContext();
         pageText = extracted.textPayload || document.title;
-        const titleEl = document.querySelector("h1, #title, ytd-watch-metadata");
+        extractedHeadline = extracted.title || "";
+        const titleEl = document.querySelector("h1.ytd-watch-metadata yt-formatted-string, h1, #title");
         if (titleEl) elementsToScan.push(titleEl);
         document.querySelectorAll("#description, #content-text").forEach((el, i) => {
           if (i < 4) elementsToScan.push(el);
@@ -76,21 +86,24 @@
       } else if ((hostname.includes("twitter.com") || hostname.includes("x.com")) && window.CogniShieldTwitter) {
         const extracted = window.CogniShieldTwitter.extractTweetContext();
         pageText = extracted.textPayload || document.title;
+        extractedHeadline = extracted.author ? `Post by ${extracted.author}` : "";
         document.querySelectorAll("article [data-testid='tweetText']").forEach((el, i) => {
           if (i < 5) elementsToScan.push(el);
         });
       } else if (hostname.includes("reddit.com") && window.CogniShieldReddit) {
         const extracted = window.CogniShieldReddit.extractRedditContext();
         pageText = extracted.textPayload || document.title;
+        extractedHeadline = extracted.title || "";
         const titleEl = document.querySelector("h1, shreddit-post [slot='title']");
         if (titleEl) elementsToScan.push(titleEl);
         document.querySelectorAll("shreddit-comment [slot='comment'], .usertext-body").forEach((el, i) => {
           if (i < 4) elementsToScan.push(el);
         });
       } else if (window.CogniShieldNews) {
-        // Generic Web Article / News / Search
+        // Generic Web Article / News / Search / Competitions
         const extracted = window.CogniShieldNews.extractArticleContext();
         pageText = extracted.textPayload || document.title;
+        extractedHeadline = extracted.headline || "";
         const h1 = document.querySelector("h1, [role='heading']");
         if (h1) elementsToScan.push(h1);
         document.querySelectorAll("article p, main p, p").forEach((el, i) => {
@@ -98,10 +111,29 @@
         });
       }
 
+      // If no scraper headline found, inspect DOM for prominent heading
+      if (!extractedHeadline) {
+        const h1 = document.querySelector("h1, [role='heading']");
+        if (h1 && h1.innerText && h1.innerText.trim().length > 4) {
+          extractedHeadline = h1.innerText.trim();
+        }
+      }
+
       // Record this URL and title as analyzed
-      const cleanDocTitle = document.title.replace(/^\(\d+\)\s*/, "").replace(/- YouTube.*$/i, "").trim();
+      const cleanDocTitle = document.title
+        .replace(/^\(\d+\)\s*/, "")
+        .replace(/- YouTube.*$/i, "")
+        .replace(/\|.*$/i, "")
+        .replace(/\s*-\s*Competitions,.*$/i, "")
+        .replace(/\s*\|\s*Unstop.*$/i, "")
+        .trim();
+
+      const effectiveTitle = (extractedHeadline && extractedHeadline.length > 4)
+        ? extractedHeadline.trim()
+        : (cleanDocTitle || document.title || "Live Web Analysis");
+
       lastAnalyzedUrl = targetUrl;
-      lastAnalyzedTitle = cleanDocTitle;
+      lastAnalyzedTitle = effectiveTitle;
 
       // 2. Client-side Manipulation Highlight Pass (Tier 0: 0ms, 0W)
       let highlightStats = { highlightedCount: 0 };
@@ -109,31 +141,52 @@
         highlightStats = window.CogniShieldHighlighter.highlightElements(elementsToScan, "auto");
       }
 
-      // 3. Scan overall text intensity
-      let intensityScore = 3.0;
-      let biasCategory = "outrage_anger";
+      // 3. Scan overall text intensity dynamically
+      let intensityScore = 0;
+      let biasCategory = "neutral";
 
       if (window.CogniShieldRegex) {
         const scanRes = window.CogniShieldRegex.scanText(pageText, "auto");
-        intensityScore = Math.max(2.5, scanRes.score);
+        if (scanRes.score > 0) {
+          intensityScore = scanRes.score;
+        }
         if (scanRes.matches && scanRes.matches.length > 0) {
           biasCategory = scanRes.matches[0].category;
         }
+      }
+
+      // Match offline cache or dynamic topic synthesizer
+      let matchedDossier = null;
+      if (window.CogniShieldOffline) {
+        matchedDossier = window.CogniShieldOffline.matchDossier(pageText, {
+          title: effectiveTitle,
+          hostname: window.location.hostname
+        });
+      }
+
+      // Reconcile dynamic intensity and bias category
+      if (intensityScore > 0) {
+        if (matchedDossier) matchedDossier.emotional_intensity = intensityScore;
+      } else if (matchedDossier && matchedDossier.emotional_intensity) {
+        intensityScore = parseFloat(matchedDossier.emotional_intensity);
+      } else {
+        intensityScore = 1.5;
+        if (matchedDossier) matchedDossier.emotional_intensity = intensityScore;
+      }
+
+      if (biasCategory !== "neutral") {
+        if (matchedDossier) matchedDossier.bias_category = biasCategory;
+      } else if (matchedDossier && matchedDossier.bias_category) {
+        biasCategory = matchedDossier.bias_category;
       }
 
       // 4. Update Ambient Badge (Level 1 Subconscious Glow)
       if (window.CogniShieldHUD) {
         window.CogniShieldHUD.updateAmbientStatus(intensityScore, highlightStats.highlightedCount);
 
-        // 5. Initial Instant Load via Deterministic Cache (Zero Latency Baseline)
-        if (window.CogniShieldOffline) {
-          const dossier = window.CogniShieldOffline.matchDossier(pageText, {
-            title: cleanDocTitle,
-            hostname: window.location.hostname
-          });
-          dossier.emotional_intensity = intensityScore;
-          dossier.bias_category = biasCategory;
-          window.CogniShieldHUD.loadDossier(dossier, highlightStats.categoryCounts);
+        // 5. Initial Load into HUD via Cache / Synthesizer
+        if (matchedDossier) {
+          window.CogniShieldHUD.loadDossier(matchedDossier, highlightStats.categoryCounts);
         }
 
         // 6. Live Multi-Tier AI Analysis (Gemini Flash Primary -> Groq Fallback)
@@ -148,7 +201,7 @@
               {
                 action: "ANALYZE_LIVE_CONTENT",
                 payload: {
-                  title: cleanDocTitle,
+                  title: effectiveTitle,
                   textPayload: pageText,
                   url: window.location.href
                 }
@@ -165,21 +218,95 @@
                   console.log(`[CogniShield] Live analysis successfully loaded via ${response.tier}!`);
                   const liveData = response.data;
                   if (!liveData.contextTitle) {
-                    liveData.contextTitle = cleanDocTitle;
+                    liveData.contextTitle = effectiveTitle;
                   }
                   window.CogniShieldHUD.loadDossier(liveData, highlightStats.categoryCounts);
                   const newScore = parseFloat(liveData.emotional_intensity) || intensityScore;
+                  intensityScore = newScore;
+                  if (liveData.bias_category) {
+                    biasCategory = liveData.bias_category;
+                  }
                   window.CogniShieldHUD.updateAmbientStatus(newScore, highlightStats.highlightedCount);
+
+                  if (currentSessionId && window.CogniShieldStorage && window.CogniShieldStorage.updateSession) {
+                    let liveArchetypes = ["Empirical"];
+                    if (liveData.hidden_counter_perspectives) {
+                      liveArchetypes = liveData.hidden_counter_perspectives.map(p => p.archetype || "Empirical");
+                    }
+                    window.CogniShieldStorage.updateSession(currentSessionId, {
+                      emotionalIntensity: newScore,
+                      biasCategory: biasCategory,
+                      epistemicArchetypes: liveArchetypes
+                    });
+                  }
                 }
               }
             );
           });
         }
       }
+
+      // 7. Log browsing visit to Local IndexedDB (100% On-Device Privacy)
+      if (window.CogniShieldStorage && window.CogniShieldStorage.logSession) {
+        if (currentSessionId && window.CogniShieldStorage.updateSession) {
+          const finalDwell = Math.max(1, Math.round((Date.now() - currentSessionStartTime) / 1000));
+          window.CogniShieldStorage.updateSession(currentSessionId, { dwellSeconds: finalDwell });
+          currentSessionId = null;
+        }
+
+        currentSessionStartTime = Date.now();
+        let archetypesList = ["Empirical"];
+        if (matchedDossier && matchedDossier.hidden_counter_perspectives) {
+          archetypesList = matchedDossier.hidden_counter_perspectives.map(p => {
+            const arch = (p.archetype || "").toLowerCase();
+            if (arch.includes("econ")) return "Economic";
+            if (arch.includes("statut") || arch.includes("legal") || arch.includes("juris")) return "Statutory";
+            if (arch.includes("ethic") || arch.includes("social") || arch.includes("human")) return "Socio-Ethical";
+            return "Empirical";
+          });
+        }
+
+        window.CogniShieldStorage.logSession({
+          title: effectiveTitle,
+          domain: window.location.hostname,
+          detectedLang: "en",
+          biasCategory: biasCategory,
+          emotionalIntensity: intensityScore,
+          scaffoldingTier: "Autonomous Agency",
+          dwellSeconds: 1,
+          quizAnswered: false,
+          quizCorrect: false,
+          epistemicArchetypes: archetypesList.length > 0 ? archetypesList : ["Empirical", "Economic"],
+          timestamp: Date.now()
+        }).then(sessId => {
+          currentSessionId = sessId;
+          if (sessId && window.CogniShieldHUD) {
+            window.CogniShieldHUD.activeSessionId = sessId;
+          }
+        });
+      }
+
+      // Continuously track real dwell time as user watches video or reads
+      if (!dwellTrackingInterval) {
+        dwellTrackingInterval = setInterval(() => {
+          if (currentSessionId && window.CogniShieldStorage && window.CogniShieldStorage.updateSession) {
+            const elapsed = Math.max(1, Math.round((Date.now() - currentSessionStartTime) / 1000));
+            window.CogniShieldStorage.updateSession(currentSessionId, { dwellSeconds: elapsed });
+          }
+        }, 3000);
+      }
     } catch (err) {
       console.warn("[CogniShield] Analysis error:", err);
     }
   }
+
+  // Finalize dwell on tab unload / hide
+  window.addEventListener("pagehide", () => {
+    if (currentSessionId && window.CogniShieldStorage && window.CogniShieldStorage.updateSession) {
+      const finalDwell = Math.max(1, Math.round((Date.now() - currentSessionStartTime) / 1000));
+      window.CogniShieldStorage.updateSession(currentSessionId, { dwellSeconds: finalDwell });
+    }
+  });
 
   // Handle YouTube native SPA navigation events
   window.addEventListener("yt-navigate-finish", () => triggerDynamicScan("yt-navigate-finish"));
@@ -199,8 +326,7 @@
   if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.onMessage) {
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       if (request.action === "TRIGGER_SCAN") {
-        hasScanned = false;
-        runContentAnalysis().then(() => sendResponse({ status: "SUCCESS" }));
+        triggerDynamicScan("popup-trigger").then(() => sendResponse({ status: "SUCCESS" }));
         return true;
       } else if (request.action === "FORCE_DEMO_TOPIC") {
         if (window.CogniShieldOffline && window.CogniShieldHUD) {
