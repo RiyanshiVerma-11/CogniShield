@@ -33,11 +33,11 @@ Unlike legacy tools that censor content, ban websites, or slap patronizing "True
 ### 1. Load Unpacked in Chrome or Brave
 1. Clone this repository:
    ```bash
-   git clone https://github.com/your-username/cognishield.git
+   git clone https://github.com/RiyanshiVerma-11/CogniShield.git
    ```
 2. Open Chrome or Brave and navigate to `chrome://extensions/`
 3. Enable **Developer mode** (toggle in the top-right corner).
-4. Click **Load unpacked** and select the `42 CogniShield` folder.
+4. Click **Load unpacked** and select the `CogniShield` folder.
 5. Pin the 🛡️ **CogniShield** extension to your toolbar and visit YouTube, Twitter/X, or any news article!
 
 ### 2. Run Automated Verification Tests
@@ -170,18 +170,19 @@ To prevent secondary AI over-reliance, AI assistance dynamically decreases as us
 ## 🎓 Business Model: B2B "CogniShield Campus" & Integrity Certificate
 
 * **B2C Public Utility (100% Free):** Free for students and digital citizens, driving organic viral adoption across European universities.
-* **B2B Academic Integrity Licensing ("CogniShield Campus"):** Annual institutional licenses for universities (€4,000–€5,000/year).
+* **B2B Academic Integrity Licensing ("CogniShield Campus"):** Annual institutional licenses at **€4,500/year per university (₹4 Lakhs)**.
   * **The Problem:** European universities face a crisis of students submitting hallucinated, unvetted ChatGPT essays without conducting real research.
   * **The Solution — Epistemic Due-Diligence Certificate:** Students generate an exportable cryptographic audit token proving they consulted at least 3 distinct source archetypes and completed Socratic reflection prior to drafting assignments.
   * **Accreditation Metrics:** Universities use our "Institutional Critical Literacy Index" for European Standards and Guidelines (ESG) quality assurance reviews.
-  * **Year 1 Milestone:** 10 European university pilots = **€50,000 ARR**.
+  * **Year 1 Milestone:** 10 university licenses = **€45,000 ARR (₹40 Lakhs)** (self-sustaining profitability).
+  * **Year 2 Target:** 50 university licenses = **€225,000 ARR (₹2 Crores)**.
 
 ---
 
 ## 📁 Repository Structure
 
 ```
-42 CogniShield/
+CogniShield/
 ├── manifest.json                     # Chrome/Brave Manifest V3 configuration
 ├── package.json                      # Project metadata & npm test command
 ├── LICENSE                           # Apache 2.0 Open Source License
@@ -190,6 +191,7 @@ To prevent secondary AI over-reliance, AI assistance dynamically decreases as us
 ├── IMPLEMENTATION_PLAN.md            # Sprint roadmap & evaluation alignment
 ├── JURY_DEFENSE_QA.md                # 10 bulletproof Q&A defenses for the jury
 ├── src/
+│   ├── dashboard/                    # Executive Cognitive Health & Integrity Certificate Studio
 │   ├── shared/                       # Trilingual regex, cognitive engine, offline cache, storage
 │   ├── content/                      # Content scripts, multi-platform scrapers, HUD overlay
 │   ├── background/                   # Service worker & 4-tier hybrid dispatch

@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CogniShield — Cognitive Health & Perspective Diet Dashboard</title>
+  <title>CogniShield — Cognitive Health &amp; Perspective Diet Dashboard</title>
   <link rel="stylesheet" href="dashboard.css">
   <link rel="icon" href="../../assets/icons/icon48.png" type="image/png">
 </head>
 <body class="dashboard-body">
   <div class="app-layout">
 
-    <!-- Top Navigation Header -->
+    <!-- Top Navigation Header (Clean 2-Column Flex with Streak Hook & Non-Wrapping Badges) -->
     <header class="dashboard-navbar">
       <div class="nav-brand-section">
         <div class="brand-shield-glow">
@@ -20,13 +20,19 @@
           <div class="brand-title-row">
             <h1 class="brand-title">COGNISHIELD</h1>
             <span class="badge-tag">Mind Fitness Tracker</span>
-            <span class="privacy-badge">100% Private & On-Device</span>
+            <span class="privacy-badge">100% Private &amp; On-Device</span>
           </div>
-          <p class="brand-subtitle">Cognitive Health, Filter-Bubble Detection & Independent Critical Thinking</p>
+          <p class="brand-subtitle">Cognitive Health, Filter-Bubble Detection &amp; Independent Critical Thinking</p>
         </div>
       </div>
 
       <div class="nav-status-controls">
+        <!-- Daily Streak Retention Hook (Duolingo / Apple Fitness Habit Engine) -->
+        <div class="streak-hook-pill" id="streak-hook-pill" title="Daily critical reflection habit: You're in the top 5% of deliberate thinkers!">
+          <span class="streak-flame">🔥</span>
+          <span class="streak-text">7-Day Calm Streak • Top 5% Critical Thinker</span>
+        </div>
+
         <div class="status-indicator-pill" id="storage-status-pill" title="Connected to real-time browser session feed. 100% local IndexedDB.">
           <span class="status-dot-pulse"></span>
           <span id="storage-status-text">⚡ Live Sync Active</span>
@@ -46,165 +52,201 @@
       </div>
     </header>
 
-    <!-- Live Product Architecture Pipeline (Horizontal 4-Stage Live Telemetry) -->
-    <section class="live-pipeline-strip" id="welcome-guide">
-      <div class="pipeline-header-bar">
-        <div class="pipeline-title-group">
+    <!-- Sleek 1-Row Live Architecture Ribbon (Compact, Non-Intrusive, Expandable Telemetry) -->
+    <section class="live-pipeline-strip compact-ribbon-mode" id="welcome-guide">
+      <!-- 1-Row Compact Ribbon Bar (padding: 12px 18px) -->
+      <div class="pipeline-ribbon-bar">
+        <div class="ribbon-brand-group">
           <div class="pipeline-pulse-badge">
             <span class="pipeline-pulse-dot"></span>
-            <span class="pipeline-badge-text">LIVE PRODUCT PIPELINE</span>
-          </div>
-          <div class="pipeline-title-text">
-            <h2 class="pipeline-heading">On-Device Cognitive Telemetry</h2>
-            <p class="pipeline-sub">Watch how CogniShield processes live browser feeds locally at 0ms latency with zero cloud transmission.</p>
+            <span class="pipeline-badge-text">ON-DEVICE PIPELINE</span>
           </div>
         </div>
 
-        <div class="pipeline-header-controls">
-          <span class="pipeline-spec-chip" title="Total processing time for text analysis">⚡ &lt;50ms Response</span>
-          <span class="pipeline-spec-chip" title="Zero video stream download or remote GPU inference">🌿 0.00042 Wh/scan</span>
-          <button class="btn-guide-toggle" id="btn-toggle-guide" title="Minimize or expand pipeline telemetry details">Hide Pipeline ▲</button>
+        <!-- 4-Stage Horizontal Flow with Glowing Connectors (No Text Truncation) -->
+        <div class="ribbon-flow-track" id="ribbon-flow-track">
+          <div class="ribbon-step-chip" id="ribbon-step-1" title="Stage 1: DOM Ingestion (sub-50ms, zero cloud transmission)">
+            <span class="ribbon-chip-icon">📥</span>
+            <span class="ribbon-chip-text"><strong>1. Local DOM</strong> (<span id="pipe-ribbon-payload">&lt;15KB</span>, <span id="pipe-ribbon-lat">0.05s</span>)</span>
+          </div>
+          <span class="ribbon-arrow" aria-hidden="true">➔</span>
+
+          <div class="ribbon-step-chip" id="ribbon-step-2" title="Stage 2: Outrage &amp; Hook Scanner (0.05s scan calculates emotional temperature 0-10)">
+            <span class="ribbon-chip-icon">🔥</span>
+            <span class="ribbon-chip-text"><strong>2. <span id="pipe-ribbon-hooks">23 Outrage Traps Caught</span></strong> (<span id="pipe-ribbon-outrage">3.5/10 Calm</span> • <span id="pipe-ribbon-pwr">0W Local</span>)</span>
+          </div>
+          <span class="ribbon-arrow" aria-hidden="true">➔</span>
+
+          <div class="ribbon-step-chip" id="ribbon-step-3" title="Stage 3: Dialectic Cache &amp; 4 Foundation Synthesis">
+            <span class="ribbon-chip-icon">🧭</span>
+            <span class="ribbon-chip-text"><strong>3. <span id="pipe-ribbon-angles">4 Angles Checked</span></strong> (<span id="pipe-ribbon-cache">Cache Synced</span>)</span>
+          </div>
+          <span class="ribbon-arrow" aria-hidden="true">➔</span>
+
+          <div class="ribbon-step-chip" id="ribbon-step-4" title="Stage 4: Socratic Stepped Friction &amp; Human Critical Agency">
+            <span class="ribbon-chip-icon">🧠</span>
+            <span class="ribbon-chip-text"><strong>4. <span id="pipe-ribbon-pause">134.7s Calm Pause</span></strong> (<span id="pipe-ribbon-scaffold">AI Auto-Fading</span>)</span>
+          </div>
+        </div>
+
+        <div class="ribbon-actions-group">
+          <button class="btn-guide-toggle" id="btn-toggle-guide" title="Inspect complete 4-card telemetry architecture">
+            <span id="btn-guide-toggle-text">Inspect Architecture ▾</span>
+          </button>
         </div>
       </div>
 
-      <div class="pipeline-stages-flow" id="guide-pillars">
-        <!-- Stage 1: Page Ingestion (Local DOM) -->
-        <div class="pipeline-stage-node" id="pipe-stage-1">
-          <div class="stage-step-row">
-            <span class="stage-tag">STAGE 01</span>
-            <span class="stage-perf-tag" id="pipe-s1-latency">0.05s</span>
+      <!-- Expandable Detailed 4-Card Telemetry Drawer (Collapsed by default!) -->
+      <div class="pipeline-drawer-content" id="guide-pillars" style="display: none;">
+        <div class="drawer-header-info">
+          <div class="drawer-header-left">
+            <span class="drawer-subheading">Zero-Cloud On-Device Telemetry • 0ms Local Latency • Validated Joule Benchmark</span>
           </div>
-          <div class="stage-main-info">
-            <div class="stage-icon-box">📥</div>
-            <div>
-              <h4 class="stage-title">Page Ingestion</h4>
-              <span class="stage-subtitle">Local DOM / Accessibility API</span>
-            </div>
-          </div>
-          <div class="stage-telemetry-body">
-            <div class="telemetry-item">
-              <span class="t-label">Source Status:</span>
-              <span class="t-value" id="pipe-s1-source">Active Feed: YouTube / News DOM</span>
-            </div>
-            <div class="telemetry-item">
-              <span class="t-label">Payload Size:</span>
-              <span class="t-value" id="pipe-s1-payload">&lt;15KB text extracted</span>
-            </div>
-          </div>
-          <div class="stage-status-indicator status-ready">
-            <span class="status-tiny-dot"></span>
-            <span id="pipe-s1-status">Live DOM Sync Active</span>
+          <div class="drawer-header-right">
+            <span class="pipeline-spec-chip" title="Total processing time for text analysis">⚡ &lt;50ms Response</span>
+            <span class="pipeline-spec-chip" title="Zero video stream download or remote GPU inference">🌿 0.00042 Wh/scan</span>
           </div>
         </div>
 
-        <!-- Animated Data-Flow Line 1 -> 2 -->
-        <div class="pipeline-connector-block" aria-hidden="true">
-          <svg class="pipeline-connector-svg" viewBox="0 0 48 24">
-            <line x1="0" y1="12" x2="48" y2="12" class="pipeline-wire"></line>
-            <circle cx="24" cy="12" r="3" class="pipeline-pulse-dot-moving"></circle>
-          </svg>
-        </div>
+        <div class="pipeline-stages-flow">
+          <!-- Stage 1: Page Ingestion (Local DOM) -->
+          <div class="pipeline-stage-node" id="pipe-stage-1">
+            <div class="stage-step-row">
+              <span class="stage-tag">STAGE 01</span>
+              <span class="stage-perf-tag" id="pipe-s1-latency">0.05s</span>
+            </div>
+            <div class="stage-main-info">
+              <div class="stage-icon-box">📥</div>
+              <div>
+                <h4 class="stage-title">Page Ingestion</h4>
+                <span class="stage-subtitle">Local DOM / Accessibility API</span>
+              </div>
+            </div>
+            <div class="stage-telemetry-body">
+              <div class="telemetry-item">
+                <span class="t-label">Source Status:</span>
+                <span class="t-value" id="pipe-s1-source">Active Feed: YouTube / News DOM</span>
+              </div>
+              <div class="telemetry-item">
+                <span class="t-label">Payload Size:</span>
+                <span class="t-value" id="pipe-s1-payload">&lt;15KB text extracted</span>
+              </div>
+            </div>
+            <div class="stage-status-indicator status-ready">
+              <span class="status-tiny-dot"></span>
+              <span id="pipe-s1-status">Live DOM Sync Active</span>
+            </div>
+          </div>
 
-        <!-- Stage 2: Outrage & Hook Scanner (On-Device Regex) -->
-        <div class="pipeline-stage-node" id="pipe-stage-2">
-          <div class="stage-step-row">
-            <span class="stage-tag">STAGE 02</span>
-            <span class="stage-perf-tag text-emerald" id="pipe-s2-power">0 Watts / Local</span>
+          <!-- Animated Data-Flow Line 1 -> 2 -->
+          <div class="pipeline-connector-block" aria-hidden="true">
+            <svg class="pipeline-connector-svg" viewBox="0 0 48 24">
+              <line x1="0" y1="12" x2="48" y2="12" class="pipeline-wire"></line>
+              <circle cx="24" cy="12" r="3" class="pipeline-pulse-dot-moving"></circle>
+            </svg>
           </div>
-          <div class="stage-main-info">
-            <div class="stage-icon-box">🔥</div>
-            <div>
-              <h4 class="stage-title">Outrage & Hook Scanner</h4>
-              <span class="stage-subtitle">On-Device Trilingual Regex</span>
-            </div>
-          </div>
-          <div class="stage-telemetry-body">
-            <div class="telemetry-item">
-              <span class="t-label">Emotional Temp:</span>
-              <span class="t-value text-amber" id="pipe-s2-hooks">23 Manipulation Hooks Caught</span>
-            </div>
-            <div class="telemetry-item">
-              <span class="t-label">Execution:</span>
-              <span class="t-value text-emerald">100% In-Browser (0ms)</span>
-            </div>
-          </div>
-          <div class="stage-status-indicator status-scanning">
-            <span class="status-tiny-dot amber"></span>
-            <span id="pipe-s2-status">Trilingual (EN/DE/FR) Active</span>
-          </div>
-        </div>
 
-        <!-- Animated Data-Flow Line 2 -> 3 -->
-        <div class="pipeline-connector-block" aria-hidden="true">
-          <svg class="pipeline-connector-svg" viewBox="0 0 48 24">
-            <line x1="0" y1="12" x2="48" y2="12" class="pipeline-wire"></line>
-            <circle cx="24" cy="12" r="3" class="pipeline-pulse-dot-moving"></circle>
-          </svg>
-        </div>
+          <!-- Stage 2: Outrage & Hook Scanner (On-Device Regex) -->
+          <div class="pipeline-stage-node" id="pipe-stage-2">
+            <div class="stage-step-row">
+              <span class="stage-tag">STAGE 02</span>
+              <span class="stage-perf-tag text-emerald" id="pipe-s2-power">0 Watts / Local</span>
+            </div>
+            <div class="stage-main-info">
+              <div class="stage-icon-box">🔥</div>
+              <div>
+                <h4 class="stage-title">Outrage &amp; Hook Scanner</h4>
+                <span class="stage-subtitle">On-Device Trilingual Regex</span>
+              </div>
+            </div>
+            <div class="stage-telemetry-body">
+              <div class="telemetry-item">
+                <span class="t-label">Emotional Temp:</span>
+                <span class="t-value text-amber" id="pipe-s2-hooks">23 Manipulation Hooks Caught</span>
+              </div>
+              <div class="telemetry-item">
+                <span class="t-label">Execution:</span>
+                <span class="t-value text-emerald">100% In-Browser (0ms)</span>
+              </div>
+            </div>
+            <div class="stage-status-indicator status-scanning">
+              <span class="status-tiny-dot amber"></span>
+              <span id="pipe-s2-status">Trilingual (EN/DE/FR) Active</span>
+            </div>
+          </div>
 
-        <!-- Stage 3: Perspective Engine (Dialectic Cache / Micro-JSON) -->
-        <div class="pipeline-stage-node" id="pipe-stage-3">
-          <div class="stage-step-row">
-            <span class="stage-tag">STAGE 03</span>
-            <span class="stage-perf-tag text-blue">Dialectic Cache</span>
+          <!-- Animated Data-Flow Line 2 -> 3 -->
+          <div class="pipeline-connector-block" aria-hidden="true">
+            <svg class="pipeline-connector-svg" viewBox="0 0 48 24">
+              <line x1="0" y1="12" x2="48" y2="12" class="pipeline-wire"></line>
+              <circle cx="24" cy="12" r="3" class="pipeline-pulse-dot-moving"></circle>
+            </svg>
           </div>
-          <div class="stage-main-info">
-            <div class="stage-icon-box">🧭</div>
-            <div>
-              <h4 class="stage-title">Perspective Engine</h4>
-              <span class="stage-subtitle">Dialectic Cache / Micro-JSON</span>
-            </div>
-          </div>
-          <div class="stage-telemetry-body">
-            <div class="telemetry-item">
-              <span class="t-label">Diet Balance:</span>
-              <span class="t-value text-blue" id="pipe-s3-foundations">4 Foundations Checked</span>
-            </div>
-            <div class="telemetry-item">
-              <span class="t-label">Counter-Angle:</span>
-              <span class="t-value text-amber" id="pipe-s3-blindspots">1 Blindspot Found</span>
-            </div>
-          </div>
-          <div class="stage-status-indicator status-ready">
-            <span class="status-tiny-dot blue"></span>
-            <span id="pipe-s3-status">Synthesis Ready</span>
-          </div>
-        </div>
 
-        <!-- Animated Data-Flow Line 3 -> 4 -->
-        <div class="pipeline-connector-block" aria-hidden="true">
-          <svg class="pipeline-connector-svg" viewBox="0 0 48 24">
-            <line x1="0" y1="12" x2="48" y2="12" class="pipeline-wire"></line>
-            <circle cx="24" cy="12" r="3" class="pipeline-pulse-dot-moving"></circle>
-          </svg>
-        </div>
+          <!-- Stage 3: Perspective Engine (Dialectic Cache / Micro-JSON) -->
+          <div class="pipeline-stage-node" id="pipe-stage-3">
+            <div class="stage-step-row">
+              <span class="stage-tag">STAGE 03</span>
+              <span class="stage-perf-tag text-blue">Dialectic Cache</span>
+            </div>
+            <div class="stage-main-info">
+              <div class="stage-icon-box">🧭</div>
+              <div>
+                <h4 class="stage-title">Perspective Engine</h4>
+                <span class="stage-subtitle">Dialectic Cache / Micro-JSON</span>
+              </div>
+            </div>
+            <div class="stage-telemetry-body">
+              <div class="telemetry-item">
+                <span class="t-label">Diet Balance:</span>
+                <span class="t-value text-blue" id="pipe-s3-foundations">4 Foundations Checked</span>
+              </div>
+              <div class="telemetry-item">
+                <span class="t-label">Counter-Angle:</span>
+                <span class="t-value text-amber" id="pipe-s3-blindspots">1 Blindspot Found</span>
+              </div>
+            </div>
+            <div class="stage-status-indicator status-ready">
+              <span class="status-tiny-dot blue"></span>
+              <span id="pipe-s3-status">Synthesis Ready</span>
+            </div>
+          </div>
 
-        <!-- Stage 4: Human Decision (12s Pause & Agency) -->
-        <div class="pipeline-stage-node" id="pipe-stage-4">
-          <div class="stage-step-row">
-            <span class="stage-tag">STAGE 04</span>
-            <span class="stage-perf-tag text-emerald">Agency Loop</span>
+          <!-- Animated Data-Flow Line 3 -> 4 -->
+          <div class="pipeline-connector-block" aria-hidden="true">
+            <svg class="pipeline-connector-svg" viewBox="0 0 48 24">
+              <line x1="0" y1="12" x2="48" y2="12" class="pipeline-wire"></line>
+              <circle cx="24" cy="12" r="3" class="pipeline-pulse-dot-moving"></circle>
+            </svg>
           </div>
-          <div class="stage-main-info">
-            <div class="stage-icon-box">🧠</div>
-            <div>
-              <h4 class="stage-title">Human Decision</h4>
-              <span class="stage-subtitle">12s Pause & Critical Agency</span>
+
+          <!-- Stage 4: Human Decision (12s Pause & Agency) -->
+          <div class="pipeline-stage-node" id="pipe-stage-4">
+            <div class="stage-step-row">
+              <span class="stage-tag">STAGE 04</span>
+              <span class="stage-perf-tag text-emerald">Agency Loop</span>
             </div>
-          </div>
-          <div class="stage-telemetry-body">
-            <div class="telemetry-item">
-              <span class="t-label">Habit State:</span>
-              <span class="t-value text-emerald" id="pipe-s4-pause">40.5s Avg Pause</span>
+            <div class="stage-main-info">
+              <div class="stage-icon-box">🧠</div>
+              <div>
+                <h4 class="stage-title">Human Decision</h4>
+                <span class="stage-subtitle">12s Pause &amp; Critical Agency</span>
+              </div>
             </div>
-            <div class="telemetry-item">
-              <span class="t-label">Scaffolding:</span>
-              <span class="t-value text-blue" id="pipe-s4-scaffold">AI Hints: Fading → Autonomous</span>
+            <div class="stage-telemetry-body">
+              <div class="telemetry-item">
+                <span class="t-label">Habit State:</span>
+                <span class="t-value text-emerald" id="pipe-s4-pause">134.7s Avg Pause</span>
+              </div>
+              <div class="telemetry-item">
+                <span class="t-label">Scaffolding:</span>
+                <span class="t-value text-blue" id="pipe-s4-scaffold">AI Hints: Fading → Autonomous</span>
+              </div>
             </div>
-          </div>
-          <div class="stage-status-indicator status-ready">
-            <span class="status-tiny-dot emerald"></span>
-            <span id="pipe-s4-status">Empowerment Active</span>
+            <div class="stage-status-indicator status-ready">
+              <span class="status-tiny-dot emerald"></span>
+              <span id="pipe-s4-status">Empowerment Active</span>
+            </div>
           </div>
         </div>
       </div>
@@ -223,7 +265,7 @@
     <div class="zero-data-banner" id="zero-data-banner" style="display: none;">
       <div class="zero-data-icon">🚀</div>
       <div class="zero-data-content">
-        <h3>Your Cognitive Tracker is Ready & Active!</h3>
+        <h3>Your Cognitive Tracker is Ready &amp; Active!</h3>
         <p>You don't have any browsing sessions recorded yet. Here is how CogniShield works in your everyday browsing:</p>
         <div class="zero-data-steps">
           <div class="step-badge">1. Visit YouTube, 𝕏, Reddit, or any News site</div>
@@ -235,219 +277,370 @@
       <button class="btn-primary" id="btn-zero-load-demo">✨ Preview with Sample Data</button>
     </div>
 
+    <!-- Top Navigation Tabs Bar (Prominently Placed at the Top, Before Scroll, High-Attention Product Copy) -->
+    <nav class="dashboard-tabs-bar" role="tablist" aria-label="CogniShield Analytics Views">
+      <button class="dash-tab-btn active" data-target="tab-radar" role="tab" aria-selected="true" id="tab-btn-radar">
+        <span>🌎 Echo-Chamber Radar</span>
+      </button>
+      <button class="dash-tab-btn" data-target="tab-kahneman" role="tab" aria-selected="false" id="tab-btn-kahneman">
+        <span>🔥 <span id="tab-traps-count">23</span> Rage-Bait Traps Caught</span>
+      </button>
+      <button class="dash-tab-btn" data-target="tab-trends" role="tab" aria-selected="false" id="tab-btn-trends">
+        <span>📈 7-Day Mind Progress</span>
+      </button>
+      <button class="dash-tab-btn" data-target="tab-gym" role="tab" aria-selected="false" id="tab-btn-gym">
+        <span>🥊 30s Brain Sparring</span>
+      </button>
+      <button class="dash-tab-btn" data-target="tab-cert" role="tab" aria-selected="false" id="tab-btn-cert">
+        <span>🎓 Proof-of-Research Pass</span>
+      </button>
+      <button class="dash-tab-btn" data-target="tab-audit" role="tab" aria-selected="false" id="tab-btn-audit">
+        <span>🕵️ Traps Dodged (<span id="tab-log-count">0</span>)</span>
+      </button>
+      <button class="dash-tab-btn" data-target="tab-green" role="tab" aria-selected="false" id="tab-btn-green">
+        <span>🌿 99.9% Green &amp; Private</span>
+      </button>
+    </nav>
+
     <!-- Main Dashboard Container -->
     <main class="dashboard-main">
 
-      <!-- 4 Top Executive Metric Cards -->
+      <!-- 4 Top Executive Metric Cards (Google "Glanceable Hierarchy" Rule: 1 Hero Metric + 1 Human Title + 1 Visual + 1 Punchy Takeaway) -->
       <section class="kpi-grid">
 
-        <!-- KPI 1: Cognitive Agency Score (CAS) -->
+        <!-- KPI 1: Mind Immunity Score (CAS) -->
         <div class="kpi-card card-glow-emerald">
           <div class="kpi-header">
             <div>
               <div class="title-with-info">
-                <span class="kpi-title">Cognitive Agency Score (CAS)</span>
+                <span class="kpi-title">🧠 Mind Immunity Score</span>
                 <span class="info-tooltip-icon" title="Measures how well you engage deliberate critical reflection instead of impulsive emotional reflexes. Calculated from your pause time, quiz accuracy, and source balance.">ℹ️</span>
               </div>
               <span class="kpi-hint">Calm Reading vs. Impulsive Clicking</span>
             </div>
-            <div class="kpi-badge badge-emerald" id="kpi-cas-tier">--</div>
+            <div class="kpi-badge badge-emerald" id="kpi-cas-tier">🏆 Autonomous Thinker</div>
           </div>
+
           <div class="kpi-body">
-            <div class="kpi-metric-group">
-              <div class="radial-gauge-container">
+            <!-- Hero Metric Group -->
+            <div class="kpi-hero-row">
+              <div class="kpi-hero-number-wrap">
+                <span class="kpi-hero-val" id="kpi-cas-number">94</span>
+                <span class="kpi-hero-sub">/ 100</span>
+              </div>
+
+              <!-- Radial Gauge Ring -->
+              <div class="radial-gauge-container" title="Overall Mind Immunity">
                 <svg class="radial-gauge-svg" viewBox="0 0 100 100">
                   <circle class="gauge-bg-circle" cx="50" cy="50" r="42"></circle>
-                  <circle class="gauge-fill-circle" id="cas-circle-fill" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"></circle>
+                  <circle class="gauge-fill-circle" id="cas-circle-fill" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="15"></circle>
                 </svg>
                 <div class="gauge-center-text">
-                  <span class="gauge-value" id="kpi-cas-number">--</span>
-                  <span class="gauge-unit">/ 100</span>
-                </div>
-              </div>
-              <div class="kpi-submetrics">
-                <div class="submetric-row" title="How long you pause on a page before reacting. 12 seconds is required for your prefrontal cortex to overcome emotional gut reactions.">
-                  <span class="submetric-label">⏱️ Paused Reflection:</span>
-                  <span class="submetric-val" id="kpi-avg-dwell">-- <small>(Goal: >12s)</small></span>
-                </div>
-                <div class="submetric-row" title="Percentage of Socratic micro-quizzes where you correctly identified the hidden bias or fallacy.">
-                  <span class="submetric-label">🎯 Fallacy Spotting:</span>
-                  <span class="submetric-val" id="kpi-crt-acc">--</span>
-                </div>
-                <div class="submetric-row" title="Mathematical Shannon Entropy: 2.0 represents a completely balanced media diet across 4 archetypes.">
-                  <span class="submetric-label">🌐 Media Diversity:</span>
-                  <span class="submetric-val" id="kpi-entropy">--</span>
+                  <span class="gauge-ring-icon">🧠</span>
                 </div>
               </div>
             </div>
+
+            <!-- Punchy Takeaway Highlight -->
+            <div class="kpi-punchy-takeaway highlight-emerald">
+              <span class="takeaway-icon">⏱️</span>
+              <span class="takeaway-text" id="kpi-cas-highlight"><strong>134.7s avg pause</strong> (11x calmer than average reader)</span>
+            </div>
+
+            <!-- Supporting Telemetry Breakdown -->
+            <div class="kpi-submetrics">
+              <div class="submetric-row" title="How long you pause on a page before reacting. 12 seconds is required for your prefrontal cortex to overcome emotional gut reactions.">
+                <span class="submetric-label">⏱️ Paused Reflection:</span>
+                <span class="submetric-val" id="kpi-avg-dwell">134.7s <small>(Goal: &gt;12s)</small></span>
+              </div>
+              <div class="submetric-row" title="Percentage of Socratic micro-quizzes where you correctly identified the hidden bias or fallacy.">
+                <span class="submetric-label">🎯 Fallacy Spotting:</span>
+                <span class="submetric-val" id="kpi-crt-acc">92% <small>(12/13)</small></span>
+              </div>
+              <div class="submetric-row" title="Mathematical Shannon Entropy: 2.0 represents a completely balanced media diet across 4 archetypes.">
+                <span class="submetric-label">🌐 Media Diversity:</span>
+                <span class="submetric-val" id="kpi-entropy">1.94 <small>/ 2.00 max</small></span>
+              </div>
+            </div>
           </div>
+
           <div class="kpi-footer" id="kpi-cas-footer">
-            <span>Critical Thinking Habit:</span> <span id="kpi-cas-footer-desc">Browse feeds to begin measuring.</span>
+            <span class="text-emerald">Critical Habit:</span> <span id="kpi-cas-footer-desc">High independent agency. System 2 deliberation overriding impulsive reflexes.</span>
           </div>
         </div>
 
-        <!-- KPI 2: Perspective Diversity Radar -->
+        <!-- KPI 2: Echo-Chamber Balance -->
         <div class="kpi-card card-glow-blue">
           <div class="kpi-header">
             <div>
               <div class="title-with-info">
-                <span class="kpi-title">Perspective Diversity</span>
+                <span class="kpi-title">🌎 Echo-Chamber Balance</span>
                 <span class="info-tooltip-icon" title="Measures how well your reading balances the 4 essential foundations of truth: Scientific Evidence, Economic Costs, Legal Directives, and Human Rights.">ℹ️</span>
               </div>
-              <span class="kpi-hint">Balanced Media Diet vs Filter Bubble</span>
+              <span class="kpi-hint">Balanced Media Diet vs. Filter Bubble</span>
             </div>
-            <div class="kpi-badge badge-blue" id="kpi-diversity-tier">--</div>
+            <div class="kpi-badge badge-blue" id="kpi-diversity-tier">✅ All 4 Angles Covered</div>
           </div>
+
           <div class="kpi-body">
-            <div class="kpi-metric-group">
-              <div class="radial-gauge-container">
+            <!-- Hero Metric Group -->
+            <div class="kpi-hero-row">
+              <div class="kpi-hero-number-wrap">
+                <span class="kpi-hero-val text-blue" id="kpi-diversity-number">96</span>
+                <span class="kpi-hero-sub">%</span>
+              </div>
+
+              <!-- Radial Gauge Ring -->
+              <div class="radial-gauge-container" title="Perspective Diversity Level">
                 <svg class="radial-gauge-svg" viewBox="0 0 100 100">
                   <circle class="gauge-bg-circle" cx="50" cy="50" r="42"></circle>
-                  <circle class="gauge-fill-circle gauge-fill-blue" id="diversity-circle-fill" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="264"></circle>
+                  <circle class="gauge-fill-circle gauge-fill-blue" id="diversity-circle-fill" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="10"></circle>
                 </svg>
                 <div class="gauge-center-text">
-                  <span class="gauge-value text-blue" id="kpi-diversity-number">--</span>
-                  <span class="gauge-unit">%</span>
-                </div>
-              </div>
-              <div class="kpi-submetrics">
-                <div class="submetric-row" title="Hard studies, statistical measurements, and peer-reviewed citations.">
-                  <span class="submetric-label">🔬 Scientific & Data:</span>
-                  <span class="submetric-val" id="kpi-arch-empirical">--</span>
-                </div>
-                <div class="submetric-row" title="Market prices, budget trade-offs, and economic incentives.">
-                  <span class="submetric-label">📊 Economic & Fiscal:</span>
-                  <span class="submetric-val" id="kpi-arch-economic">--</span>
-                </div>
-                <div class="submetric-row" title="Official legislation, court rulings, and regulatory frameworks.">
-                  <span class="submetric-label">⚖️ Legal & Policy:</span>
-                  <span class="submetric-val" id="kpi-arch-statutory">--</span>
-                </div>
-                <div class="submetric-row" title="Community impact, civil rights, and moral welfare.">
-                  <span class="submetric-label">🤝 Human & Ethical:</span>
-                  <span class="submetric-val" id="kpi-arch-ethical">--</span>
+                  <span class="gauge-ring-icon">🧭</span>
                 </div>
               </div>
             </div>
+
+            <!-- Sleek 4-Color Stacked Horizontal Bar -->
+            <div class="quad-stacked-bar-container" title="4-Angle Diet Distribution: 🔬 28% | 📊 34% | ⚖️ 25% | 🤝 13%">
+              <div class="quad-bar-segment seg-empirical" id="quad-bar-emp" style="width: 28%;" title="Scientific &amp; Data: 28%">
+                <span class="seg-label">🔬 28%</span>
+              </div>
+              <div class="quad-bar-segment seg-economic" id="quad-bar-eco" style="width: 34%;" title="Economic &amp; Fiscal: 34%">
+                <span class="seg-label">📊 34%</span>
+              </div>
+              <div class="quad-bar-segment seg-statutory" id="quad-bar-sta" style="width: 25%;" title="Legal &amp; Policy: 25%">
+                <span class="seg-label">⚖️ 25%</span>
+              </div>
+              <div class="quad-bar-segment seg-ethical blindspot-highlight-seg" id="quad-bar-eth" style="width: 13%;" title="Human &amp; Ethical: 13% (Today's Blindspot)">
+                <span class="seg-label">🤝 13%</span>
+              </div>
+            </div>
+
+            <!-- Blindspot Callout Highlight -->
+            <div class="blindspot-explore-badge" id="quad-blindspot-badge">
+              <span class="pulse-mini-dot amber"></span>
+              <span>Today's Blindspot to Explore: <strong>🤝 Human &amp; Ethical (13%)</strong></span>
+            </div>
+
+            <!-- Supporting Telemetry Breakdown -->
+            <div class="kpi-submetrics">
+              <div class="submetric-row" title="Hard studies, statistical measurements, and peer-reviewed citations.">
+                <span class="submetric-label">🔬 Scientific &amp; Data:</span>
+                <span class="submetric-val" id="kpi-arch-empirical">28% (7)</span>
+              </div>
+              <div class="submetric-row" title="Market prices, budget trade-offs, and economic incentives.">
+                <span class="submetric-label">📊 Economic &amp; Fiscal:</span>
+                <span class="submetric-val" id="kpi-arch-economic">34% (9)</span>
+              </div>
+              <div class="submetric-row" title="Official legislation, court rulings, and regulatory frameworks.">
+                <span class="submetric-label">⚖️ Legal &amp; Policy:</span>
+                <span class="submetric-val" id="kpi-arch-statutory">25% (6)</span>
+              </div>
+              <div class="submetric-row" title="Community impact, civil rights, and moral welfare.">
+                <span class="submetric-label">🤝 Human &amp; Ethical:</span>
+                <span class="submetric-val text-amber" id="kpi-arch-ethical">13% (3)</span>
+              </div>
+            </div>
           </div>
+
           <div class="kpi-footer" id="kpi-diversity-footer">
-            <span>Filter Bubble Status:</span> <span id="kpi-diversity-footer-desc">Evaluating balance...</span>
+            <span class="text-blue">Diet Status:</span> <span id="kpi-diversity-footer-desc">Healthy exposure across multi-faceted evidence. Broaden ethical angle.</span>
           </div>
         </div>
 
-        <!-- KPI 3: Socratic Habit & Stepped Friction -->
+        <!-- KPI 3: Traps Defeated & AI Auto-Fade -->
         <div class="kpi-card card-glow-amber">
           <div class="kpi-header">
             <div>
               <div class="title-with-info">
-                <span class="kpi-title">Socratic Reflection & Habit</span>
+                <span class="kpi-title">🛡️ Traps Defeated &amp; AI Auto-Fade</span>
                 <span class="info-tooltip-icon" title="CogniShield inserts adaptive friction into high-emotion posts. As your score improves, hints fade away to prevent AI dependency (The Empowerment Paradox).">ℹ️</span>
               </div>
               <span class="kpi-hint">Critical Reflexes Trained</span>
             </div>
-            <div class="kpi-badge badge-amber" id="kpi-friction-tier">--</div>
+            <div class="kpi-badge badge-amber" id="kpi-friction-tier">✨ AI Hints Fading</div>
           </div>
+
           <div class="kpi-body">
+            <!-- Hero Metric Group with Live Outrage Meter (0-10) -->
+            <div class="kpi-hero-row">
+              <div class="kpi-hero-number-wrap">
+                <span class="kpi-hero-val text-amber"><span id="kpi-fallacies-caught">23</span> Traps</span>
+                <span class="kpi-hero-sub">Unmasked</span>
+              </div>
+
+              <!-- Live Outrage Meter: 0.05s scan calculates emotional temperature 0-10 (Slide 2) -->
+              <div class="outrage-meter-container" id="outrage-meter-kpi" title="Outrage Meter: 0.05s scan calculates emotional temperature 0-10">
+                <div class="outrage-meter-header">
+                  <span class="outrage-meter-label">🌡️ Outrage Meter:</span>
+                  <span class="outrage-meter-badge calm" id="kpi-outrage-badge">
+                    <span id="kpi-outrage-score">3.5 / 10</span>
+                    <span class="outrage-meter-mood" id="kpi-outrage-mood">(Calm)</span>
+                  </span>
+                </div>
+                <div class="outrage-meter-bar-track">
+                  <div class="outrage-meter-bar-fill" id="kpi-outrage-bar" style="width: 35%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- The Freedom Goal Progress Bar (Day 1 -> Day 30 -> Day 90) -->
+            <div class="freedom-goal-section" title="The Freedom Goal: As critical thinking becomes instinct, AI assistance steps down (Slide 2 &amp; 7)">
+              <div class="freedom-goal-header">
+                <span class="freedom-goal-title">🎯 The Freedom Goal Milestone</span>
+                <span class="freedom-goal-current" id="freedom-goal-current">Current: <strong>94/100</strong> (Day 90)</span>
+              </div>
+
+              <div class="freedom-goal-bar-track">
+                <div class="freedom-goal-bar-fill" id="freedom-goal-bar-fill" style="width: 94%;"></div>
+              </div>
+
+              <!-- Visual 3-Step Progression Stepper Pill -->
+              <div class="scaffolding-progression-stepper" id="scaffolding-stepper" title="Habit Formation: Day 1: Guided AI -> Day 30: Habit Built -> Day 90: Independent Mind">
+                <div class="step-pill step-passed">
+                  <span class="step-dot">✓</span>
+                  <span>Day 1: Guided AI</span>
+                </div>
+                <span class="step-arrow">➔</span>
+                <div class="step-pill step-passed">
+                  <span class="step-dot">✓</span>
+                  <span>Day 30: Habit Built</span>
+                </div>
+                <span class="step-arrow">➔</span>
+                <div class="step-pill step-active">
+                  <span class="step-pulse"></span>
+                  <span>Day 90: Independent Mind (Current: 94/100)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Punchy Takeaway Highlight -->
+            <div class="kpi-punchy-takeaway highlight-amber">
+              <span class="takeaway-icon">✨</span>
+              <span class="takeaway-text"><strong>AI hints fading:</strong> You spot clickbait faster on your own</span>
+            </div>
+
+            <!-- Supporting Telemetry Breakdown -->
             <div class="kpi-stat-columns">
               <div class="stat-column" title="Number of 5-second Quick Reflection micro-quizzes answered.">
-                <span class="stat-num" id="kpi-total-quizzes">0</span>
+                <span class="stat-num" id="kpi-total-quizzes">12</span>
                 <span class="stat-lbl">Reflections Solved</span>
               </div>
-              <div class="stat-column" title="Loaded or manipulative words spotted on web pages.">
-                <span class="stat-num" id="kpi-fallacies-caught">0</span>
-                <span class="stat-lbl">Hooks Unmasked</span>
-              </div>
               <div class="stat-column" title="Deep Socratic counter-questioning dialogues completed.">
-                <span class="stat-num" id="kpi-sparring-rounds">0</span>
+                <span class="stat-num" id="kpi-sparring-rounds">8</span>
                 <span class="stat-lbl">Socratic Sparrings</span>
               </div>
             </div>
+
             <div class="scaffolding-progress-box">
               <div class="scaffolding-header">
                 <span>AI Scaffolding Level:</span>
-                <strong id="kpi-scaffolding-label">Calibrating...</strong>
+                <strong id="kpi-scaffolding-label">Autonomous Agency (Hints Zeroed)</strong>
               </div>
               <div class="progress-bar-track">
-                <div class="progress-bar-fill" id="scaffolding-progress-bar" style="width: 0%;"></div>
+                <div class="progress-bar-fill" id="scaffolding-progress-bar" style="width: 85%;"></div>
               </div>
             </div>
           </div>
+
           <div class="kpi-footer">
             <span class="text-amber">Auto-Fade Mode:</span> As you spot clickbait on your own, CogniShield steps back
           </div>
         </div>
 
-        <!-- KPI 4: Green IT & Carbon Savings -->
+        <!-- KPI 4: Local Energy & Privacy Saved -->
         <div class="kpi-card card-glow-emerald">
           <div class="kpi-header">
             <div>
               <div class="title-with-info">
-                <span class="kpi-title">Green IT & Energy Audit</span>
+                <span class="kpi-title">🌿 Local Energy &amp; Privacy Saved</span>
                 <span class="info-tooltip-icon" title="Traditional video AI downloads heavy 150MB video streams and runs massive GPUs (2.73 Wh). CogniShield analyzes text captions in 15KB JSON (0.00042 Wh), saving 99.98% energy.">ℹ️</span>
               </div>
               <span class="kpi-hint">Text-First Green Architecture</span>
             </div>
-            <div class="kpi-badge badge-green">95.5% Carbon Cut</div>
+            <div class="kpi-badge badge-green">🔒 0 Cloud Calls</div>
           </div>
+
           <div class="kpi-body">
+            <!-- Hero Metric Group -->
+            <div class="kpi-hero-row">
+              <div class="kpi-hero-number-wrap">
+                <span class="kpi-hero-val text-emerald">95.5% Less CO₂</span>
+              </div>
+            </div>
+
+            <!-- Green IT Comparison Pill -->
+            <div class="green-it-comparison-pill">
+              <span>⚡ 0.00042 Wh/scan</span> (Local) vs <span>2.73 Wh</span> (Cloud Video AI)
+            </div>
+
+            <!-- Punchy Takeaway Highlight -->
+            <div class="kpi-punchy-takeaway highlight-emerald">
+              <span class="takeaway-icon">⚡</span>
+              <span class="takeaway-text">0.00042 Wh/scan vs 2.73 Wh cloud AI (<span id="kpi-carbon-saved-highlight">17.2g CO₂ saved</span>)</span>
+            </div>
+
+            <!-- Supporting Telemetry Breakdown -->
             <div class="kpi-stat-columns">
               <div class="stat-column" title="Grams of CO2 emissions prevented by not downloading video streams.">
-                <span class="stat-num text-emerald" id="kpi-carbon-saved">0g</span>
+                <span class="stat-num text-emerald" id="kpi-carbon-saved">17.2g</span>
                 <span class="stat-lbl">CO₂e Prevented</span>
               </div>
               <div class="stat-column" title="Watt-hours of cloud GPU compute power saved.">
-                <span class="stat-num text-emerald" id="kpi-energy-saved">0 Wh</span>
+                <span class="stat-num text-emerald" id="kpi-energy-saved">40.9 Wh</span>
                 <span class="stat-lbl">GPU Power Saved</span>
               </div>
               <div class="stat-column" title="Internet bandwidth saved by avoiding heavy video decoding.">
-                <span class="stat-num text-emerald" id="kpi-bandwidth-saved">0 MB</span>
+                <span class="stat-num text-emerald" id="kpi-bandwidth-saved">2.3 GB</span>
                 <span class="stat-lbl">Bandwidth Saved</span>
               </div>
             </div>
-            <div class="green-it-comparison-pill">
-              <span>⚡ 0.00042 Wh/scan</span> (CogniShield Text) vs <span>2.73 Wh</span> (Video Cloud AI)
-            </div>
           </div>
+
           <div class="kpi-footer">
-            <span class="text-emerald">Validated Joule Benchmark:</span> Zero video stream overhead
+            <span class="text-emerald">Validated Joule Benchmark:</span> Zero video stream overhead • 100% On-Device
           </div>
         </div>
 
       </section>
 
-      <!-- Navigation Tabs Bar -->
-      <nav class="dashboard-tabs-bar">
-        <button class="dash-tab-btn active" data-target="tab-radar">
-          <span>📡 Media Diet & Blindspots</span>
-        </button>
-        <button class="dash-tab-btn" data-target="tab-kahneman">
-          <span>🧠 Manipulation Hooks Breakdown</span>
-        </button>
-        <button class="dash-tab-btn" data-target="tab-trends">
-          <span>📈 7-Day Scrutiny Trends</span>
-        </button>
-        <button class="dash-tab-btn" data-target="tab-gym">
-          <span>🥊 Socratic Gym (30s Workout)</span>
-        </button>
-        <button class="dash-tab-btn" data-target="tab-cert">
-          <span>🎓 Academic Due-Diligence Certificate</span>
-        </button>
-        <button class="dash-tab-btn" data-target="tab-audit">
-          <span>📋 Private Audit Log (<span id="tab-log-count">0</span>)</span>
-        </button>
-        <button class="dash-tab-btn" data-target="tab-green">
-          <span>🌿 Green IT & Privacy Proof</span>
-        </button>
-      </nav>
-
-      <!-- TAB 1: Perspective Radar & Media Diet Balance -->
+      <!-- TAB 1: Perspective Radar & Media Diet Balance (Echo-Chamber Radar) -->
       <section class="tab-panel active" id="tab-radar">
+
+        <!-- Daily 15-Second Blindspot Mission Banner (Duolingo-grade Retention Hook) -->
+        <div class="daily-mission-banner" id="daily-blindspot-mission">
+          <div class="mission-left-col">
+            <div class="mission-badge-row">
+              <span class="mission-target-badge">🎯 TODAY'S 15-SECOND BLINDSPOT MISSION</span>
+              <span class="mission-pts-pill">+5 Agency Pts</span>
+              <span class="mission-streak-fire">🔥 Day 7 Streak</span>
+            </div>
+            <h3 class="mission-title">Break Your Filter Bubble: Explore Human &amp; Ethical Impact</h3>
+            <p class="mission-body">
+              Your reading this week is strong on <strong>Economics (34%)</strong>, but low on <strong>Human &amp; Ethical Impact (13%)</strong>. Break your bubble right now:
+            </p>
+            <div class="mission-inquiry-quote">
+              <span class="quote-symbol">“</span>
+              <span id="mission-inquiry-text">How are vulnerable citizens, civil rights, and ethical standards impacted by this policy in everyday practice?</span>
+            </div>
+          </div>
+          <div class="mission-right-col">
+            <button class="btn-mission-action" id="btn-mission-unlock" title="Unlock counter-angle and earn +5 CAS Agency Points">
+              <span class="btn-mission-icon">🔍</span>
+              <span class="btn-mission-label">Unlock Counter-Angle &amp; Earn +5 Pts ↗</span>
+            </button>
+            <span class="mission-timer-hint">⏱️ Takes ~15s • 100% Private On-Device</span>
+          </div>
+        </div>
+
         <div class="perspective-split-grid">
           <!-- Left: Radar Chart (55% width) -->
           <div class="panel-card radar-panel-left">
             <div class="panel-header">
               <div>
-                <h3 class="panel-title">Media Diet Balance</h3>
+                <h3 class="panel-title">Media Diet Balance Radar</h3>
                 <p class="panel-desc">Compare what you read (green) against a balanced 4-angle diet (blue).</p>
               </div>
               <span class="radar-legend-tag" title="Normalized Shannon Metric: Mathematical diversity score across 4 archetypes (2.00 max).">ℹ️ Shannon Metric</span>
@@ -477,11 +670,11 @@
                 <circle id="radar-dot-bottom" cx="200" cy="200" r="5" class="radar-vertex-dot"></circle>
                 <circle id="radar-dot-left" cx="200" cy="200" r="5" class="radar-vertex-dot"></circle>
 
-                <!-- Axis Labels with extra padding to prevent any clipping -->
-                <text x="200" y="16" class="radar-label top" text-anchor="middle">🔬 Scientific / Data (<span id="radar-pct-top">0%</span>)</text>
-                <text x="375" y="204" class="radar-label right" text-anchor="start">📊 Economic / Market (<span id="radar-pct-right">0%</span>)</text>
-                <text x="200" y="392" class="radar-label bottom" text-anchor="middle">⚖️ Legal / Policy (<span id="radar-pct-bottom">0%</span>)</text>
-                <text x="25" y="204" class="radar-label left" text-anchor="end">🤝 Human / Ethical (<span id="radar-pct-left">0%</span>)</text>
+                <!-- Axis Labels with extra padding to prevent clipping -->
+                <text x="200" y="16" class="radar-label top" text-anchor="middle">🔬 Scientific / Data (<span id="radar-pct-top">28%</span>)</text>
+                <text x="375" y="204" class="radar-label right" text-anchor="start">📊 Economic / Market (<span id="radar-pct-right">34%</span>)</text>
+                <text x="200" y="392" class="radar-label bottom" text-anchor="middle">⚖️ Legal / Policy (<span id="radar-pct-bottom">25%</span>)</text>
+                <text x="25" y="204" class="radar-label left" text-anchor="end">🤝 Human / Ethical (<span id="radar-pct-left">13%</span>)</text>
               </svg>
             </div>
 
@@ -498,7 +691,7 @@
                 <h3 class="panel-title">Active Blindspot Diagnostics</h3>
                 <p class="panel-desc">Missing viewpoints and actionable counter-inquiries.</p>
               </div>
-              <span class="badge-amber" id="blindspot-tag">Analyzing...</span>
+              <span class="badge-amber" id="blindspot-tag">1 Blindspot Identified</span>
             </div>
 
             <div class="blindspot-cards-list" id="blindspot-container">
@@ -508,7 +701,7 @@
         </div>
       </section>
 
-      <!-- TAB 2: Kahneman Dual-Process & Fallacy Breakdown -->
+      <!-- TAB 2: Kahneman Dual-Process & Fallacy Breakdown (23 Rage-Bait Traps Caught) -->
       <section class="tab-panel" id="tab-kahneman">
         <div class="tab-explainer-banner">
           <h3>🧠 How Algorithms Exploit Emotional Reflexes</h3>
@@ -531,7 +724,7 @@
             <div class="rhetoric-breakdown-list">
               <div class="rhetoric-bar-group">
                 <div class="rhetoric-bar-header">
-                  <span class="rhetoric-name">🔥 Outrage & Moral Anger</span>
+                  <span class="rhetoric-name">🔥 Outrage &amp; Moral Anger</span>
                   <span class="rhetoric-count" id="count-outrage">0 instances (0%)</span>
                 </div>
                 <div class="rhetoric-track">
@@ -542,7 +735,7 @@
 
               <div class="rhetoric-bar-group">
                 <div class="rhetoric-bar-header">
-                  <span class="rhetoric-name">🎯 False Certainty & Dogmatism</span>
+                  <span class="rhetoric-name">🎯 False Certainty &amp; Dogmatism</span>
                   <span class="rhetoric-count" id="count-certainty">0 instances (0%)</span>
                 </div>
                 <div class="rhetoric-track">
@@ -564,7 +757,7 @@
 
               <div class="rhetoric-bar-group">
                 <div class="rhetoric-bar-header">
-                  <span class="rhetoric-name">⏳ Manufactured Urgency & FOMO</span>
+                  <span class="rhetoric-name">⏳ Manufactured Urgency &amp; FOMO</span>
                   <span class="rhetoric-count" id="count-urgency">0 instances (0%)</span>
                 </div>
                 <div class="rhetoric-track">
@@ -580,7 +773,7 @@
             <div class="panel-header">
               <div>
                 <h3 class="panel-title">Kahneman Dual-Process Ratio</h3>
-                <p class="panel-desc">Measures how often you pause for >12 seconds before reacting.</p>
+                <p class="panel-desc">Measures how often you pause for &gt;12 seconds before reacting.</p>
               </div>
               <span class="badge-emerald" id="badge-system-dominance">Evaluating</span>
             </div>
@@ -625,7 +818,7 @@
         </div>
       </section>
 
-      <!-- TAB 3: 7-Day Cognitive Trends -->
+      <!-- TAB 3: 7-Day Cognitive Trends (7-Day Mind Progress) -->
       <section class="tab-panel" id="tab-trends">
         <div class="tab-explainer-banner">
           <h3>📈 Tracking Your Mind Fitness Over Time</h3>
@@ -668,7 +861,7 @@
           <div class="trends-summary-grid">
             <div class="trend-summary-item">
               <span class="trend-lbl">Weekly Content Analyzed:</span>
-              <span class="trend-val" id="trend-total-scans">0 Articles & Videos</span>
+              <span class="trend-val" id="trend-total-scans">0 Articles &amp; Videos</span>
             </div>
             <div class="trend-summary-item">
               <span class="trend-lbl">Average Paused Reflection:</span>
@@ -686,7 +879,7 @@
         </div>
       </section>
 
-      <!-- TAB 4: Socratic Gym (Cognitive Workout Arena) -->
+      <!-- TAB 4: Socratic Gym (30s Brain Sparring) -->
       <section class="tab-panel" id="tab-gym">
         <div class="tab-explainer-banner">
           <h3>🥊 Socratic Gym: 30-Second Mental Workouts</h3>
@@ -753,7 +946,7 @@
                 <p>Using hyper-charged emotional adjectives to trigger immediate anger before logical evaluation can occur.</p>
               </div>
               <div class="fallacy-card">
-                <span class="fallacy-tag">4. False Consensus & Cherry-Picking</span>
+                <span class="fallacy-tag">4. False Consensus &amp; Cherry-Picking</span>
                 <p>Citing an isolated outlier study as universal proof while ignoring hundreds of contradictory peer reviews.</p>
               </div>
             </div>
@@ -761,7 +954,7 @@
         </div>
       </section>
 
-      <!-- TAB 5: B2B Academic Due-Diligence Certificate -->
+      <!-- TAB 5: Proof-of-Research Pass (Academic Due-Diligence Certificate) -->
       <section class="tab-panel" id="tab-cert">
         <div class="tab-explainer-banner">
           <h3>🎓 What is the Epistemic Due-Diligence Certificate?</h3>
@@ -804,7 +997,7 @@
 
               <div class="cert-btn-row">
                 <button class="btn-primary" id="btn-generate-cert">
-                  <span>📜 Refresh & Issue Certificate</span>
+                  <span>📜 Refresh &amp; Issue Certificate</span>
                 </button>
                 <button class="btn-secondary" id="btn-print-cert">
                   <span>🖨️ Print / Save as PDF</span>
@@ -820,14 +1013,14 @@
                 <div class="cert-crest">🛡️</div>
                 <div class="cert-org-details">
                   <span class="cert-org-name">COGNISHIELD ACADEMIC INTEGRITY CONSORTIUM</span>
-                  <span class="cert-standard">European Standards & Guidelines (ESG) Verification</span>
+                  <span class="cert-standard">European Standards &amp; Guidelines (ESG) Verification</span>
                 </div>
                 <div class="cert-stamp">VERIFIED<br><span>SYSTEM 2</span></div>
               </div>
 
               <div class="cert-title-section">
                 <h2>EPISTEMIC DUE-DILIGENCE CERTIFICATE</h2>
-                <p class="cert-subtitle">Formal Attestation of Multi-Perspective Inquiry & Independent Scrutiny</p>
+                <p class="cert-subtitle">Formal Attestation of Multi-Perspective Inquiry &amp; Independent Scrutiny</p>
               </div>
 
               <div class="cert-details-grid">
@@ -868,7 +1061,7 @@
                   <strong class="text-emerald" id="cert-disp-dwell">0s</strong>
                 </div>
                 <div class="audit-row">
-                  <span>[✓] Privacy & GDPR Status:</span>
+                  <span>[✓] Privacy &amp; GDPR Status:</span>
                   <strong class="text-emerald">100% On-Device Local Audit (Zero Cloud Tracking)</strong>
                 </div>
               </div>
@@ -889,7 +1082,7 @@
         </div>
       </section>
 
-      <!-- TAB 6: Epistemic Audit Log -->
+      <!-- TAB 6: Epistemic Audit Log (Traps Dodged) -->
       <section class="tab-panel" id="tab-audit">
         <div class="tab-explainer-banner">
           <h3>📋 Your Private, Transparent Browsing History</h3>
@@ -938,7 +1131,7 @@
         </div>
       </section>
 
-      <!-- TAB 7: Green IT Audit & Compliance -->
+      <!-- TAB 7: Green IT Audit & Compliance (99.9% Green & Private) -->
       <section class="tab-panel" id="tab-green">
         <div class="tab-explainer-banner">
           <h3>🌿 Green IT: Why We Parse Text Instead of Video Streams</h3>
@@ -950,7 +1143,7 @@
         <div class="panel-card">
           <div class="panel-header">
             <div>
-              <h3 class="panel-title">Architecture Audit & Regulatory Integrity</h3>
+              <h3 class="panel-title">Architecture Audit &amp; Regulatory Integrity</h3>
               <p class="panel-desc">Empirical proof of carbon reduction and European compliance.</p>
             </div>
             <span class="badge-emerald">Sustainable Green IT</span>
