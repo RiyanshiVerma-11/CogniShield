@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,953 +8,1291 @@
   <link rel="stylesheet" href="dashboard.css">
   <link rel="icon" href="../../assets/icons/icon48.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet">
 </head>
-<body class="dashboard-body">
-<div class="app-layout">
 
-  <!-- ═══════════════════════════════════════════════════════════
+<body class="dashboard-body">
+  <div class="app-layout">
+
+    <!-- ═══════════════════════════════════════════════════════════
        LEFT SIDEBAR — 256px fixed
   ════════════════════════════════════════════════════════════════ -->
-  <aside class="sidebar">
+    <aside class="sidebar">
 
-    <!-- Brand Header -->
-    <div class="brand-header">
-      <svg class="brand-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7z"/>
-      </svg>
-      <div class="brand-text-block">
-        <span class="brand-name">COGNISHIELD</span>
-        <span class="brand-version">v2.5 LOCAL</span>
-      </div>
-    </div>
-
-    <!-- Section: Workspace -->
-    <div class="sidebar-section">
-      <span class="section-label">WORKSPACE</span>
-      <button class="module-btn active" data-module="command-center">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-        Command Center
-      </button>
-    </div>
-
-    <!-- Section: Modules -->
-    <div class="sidebar-section">
-      <span class="section-label">MODULES</span>
-
-      <button class="module-btn" data-module="tab-radar">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-        Perspective Balance
-      </button>
-
-      <button class="module-btn" data-module="tab-kahneman">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
-        Outrage &amp; Hook Monitor
-        <span class="pill-counter" id="tab-traps-count">23</span>
-      </button>
-
-      <button class="module-btn" data-module="tab-trends">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        7-Day Telemetry
-      </button>
-
-      <button class="module-btn" data-module="tab-gym">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        Socratic Calibration
-      </button>
-
-      <button class="module-btn" data-module="tab-cert">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        Academic Verification
-        <span class="tag-campus">CAMPUS</span>
-      </button>
-
-      <button class="module-btn" data-module="tab-audit">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-        Local Audit Ledger
-        <span class="pill-counter" id="tab-log-count">0</span>
-      </button>
-
-      <button class="module-btn" data-module="tab-green">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3"/><rect x="9" y="11" width="14" height="10" rx="2"/><circle cx="16" cy="16" r="1"/></svg>
-        Green IT &amp; Privacy
-      </button>
-    </div>
-
-    <!-- Footer -->
-    <div class="sidebar-footer">
-      <div class="engine-status">
-        <span class="status-dot emerald"></span>
-        <span>Engine Active · On-Device</span>
-      </div>
-      <div class="utility-buttons">
-        <button class="btn-utility" id="btn-toggle-demo" title="Toggle sample data to preview all graphs and analytics">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-          <span id="btn-demo-text">Sample Data</span>
-        </button>
-        <button class="btn-utility" id="btn-export-json" title="Export your browsing scrutiny log as a private JSON file (GDPR Article 20)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Export JSON
-        </button>
-        <button class="btn-utility btn-danger" id="btn-clear-db" title="Clear all local browsing history (GDPR Article 17 Right to Erasure)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
-          Purge Data
+      <!-- Brand Header -->
+      <div class="brand-header">
+        <svg class="brand-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--blue)"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7z" />
+        </svg>
+        <div class="brand-text-block">
+          <span class="brand-name">COGNISHIELD</span>
+          <span class="brand-version">v2.5 LOCAL</span>
+        </div>
+        <button class="btn-sidebar-collapse" id="btn-collapse-sidebar" title="Hide sidebar (Ctrl+B)"
+          aria-label="Hide sidebar">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+            <line x1="9" y1="3" x2="9" y2="21" />
+            <path d="M15 9l-3 3 3 3" />
+          </svg>
         </button>
       </div>
-    </div>
 
-  </aside>
+      <!-- Section: Workspace -->
+      <div class="sidebar-section">
+        <span class="section-label">WORKSPACE</span>
+        <button class="module-btn active" data-module="command-center">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7" />
+            <rect x="14" y="3" width="7" height="7" />
+            <rect x="3" y="14" width="7" height="7" />
+            <rect x="14" y="14" width="7" height="7" />
+          </svg>
+          Command Center
+        </button>
+      </div>
 
-  <!-- ═══════════════════════════════════════════════════════════
+      <!-- Section: Modules -->
+      <div class="sidebar-section">
+        <span class="section-label">MODULES</span>
+
+        <button class="module-btn" data-module="tab-radar">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+            stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <circle cx="12" cy="12" r="6" />
+            <circle cx="12" cy="12" r="2" />
+          </svg>
+          Perspective Balance
+        </button>
+
+        <button class="module-btn" data-module="tab-kahneman">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+          </svg>
+          Outrage &amp; Hook Monitor
+          <span class="pill-counter" id="tab-traps-count">23</span>
+        </button>
+
+        <button class="module-btn" data-module="tab-trends">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+          </svg>
+          7-Day Telemetry
+        </button>
+
+        <button class="module-btn" data-module="tab-gym">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="5 3 19 12 5 21 5 3" />
+          </svg>
+          Socratic Calibration
+        </button>
+
+        <button class="module-btn" data-module="tab-cert">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+          </svg>
+          Academic Verification
+          <span class="tag-campus">CAMPUS</span>
+        </button>
+
+        <button class="module-btn" data-module="tab-audit">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+            stroke-linecap="round" stroke-linejoin="round">
+            <ellipse cx="12" cy="5" rx="9" ry="3" />
+            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+          </svg>
+          Local Audit Ledger
+          <span class="pill-counter" id="tab-log-count">0</span>
+        </button>
+
+        <button class="module-btn" data-module="tab-green">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3" />
+            <rect x="9" y="11" width="14" height="10" rx="2" />
+            <circle cx="16" cy="16" r="1" />
+          </svg>
+          Green IT &amp; Privacy
+        </button>
+      </div>
+
+      <!-- Footer -->
+      <div class="sidebar-footer">
+        <div class="engine-status">
+          <span class="status-dot emerald"></span>
+          <span>Engine Active · On-Device</span>
+        </div>
+        <div class="utility-buttons">
+          <button class="btn-utility theme-toggle-btn" id="btn-theme-toggle"
+            title="Switch between Light and Dark theme">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" id="theme-icon">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <span id="theme-toggle-text">Theme: Light</span>
+          </button>
+          <button class="btn-utility" id="btn-toggle-demo"
+            title="Toggle sample data to preview all graphs and analytics">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 8v4l3 3" />
+            </svg>
+            <span id="btn-demo-text">Sample Data</span>
+          </button>
+          <button class="btn-utility" id="btn-export-json"
+            title="Export your browsing scrutiny log as a private JSON file (GDPR Article 20)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Export JSON
+          </button>
+          <button class="btn-utility btn-danger" id="btn-clear-db"
+            title="Clear all local browsing history (GDPR Article 17 Right to Erasure)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"
+              stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6" />
+              <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
+              <path d="M10 11v6" />
+              <path d="M14 11v6" />
+            </svg>
+            Purge Data
+          </button>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ═══════════════════════════════════════════════════════════
        MAIN VIEWPORT
   ════════════════════════════════════════════════════════════════ -->
-  <div class="main-view">
+    <div class="main-view">
 
-    <!-- ── DEMO BANNER ─────────────────────────────────────────── -->
-    <div class="demo-active-banner" id="demo-active-banner" style="display:none;">
-      <div class="demo-banner-content">
-        <span class="demo-tag">PREVIEW MODE</span>
-        <span>Viewing a <strong>Sample Benchmark Dataset</strong> for testing and chart preview.</span>
+      <!-- ── DEMO BANNER ─────────────────────────────────────────── -->
+      <div class="demo-active-banner" id="demo-active-banner" style="display:none;">
+        <div class="demo-banner-content">
+          <span class="demo-tag">PREVIEW MODE</span>
+          <span>Viewing a <strong>Sample Benchmark Dataset</strong> for testing and chart preview.</span>
+        </div>
+        <button class="btn-demo-switch" id="btn-return-real">Return to My Real Data →</button>
       </div>
-      <button class="btn-demo-switch" id="btn-return-real">Return to My Real Data →</button>
-    </div>
 
-    <!-- ── ZERO STATE BANNER ───────────────────────────────────── -->
-    <div class="zero-data-banner" id="zero-data-banner" style="display:none;">
-      <div class="zero-data-icon">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7z"/></svg>
-      </div>
-      <div class="zero-data-content">
-        <h3>Your Cognitive Tracker is Ready &amp; Active!</h3>
-        <p>You don't have any browsing sessions recorded yet.</p>
-        <div class="zero-data-steps">
-          <span class="step-badge">1. Visit YouTube, Reddit, or any news site</span>
-          <span class="step-badge">2. Watch the shield icon glow in the corner</span>
-          <span class="step-badge">3. Return here to see your real analytics</span>
+      <!-- ── ZERO STATE BANNER (Compact Ribbon under 2cm / ~54px, 0.2cm margins) ── -->
+      <div class="zero-data-banner" id="zero-data-banner" style="display:none;">
+        <!-- Row 1: Title + 3 Steps + Button (Horizontal flex, zero overlap) -->
+        <div class="zero-row-top">
+          <div class="zero-brand-chip">
+            <div class="zero-shield-icon">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7z" />
+              </svg>
+            </div>
+            <span class="zero-title-text">Your Cognitive Tracker is Ready &amp; Active!</span>
+            <span class="zero-status-pill">STANDBY</span>
+          </div>
+
+          <div class="zero-steps-chip-group">
+            <span class="step-mini-pill"><span class="step-mini-num">1</span> Visit YouTube, Reddit, or News</span>
+            <span class="step-mini-arrow">→</span>
+            <span class="step-mini-pill"><span class="step-mini-num">2</span> Watch shield glow</span>
+            <span class="step-mini-arrow">→</span>
+            <span class="step-mini-pill"><span class="step-mini-num">3</span> Check analytics</span>
+          </div>
+
+          <button class="btn-primary btn-zero-cta" id="btn-zero-load-demo" title="Load sample benchmark data">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <polygon points="10 8 16 12 10 16 10 8" />
+            </svg>
+            <span>Load Sample Data</span>
+          </button>
+        </div>
+
+        <!-- Row 2: Full content subtitle (small text, zero ellipsis, 100% visible) -->
+        <div class="zero-row-sub">
+          <span>You don't have any browsing sessions recorded yet. Start reading feeds or load sample data to explore
+            analytics.</span>
         </div>
       </div>
-      <button class="btn-primary" id="btn-zero-load-demo">Load Sample Data</button>
-    </div>
 
-    <!-- ══════════════════════════════════════════════════════════
+      <!-- ══════════════════════════════════════════════════════════
          COMMAND CENTER VIEW
     ═══════════════════════════════════════════════════════════════ -->
-    <section id="command-center-view" class="command-center">
+      <section id="command-center-view" class="command-center">
 
-      <!-- A. Product Identity & Live System Bar -->
-      <header class="product-banner">
-        <div class="product-banner-left">
-          <h1 class="product-title">CogniShield Cognitive Copilot</h1>
-          <p class="product-subtitle">Zero-censorship browser defense. Neutralizing emotional manipulation in 0.05s, surfacing hidden perspectives, and systematically training independent human discernment.</p>
-        </div>
-        <div class="product-banner-right">
-          <div class="status-badge-pill">
-            <span class="status-dot emerald"></span>7-Day Deliberation Streak
+        <!-- A. Product Identity & Live System Bar -->
+        <header class="product-banner">
+          <div class="product-banner-left">
+            <div class="product-title-row">
+              <button class="btn-sidebar-unhide" id="btn-unhide-sidebar" title="Show sidebar (Ctrl+B)"
+                style="display:none;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                  <line x1="9" y1="3" x2="9" y2="21" />
+                  <path d="M12 9l3 3-3 3" />
+                </svg>
+                <span>Sidebar</span>
+              </button>
+              <h1 class="product-title">CogniShield Cognitive Copilot</h1>
+            </div>
+            <p class="product-subtitle">Zero-censorship browser defense. Neutralizing emotional manipulation in 0.05s,
+              surfacing hidden perspectives, and systematically training independent human discernment.</p>
           </div>
-          <div class="status-badge-pill">
-            <span class="status-dot cyan"></span>Top 5% Analytical Tier
+          <div class="product-banner-right">
+            <div class="status-badge-pill">
+              <span class="status-dot emerald"></span>7-Day Deliberation Streak
+            </div>
+            <div class="status-badge-pill">
+              <span class="status-dot cyan"></span>Top 5% Analytical Tier
+            </div>
+            <div class="status-badge-pill">
+              <span class="status-dot amber"></span>100% On-Device · Zero Cloud
+            </div>
           </div>
-          <div class="status-badge-pill">
-            <span class="status-dot amber"></span>100% On-Device · Zero Cloud
-          </div>
-        </div>
-      </header>
+        </header>
 
-      <!-- B. 1-Line Telemetry Ribbon -->
-      <div class="pipeline-ribbon-wrapper">
-        <div class="pipeline-ribbon" id="command-center-ribbon">
-          <span class="ribbon-label">PIPELINE TELEMETRY</span>
-          <span class="ribbon-divider">|</span>
-
-          <div class="ribbon-stage" id="ribbon-cc-1">
-            <span class="stage-num">01</span>
-            <span class="stage-name">DOM INGEST</span>
-            <span class="stage-meta">(&lt;15KB · <span id="pipe-ribbon-lat-cc">0.05s</span>)</span>
-          </div>
-          <span class="ribbon-arrow">→</span>
-
-          <div class="ribbon-stage" id="ribbon-cc-2">
-            <span class="stage-num">02</span>
-            <span class="stage-name">REGEX SCANNER</span>
-            <span class="stage-meta">(<span id="pipe-ribbon-hooks-cc">23 Hooks</span> · <span id="pipe-ribbon-pwr-cc">0W</span>)</span>
-          </div>
-          <span class="ribbon-arrow">→</span>
-
-          <div class="ribbon-stage" id="ribbon-cc-3">
-            <span class="stage-num">03</span>
-            <span class="stage-name">DIALECTIC CACHE</span>
-            <span class="stage-meta">(<span id="pipe-ribbon-angles-cc">4 Axes</span>)</span>
-          </div>
-          <span class="ribbon-arrow">→</span>
-
-          <div class="ribbon-stage" id="ribbon-cc-4">
-            <span class="stage-num">04</span>
-            <span class="stage-name">SOCRATIC PAUSE</span>
-            <span class="stage-meta">(<span id="pipe-ribbon-pause-cc">134.7s Avg</span>)</span>
-          </div>
-
-          <span class="ribbon-divider">|</span>
-          <button class="btn-ribbon-expand" id="btn-toggle-cc-specs">Expand Specs ▾</button>
-        </div>
-
-        <!-- Expandable detail drawer (hidden by default) -->
-        <div class="pipeline-drawer" id="pipeline-spec-drawer" style="display:none;">
-          <div class="pipeline-stages-flow" id="guide-pillars">
-            <div class="pipeline-stage-node" id="pipe-stage-1">
-              <div class="stage-step-row">
-                <span class="stage-tag">STAGE 01</span>
-                <span class="stage-perf-tag" id="pipe-s1-latency">0.05s</span>
+        <!-- B. Pipeline Telemetry Card -->
+        <div class="pipeline-ribbon-wrapper">
+          <div class="pipeline-ribbon" id="command-center-ribbon">
+            <!-- Row 1: Pipeline Telemetry Label & Action -->
+            <div class="pipeline-ribbon-header">
+              <div class="ribbon-header-title">
+                <span class="ribbon-status-dot"></span>
+                <span class="ribbon-label">PIPELINE TELEMETRY</span>
+                <span class="ribbon-sublabel">· 100% On-Device · Real-time Execution Loop</span>
               </div>
-              <div class="stage-main-info">
-                <div class="stage-icon-box">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                </div>
-                <div>
-                  <h4 class="stage-title">Page Ingestion</h4>
-                  <span class="stage-subtitle">Local DOM / Accessibility API</span>
-                </div>
-              </div>
-              <div class="stage-telemetry-body">
-                <div class="telemetry-item"><span class="t-label">Source Status:</span><span class="t-value" id="pipe-s1-source">Active Feed: YouTube / News DOM</span></div>
-                <div class="telemetry-item"><span class="t-label">Payload Size:</span><span class="t-value" id="pipe-s1-payload">&lt;15KB text extracted</span></div>
-              </div>
-              <div class="stage-status-indicator status-ready">
-                <span class="status-tiny-dot"></span>
-                <span id="pipe-s1-status">Live DOM Sync Active</span>
-              </div>
+              <button class="btn-ribbon-expand" id="btn-toggle-cc-specs" aria-label="Toggle pipeline specifications">Expand Specs ▾</button>
             </div>
 
-            <div class="pipeline-connector-block" aria-hidden="true">
-              <svg class="pipeline-connector-svg" viewBox="0 0 48 24"><line x1="0" y1="12" x2="48" y2="12" class="pipeline-wire"/><circle cx="24" cy="12" r="3" class="pipeline-pulse-dot-moving"/></svg>
-            </div>
+            <!-- Row 2: Full Pipeline Stages Flow -->
+            <div class="pipeline-ribbon-stages">
+              <div class="ribbon-stage" id="ribbon-cc-1">
+                <span class="stage-num">01</span>
+                <span class="stage-name">DOM INGEST</span>
+                <span class="stage-meta">(&lt;15KB · <span id="pipe-ribbon-lat-cc">0.05s</span>)</span>
+              </div>
+              <span class="ribbon-arrow">→</span>
 
-            <div class="pipeline-stage-node" id="pipe-stage-2">
-              <div class="stage-step-row">
-                <span class="stage-tag">STAGE 02</span>
-                <span class="stage-perf-tag text-emerald" id="pipe-s2-power">0 Watts / Local</span>
+              <div class="ribbon-stage" id="ribbon-cc-2">
+                <span class="stage-num">02</span>
+                <span class="stage-name">REGEX SCANNER</span>
+                <span class="stage-meta">(<span id="pipe-ribbon-hooks-cc">23 Hooks</span> · <span
+                    id="pipe-ribbon-pwr-cc">0W</span>)</span>
               </div>
-              <div class="stage-main-info">
-                <div class="stage-icon-box">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
-                </div>
-                <div>
-                  <h4 class="stage-title">Outrage &amp; Hook Scanner</h4>
-                  <span class="stage-subtitle">On-Device Trilingual Regex</span>
-                </div>
+              <span class="ribbon-arrow">→</span>
+
+              <div class="ribbon-stage" id="ribbon-cc-3">
+                <span class="stage-num">03</span>
+                <span class="stage-name">DIALECTIC CACHE</span>
+                <span class="stage-meta">(<span id="pipe-ribbon-angles-cc">4 Axes</span>)</span>
               </div>
-              <div class="stage-telemetry-body">
-                <div class="telemetry-item"><span class="t-label">Hooks Caught:</span><span class="t-value text-amber" id="pipe-s2-hooks">23 Manipulation Hooks</span></div>
-                <div class="telemetry-item"><span class="t-label">Execution:</span><span class="t-value text-emerald">100% In-Browser (0ms)</span></div>
-              </div>
-              <div class="stage-status-indicator status-scanning">
-                <span class="status-tiny-dot amber"></span>
-                <span id="pipe-s2-status">Trilingual (EN/DE/FR) Active</span>
+              <span class="ribbon-arrow">→</span>
+
+              <div class="ribbon-stage" id="ribbon-cc-4">
+                <span class="stage-num">04</span>
+                <span class="stage-name">SOCRATIC PAUSE</span>
+                <span class="stage-meta">(<span id="pipe-ribbon-pause-cc">134.7s Avg</span>)</span>
               </div>
             </div>
+          </div>
 
-            <div class="pipeline-connector-block" aria-hidden="true">
-              <svg class="pipeline-connector-svg" viewBox="0 0 48 24"><line x1="0" y1="12" x2="48" y2="12" class="pipeline-wire"/><circle cx="24" cy="12" r="3" class="pipeline-pulse-dot-moving"/></svg>
-            </div>
-
-            <div class="pipeline-stage-node" id="pipe-stage-3">
-              <div class="stage-step-row">
-                <span class="stage-tag">STAGE 03</span>
-                <span class="stage-perf-tag text-blue">Dialectic Cache</span>
-              </div>
-              <div class="stage-main-info">
-                <div class="stage-icon-box">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          <!-- Expandable detail drawer (hidden by default) -->
+          <div class="pipeline-drawer" id="pipeline-spec-drawer" style="display:none;">
+            <div class="pipeline-stages-flow" id="guide-pillars">
+              <div class="pipeline-stage-node" id="pipe-stage-1">
+                <div class="stage-step-row">
+                  <span class="stage-tag">STAGE 01</span>
+                  <span class="stage-perf-tag" id="pipe-s1-latency">0.05s</span>
                 </div>
-                <div>
-                  <h4 class="stage-title">Perspective Engine</h4>
-                  <span class="stage-subtitle">Dialectic Cache / Micro-JSON</span>
+                <div class="stage-main-info">
+                  <div class="stage-icon-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                      <polyline points="7 10 12 15 17 10" />
+                      <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="stage-title">Page Ingestion</h4>
+                    <span class="stage-subtitle">Local DOM / Accessibility API</span>
+                  </div>
+                </div>
+                <div class="stage-telemetry-body">
+                  <div class="telemetry-item"><span class="t-label">Source Status:</span><span class="t-value"
+                      id="pipe-s1-source">Active Feed: YouTube / News DOM</span></div>
+                  <div class="telemetry-item"><span class="t-label">Payload Size:</span><span class="t-value"
+                      id="pipe-s1-payload">&lt;15KB text extracted</span></div>
+                </div>
+                <div class="stage-status-indicator status-ready">
+                  <span class="status-tiny-dot"></span>
+                  <span id="pipe-s1-status">Live DOM Sync Active</span>
                 </div>
               </div>
-              <div class="stage-telemetry-body">
-                <div class="telemetry-item"><span class="t-label">Diet Balance:</span><span class="t-value text-blue" id="pipe-s3-foundations">4 Foundations Checked</span></div>
-                <div class="telemetry-item"><span class="t-label">Counter-Angle:</span><span class="t-value text-amber" id="pipe-s3-blindspots">1 Blindspot Found</span></div>
-              </div>
-              <div class="stage-status-indicator status-ready">
-                <span class="status-tiny-dot blue"></span>
-                <span id="pipe-s3-status">Synthesis Ready</span>
-              </div>
-            </div>
 
-            <div class="pipeline-connector-block" aria-hidden="true">
-              <svg class="pipeline-connector-svg" viewBox="0 0 48 24"><line x1="0" y1="12" x2="48" y2="12" class="pipeline-wire"/><circle cx="24" cy="12" r="3" class="pipeline-pulse-dot-moving"/></svg>
-            </div>
-
-            <div class="pipeline-stage-node" id="pipe-stage-4">
-              <div class="stage-step-row">
-                <span class="stage-tag">STAGE 04</span>
-                <span class="stage-perf-tag text-emerald">Agency Loop</span>
+              <div class="pipeline-connector-block" aria-hidden="true">
+                <svg class="pipeline-connector-svg" viewBox="0 0 48 24">
+                  <line x1="0" y1="12" x2="48" y2="12" class="pipeline-wire" />
+                  <circle cx="24" cy="12" r="3" class="pipeline-pulse-dot-moving" />
+                </svg>
               </div>
-              <div class="stage-main-info">
-                <div class="stage-icon-box">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z"/></svg>
+
+              <div class="pipeline-stage-node" id="pipe-stage-2">
+                <div class="stage-step-row">
+                  <span class="stage-tag">STAGE 02</span>
+                  <span class="stage-perf-tag text-emerald" id="pipe-s2-power">0 Watts / Local</span>
                 </div>
-                <div>
-                  <h4 class="stage-title">Human Decision</h4>
-                  <span class="stage-subtitle">12s Pause &amp; Critical Agency</span>
+                <div class="stage-main-info">
+                  <div class="stage-icon-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="stage-title">Outrage &amp; Hook Scanner</h4>
+                    <span class="stage-subtitle">On-Device Trilingual Regex</span>
+                  </div>
+                </div>
+                <div class="stage-telemetry-body">
+                  <div class="telemetry-item"><span class="t-label">Hooks Caught:</span><span class="t-value text-amber"
+                      id="pipe-s2-hooks">23 Manipulation Hooks</span></div>
+                  <div class="telemetry-item"><span class="t-label">Execution:</span><span
+                      class="t-value text-emerald">100% In-Browser (0ms)</span></div>
+                </div>
+                <div class="stage-status-indicator status-scanning">
+                  <span class="status-tiny-dot amber"></span>
+                  <span id="pipe-s2-status">Trilingual (EN/DE/FR) Active</span>
                 </div>
               </div>
-              <div class="stage-telemetry-body">
-                <div class="telemetry-item"><span class="t-label">Habit State:</span><span class="t-value text-emerald" id="pipe-s4-pause">134.7s Avg Pause</span></div>
-                <div class="telemetry-item"><span class="t-label">Scaffolding:</span><span class="t-value text-blue" id="pipe-s4-scaffold">AI Hints: Fading → Autonomous</span></div>
+
+              <div class="pipeline-connector-block" aria-hidden="true">
+                <svg class="pipeline-connector-svg" viewBox="0 0 48 24">
+                  <line x1="0" y1="12" x2="48" y2="12" class="pipeline-wire" />
+                  <circle cx="24" cy="12" r="3" class="pipeline-pulse-dot-moving" />
+                </svg>
               </div>
-              <div class="stage-status-indicator status-ready">
-                <span class="status-tiny-dot emerald"></span>
-                <span id="pipe-s4-status">Empowerment Active</span>
+
+              <div class="pipeline-stage-node" id="pipe-stage-3">
+                <div class="stage-step-row">
+                  <span class="stage-tag">STAGE 03</span>
+                  <span class="stage-perf-tag text-blue">Dialectic Cache</span>
+                </div>
+                <div class="stage-main-info">
+                  <div class="stage-icon-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10" />
+                      <circle cx="12" cy="12" r="6" />
+                      <circle cx="12" cy="12" r="2" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="stage-title">Perspective Engine</h4>
+                    <span class="stage-subtitle">Dialectic Cache / Micro-JSON</span>
+                  </div>
+                </div>
+                <div class="stage-telemetry-body">
+                  <div class="telemetry-item"><span class="t-label">Diet Balance:</span><span class="t-value text-blue"
+                      id="pipe-s3-foundations">4 Foundations Checked</span></div>
+                  <div class="telemetry-item"><span class="t-label">Counter-Angle:</span><span
+                      class="t-value text-amber" id="pipe-s3-blindspots">1 Blindspot Found</span></div>
+                </div>
+                <div class="stage-status-indicator status-ready">
+                  <span class="status-tiny-dot blue"></span>
+                  <span id="pipe-s3-status">Synthesis Ready</span>
+                </div>
+              </div>
+
+              <div class="pipeline-connector-block" aria-hidden="true">
+                <svg class="pipeline-connector-svg" viewBox="0 0 48 24">
+                  <line x1="0" y1="12" x2="48" y2="12" class="pipeline-wire" />
+                  <circle cx="24" cy="12" r="3" class="pipeline-pulse-dot-moving" />
+                </svg>
+              </div>
+
+              <div class="pipeline-stage-node" id="pipe-stage-4">
+                <div class="stage-step-row">
+                  <span class="stage-tag">STAGE 04</span>
+                  <span class="stage-perf-tag text-emerald">Agency Loop</span>
+                </div>
+                <div class="stage-main-info">
+                  <div class="stage-icon-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                      <path
+                        d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 000-7.78z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 class="stage-title">Human Decision</h4>
+                    <span class="stage-subtitle">12s Pause &amp; Critical Agency</span>
+                  </div>
+                </div>
+                <div class="stage-telemetry-body">
+                  <div class="telemetry-item"><span class="t-label">Habit State:</span><span
+                      class="t-value text-emerald" id="pipe-s4-pause">134.7s Avg Pause</span></div>
+                  <div class="telemetry-item"><span class="t-label">Scaffolding:</span><span class="t-value text-blue"
+                      id="pipe-s4-scaffold">AI Hints: Fading → Autonomous</span></div>
+                </div>
+                <div class="stage-status-indicator status-ready">
+                  <span class="status-tiny-dot emerald"></span>
+                  <span id="pipe-s4-status">Empowerment Active</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- C. 4 Executive KPI Cards -->
-      <section class="kpi-grid">
+        <!-- C. 4 Executive KPI Cards -->
+        <section class="kpi-grid">
 
-        <!-- KPI 1: Cognitive Agency Index -->
-        <div class="kpi-card card-glow-emerald">
-          <div class="kpi-card-header">
-            <span class="kpi-title">Cognitive Agency Index</span>
-            <div class="kpi-badge badge-emerald" id="kpi-cas-tier">Autonomous Tier</div>
-          </div>
-          <div class="kpi-hero-row">
-            <div class="kpi-hero-num-wrap">
-              <span class="kpi-hero-val" id="kpi-cas-number">94</span>
-              <span class="kpi-hero-denom">/100</span>
+          <!-- KPI 1: Cognitive Agency Index -->
+          <div class="kpi-card card-glow-emerald">
+            <div class="kpi-card-header">
+              <span class="kpi-title">Cognitive Agency Index</span>
+              <div class="kpi-badge badge-emerald" id="kpi-cas-tier">Autonomous Tier</div>
             </div>
-            <div class="radial-gauge-container">
-              <svg class="radial-gauge-svg" viewBox="0 0 100 100">
-                <circle class="gauge-bg-circle" cx="50" cy="50" r="42"></circle>
-                <circle class="gauge-fill-circle" id="cas-circle-fill" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="15"></circle>
-              </svg>
+            <div class="kpi-hero-row">
+              <div class="kpi-hero-num-wrap">
+                <span class="kpi-hero-val" id="kpi-cas-number">94</span>
+                <span class="kpi-hero-denom">/100</span>
+              </div>
+              <div class="radial-gauge-container">
+                <svg class="radial-gauge-svg" viewBox="0 0 100 100">
+                  <defs>
+                    <filter id="gauge-glow-emerald" x="-30%" y="-30%" width="160%" height="160%">
+                      <feGaussianBlur stdDeviation="2.5" result="blur" />
+                      <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+                  <circle class="gauge-bg-circle" cx="50" cy="50" r="42"></circle>
+                  <circle class="gauge-fill-circle" id="cas-circle-fill" cx="50" cy="50" r="42" stroke-dasharray="264"
+                    stroke-dashoffset="15" filter="url(#gauge-glow-emerald)"></circle>
+                </svg>
+              </div>
+            </div>
+            <div class="kpi-takeaway">
+              <span class="takeaway-text" id="kpi-cas-highlight"><strong>134.7s mean pause</strong> — 11x above
+                baseline</span>
             </div>
           </div>
-          <div class="kpi-takeaway">
-            <span class="takeaway-text" id="kpi-cas-highlight"><strong>134.7s mean pause</strong> — 11x above baseline</span>
-          </div>
-        </div>
 
-        <!-- KPI 2: Perspective Balance -->
-        <div class="kpi-card card-glow-blue">
-          <div class="kpi-card-header">
-            <span class="kpi-title">Perspective Balance</span>
-            <div class="kpi-badge badge-blue" id="kpi-diversity-tier">4/4 Axes Active</div>
+          <!-- KPI 2: Perspective Balance -->
+          <div class="kpi-card card-glow-blue">
+            <div class="kpi-card-header">
+              <span class="kpi-title">Perspective Balance</span>
+              <div class="kpi-badge badge-blue" id="kpi-diversity-tier">4/4 Axes Active</div>
+            </div>
+            <div class="kpi-hero-row">
+              <div class="kpi-hero-num-wrap">
+                <span class="kpi-hero-val text-blue" id="kpi-diversity-number">96</span>
+                <span class="kpi-hero-denom">%</span>
+              </div>
+              <div class="radial-gauge-container">
+                <svg class="radial-gauge-svg" viewBox="0 0 100 100">
+                  <defs>
+                    <filter id="gauge-glow-blue" x="-30%" y="-30%" width="160%" height="160%">
+                      <feGaussianBlur stdDeviation="2.5" result="blur" />
+                      <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+                  <circle class="gauge-bg-circle" cx="50" cy="50" r="42"></circle>
+                  <circle class="gauge-fill-circle gauge-fill-blue" id="diversity-circle-fill" cx="50" cy="50" r="42"
+                    stroke-dasharray="264" stroke-dashoffset="10" filter="url(#gauge-glow-blue)"></circle>
+                </svg>
+              </div>
+            </div>
+            <div class="quad-bar-mini">
+              <div class="quad-bar-segment seg-empirical" id="quad-bar-emp" style="width:28%" title="Empirical 28%">
+                <span class="seg-label">Emp 28%</span>
+              </div>
+              <div class="quad-bar-segment seg-economic" id="quad-bar-eco" style="width:34%" title="Economic 34%">
+                <span class="seg-label">Eco 34%</span>
+              </div>
+              <div class="quad-bar-segment seg-statutory" id="quad-bar-sta" style="width:25%" title="Statutory 25%">
+                <span class="seg-label">Law 25%</span>
+              </div>
+              <div class="quad-bar-segment seg-ethical blindspot-highlight-seg" id="quad-bar-eth" style="width:13%"
+                title="Ethical 13%">
+                <span class="seg-label">Eth 13%</span>
+              </div>
+            </div>
           </div>
-          <div class="kpi-hero-row">
-            <div class="kpi-hero-num-wrap">
-              <span class="kpi-hero-val text-blue" id="kpi-diversity-number">96</span>
-              <span class="kpi-hero-denom">%</span>
-            </div>
-            <div class="radial-gauge-container">
-              <svg class="radial-gauge-svg" viewBox="0 0 100 100">
-                <circle class="gauge-bg-circle" cx="50" cy="50" r="42"></circle>
-                <circle class="gauge-fill-circle gauge-fill-blue" id="diversity-circle-fill" cx="50" cy="50" r="42" stroke-dasharray="264" stroke-dashoffset="10"></circle>
-              </svg>
-            </div>
-          </div>
-          <div class="quad-bar-mini">
-            <div class="quad-bar-segment seg-empirical" id="quad-bar-emp" style="width:28%" title="Empirical 28%">
-              <span class="seg-label">Emp 28%</span>
-            </div>
-            <div class="quad-bar-segment seg-economic" id="quad-bar-eco" style="width:34%" title="Economic 34%">
-              <span class="seg-label">Eco 34%</span>
-            </div>
-            <div class="quad-bar-segment seg-statutory" id="quad-bar-sta" style="width:25%" title="Statutory 25%">
-              <span class="seg-label">Law 25%</span>
-            </div>
-            <div class="quad-bar-segment seg-ethical blindspot-highlight-seg" id="quad-bar-eth" style="width:13%" title="Ethical 13%">
-              <span class="seg-label">Eth 13%</span>
-            </div>
-          </div>
-        </div>
 
-        <!-- KPI 3: Scaffolding Attenuation -->
-        <div class="kpi-card card-glow-amber">
-          <div class="kpi-card-header">
-            <span class="kpi-title">Scaffolding Attenuation</span>
-            <div class="kpi-badge badge-amber" id="kpi-friction-tier">AI Auto-Fading</div>
-          </div>
-          <div class="kpi-hero-row">
-            <div class="kpi-hero-num-wrap">
-              <span class="kpi-hero-val text-amber"><span id="kpi-fallacies-caught">23</span></span>
-              <span class="kpi-hero-denom">Hooks Defused</span>
+          <!-- KPI 3: Scaffolding Attenuation -->
+          <div class="kpi-card card-glow-amber">
+            <div class="kpi-card-header">
+              <span class="kpi-title">Scaffolding Attenuation</span>
+              <div class="kpi-badge badge-amber" id="kpi-friction-tier">AI Auto-Fading</div>
+            </div>
+            <div class="kpi-hero-row">
+              <div class="kpi-hero-num-wrap">
+                <span class="kpi-hero-val text-amber"><span id="kpi-fallacies-caught">23</span></span>
+                <span class="kpi-hero-denom">Hooks Defused</span>
+              </div>
+            </div>
+            <div class="scaffolding-stepper-mini" id="scaffolding-stepper">
+              <span class="step-pill step-passed">Day 1 Guided</span>
+              <span class="step-arrow-mini">→</span>
+              <span class="step-pill step-passed">Day 30 Habit</span>
+              <span class="step-arrow-mini">→</span>
+              <span class="step-pill step-active">Day 90 Autonomous</span>
+            </div>
+            <!-- Legacy IDs kept for JS compatibility -->
+            <div style="display:none">
+              <span id="kpi-outrage-score">3.5 / 10</span>
+              <span id="kpi-outrage-mood">(Calm)</span>
+              <div id="kpi-outrage-bar"></div>
+              <div id="kpi-outrage-badge"></div>
+              <div id="freedom-goal-current"></div>
+              <div id="freedom-goal-bar-fill"></div>
+              <span id="kpi-total-quizzes">12</span>
+              <span id="kpi-sparring-rounds">8</span>
+              <div id="scaffolding-progress-bar"></div>
+              <span id="kpi-scaffolding-label"></span>
             </div>
           </div>
-          <div class="scaffolding-stepper-mini" id="scaffolding-stepper">
-            <span class="step-pill step-passed">Day 1 Guided</span>
-            <span class="step-arrow-mini">→</span>
-            <span class="step-pill step-passed">Day 30 Habit</span>
-            <span class="step-arrow-mini">→</span>
-            <span class="step-pill step-active">Day 90 Autonomous</span>
-          </div>
-          <!-- Legacy IDs kept for JS compatibility -->
-          <div style="display:none">
-            <span id="kpi-outrage-score">3.5 / 10</span>
-            <span id="kpi-outrage-mood">(Calm)</span>
-            <div id="kpi-outrage-bar"></div>
-            <div id="kpi-outrage-badge"></div>
-            <div id="freedom-goal-current"></div>
-            <div id="freedom-goal-bar-fill"></div>
-            <span id="kpi-total-quizzes">12</span>
-            <span id="kpi-sparring-rounds">8</span>
-            <div id="scaffolding-progress-bar"></div>
-            <span id="kpi-scaffolding-label"></span>
-          </div>
-        </div>
 
-        <!-- KPI 4: Green IT Efficiency -->
-        <div class="kpi-card card-glow-emerald">
-          <div class="kpi-card-header">
-            <span class="kpi-title">Green IT Efficiency</span>
-            <div class="kpi-badge badge-green">95.5% Net CO₂ Cut</div>
-          </div>
-          <div class="kpi-hero-row">
-            <div class="kpi-hero-num-wrap">
-              <span class="kpi-hero-val text-emerald">99.98%</span>
-              <span class="kpi-hero-denom">Energy Cut</span>
+          <!-- KPI 4: Green IT Efficiency -->
+          <div class="kpi-card card-glow-emerald">
+            <div class="kpi-card-header">
+              <span class="kpi-title">Green IT Efficiency</span>
+              <div class="kpi-badge badge-green">95.5% Net CO₂ Cut</div>
+            </div>
+            <div class="kpi-hero-row">
+              <div class="kpi-hero-num-wrap">
+                <span class="kpi-hero-val text-emerald">99.98%</span>
+                <span class="kpi-hero-denom">Energy Cut</span>
+              </div>
+            </div>
+            <div class="kpi-takeaway">
+              <span class="takeaway-text">0.00042 Wh local vs 2.73 Wh cloud video AI</span>
+            </div>
+            <!-- Legacy IDs kept for JS compatibility -->
+            <div style="display:none">
+              <span id="kpi-carbon-saved">17.2g</span>
+              <span id="kpi-energy-saved">40.9 Wh</span>
+              <span id="kpi-bandwidth-saved">2.3 GB</span>
+              <span id="kpi-carbon-saved-highlight">17.2g CO₂ saved</span>
+              <span id="kpi-avg-dwell">134.7s</span>
+              <span id="kpi-crt-acc">92%</span>
+              <span id="kpi-entropy">1.94</span>
+              <span id="kpi-arch-empirical">28% (7)</span>
+              <span id="kpi-arch-economic">34% (9)</span>
+              <span id="kpi-arch-statutory">25% (6)</span>
+              <span id="kpi-arch-ethical">13% (3)</span>
+              <span id="kpi-cas-footer-desc"></span>
+              <div id="kpi-cas-footer"></div>
+              <div id="kpi-diversity-footer"></div>
+              <span id="kpi-diversity-footer-desc"></span>
+              <span id="quad-blindspot-badge"></span>
+              <span id="radar-pct-top">28%</span>
+              <span id="radar-pct-right">34%</span>
+              <span id="radar-pct-bottom">25%</span>
+              <span id="radar-pct-left">13%</span>
             </div>
           </div>
-          <div class="kpi-takeaway">
-            <span class="takeaway-text">0.00042 Wh local vs 2.73 Wh cloud video AI</span>
-          </div>
-          <!-- Legacy IDs kept for JS compatibility -->
-          <div style="display:none">
-            <span id="kpi-carbon-saved">17.2g</span>
-            <span id="kpi-energy-saved">40.9 Wh</span>
-            <span id="kpi-bandwidth-saved">2.3 GB</span>
-            <span id="kpi-carbon-saved-highlight">17.2g CO₂ saved</span>
-            <span id="kpi-avg-dwell">134.7s</span>
-            <span id="kpi-crt-acc">92%</span>
-            <span id="kpi-entropy">1.94</span>
-            <span id="kpi-arch-empirical">28% (7)</span>
-            <span id="kpi-arch-economic">34% (9)</span>
-            <span id="kpi-arch-statutory">25% (6)</span>
-            <span id="kpi-arch-ethical">13% (3)</span>
-            <span id="kpi-cas-footer-desc"></span>
-            <div id="kpi-cas-footer"></div>
-            <div id="kpi-diversity-footer"></div>
-            <span id="kpi-diversity-footer-desc"></span>
-            <span id="quad-blindspot-badge"></span>
-            <span id="radar-pct-top">28%</span>
-            <span id="radar-pct-right">34%</span>
-            <span id="radar-pct-bottom">25%</span>
-            <span id="radar-pct-left">13%</span>
-          </div>
-        </div>
 
-      </section>
+        </section>
 
-      <!-- D. 3-Column Executive Bento Grid -->
-      <section class="bento-grid">
+        <!-- D. 3-Column Executive Bento Grid -->
+        <section class="bento-grid">
 
-        <!-- Bento 1: Active Blindspot Diagnostic -->
-        <div class="bento-card" id="bento-blindspot">
-          <div class="bento-card-header">
-            <span class="bento-title">Active Blindspot Diagnostic</span>
-            <button class="btn-open-module" data-module="tab-radar">Open Module →</button>
-          </div>
-          <div class="bento-deficit-badge">
-            <span class="status-dot amber"></span>DEFICIT: Socio-Ethical Impact (13%)
-          </div>
-          <div class="bento-mini-bar">
-            <div class="bento-seg seg-emp" style="width:28%" title="Empirical 28%">Emp 28%</div>
-            <div class="bento-seg seg-eco" style="width:34%" title="Economic 34%">Eco 34%</div>
-            <div class="bento-seg seg-sta" style="width:25%" title="Statutory 25%">Law 25%</div>
-            <div class="bento-seg seg-eth" style="width:13%" title="Ethical 13%">Eth 13%</div>
-          </div>
-          <p class="bento-body" id="bento-blindspot-summary">Your media diet is strong on Economics (34%) but under-exposed to Human &amp; Ethical Impact.</p>
-          <button class="bento-action-btn" data-module="tab-radar">Launch Counter-Perspective Inquiry ↗</button>
-        </div>
-
-        <!-- Bento 2: Outrage & Hook Monitor -->
-        <div class="bento-card" id="bento-outrage">
-          <div class="bento-card-header">
-            <span class="bento-title">Outrage &amp; Hook Monitor</span>
-            <button class="btn-open-module" data-module="tab-kahneman">Open Module →</button>
-          </div>
-          <div class="bento-outrage-gauge">
-            <div class="bento-gauge-label">
-              <span class="bento-gauge-score" id="bento-outrage-score">3.5</span>
-              <span class="bento-gauge-denom">/ 10</span>
-              <span class="bento-gauge-mood" id="bento-outrage-mood">Calm</span>
+          <!-- Bento 1: Active Blindspot Diagnostic -->
+          <div class="bento-card" id="bento-blindspot">
+            <div class="bento-card-header">
+              <span class="bento-title">Active Blindspot Diagnostic</span>
+              <button class="btn-open-module" data-module="tab-radar">Open Module →</button>
             </div>
-            <div class="bento-gauge-track">
-              <div class="bento-gauge-fill calm" id="bento-gauge-fill" style="width:35%"></div>
+            <div class="bento-deficit-badge">
+              <span class="status-dot amber"></span>DEFICIT: Socio-Ethical Impact (13%)
             </div>
+            <div class="bento-mini-bar">
+              <div class="bento-seg seg-emp" style="width:28%" title="Empirical 28%">Emp 28%</div>
+              <div class="bento-seg seg-eco" style="width:34%" title="Economic 34%">Eco 34%</div>
+              <div class="bento-seg seg-sta" style="width:25%" title="Statutory 25%">Law 25%</div>
+              <div class="bento-seg seg-eth" style="width:13%" title="Ethical 13%">Eth 13%</div>
+            </div>
+            <p class="bento-body" id="bento-blindspot-summary">Your media diet is strong on Economics (34%) but
+              under-exposed to Human &amp; Ethical Impact.</p>
+            <button class="bento-action-btn" data-module="tab-radar">Launch Counter-Perspective Inquiry ↗</button>
           </div>
-          <div class="bento-hook-tags" id="bento-outrage-hooks">
-            <span class="hook-tag">Outrage &amp; Anger (38%)</span>
-            <span class="hook-tag">False Certainty (31%)</span>
-            <span class="hook-tag">Us vs. Them (31%)</span>
-          </div>
-          <button class="bento-action-btn" data-module="tab-kahneman">Inspect Hook Breakdown →</button>
-        </div>
 
-        <!-- Bento 3: CogniShield Campus Certificate -->
-        <div class="bento-card" id="bento-certificate">
-          <div class="bento-card-header">
-            <span class="bento-title">CogniShield Campus</span>
-            <button class="btn-open-module" data-module="tab-cert">Open Module →</button>
+          <!-- Bento 2: Outrage & Hook Monitor -->
+          <div class="bento-card" id="bento-outrage">
+            <div class="bento-card-header">
+              <span class="bento-title">Outrage &amp; Hook Monitor</span>
+              <button class="btn-open-module" data-module="tab-kahneman">Open Module →</button>
+            </div>
+            <div class="bento-outrage-gauge">
+              <div class="bento-gauge-label">
+                <span class="bento-gauge-score" id="bento-outrage-score">3.5</span>
+                <span class="bento-gauge-denom">/ 10</span>
+                <span class="bento-gauge-mood" id="bento-outrage-mood">Calm</span>
+              </div>
+              <div class="bento-gauge-track">
+                <div class="bento-gauge-fill calm" id="bento-gauge-fill" style="width:35%"></div>
+              </div>
+            </div>
+            <div class="bento-hook-tags" id="bento-outrage-hooks">
+              <span class="hook-tag">Outrage &amp; Anger (38%)</span>
+              <span class="hook-tag">False Certainty (31%)</span>
+              <span class="hook-tag">Us vs. Them (31%)</span>
+            </div>
+            <button class="bento-action-btn" data-module="tab-kahneman">Inspect Hook Breakdown →</button>
           </div>
-          <div class="bento-cert-preview">
-            <div class="bento-cert-row">
-              <span class="cert-check-icon">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              </span>
-              Verified: 4/4 Source Archetypes
+
+          <!-- Bento 3: CogniShield Campus Certificate -->
+          <div class="bento-card" id="bento-certificate">
+            <div class="bento-card-header">
+              <span class="bento-title">CogniShield Campus</span>
+              <button class="btn-open-module" data-module="tab-cert">Open Module →</button>
             </div>
-            <div class="bento-cert-row">
-              <span class="cert-check-icon">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              </span>
-              12 Socratic Reflections Completed
+            <div class="bento-cert-preview">
+              <div class="bento-cert-row">
+                <span class="cert-check-icon">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                Verified: 4/4 Source Archetypes
+              </div>
+              <div class="bento-cert-row">
+                <span class="cert-check-icon">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                12 Socratic Reflections Completed
+              </div>
+              <div class="bento-cert-row">
+                <span class="cert-check-icon">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </span>
+                ESG Compliant · Zero Cloud
+              </div>
             </div>
-            <div class="bento-cert-row">
-              <span class="cert-check-icon">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-              </span>
-              ESG Compliant · Zero Cloud
-            </div>
+            <button class="bento-action-btn primary" id="bento-configure-pdf">Configure &amp; Issue PDF →</button>
           </div>
-          <button class="bento-action-btn primary" id="bento-configure-pdf">Configure &amp; Issue PDF →</button>
-        </div>
 
-      </section>
-    </section><!-- /command-center-view -->
+        </section>
+      </section><!-- /command-center-view -->
 
-    <!-- ══════════════════════════════════════════════════════════
+      <!-- ══════════════════════════════════════════════════════════
          MODULE PANELS (hidden by default; shown by view-switcher)
     ═══════════════════════════════════════════════════════════════ -->
 
-    <!-- Module Header Bar (injected above each panel by JS) -->
-    <div class="module-header-bar" id="module-header-bar" style="display:none;">
-      <button class="btn-back-cc" id="btn-back-to-cc">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-        Command Center
-      </button>
-      <div class="module-header-center">
-        <span class="module-header-title" id="module-header-title">Module</span>
-        <span class="module-header-desc" id="module-header-desc"></span>
+      <!-- Module Header Bar (injected above each panel by JS) -->
+      <div class="module-header-bar" id="module-header-bar" style="display:none;">
+        <button class="btn-sidebar-unhide" id="btn-unhide-sidebar-module" title="Show sidebar (Ctrl+B)"
+          style="display:none;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+            <line x1="9" y1="3" x2="9" y2="21" />
+            <path d="M12 9l3 3-3 3" />
+          </svg>
+          <span>Sidebar</span>
+        </button>
+        <button class="btn-back-cc" id="btn-back-to-cc">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+          Command Center
+        </button>
+        <div class="module-header-center">
+          <span class="module-header-title" id="module-header-title">Module</span>
+          <span class="module-header-desc" id="module-header-desc"></span>
+        </div>
+        <div class="module-header-right" id="module-header-right"></div>
       </div>
-      <div class="module-header-right" id="module-header-right"></div>
-    </div>
 
-    <!-- TAB 1: Perspective Balance -->
-    <section class="tab-panel" id="tab-radar">
-      <div class="perspective-split-grid">
-        <!-- Left: Radar Chart (50%) -->
-        <div class="panel-card radar-panel-left">
+      <!-- TAB 1: Perspective Balance -->
+      <section class="tab-panel" id="tab-radar">
+        <div class="perspective-split-grid">
+          <!-- Left: Radar Chart (50%) -->
+          <div class="panel-card radar-panel-left">
+            <div class="panel-header">
+              <div>
+                <h3 class="panel-title">Media Diet Balance Radar</h3>
+                <p class="panel-desc">Compare what you read (green) against a balanced 4-axis diet (blue).</p>
+              </div>
+              <span class="radar-legend-tag">Shannon Metric</span>
+            </div>
+            <div class="radar-visual-wrapper">
+              <svg class="radar-chart-svg" id="perspective-radar-svg" viewBox="-60 -60 520 520">
+                <defs>
+                  <radialGradient id="radar-user-glow-grad" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#10b981" stop-opacity="0.35" />
+                    <stop offset="60%" stop-color="#0284c7" stop-opacity="0.22" />
+                    <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.08" />
+                  </radialGradient>
+                  <filter id="radar-dot-glow" x="-40%" y="-40%" width="180%" height="180%">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+                <polygon points="200,40 360,200 200,360 40,200" class="radar-grid-poly level-4"></polygon>
+                <polygon points="200,80 320,200 200,320 80,200" class="radar-grid-poly level-3"></polygon>
+                <polygon points="200,120 280,200 200,280 120,200" class="radar-grid-poly level-2"></polygon>
+                <polygon points="200,160 240,200 200,240 160,200" class="radar-grid-poly level-1"></polygon>
+                <line x1="200" y1="40" x2="200" y2="360" class="radar-axis-line"></line>
+                <line x1="40" y1="200" x2="360" y2="200" class="radar-axis-line"></line>
+                <polygon points="200,90 310,200 200,310 90,200" class="radar-ideal-poly" stroke-dasharray="4 4">
+                </polygon>
+                <polygon id="radar-user-poly" points="200,200 200,200 200,200 200,200" class="radar-user-poly" fill="url(#radar-user-glow-grad)">
+                </polygon>
+                <circle id="radar-dot-top" cx="200" cy="200" r="5" class="radar-vertex-dot" filter="url(#radar-dot-glow)"></circle>
+                <circle id="radar-dot-right" cx="200" cy="200" r="5" class="radar-vertex-dot" filter="url(#radar-dot-glow)"></circle>
+                <circle id="radar-dot-bottom" cx="200" cy="200" r="5" class="radar-vertex-dot" filter="url(#radar-dot-glow)"></circle>
+                <circle id="radar-dot-left" cx="200" cy="200" r="5" class="radar-vertex-dot" filter="url(#radar-dot-glow)"></circle>
+                <text x="200" y="20" class="radar-label top" text-anchor="middle">Scientific / Data (<tspan
+                    id="radar-pct-top-live">28%</tspan>)</text>
+                <text x="378" y="205" class="radar-label right" text-anchor="start">Economic (<tspan
+                    id="radar-pct-right-live">34%</tspan>)</text>
+                <text x="200" y="398" class="radar-label bottom" text-anchor="middle">Legal / Policy (<tspan
+                    id="radar-pct-bottom-live">25%</tspan>)</text>
+                <text x="22" y="205" class="radar-label left" text-anchor="end">Human / Ethical (<tspan
+                    id="radar-pct-left-live">13%</tspan>)</text>
+              </svg>
+            </div>
+            <div class="radar-caption-row">
+              <span class="legend-chip"><span class="legend-color-box user"></span> Your Reading</span>
+              <span class="legend-chip"><span class="legend-color-box ideal"></span> Balanced Diet</span>
+            </div>
+          </div>
+
+          <!-- Right: Blindspot Diagnostics (50%) -->
+          <div class="panel-card blindspot-panel-right">
+            <div class="panel-header">
+              <div>
+                <h3 class="panel-title">Active Blindspot Diagnostics</h3>
+                <p class="panel-desc">Missing viewpoints and actionable counter-inquiries.</p>
+              </div>
+              <span class="badge-amber" id="blindspot-tag">1 Blindspot Identified</span>
+            </div>
+            <div class="blindspot-cards-list" id="blindspot-container"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: Outrage & Hook Monitor -->
+      <section class="tab-panel" id="tab-kahneman">
+        <div class="tab-explainer-banner">
+          <h3>How Algorithms Exploit Emotional Reflexes</h3>
+          <p>When an online article makes you angry or afraid, blood rushes away from your prefrontal cortex (System 2)
+            to your amygdala (System 1). CogniShield measures dwell time and scans for the 4 most common psychological
+            manipulation hooks.</p>
+        </div>
+        <div class="grid-2-col">
+          <div class="panel-card">
+            <div class="panel-header">
+              <div>
+                <h3 class="panel-title">Manipulation Hooks Detected in Your Feeds</h3>
+                <p class="panel-desc">Scanned instantly in-browser using trilingual regex (EN, DE, FR) at 0ms latency.
+                </p>
+              </div>
+              <span class="badge-tag">Zero Cloud Privacy</span>
+            </div>
+            <div class="rhetoric-breakdown-list">
+              <div class="rhetoric-bar-group">
+                <div class="rhetoric-bar-header">
+                  <span class="rhetoric-name">Outrage &amp; Moral Anger</span>
+                  <span class="rhetoric-count" id="count-outrage">0 instances (0%)</span>
+                </div>
+                <div class="rhetoric-track">
+                  <div class="rhetoric-fill bg-rose" id="fill-outrage" style="width:0%"></div>
+                </div>
+                <span class="rhetoric-sub">E.g., "Outrageous", "Disaster", "Scandal", "Skandal", "Honteux"</span>
+              </div>
+              <div class="rhetoric-bar-group">
+                <div class="rhetoric-bar-header">
+                  <span class="rhetoric-name">False Certainty &amp; Dogmatism</span>
+                  <span class="rhetoric-count" id="count-certainty">0 instances (0%)</span>
+                </div>
+                <div class="rhetoric-track">
+                  <div class="rhetoric-fill bg-amber" id="fill-certainty" style="width:0%"></div>
+                </div>
+                <span class="rhetoric-sub">E.g., "Undeniable", "Guaranteed", "Unwiderlegbar"</span>
+              </div>
+              <div class="rhetoric-bar-group">
+                <div class="rhetoric-bar-header">
+                  <span class="rhetoric-name">Tribal Polarization ("Us vs. Them")</span>
+                  <span class="rhetoric-count" id="count-tribal">0 instances (0%)</span>
+                </div>
+                <div class="rhetoric-track">
+                  <div class="rhetoric-fill bg-purple" id="fill-tribal" style="width:0%"></div>
+                </div>
+                <span class="rhetoric-sub">E.g., "The enemy", "Traitors", "Volksverräter"</span>
+              </div>
+              <div class="rhetoric-bar-group">
+                <div class="rhetoric-bar-header">
+                  <span class="rhetoric-name">Manufactured Urgency &amp; FOMO</span>
+                  <span class="rhetoric-count" id="count-urgency">0 instances (0%)</span>
+                </div>
+                <div class="rhetoric-track">
+                  <div class="rhetoric-fill bg-blue" id="fill-urgency" style="width:0%"></div>
+                </div>
+                <span class="rhetoric-sub">E.g., "Before it's deleted", "Watch now", "Dringend"</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-card">
+            <div class="panel-header">
+              <div>
+                <h3 class="panel-title">Kahneman Dual-Process Ratio</h3>
+                <p class="panel-desc">Measures how often you pause for &gt;12 seconds before reacting.</p>
+              </div>
+              <span class="badge-emerald" id="badge-system-dominance">Evaluating</span>
+            </div>
+            <div class="dual-process-container">
+              <div class="dual-process-diagram">
+                <div class="process-box system-1">
+                  <div class="process-title-row">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                    </svg>
+                    <h4>System 1 (Impulsive)</h4>
+                  </div>
+                  <p class="process-desc">Fast, emotional, automatic — &lt;12s dwell time.</p>
+                  <div class="process-metric"><span class="val text-rose" id="sys1-percentage">0%</span><span
+                      class="lbl">of visits</span></div>
+                </div>
+                <div class="process-box system-2">
+                  <div class="process-title-row">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M12 8v4l3 3" />
+                    </svg>
+                    <h4>System 2 (Deliberate)</h4>
+                  </div>
+                  <p class="process-desc">Slow, analytical, skeptical scrutiny. Pausing &gt;12s.</p>
+                  <div class="process-metric"><span class="val text-emerald" id="sys2-percentage">0%</span><span
+                      class="lbl">of visits</span></div>
+                </div>
+              </div>
+              <div class="latency-formula-card">
+                <h4>Why the 12-Second Rule Matters:</h4>
+                <p>Cognitive science research demonstrates that it takes approximately <strong>12 seconds
+                    (τ_crit)</strong> for the brain's prefrontal cortex to interrupt automatic emotional contagion.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: 7-Day Telemetry -->
+      <section class="tab-panel" id="tab-trends">
+        <div class="tab-explainer-banner">
+          <h3>Tracking Your Mind Fitness Over Time</h3>
+          <p>CogniShield tracks your actual critical questioning habits over a rolling 7-day period. The goal is steady
+            upward progression in independent scrutiny.</p>
+        </div>
+        <div class="panel-card">
           <div class="panel-header">
             <div>
-              <h3 class="panel-title">Media Diet Balance Radar</h3>
-              <p class="panel-desc">Compare what you read (green) against a balanced 4-axis diet (blue).</p>
+              <h3 class="panel-title">7-Day Cognitive Scrutiny Evolution</h3>
+              <p class="panel-desc">Daily sessions, average reflection dwell time, and Agency Score (CAS).</p>
             </div>
-            <span class="radar-legend-tag">Shannon Metric</span>
+            <div class="timeline-controls">
+              <span class="legend-chip"><span class="legend-color-box bg-emerald"></span> Agency Score</span>
+              <span class="legend-chip"><span class="legend-color-box bg-blue"></span> Reflection Time (s)</span>
+            </div>
           </div>
-          <div class="radar-visual-wrapper">
-            <svg class="radar-chart-svg" id="perspective-radar-svg" viewBox="-60 -60 520 520">
-              <polygon points="200,40 360,200 200,360 40,200" class="radar-grid-poly level-4"></polygon>
-              <polygon points="200,80 320,200 200,320 80,200" class="radar-grid-poly level-3"></polygon>
-              <polygon points="200,120 280,200 200,280 120,200" class="radar-grid-poly level-2"></polygon>
-              <polygon points="200,160 240,200 200,240 160,200" class="radar-grid-poly level-1"></polygon>
-              <line x1="200" y1="40" x2="200" y2="360" class="radar-axis-line"></line>
-              <line x1="40" y1="200" x2="360" y2="200" class="radar-axis-line"></line>
-              <polygon points="200,90 310,200 200,310 90,200" class="radar-ideal-poly" stroke-dasharray="4 4"></polygon>
-              <polygon id="radar-user-poly" points="200,200 200,200 200,200 200,200" class="radar-user-poly"></polygon>
-              <circle id="radar-dot-top" cx="200" cy="200" r="5" class="radar-vertex-dot"></circle>
-              <circle id="radar-dot-right" cx="200" cy="200" r="5" class="radar-vertex-dot"></circle>
-              <circle id="radar-dot-bottom" cx="200" cy="200" r="5" class="radar-vertex-dot"></circle>
-              <circle id="radar-dot-left" cx="200" cy="200" r="5" class="radar-vertex-dot"></circle>
-              <text x="200" y="20" class="radar-label top" text-anchor="middle">Scientific / Data (<tspan id="radar-pct-top-live">28%</tspan>)</text>
-              <text x="378" y="205" class="radar-label right" text-anchor="start">Economic (<tspan id="radar-pct-right-live">34%</tspan>)</text>
-              <text x="200" y="398" class="radar-label bottom" text-anchor="middle">Legal / Policy (<tspan id="radar-pct-bottom-live">25%</tspan>)</text>
-              <text x="22" y="205" class="radar-label left" text-anchor="end">Human / Ethical (<tspan id="radar-pct-left-live">13%</tspan>)</text>
+          <div class="trends-chart-wrapper" style="position:relative;">
+            <div class="chart-tooltip-hud" id="trends-chart-tooltip" style="display:none;"></div>
+            <svg class="trends-chart-svg" id="trends-chart-svg" viewBox="0 0 800 280">
+              <defs>
+                <linearGradient id="trends-area-glow-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#10b981" stop-opacity="0.35" />
+                  <stop offset="70%" stop-color="#10b981" stop-opacity="0.08" />
+                  <stop offset="100%" stop-color="#10b981" stop-opacity="0.0" />
+                </linearGradient>
+                <filter id="trends-line-glow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="3" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+                <filter id="trends-dot-glow" x="-30%" y="-30%" width="160%" height="160%">
+                  <feGaussianBlur stdDeviation="2.5" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+              <line x1="60" y1="40" x2="760" y2="40" class="chart-grid-line"></line>
+              <line x1="60" y1="100" x2="760" y2="100" class="chart-grid-line"></line>
+              <line x1="60" y1="160" x2="760" y2="160" class="chart-grid-line"></line>
+              <line x1="60" y1="220" x2="760" y2="220" class="chart-grid-line"></line>
+              <text x="45" y="45" class="chart-axis-text">100</text>
+              <text x="45" y="105" class="chart-axis-text">75</text>
+              <text x="45" y="165" class="chart-axis-text">50</text>
+              <text x="45" y="225" class="chart-axis-text">25</text>
+              <g id="chart-bars-group"></g>
+              <path id="chart-cas-area" class="chart-trend-area" d="" fill="url(#trends-area-glow-grad)"></path>
+              <path id="chart-cas-line" class="chart-trend-line" d="" filter="url(#trends-line-glow)"></path>
+              <g id="chart-points-group"></g>
             </svg>
           </div>
-          <div class="radar-caption-row">
-            <span class="legend-chip"><span class="legend-color-box user"></span> Your Reading</span>
-            <span class="legend-chip"><span class="legend-color-box ideal"></span> Balanced Diet</span>
+          <div class="trends-summary-grid">
+            <div class="trend-summary-item"><span class="trend-lbl">Weekly Content Analyzed:</span><span
+                class="trend-val" id="trend-total-scans">0 Articles &amp; Videos</span></div>
+            <div class="trend-summary-item"><span class="trend-lbl">Avg Paused Reflection:</span><span
+                class="trend-val text-emerald" id="trend-avg-dwell">0 Seconds</span></div>
+            <div class="trend-summary-item"><span class="trend-lbl">Fallacy Quiz Pass Rate:</span><span
+                class="trend-val text-blue" id="trend-quiz-rate">0%</span></div>
+            <div class="trend-summary-item"><span class="trend-lbl">Current Scaffolding Stage:</span><span
+                class="trend-val text-amber" id="trend-stage">Autonomous</span></div>
           </div>
         </div>
+      </section>
 
-        <!-- Right: Blindspot Diagnostics (50%) -->
-        <div class="panel-card blindspot-panel-right">
-          <div class="panel-header">
-            <div>
-              <h3 class="panel-title">Active Blindspot Diagnostics</h3>
-              <p class="panel-desc">Missing viewpoints and actionable counter-inquiries.</p>
-            </div>
-            <span class="badge-amber" id="blindspot-tag">1 Blindspot Identified</span>
-          </div>
-          <div class="blindspot-cards-list" id="blindspot-container"></div>
+      <!-- TAB 4: Socratic Calibration -->
+      <section class="tab-panel" id="tab-gym">
+        <div class="tab-explainer-banner">
+          <h3>Socratic Gym: 30-Second Mental Workouts</h3>
+          <p>Sharpen your fallacy detection skills! Read the sensationalist headline, identify the hidden argumentative
+            flaw, and earn live Agency Score (CAS) points.</p>
         </div>
-      </div>
-    </section>
-
-    <!-- TAB 2: Outrage & Hook Monitor -->
-    <section class="tab-panel" id="tab-kahneman">
-      <div class="tab-explainer-banner">
-        <h3>How Algorithms Exploit Emotional Reflexes</h3>
-        <p>When an online article makes you angry or afraid, blood rushes away from your prefrontal cortex (System 2) to your amygdala (System 1). CogniShield measures dwell time and scans for the 4 most common psychological manipulation hooks.</p>
-      </div>
-      <div class="grid-2-col">
-        <div class="panel-card">
-          <div class="panel-header">
-            <div>
-              <h3 class="panel-title">Manipulation Hooks Detected in Your Feeds</h3>
-              <p class="panel-desc">Scanned instantly in-browser using trilingual regex (EN, DE, FR) at 0ms latency.</p>
+        <div class="grid-2-col">
+          <div class="panel-card">
+            <div class="panel-header">
+              <div>
+                <h3 class="panel-title">Active Cognitive Challenge</h3>
+                <p class="panel-desc">Spot the unstated premise or manipulative distortion.</p>
+              </div>
+              <span class="badge-emerald" id="gym-score-pill">+0 CAS Earned Today</span>
             </div>
-            <span class="badge-tag">Zero Cloud Privacy</span>
+            <div class="gym-challenge-container" id="gym-challenge-box">
+              <div class="challenge-category-row">
+                <span class="challenge-badge" id="gym-challenge-cat">Fallacy Spotting</span>
+                <span class="challenge-difficulty">Level: Intermediate</span>
+              </div>
+              <div class="challenge-headline-box">
+                <span class="quote-mark">"</span>
+                <p class="challenge-headline" id="gym-headline">Loading challenge...</p>
+              </div>
+              <p class="gym-question-prompt" id="gym-question">What primary cognitive distortion is being used here?</p>
+              <div class="gym-options-list" id="gym-options"></div>
+              <div class="gym-feedback-box" id="gym-feedback" style="display:none;"></div>
+              <div class="gym-actions-row">
+                <button class="btn-primary" id="btn-next-gym-drill">Next Challenge →</button>
+              </div>
+            </div>
           </div>
-          <div class="rhetoric-breakdown-list">
-            <div class="rhetoric-bar-group">
-              <div class="rhetoric-bar-header">
-                <span class="rhetoric-name">Outrage &amp; Moral Anger</span>
-                <span class="rhetoric-count" id="count-outrage">0 instances (0%)</span>
+          <div class="panel-card">
+            <div class="panel-header">
+              <div>
+                <h3 class="panel-title">Field Guide to Online Manipulation</h3>
+                <p class="panel-desc">The 4 most common traps algorithms amplify for viral clicks.</p>
               </div>
-              <div class="rhetoric-track"><div class="rhetoric-fill bg-rose" id="fill-outrage" style="width:0%"></div></div>
-              <span class="rhetoric-sub">E.g., "Outrageous", "Disaster", "Scandal", "Skandal", "Honteux"</span>
             </div>
-            <div class="rhetoric-bar-group">
-              <div class="rhetoric-bar-header">
-                <span class="rhetoric-name">False Certainty &amp; Dogmatism</span>
-                <span class="rhetoric-count" id="count-certainty">0 instances (0%)</span>
+            <div class="fallacy-reference-list">
+              <div class="fallacy-card"><span class="fallacy-tag">1. False Dilemma (Bifurcation)</span>
+                <p>Presenting two extreme options as the only choices while hiding the nuanced middle ground.</p>
               </div>
-              <div class="rhetoric-track"><div class="rhetoric-fill bg-amber" id="fill-certainty" style="width:0%"></div></div>
-              <span class="rhetoric-sub">E.g., "Undeniable", "Guaranteed", "Unwiderlegbar"</span>
-            </div>
-            <div class="rhetoric-bar-group">
-              <div class="rhetoric-bar-header">
-                <span class="rhetoric-name">Tribal Polarization ("Us vs. Them")</span>
-                <span class="rhetoric-count" id="count-tribal">0 instances (0%)</span>
+              <div class="fallacy-card"><span class="fallacy-tag">2. Epistemic Confirmation Cascades</span>
+                <p>Algorithms repeatedly showing variations of your existing view until counter-arguments feel
+                  unthinkable.</p>
               </div>
-              <div class="rhetoric-track"><div class="rhetoric-fill bg-purple" id="fill-tribal" style="width:0%"></div></div>
-              <span class="rhetoric-sub">E.g., "The enemy", "Traitors", "Volksverräter"</span>
-            </div>
-            <div class="rhetoric-bar-group">
-              <div class="rhetoric-bar-header">
-                <span class="rhetoric-name">Manufactured Urgency &amp; FOMO</span>
-                <span class="rhetoric-count" id="count-urgency">0 instances (0%)</span>
+              <div class="fallacy-card"><span class="fallacy-tag">3. Affective Outrage Amplification</span>
+                <p>Using hyper-charged emotional adjectives to trigger immediate anger before logical evaluation can
+                  occur.</p>
               </div>
-              <div class="rhetoric-track"><div class="rhetoric-fill bg-blue" id="fill-urgency" style="width:0%"></div></div>
-              <span class="rhetoric-sub">E.g., "Before it's deleted", "Watch now", "Dringend"</span>
+              <div class="fallacy-card"><span class="fallacy-tag">4. False Consensus &amp; Cherry-Picking</span>
+                <p>Citing an isolated outlier study as universal proof while ignoring hundreds of contradictory peer
+                  reviews.</p>
+              </div>
             </div>
           </div>
         </div>
+      </section>
 
-        <div class="panel-card">
-          <div class="panel-header">
-            <div>
-              <h3 class="panel-title">Kahneman Dual-Process Ratio</h3>
-              <p class="panel-desc">Measures how often you pause for &gt;12 seconds before reacting.</p>
+      <!-- TAB 5: Academic Verification -->
+      <section class="tab-panel" id="tab-cert">
+        <div class="tab-explainer-banner">
+          <h3>What is the Epistemic Due-Diligence Certificate?</h3>
+          <p>This certificate proves that the student actively consulted <strong>at least 3 contrasting source
+              archetypes</strong> and completed critical reflection before drafting.</p>
+        </div>
+        <div class="cert-split-grid">
+          <!-- Left: Form (38%) -->
+          <div class="panel-card cert-form-panel">
+            <div class="panel-header">
+              <div>
+                <h3 class="panel-title">Generate Due-Diligence Certificate</h3>
+                <p class="panel-desc">Creates a cryptographic receipt proving balanced research.</p>
+              </div>
+              <span class="badge-blue">Academic Integrity</span>
             </div>
-            <span class="badge-emerald" id="badge-system-dominance">Evaluating</span>
+            <div class="cert-form-group">
+              <div class="form-row">
+                <label class="form-label" for="cert-student-name">Student Full Name:</label>
+                <input type="text" id="cert-student-name" class="form-input" value="Independent Researcher"
+                  placeholder="Your Name">
+              </div>
+              <div class="form-row">
+                <label class="form-label" for="cert-institution">Higher Education Institution:</label>
+                <input type="text" id="cert-institution" class="form-input" value="University Research Department"
+                  placeholder="Your University">
+              </div>
+              <div class="form-row">
+                <label class="form-label" for="cert-assignment-topic">Research / Essay Topic:</label>
+                <input type="text" id="cert-assignment-topic" class="form-input"
+                  value="Independent Source Scrutiny Session" placeholder="e.g. European Energy Transition">
+              </div>
+              <div class="form-row">
+                <label class="form-label" for="cert-module-code">Course / Module Code:</label>
+                <input type="text" id="cert-module-code" class="form-input" value="CRIT-101 (Information Systems)">
+              </div>
+              <div class="cert-btn-row">
+                <button class="btn-primary" id="btn-generate-cert">Refresh &amp; Issue Certificate</button>
+                <button class="btn-secondary" id="btn-print-cert">Print / Save as PDF</button>
+              </div>
+            </div>
           </div>
-          <div class="dual-process-container">
-            <div class="dual-process-diagram">
-              <div class="process-box system-1">
-                <div class="process-title-row">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                  <h4>System 1 (Impulsive)</h4>
+
+          <!-- Right: Certificate Preview (62%) -->
+          <div class="panel-card cert-preview-card">
+            <div class="academic-certificate-sheet" id="academic-cert-sheet">
+              <div class="cert-sheet-header">
+                <div class="cert-crest">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1e3a5f" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7z" />
+                  </svg>
                 </div>
-                <p class="process-desc">Fast, emotional, automatic — &lt;12s dwell time.</p>
-                <div class="process-metric"><span class="val text-rose" id="sys1-percentage">0%</span><span class="lbl">of visits</span></div>
-              </div>
-              <div class="process-box system-2">
-                <div class="process-title-row">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-                  <h4>System 2 (Deliberate)</h4>
+                <div class="cert-org-details">
+                  <span class="cert-org-name">COGNISHIELD ACADEMIC INTEGRITY CONSORTIUM</span>
+                  <span class="cert-standard">European Standards &amp; Guidelines (ESG) Verification</span>
                 </div>
-                <p class="process-desc">Slow, analytical, skeptical scrutiny. Pausing &gt;12s.</p>
-                <div class="process-metric"><span class="val text-emerald" id="sys2-percentage">0%</span><span class="lbl">of visits</span></div>
+                <div class="cert-stamp">VERIFIED<br><span>SYSTEM 2</span></div>
+              </div>
+              <div class="cert-title-section">
+                <h2>EPISTEMIC DUE-DILIGENCE CERTIFICATE</h2>
+                <p class="cert-subtitle">Formal Attestation of Multi-Perspective Inquiry &amp; Independent Scrutiny</p>
+              </div>
+              <div class="cert-details-grid">
+                <div class="cert-field"><span class="cert-lbl">ISSUED TO:</span><strong class="cert-val"
+                    id="cert-disp-name">Independent Researcher</strong></div>
+                <div class="cert-field"><span class="cert-lbl">INSTITUTION:</span><strong class="cert-val"
+                    id="cert-disp-inst">University Research Department</strong></div>
+                <div class="cert-field cert-span-2"><span class="cert-lbl">RESEARCH TOPIC:</span><strong
+                    class="cert-val" id="cert-disp-topic">Independent Source Scrutiny Session</strong></div>
+                <div class="cert-field"><span class="cert-lbl">VERIFICATION TOKEN:</span><code class="cert-token"
+                    id="cert-disp-token">CS-VERIFY-LIVE-TOKEN</code></div>
+                <div class="cert-field"><span class="cert-lbl">TIMESTAMP (UTC):</span><span class="cert-val"
+                    id="cert-disp-date">--</span></div>
+              </div>
+              <div class="cert-audit-results">
+                <h3>Live Scrutiny Audit Matrix</h3>
+                <div class="audit-row"><span>Verified Archetypes Engaged:</span><strong class="text-emerald"
+                    id="cert-disp-archetypes">Checking local records...</strong></div>
+                <div class="audit-row"><span>Socratic Reflections Completed:</span><strong class="text-emerald"
+                    id="cert-disp-reflections">0 Solved</strong></div>
+                <div class="audit-row"><span>Average Epistemic Dwell Time:</span><strong class="text-emerald"
+                    id="cert-disp-dwell">0s</strong></div>
+                <div class="audit-row"><span>Privacy &amp; GDPR Status:</span><strong class="text-emerald">100%
+                    On-Device Local Audit (Zero Cloud Tracking)</strong></div>
+              </div>
+              <div class="cert-sheet-footer">
+                <div class="cert-signature-block">
+                  <div class="signature-line"></div>
+                  <span>Cryptographic Auditor Protocol</span>
+                  <small>SHA-256 On-Device Verification</small>
+                </div>
+                <div class="cert-qr-box">
+                  <div class="qr-placeholder">■ ■ ■<br>■ □ ■<br>■ ■ ■</div>
+                  <small>Scan to Verify</small>
+                </div>
               </div>
             </div>
-            <div class="latency-formula-card">
-              <h4>Why the 12-Second Rule Matters:</h4>
-              <p>Cognitive science research demonstrates that it takes approximately <strong>12 seconds (τ_crit)</strong> for the brain's prefrontal cortex to interrupt automatic emotional contagion.</p>
-            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- TAB 3: 7-Day Telemetry -->
-    <section class="tab-panel" id="tab-trends">
-      <div class="tab-explainer-banner">
-        <h3>Tracking Your Mind Fitness Over Time</h3>
-        <p>CogniShield tracks your actual critical questioning habits over a rolling 7-day period. The goal is steady upward progression in independent scrutiny.</p>
-      </div>
-      <div class="panel-card">
-        <div class="panel-header">
-          <div>
-            <h3 class="panel-title">7-Day Cognitive Scrutiny Evolution</h3>
-            <p class="panel-desc">Daily sessions, average reflection dwell time, and Agency Score (CAS).</p>
-          </div>
-          <div class="timeline-controls">
-            <span class="legend-chip"><span class="legend-color-box bg-emerald"></span> Agency Score</span>
-            <span class="legend-chip"><span class="legend-color-box bg-blue"></span> Reflection Time (s)</span>
-          </div>
-        </div>
-        <div class="trends-chart-wrapper">
-          <svg class="trends-chart-svg" id="trends-chart-svg" viewBox="0 0 800 280">
-            <line x1="60" y1="40" x2="760" y2="40" class="chart-grid-line"></line>
-            <line x1="60" y1="100" x2="760" y2="100" class="chart-grid-line"></line>
-            <line x1="60" y1="160" x2="760" y2="160" class="chart-grid-line"></line>
-            <line x1="60" y1="220" x2="760" y2="220" class="chart-grid-line"></line>
-            <text x="45" y="45" class="chart-axis-text">100</text>
-            <text x="45" y="105" class="chart-axis-text">75</text>
-            <text x="45" y="165" class="chart-axis-text">50</text>
-            <text x="45" y="225" class="chart-axis-text">25</text>
-            <g id="chart-bars-group"></g>
-            <path id="chart-cas-line" class="chart-trend-line" d=""></path>
-            <g id="chart-points-group"></g>
-          </svg>
-        </div>
-        <div class="trends-summary-grid">
-          <div class="trend-summary-item"><span class="trend-lbl">Weekly Content Analyzed:</span><span class="trend-val" id="trend-total-scans">0 Articles &amp; Videos</span></div>
-          <div class="trend-summary-item"><span class="trend-lbl">Avg Paused Reflection:</span><span class="trend-val text-emerald" id="trend-avg-dwell">0 Seconds</span></div>
-          <div class="trend-summary-item"><span class="trend-lbl">Fallacy Quiz Pass Rate:</span><span class="trend-val text-blue" id="trend-quiz-rate">0%</span></div>
-          <div class="trend-summary-item"><span class="trend-lbl">Current Scaffolding Stage:</span><span class="trend-val text-amber" id="trend-stage">Autonomous</span></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TAB 4: Socratic Calibration -->
-    <section class="tab-panel" id="tab-gym">
-      <div class="tab-explainer-banner">
-        <h3>Socratic Gym: 30-Second Mental Workouts</h3>
-        <p>Sharpen your fallacy detection skills! Read the sensationalist headline, identify the hidden argumentative flaw, and earn live Agency Score (CAS) points.</p>
-      </div>
-      <div class="grid-2-col">
-        <div class="panel-card">
-          <div class="panel-header">
-            <div>
-              <h3 class="panel-title">Active Cognitive Challenge</h3>
-              <p class="panel-desc">Spot the unstated premise or manipulative distortion.</p>
-            </div>
-            <span class="badge-emerald" id="gym-score-pill">+0 CAS Earned Today</span>
-          </div>
-          <div class="gym-challenge-container" id="gym-challenge-box">
-            <div class="challenge-category-row">
-              <span class="challenge-badge" id="gym-challenge-cat">Fallacy Spotting</span>
-              <span class="challenge-difficulty">Level: Intermediate</span>
-            </div>
-            <div class="challenge-headline-box">
-              <span class="quote-mark">"</span>
-              <p class="challenge-headline" id="gym-headline">Loading challenge...</p>
-            </div>
-            <p class="gym-question-prompt" id="gym-question">What primary cognitive distortion is being used here?</p>
-            <div class="gym-options-list" id="gym-options"></div>
-            <div class="gym-feedback-box" id="gym-feedback" style="display:none;"></div>
-            <div class="gym-actions-row">
-              <button class="btn-primary" id="btn-next-gym-drill">Next Challenge →</button>
-            </div>
-          </div>
+      <!-- TAB 6: Local Audit Ledger -->
+      <section class="tab-panel" id="tab-audit">
+        <div class="tab-explainer-banner">
+          <h3>Your Private, Transparent Browsing History</h3>
+          <p>This entire log is saved <strong>exclusively inside your computer's browser (IndexedDB)</strong>. No third
+            party ever sees your reading list.</p>
         </div>
         <div class="panel-card">
           <div class="panel-header">
             <div>
-              <h3 class="panel-title">Field Guide to Online Manipulation</h3>
-              <p class="panel-desc">The 4 most common traps algorithms amplify for viral clicks.</p>
+              <h3 class="panel-title">Session-by-Session Audit Log</h3>
+              <p class="panel-desc">All websites, videos, and articles scanned by CogniShield.</p>
+            </div>
+            <div class="audit-search-row">
+              <input type="text" id="audit-search-input" class="search-input" placeholder="Search sessions...">
+              <select id="audit-filter-platform" class="filter-select">
+                <option value="ALL">All Platforms</option>
+                <option value="YouTube">YouTube</option>
+                <option value="X / Twitter">X / Twitter</option>
+                <option value="Reddit">Reddit</option>
+                <option value="Web News">Web News</option>
+              </select>
             </div>
           </div>
-          <div class="fallacy-reference-list">
-            <div class="fallacy-card"><span class="fallacy-tag">1. False Dilemma (Bifurcation)</span><p>Presenting two extreme options as the only choices while hiding the nuanced middle ground.</p></div>
-            <div class="fallacy-card"><span class="fallacy-tag">2. Epistemic Confirmation Cascades</span><p>Algorithms repeatedly showing variations of your existing view until counter-arguments feel unthinkable.</p></div>
-            <div class="fallacy-card"><span class="fallacy-tag">3. Affective Outrage Amplification</span><p>Using hyper-charged emotional adjectives to trigger immediate anger before logical evaluation can occur.</p></div>
-            <div class="fallacy-card"><span class="fallacy-tag">4. False Consensus &amp; Cherry-Picking</span><p>Citing an isolated outlier study as universal proof while ignoring hundreds of contradictory peer reviews.</p></div>
+          <div class="audit-table-wrapper">
+            <table class="audit-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Platform</th>
+                  <th>Content / Topic</th>
+                  <th>Emotional Bias</th>
+                  <th>Scaffolding</th>
+                  <th>Dwell Time</th>
+                  <th>Archetypes</th>
+                  <th>Reflection</th>
+                </tr>
+              </thead>
+              <tbody id="audit-table-body"></tbody>
+            </table>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- TAB 5: Academic Verification -->
-    <section class="tab-panel" id="tab-cert">
-      <div class="tab-explainer-banner">
-        <h3>What is the Epistemic Due-Diligence Certificate?</h3>
-        <p>This certificate proves that the student actively consulted <strong>at least 3 contrasting source archetypes</strong> and completed critical reflection before drafting.</p>
-      </div>
-      <div class="cert-split-grid">
-        <!-- Left: Form (38%) -->
-        <div class="panel-card cert-form-panel">
+      <!-- TAB 7: Green IT & Privacy -->
+      <section class="tab-panel" id="tab-green">
+        <div class="tab-explainer-banner">
+          <h3>Green IT: Why We Parse Text Instead of Video Streams</h3>
+          <p>Standard AI video fact-checkers stream gigabytes of 1080p video to cloud GPUs (2.73 Wh). CogniShield hooks
+            into accessibility subtitle APIs in sub-50ms (0.00042 Wh) — cutting GPU carbon emissions by
+            <strong>95.5%</strong>.</p>
+        </div>
+        <div class="panel-card">
           <div class="panel-header">
             <div>
-              <h3 class="panel-title">Generate Due-Diligence Certificate</h3>
-              <p class="panel-desc">Creates a cryptographic receipt proving balanced research.</p>
+              <h3 class="panel-title">Architecture Audit &amp; Regulatory Integrity</h3>
+              <p class="panel-desc">Empirical proof of carbon reduction and European compliance.</p>
             </div>
-            <span class="badge-blue">Academic Integrity</span>
+            <span class="badge-emerald">Sustainable Green IT</span>
           </div>
-          <div class="cert-form-group">
-            <div class="form-row">
-              <label class="form-label" for="cert-student-name">Student Full Name:</label>
-              <input type="text" id="cert-student-name" class="form-input" value="Independent Researcher" placeholder="Your Name">
+          <div class="green-audit-table-wrapper">
+            <table class="green-table">
+              <thead>
+                <tr>
+                  <th>Processing Dimension</th>
+                  <th>Standard Cloud Video AI Pipeline</th>
+                  <th>CogniShield Text-First Architecture</th>
+                  <th>Green IT Improvement</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Data Ingestion</strong></td>
+                  <td>5-min 1080p stream (~150 MB)</td>
+                  <td>JSON timed text / DOM (~15 KB)</td>
+                  <td><span class="green-highlight">99.99% Bandwidth Cut</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Compute Workload</strong></td>
+                  <td>1,500 frames on NVIDIA A100 GPU</td>
+                  <td>Client-side trilingual regex + micro-JSON</td>
+                  <td><span class="green-highlight">99.98% GPU Workload Cut</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Energy Consumption</strong></td>
+                  <td>~2.73 Wh per 5-min analysis</td>
+                  <td>~0.00042 Wh per scan</td>
+                  <td><span class="green-highlight">99.98% Energy Cut</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Network Latency</strong></td>
+                  <td>Transatlantic round-trip (6,000 km)</td>
+                  <td>Local in-browser (sub-50ms)</td>
+                  <td><span class="green-highlight">Zero Cloud Latency</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Conservative Real Claim</strong></td>
+                  <td>Baseline: 2.73 Wh</td>
+                  <td>CogniShield: 0.12 Wh (with cloud fallback)</td>
+                  <td><span class="green-highlight font-bold">95.5% Net Carbon Cut</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="regulatory-cards-row">
+            <div class="reg-card">
+              <h4>EU AI Act: Minimal Risk Tier</h4>
+              <p>Under Article 6, CogniShield does not manipulate subconscious behavior or rank citizens. It explicitly
+                awakens human agency and critical scrutiny.</p>
             </div>
-            <div class="form-row">
-              <label class="form-label" for="cert-institution">Higher Education Institution:</label>
-              <input type="text" id="cert-institution" class="form-input" value="University Research Department" placeholder="Your University">
+            <div class="reg-card">
+              <h4>GDPR Article 22 Privacy-by-Design</h4>
+              <p>No automated decisions producing legal effects. All profiling is strictly saved inside your browser's
+                IndexedDB with zero cloud retention.</p>
             </div>
-            <div class="form-row">
-              <label class="form-label" for="cert-assignment-topic">Research / Essay Topic:</label>
-              <input type="text" id="cert-assignment-topic" class="form-input" value="Independent Source Scrutiny Session" placeholder="e.g. European Energy Transition">
-            </div>
-            <div class="form-row">
-              <label class="form-label" for="cert-module-code">Course / Module Code:</label>
-              <input type="text" id="cert-module-code" class="form-input" value="CRIT-101 (Information Systems)">
-            </div>
-            <div class="cert-btn-row">
-              <button class="btn-primary" id="btn-generate-cert">Refresh &amp; Issue Certificate</button>
-              <button class="btn-secondary" id="btn-print-cert">Print / Save as PDF</button>
+            <div class="reg-card">
+              <h4>Zero-Censorship Guarantee</h4>
+              <p>No URLs are ever blocked, content hidden, or posts deleted. CogniShield operates entirely on
+                educational friction and cognitive scaffolding.</p>
             </div>
           </div>
         </div>
+      </section>
 
-        <!-- Right: Certificate Preview (62%) -->
-        <div class="panel-card cert-preview-card">
-          <div class="academic-certificate-sheet" id="academic-cert-sheet">
-            <div class="cert-sheet-header">
-              <div class="cert-crest">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1e3a5f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7z"/></svg>
-              </div>
-              <div class="cert-org-details">
-                <span class="cert-org-name">COGNISHIELD ACADEMIC INTEGRITY CONSORTIUM</span>
-                <span class="cert-standard">European Standards &amp; Guidelines (ESG) Verification</span>
-              </div>
-              <div class="cert-stamp">VERIFIED<br><span>SYSTEM 2</span></div>
-            </div>
-            <div class="cert-title-section">
-              <h2>EPISTEMIC DUE-DILIGENCE CERTIFICATE</h2>
-              <p class="cert-subtitle">Formal Attestation of Multi-Perspective Inquiry &amp; Independent Scrutiny</p>
-            </div>
-            <div class="cert-details-grid">
-              <div class="cert-field"><span class="cert-lbl">ISSUED TO:</span><strong class="cert-val" id="cert-disp-name">Independent Researcher</strong></div>
-              <div class="cert-field"><span class="cert-lbl">INSTITUTION:</span><strong class="cert-val" id="cert-disp-inst">University Research Department</strong></div>
-              <div class="cert-field cert-span-2"><span class="cert-lbl">RESEARCH TOPIC:</span><strong class="cert-val" id="cert-disp-topic">Independent Source Scrutiny Session</strong></div>
-              <div class="cert-field"><span class="cert-lbl">VERIFICATION TOKEN:</span><code class="cert-token" id="cert-disp-token">CS-VERIFY-LIVE-TOKEN</code></div>
-              <div class="cert-field"><span class="cert-lbl">TIMESTAMP (UTC):</span><span class="cert-val" id="cert-disp-date">--</span></div>
-            </div>
-            <div class="cert-audit-results">
-              <h3>Live Scrutiny Audit Matrix</h3>
-              <div class="audit-row"><span>Verified Archetypes Engaged:</span><strong class="text-emerald" id="cert-disp-archetypes">Checking local records...</strong></div>
-              <div class="audit-row"><span>Socratic Reflections Completed:</span><strong class="text-emerald" id="cert-disp-reflections">0 Solved</strong></div>
-              <div class="audit-row"><span>Average Epistemic Dwell Time:</span><strong class="text-emerald" id="cert-disp-dwell">0s</strong></div>
-              <div class="audit-row"><span>Privacy &amp; GDPR Status:</span><strong class="text-emerald">100% On-Device Local Audit (Zero Cloud Tracking)</strong></div>
-            </div>
-            <div class="cert-sheet-footer">
-              <div class="cert-signature-block">
-                <div class="signature-line"></div>
-                <span>Cryptographic Auditor Protocol</span>
-                <small>SHA-256 On-Device Verification</small>
-              </div>
-              <div class="cert-qr-box">
-                <div class="qr-placeholder">■ ■ ■<br>■ □ ■<br>■ ■ ■</div>
-                <small>Scan to Verify</small>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+      <!-- Legacy hidden IDs used by JS notifications -->
+      <span id="storage-status-text" style="display:none;">Live Sync Active</span>
+      <span id="streak-hook-pill" style="display:none;"></span>
 
-    <!-- TAB 6: Local Audit Ledger -->
-    <section class="tab-panel" id="tab-audit">
-      <div class="tab-explainer-banner">
-        <h3>Your Private, Transparent Browsing History</h3>
-        <p>This entire log is saved <strong>exclusively inside your computer's browser (IndexedDB)</strong>. No third party ever sees your reading list.</p>
-      </div>
-      <div class="panel-card">
-        <div class="panel-header">
-          <div>
-            <h3 class="panel-title">Session-by-Session Audit Log</h3>
-            <p class="panel-desc">All websites, videos, and articles scanned by CogniShield.</p>
-          </div>
-          <div class="audit-search-row">
-            <input type="text" id="audit-search-input" class="search-input" placeholder="Search sessions...">
-            <select id="audit-filter-platform" class="filter-select">
-              <option value="ALL">All Platforms</option>
-              <option value="YouTube">YouTube</option>
-              <option value="X / Twitter">X / Twitter</option>
-              <option value="Reddit">Reddit</option>
-              <option value="Web News">Web News</option>
-            </select>
-          </div>
-        </div>
-        <div class="audit-table-wrapper">
-          <table class="audit-table">
-            <thead>
-              <tr>
-                <th>Time</th><th>Platform</th><th>Content / Topic</th>
-                <th>Emotional Bias</th><th>Scaffolding</th><th>Dwell Time</th>
-                <th>Archetypes</th><th>Reflection</th>
-              </tr>
-            </thead>
-            <tbody id="audit-table-body"></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
+    </div><!-- /main-view -->
+  </div><!-- /app-layout -->
 
-    <!-- TAB 7: Green IT & Privacy -->
-    <section class="tab-panel" id="tab-green">
-      <div class="tab-explainer-banner">
-        <h3>Green IT: Why We Parse Text Instead of Video Streams</h3>
-        <p>Standard AI video fact-checkers stream gigabytes of 1080p video to cloud GPUs (2.73 Wh). CogniShield hooks into accessibility subtitle APIs in sub-50ms (0.00042 Wh) — cutting GPU carbon emissions by <strong>95.5%</strong>.</p>
-      </div>
-      <div class="panel-card">
-        <div class="panel-header">
-          <div>
-            <h3 class="panel-title">Architecture Audit &amp; Regulatory Integrity</h3>
-            <p class="panel-desc">Empirical proof of carbon reduction and European compliance.</p>
-          </div>
-          <span class="badge-emerald">Sustainable Green IT</span>
-        </div>
-        <div class="green-audit-table-wrapper">
-          <table class="green-table">
-            <thead>
-              <tr>
-                <th>Processing Dimension</th>
-                <th>Standard Cloud Video AI Pipeline</th>
-                <th>CogniShield Text-First Architecture</th>
-                <th>Green IT Improvement</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td><strong>Data Ingestion</strong></td><td>5-min 1080p stream (~150 MB)</td><td>JSON timed text / DOM (~15 KB)</td><td><span class="green-highlight">99.99% Bandwidth Cut</span></td></tr>
-              <tr><td><strong>Compute Workload</strong></td><td>1,500 frames on NVIDIA A100 GPU</td><td>Client-side trilingual regex + micro-JSON</td><td><span class="green-highlight">99.98% GPU Workload Cut</span></td></tr>
-              <tr><td><strong>Energy Consumption</strong></td><td>~2.73 Wh per 5-min analysis</td><td>~0.00042 Wh per scan</td><td><span class="green-highlight">99.98% Energy Cut</span></td></tr>
-              <tr><td><strong>Network Latency</strong></td><td>Transatlantic round-trip (6,000 km)</td><td>Local in-browser (sub-50ms)</td><td><span class="green-highlight">Zero Cloud Latency</span></td></tr>
-              <tr><td><strong>Conservative Real Claim</strong></td><td>Baseline: 2.73 Wh</td><td>CogniShield: 0.12 Wh (with cloud fallback)</td><td><span class="green-highlight font-bold">95.5% Net Carbon Cut</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="regulatory-cards-row">
-          <div class="reg-card">
-            <h4>EU AI Act: Minimal Risk Tier</h4>
-            <p>Under Article 6, CogniShield does not manipulate subconscious behavior or rank citizens. It explicitly awakens human agency and critical scrutiny.</p>
-          </div>
-          <div class="reg-card">
-            <h4>GDPR Article 22 Privacy-by-Design</h4>
-            <p>No automated decisions producing legal effects. All profiling is strictly saved inside your browser's IndexedDB with zero cloud retention.</p>
-          </div>
-          <div class="reg-card">
-            <h4>Zero-Censorship Guarantee</h4>
-            <p>No URLs are ever blocked, content hidden, or posts deleted. CogniShield operates entirely on educational friction and cognitive scaffolding.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Legacy hidden IDs used by JS notifications -->
-    <span id="storage-status-text" style="display:none;">Live Sync Active</span>
-    <span id="streak-hook-pill" style="display:none;"></span>
-
-  </div><!-- /main-view -->
-</div><!-- /app-layout -->
-
-<script src="../shared/cognitive-engine.js"></script>
-<script src="../shared/local-storage.js"></script>
-<script src="dashboard.js"></script>
+  <script src="../shared/cognitive-engine.js"></script>
+  <script src="../shared/local-storage.js"></script>
+  <script src="dashboard.js"></script>
 </body>
+
 </html>

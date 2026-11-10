@@ -30,17 +30,18 @@
     overflow-y: auto;
   }
 
-  /* Ambient background glows */
+  /* Ambient background glows (Animated Organic Floating) */
   .glow-1 {
     position: absolute;
     top: 5%;
     left: 10%;
     width: 500px;
     height: 500px;
-    background: rgba(16, 185, 129, 0.12);
+    background: rgba(16, 185, 129, 0.14);
     filter: blur(140px);
     border-radius: 50%;
     pointer-events: none;
+    animation: float-ambient-1 16s ease-in-out infinite alternate;
   }
   .glow-2 {
     position: absolute;
@@ -48,10 +49,11 @@
     right: 10%;
     width: 550px;
     height: 550px;
-    background: rgba(245, 158, 11, 0.12);
+    background: rgba(245, 158, 11, 0.14);
     filter: blur(150px);
     border-radius: 50%;
     pointer-events: none;
+    animation: float-ambient-2 20s ease-in-out infinite alternate;
   }
   .glow-3 {
     position: absolute;
@@ -59,10 +61,27 @@
     left: 40%;
     width: 500px;
     height: 500px;
-    background: rgba(56, 189, 248, 0.12);
+    background: rgba(56, 189, 248, 0.14);
     filter: blur(140px);
     border-radius: 50%;
     pointer-events: none;
+    animation: float-ambient-3 18s ease-in-out infinite alternate;
+  }
+
+  @keyframes float-ambient-1 {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(40px, 30px) scale(1.1); }
+    100% { transform: translate(-25px, -20px) scale(0.95); }
+  }
+  @keyframes float-ambient-2 {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-45px, 35px) scale(1.12); }
+    100% { transform: translate(30px, -25px) scale(0.92); }
+  }
+  @keyframes float-ambient-3 {
+    0% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(35px, -35px) scale(1.1); }
+    100% { transform: translate(-30px, 25px) scale(0.95); }
   }
 
   /* Header */
@@ -135,6 +154,25 @@
     gap: 16px;
     position: relative;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .step-card:nth-child(1):hover {
+    transform: translateY(-8px) scale(1.01);
+    border-color: rgba(16, 185, 129, 0.5);
+    box-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.8), 0 0 35px rgba(16, 185, 129, 0.3);
+  }
+
+  .step-card:nth-child(2):hover {
+    transform: translateY(-8px) scale(1.01);
+    border-color: rgba(56, 189, 248, 0.5);
+    box-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.8), 0 0 35px rgba(56, 189, 248, 0.3);
+  }
+
+  .step-card:nth-child(3):hover {
+    transform: translateY(-8px) scale(1.01);
+    border-color: rgba(245, 158, 11, 0.5);
+    box-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.8), 0 0 35px rgba(245, 158, 11, 0.3);
   }
 
   .card-top {
@@ -323,6 +361,12 @@
     font-size: 12px;
     font-weight: 700;
     text-align: center;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .action-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.55);
   }
   .action-btn-secondary {
     flex: 1;
@@ -334,6 +378,14 @@
     font-size: 12px;
     font-weight: 600;
     text-align: center;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .action-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    transform: translateY(-2px);
   }
   .friction-label {
     padding-top: 10px;
@@ -640,5 +692,28 @@
 
   </div>
 
+  <script>
+    // Interactive feedback for diagram mockups
+    document.querySelectorAll('.spectrum-item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.spectrum-item').forEach(i => i.style.borderColor = 'rgba(255, 255, 255, 0.06)');
+        item.style.borderColor = '#38bdf8';
+        item.style.boxShadow = '0 0 15px rgba(56, 189, 248, 0.3)';
+        setTimeout(() => { item.style.boxShadow = ''; }, 1500);
+      });
+    });
+
+    document.querySelectorAll('.action-btn-primary, .action-btn-secondary').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const orig = btn.textContent;
+        btn.textContent = 'Active Scrutiny!';
+        btn.style.boxShadow = '0 0 25px rgba(16, 185, 129, 0.6)';
+        setTimeout(() => {
+          btn.textContent = orig;
+          btn.style.boxShadow = '';
+        }, 1200);
+      });
+    });
+  </script>
 </body>
 </html>
