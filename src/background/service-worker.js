@@ -5,37 +5,45 @@
 
 import { AIBridge } from "./api-bridge.js";
 
-// Resilient local keys loader (supports keys.local.js when present, falls back gracefully on fresh clones)
-let LOCAL_AI_KEYS = { geminiApiKey: "", groqApiKey: "" };
-try {
-  const localConfig = await import("../config/keys.local.js");
-  if (localConfig && localConfig.LOCAL_AI_KEYS) {
-    LOCAL_AI_KEYS = localConfig.LOCAL_AI_KEYS;
+// Resilient local keys loader — wrapped in async IIFE to avoid top-level await (disallowed in MV3 service workers)
+let LOCAL_AI_KEYS = { geminiApiKey: "", groqApiKey: "", youtubeApiKey: "" };
+async function loadLocalKeys() {
+  try {
+    const localConfig = await import("../config/keys.local.js");
+    if (localConfig && localConfig.LOCAL_AI_KEYS) {
+      LOCAL_AI_KEYS = localConfig.LOCAL_AI_KEYS;
+    }
+  } catch (_) {
+    // keys.local.js is optional; teammates can supply keys via extension popup settings or use offline demo mode
   }
-} catch (_) {
-  // keys.local.js is optional; teammates can supply keys via extension settings or use offline demo mode
 }
 
-console.log("[CogniShield] Service Worker loaded.");
-
-const aiBridge = new AIBridge();
-const tabDwellMap = new Map();
-
-// Initialize secure local configuration on install/update
+// Initialize secure local configuration on install/update/startup
 async function initializeKeys() {
-  chrome.storage.local.get(["geminiApiKey", "groqApiKey", "forceDemoMode"], async (existing) => {
+  await loadLocalKeys();
+  chrome.storage.local.get(["geminiApiKey", "groqApiKey", "youtubeApiKey", "forceDemoMode"], async (existing) => {
     let geminiKey = existing.geminiApiKey || LOCAL_AI_KEYS?.geminiApiKey || "";
     let groqKey = existing.groqApiKey || LOCAL_AI_KEYS?.groqApiKey || "";
+    let youtubeKey = existing.youtubeApiKey || LOCAL_AI_KEYS?.youtubeApiKey || "";
 
     chrome.storage.local.set({
       userMode: "trainer", // "zen" or "trainer"
       forceDemoMode: existing.forceDemoMode ?? false,
       selectedLang: "auto",
       geminiApiKey: geminiKey,
-      groqApiKey: groqKey
+      groqApiKey: groqKey,
+      youtubeApiKey: youtubeKey
     });
   });
 }
+
+// Immediate load and sync so keys are present in chrome.storage.local from second zero
+loadLocalKeys().then(() => initializeKeys());
+
+console.log("[CogniShield] Service Worker loaded.");
+
+const aiBridge = new AIBridge();
+const tabDwellMap = new Map();
 
 chrome.runtime.onInstalled.addListener(initializeKeys);
 chrome.runtime.onStartup.addListener(initializeKeys);
@@ -63,17 +71,22 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 
   if (request.action === "FLIP_FEED_ANALYZE") {
-    chrome.storage.local.get(["forceDemoMode", "geminiApiKey", "groqApiKey"], async (settings) => {
+    chrome.storage.local.get(["forceDemoMode", "geminiApiKey", "groqApiKey", "youtubeApiKey"], async (settings) => {
       try {
+        // Ensure local keys are loaded (guards against race condition on first load)
+        await loadLocalKeys();
+
         let geminiKey = settings.geminiApiKey || LOCAL_AI_KEYS?.geminiApiKey || "";
         let groqKey = settings.groqApiKey || LOCAL_AI_KEYS?.groqApiKey || "";
+        let youtubeKey = settings.youtubeApiKey || LOCAL_AI_KEYS?.youtubeApiKey || "";
 
         const title = request.payload?.title || "";
         const textPayload = request.payload?.textPayload || "";
         const result = await aiBridge.generateFlipFeed(title, textPayload, {
           forceDemoMode: !!settings.forceDemoMode,
           geminiApiKey: geminiKey,
-          groqApiKey: groqKey
+          groqApiKey: groqKey,
+          youtubeApiKey: youtubeKey
         });
         sendResponse(result);
       } catch (err) {

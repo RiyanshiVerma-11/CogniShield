@@ -479,13 +479,15 @@
   function renderDashboard(sessions) {
     const isZero = !sessions || sessions.length === 0;
 
+    const stats = computeMetrics(sessions);
+    const totalTraps = (stats.biasCounts?.outrage_anger || 0) + (stats.biasCounts?.false_certainty || 0) + (stats.biasCounts?.tribal_polarization || 0) + (stats.biasCounts?.urgency_fomo || 0);
+    const trapsDisplay = totalTraps > 0 ? totalTraps : (stats.totalScans || 0);
+
     // Update sidebar counters
     const logCount = document.getElementById('tab-log-count');
     const trapsCount = document.getElementById('tab-traps-count');
     if (logCount) logCount.textContent = isZero ? 0 : sessions.length;
-    if (trapsCount) trapsCount.textContent = isZero ? 0 : 23;
-
-    const stats = computeMetrics(sessions);
+    if (trapsCount) trapsCount.textContent = isZero ? 0 : trapsDisplay;
 
     renderPipelineTelemetry(stats, sessions, isZero);
     renderKPICards(stats, isZero);
@@ -531,11 +533,11 @@
     const avgIntensity = n ? totalIntensity / n : 0;
     const crtAccuracy = totalQuizzes ? Math.round((correctQuizzes / totalQuizzes) * 100) : 92;
 
-    let agencyScore = 94, entropy = 1.94;
+    let agencyScore = 75, entropy = 1.5;
     if (window.CogniShieldCognitive) {
       const calc = window.CogniShieldCognitive.calculateAgencyScore(avgDwell, correctQuizzes, totalQuizzes, arch);
-      agencyScore = Math.max(94, calc);
-      entropy = window.CogniShieldCognitive.calculatePerspectiveEntropy(arch) || 1.94;
+      agencyScore = calc;
+      entropy = window.CogniShieldCognitive.calculatePerspectiveEntropy(arch) || 1.5;
     }
     agencyScore = Math.min(100, agencyScore + userGymBonusCAS);
 
@@ -572,24 +574,26 @@
       const platform = latest ? (latest.platform || latest.domain || 'Web') : 'YouTube / News';
       const intVal = stats.avgIntensity ? stats.avgIntensity.toFixed(1) : '3.5';
       const mood = stats.avgIntensity >= 7 ? 'High Outrage' : stats.avgIntensity >= 4.5 ? 'Moderate' : 'Calm';
+      const totalTraps = (stats.biasCounts?.outrage_anger || 0) + (stats.biasCounts?.false_certainty || 0) + (stats.biasCounts?.tribal_polarization || 0) + (stats.biasCounts?.urgency_fomo || 0);
+      const trapsDisplay = totalTraps > 0 ? totalTraps : (stats.totalScans || 0);
 
       set('pipe-ribbon-lat-cc', '0.05s');
-      set('pipe-ribbon-hooks-cc', '23 Hooks');
+      set('pipe-ribbon-hooks-cc', `${trapsDisplay} Hooks`);
       set('pipe-ribbon-pwr-cc', '0W');
       set('pipe-ribbon-angles-cc', '4 Axes');
-      set('pipe-ribbon-pause-cc', `${stats.avgDwell || 134.7}s Avg`);
+      set('pipe-ribbon-pause-cc', `${stats.avgDwell}s Avg`);
 
       set('pipe-s1-source', `Active Feed: ${platform} DOM`);
       set('pipe-s1-payload', '<15KB text extracted');
       set('pipe-s1-latency', '0.05s');
       set('pipe-s1-status', 'Live DOM Sync Active');
-      set('pipe-s2-hooks', '23 Manipulation Hooks Caught');
+      set('pipe-s2-hooks', `${trapsDisplay} Manipulation Hooks Caught`);
       set('pipe-s2-power', '0 Watts / Local');
       set('pipe-s2-status', 'Trilingual (EN/DE/FR) Active');
       set('pipe-s3-foundations', '4 Foundations Checked');
       set('pipe-s3-blindspots', '1 Blindspot Found');
       set('pipe-s3-status', 'Dialectic Cache Synced');
-      set('pipe-s4-pause', `${stats.avgDwell || 134.7}s Avg Pause`);
+      set('pipe-s4-pause', `${stats.avgDwell}s Avg Pause`);
       set('pipe-s4-scaffold', 'AI Hints: Fading → Autonomous');
       set('pipe-s4-status', 'Empowerment Active');
     }
@@ -613,11 +617,13 @@
       if (casTier) casTier.textContent = 'Awaiting Data';
       if (casHL) casHL.innerHTML = '<strong>-- avg pause</strong> — browse feeds to measure';
     } else {
-      const score = Math.max(94, stats.agencyScore);
+      const score = stats.agencyScore;
       if (casNum) casNum.textContent = score;
       if (casCirc) casCirc.style.strokeDashoffset = 264 - (264 * score / 100);
-      if (casTier) casTier.textContent = 'Autonomous Tier';
-      if (casHL) casHL.innerHTML = `<strong>${stats.avgDwell || 134.7}s mean pause</strong> — 11x above baseline`;
+      const tierName = score >= 80 ? 'Autonomous Tier' : score >= 60 ? 'Fading Assistance' : 'Guided Scaffolding';
+      if (casTier) casTier.textContent = tierName;
+      const factor = Math.max(1, Math.round((stats.avgDwell || 12) / 12));
+      if (casHL) casHL.innerHTML = `<strong>${stats.avgDwell}s mean pause</strong> — ${factor}x above baseline`;
     }
 
     // KPI 2: Perspective Balance
@@ -635,9 +641,18 @@
     const barSta = document.getElementById('quad-bar-sta');
     const barEth = document.getElementById('quad-bar-eth');
 
-    if (divNum) divNum.textContent = isZero ? '--' : 96;
-    if (divCirc) divCirc.style.strokeDashoffset = isZero ? 264 : 264 - (264 * 96 / 100);
-    if (divTier) divTier.textContent = isZero ? 'Awaiting Data' : '4/4 Axes Active';
+    // Perspective Balance: how evenly spread are the 4 archetype axes?
+    // Perfect balance = 25% each = 100 score. Completely skewed (1 axis) = 0.
+    // Shannon-inspired: penalise missing axes and large skew.
+    const axesActive = [pEmp, pEco, pSta, pEth].filter(p => p > 0).length;
+    const spread = totArch > 0
+      ? Math.round(100 - (Math.max(pEmp, pEco, pSta, pEth) - Math.min(pEmp, pEco, pSta, pEth)) * 1.2)
+      : 96; // default when no real data yet
+    const perspBalance = Math.min(100, Math.max(0, spread));
+    const axesTierLabel = axesActive >= 4 ? '4/4 Axes Active' : axesActive >= 3 ? '3/4 Axes Active' : axesActive >= 2 ? '2/4 Axes Active' : 'Awaiting Data';
+    if (divNum) divNum.textContent = isZero ? '--' : perspBalance;
+    if (divCirc) divCirc.style.strokeDashoffset = isZero ? 264 : 264 - (264 * perspBalance / 100);
+    if (divTier) divTier.textContent = isZero ? 'Awaiting Data' : axesTierLabel;
 
     if (barEmp) { barEmp.style.width = `${pEmp}%`; barEmp.querySelector('.seg-label').textContent = `Emp ${pEmp}%`; }
     if (barEco) { barEco.style.width = `${pEco}%`; barEco.querySelector('.seg-label').textContent = `Eco ${pEco}%`; }
@@ -656,8 +671,10 @@
     // KPI 3: Scaffolding Attenuation
     const fallaciesEl = document.getElementById('kpi-fallacies-caught');
     const frictionTier = document.getElementById('kpi-friction-tier');
-    if (fallaciesEl) fallaciesEl.textContent = isZero ? 0 : 23;
-    if (frictionTier) frictionTier.textContent = isZero ? 'Ready' : 'AI Auto-Fading';
+    const totalTraps = (stats.biasCounts?.outrage_anger || 0) + (stats.biasCounts?.false_certainty || 0) + (stats.biasCounts?.tribal_polarization || 0) + (stats.biasCounts?.urgency_fomo || 0);
+    const trapsDisplay = totalTraps > 0 ? totalTraps : (stats.totalScans || 0);
+    if (fallaciesEl) fallaciesEl.textContent = isZero ? 0 : trapsDisplay;
+    if (frictionTier) frictionTier.textContent = isZero ? 'Ready' : (trapsDisplay > 15 ? 'Autonomous' : trapsDisplay > 5 ? 'AI Auto-Fading' : 'Guided Scaffolding');
 
     // KPI 4 legacy hidden IDs
     set('kpi-carbon-saved', isZero ? '0g' : '17.2g');

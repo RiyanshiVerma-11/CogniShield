@@ -186,6 +186,61 @@ class CognitiveEngine {
   generateCounterPerspectiveFeed(videoContext = {}, dossier = null, offlineManager = null) {
     const title = (videoContext && videoContext.title) ? videoContext.title : (dossier ? dossier.title : "Contemporary Video Debate");
     
+    // --- Meta-phrase blocklist: strip these from any AI/template search query before hitting YouTube ---
+    const SEARCH_META_BLOCKLIST = [
+      "counter argument", "counterargument", "alternative perspective",
+      "opposing view", "other side", "fact check", "fact-check",
+      "rebuttal", "debunked", "refutation"
+    ];
+    // Stop-words to exclude when extracting keywords from title
+    const STOP_WORDS = new Set(["the","a","an","and","or","but","in","on","at","to","for","of","with","by","from","is","was","are","were","be","been","has","have","had","do","does","did","will","would","could","should","may","might","its","it","this","that","these","those","i","we","you","he","she","they","my","our","your","his","her","their","&","her","his","how","why","what","who","when","where","which"]);
+
+    /**
+     * Extracts 4-6 meaningful keywords from a video title for use in YouTube search.
+     * Avoids stop-words, punctuation, and very short words.
+     */
+    const extractKeywords = (t, maxWords = 6) => {
+      return t
+        .replace(/[^\w\s]/g, " ")
+        .split(/\s+/)
+        .filter(w => w.length > 3 && !STOP_WORDS.has(w.toLowerCase()))
+        .slice(0, maxWords)
+        .join(" ")
+        .trim();
+    };
+
+    const sanitizeQuery = (q) => {
+      let clean = q;
+      SEARCH_META_BLOCKLIST.forEach(phrase => {
+        const re = new RegExp(phrase.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi');
+        clean = clean.replace(re, "").trim();
+      });
+      clean = clean.replace(/\s{2,}/g, " ").replace(/^[\s,]+|[\s,]+$/g, "").trim();
+      // Cap at 8 words
+      const words = clean.split(/\s+/).filter(Boolean);
+      if (words.length > 8) clean = words.slice(0, 8).join(" ");
+      return clean;
+    };
+
+    // --- Content-type detector: influencer/drama vs. structured discourse ---
+    const isInfluencerDrama = (() => {
+      const combined = title.toLowerCase();
+      const signals = ["vlog","controversy","drama","exposed","cancelled","beef","clout",
+        "reacts","reaction","storytime","tea","gossip","relationship","breakup",
+        "cheating","family","boyfriend","girlfriend","toxic","influencer","youtuber",
+        "streamer","tiktok","instagram","collab","roast","callout","apology","canceled","receipts"];
+      return signals.filter(s => combined.includes(s)).length >= 2;
+    })();
+
+    // For influencer drama: use broad thematic queries that don't name the creator
+    const dramaFallbackRecs = [
+      { title: "How Social Media Algorithms Profit From Creator Drama", source: "Media Studies Review", archetype: "Platform Culture Critique", duration: "14:00", badge: "Platform Critique", rationale: "Explains why platforms amplify controversy for engagement and what it means for viewers.", searchQuery: "how youtube algorithm rewards drama controversy creators" },
+      { title: "Parasocial Relationships and Fan Psychology Explained", source: "Psychology Today", archetype: "Parasocial Dynamics", duration: "16:30", badge: "Psychology Research", rationale: "Research on why audiences feel personally invested in influencer lives and the emotional cost.", searchQuery: "parasocial relationships social media fans psychology research" },
+      { title: "Cancel Culture vs. Accountability: Where Is the Line?", source: "BBC Ideas", archetype: "Cancel Culture Debate", duration: "12:00", badge: "Nuanced Debate", rationale: "Explores the tension between online accountability and mob-driven pile-ons.", searchQuery: "cancel culture accountability social media debate nuanced" },
+      { title: "The Creator Economy: Why Controversy Pays on YouTube", source: "Wall Street Journal", archetype: "Creator Economy", duration: "18:00", badge: "Industry Analysis", rationale: "How the revenue model of YouTube structurally incentivizes rage-bait and drama content.", searchQuery: "creator economy youtube monetization controversy revenue model" },
+      { title: "How to Be a Smarter Media Literacy Consumer Online", source: "Crash Course", archetype: "Media Literacy", duration: "10:00", badge: "Media Literacy", rationale: "Practical framework for consuming creator content without being drawn into tribal fan camps.", searchQuery: "media literacy online content critical thinking social media" }
+    ];
+
     // Resolve offline cache manager
     let mgr = offlineManager;
     if (!mgr) {
@@ -202,7 +257,10 @@ class CognitiveEngine {
     }
 
     let rawRecs = [];
-    if (mgr && typeof mgr.getCounterRecommendations === "function") {
+    if (isInfluencerDrama) {
+      // Use socio-cultural archetypes — never reference creator's name
+      rawRecs = dramaFallbackRecs;
+    } else if (mgr && typeof mgr.getCounterRecommendations === "function") {
       rawRecs = mgr.getCounterRecommendations(activeDossier, title);
     } else if (activeDossier && Array.isArray(activeDossier.counter_recommendations)) {
       rawRecs = activeDossier.counter_recommendations;
@@ -213,58 +271,59 @@ class CognitiveEngine {
         const sp = sub.lastIndexOf(" ");
         return (sp > 8 ? sub.slice(0, sp) : sub) + "...";
       };
-      const cleanT = safeTruncate(title, 45);
+      const kw = extractKeywords(title, 5); // 5 meaningful keywords from the video title
       rawRecs = [
         {
-          title: `Empirical Fact-Check & Data: ${cleanT}`,
+          title: `Empirical Fact-Check & Data: ${safeTruncate(title, 45)}`,
           source: "Institutional Economics & Science Review",
           archetype: "Empirical Baseline",
           duration: "14:15",
           badge: "Empirical Data",
           rationale: "Examines baseline methodology, sample sizes, and verifiable facts before accepting viral claims.",
-          searchQuery: `${title} empirical data statistics studies analysis`
+          searchQuery: `${kw} empirical data statistics`
         },
         {
-          title: `The Direct Counter-Argument: Why the Consensus Challenges ${cleanT}`,
+          title: `The Direct Counter-Argument: Why the Consensus Challenges ${safeTruncate(title, 45)}`,
           source: "Domain Policy & Ethics Review",
           archetype: "Direct Counter-Thesis",
           duration: "18:30",
           badge: "Counter-Thesis",
           rationale: "Explores competing viewpoints and trade-offs that algorithmic recommendation systems systematically omit.",
-          searchQuery: `${title} why consensus disagree counter argument debate`
+          searchQuery: `${kw} multiple perspectives debate`
         },
         {
-          title: `The Hidden Opportunities & Positive Side of ${cleanT}`,
+          title: `The Hidden Opportunities & Positive Side of ${safeTruncate(title, 45)}`,
           source: "Global Innovation & Technology Review",
           archetype: "Systemic Trade-Offs",
           duration: "15:45",
           badge: "Opportunity Analysis",
           rationale: "Surfaces constructive upsides, overlooked opportunities, or alternative economic solutions.",
-          searchQuery: `${title} positive benefits opportunities constructive solutions`
+          searchQuery: `${kw} benefits opportunities solutions`
         },
         {
-          title: `Regulatory & Institutional Realities: Legal Frameworks Surrounding ${cleanT}`,
+          title: `Regulatory & Institutional Realities: Legal Frameworks Surrounding ${safeTruncate(title, 45)}`,
           source: "International Statutory Observatory",
           archetype: "Regulatory Framework",
           duration: "17:10",
           badge: "Statutory Governance",
           rationale: "Examines how national and international regulations, liability laws, and standards govern this issue.",
-          searchQuery: `${title} legal regulations policy frameworks court analysis`
+          searchQuery: `${kw} legal policy regulations`
         },
         {
-          title: `Longitudinal Context: How History Explains ${cleanT}`,
+          title: `Longitudinal Context: How History Explains ${safeTruncate(title, 45)}`,
           source: "Historical & Societal Archive",
           archetype: "Historical Precedent",
           duration: "16:00",
           badge: "Historical Context",
           rationale: "Provides historical perspective to prevent knee-jerk panic and evaluate systemic drivers.",
-          searchQuery: `${title} historical precedent past lessons structural deep dive`
+          searchQuery: `${kw} history precedent lessons`
         }
       ];
     }
 
     const recommendations = rawRecs.map((rec) => {
-      const q = rec.searchQuery || rec.title;
+      const rawQ = rec.searchQuery || rec.title;
+      const q = sanitizeQuery(rawQ);
       return {
         ...rec,
         searchUrl: `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`
