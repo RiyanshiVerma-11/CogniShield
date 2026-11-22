@@ -4,6 +4,7 @@
 # Local directory (contains all PPTs, slides, scripts, and agent skill packages)
 local/
 .tmp/
+scratch/
 
 # Internal AI scaffolding files (not part of public project)
 AGENTS.md

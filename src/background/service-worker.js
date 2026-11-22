@@ -4,7 +4,17 @@
  */
 
 import { AIBridge } from "./api-bridge.js";
-import { LOCAL_AI_KEYS } from "../config/keys.local.js";
+
+// Resilient local keys loader (supports keys.local.js when present, falls back gracefully on fresh clones)
+let LOCAL_AI_KEYS = { geminiApiKey: "", groqApiKey: "" };
+try {
+  const localConfig = await import("../config/keys.local.js");
+  if (localConfig && localConfig.LOCAL_AI_KEYS) {
+    LOCAL_AI_KEYS = localConfig.LOCAL_AI_KEYS;
+  }
+} catch (_) {
+  // keys.local.js is optional; teammates can supply keys via extension settings or use offline demo mode
+}
 
 console.log("[CogniShield] Service Worker loaded.");
 

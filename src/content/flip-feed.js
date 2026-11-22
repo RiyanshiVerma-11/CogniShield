@@ -227,13 +227,40 @@ class FlipFeedController {
           searchUrl: "https://www.youtube.com/results?search_query=OECD+AI+labor+market+empirical+study"
         },
         {
-          title: "The Other Side of the Controversy: Historical Lessons",
+          title: "The Direct Counter-Argument: Why AI Won't Replace Programmers",
           source: "MIT Technology Review",
-          archetype: "Systemic Trade-Offs",
+          archetype: "Direct Counter-Thesis",
           duration: "18 min",
-          badge: "Alternative Viewpoint",
-          rationale: "Explores structural incentives and competing theories omitted by algorithmic feeds.",
-          searchUrl: "https://www.youtube.com/results?search_query=MIT+technology+review+automation+counter+perspective"
+          badge: "Counter-Thesis",
+          rationale: "Explores why software development is about architecture and system verification, not rote code.",
+          searchUrl: "https://www.youtube.com/results?search_query=why+AI+wont+replace+software+engineers+programmers"
+        },
+        {
+          title: "The Positive Economic Upsides: How New Tech Industries Are Created",
+          source: "Bloomberg Technology",
+          archetype: "Systemic Trade-Offs",
+          duration: "16 min",
+          badge: "Opportunity Analysis",
+          rationale: "Highlights economic opportunities and novel roles created by automated tooling.",
+          searchUrl: "https://www.youtube.com/results?search_query=how+AI+is+creating+new+jobs+economic+boom"
+        },
+        {
+          title: "EU AI Act Explained: Strict Human Deployer Liability",
+          source: "European Law Review",
+          archetype: "Regulatory Framework",
+          duration: "15 min",
+          badge: "Statutory Governance",
+          rationale: "Explains how European and global statutory frameworks enforce human accountability.",
+          searchUrl: "https://www.youtube.com/results?search_query=EU+AI+Act+regulations+deployer+liability+explained"
+        },
+        {
+          title: "Historical Precedents: What Happened During Past Automation Revolutions",
+          source: "Stanford History & Innovation",
+          archetype: "Historical Precedent",
+          duration: "20 min",
+          badge: "Historical Context",
+          rationale: "Compares current algorithmic anxiety to the introduction of personal computers in the 1980s.",
+          searchUrl: "https://www.youtube.com/results?search_query=history+of+automation+fear+computer+revolution+lessons"
         }
       ]
     };
@@ -242,7 +269,7 @@ class FlipFeedController {
       // -------------------------------------------------------------
       // UNFLIPPED STATE (High-Impact Interactive Anti-Bubble Controller)
       // -------------------------------------------------------------
-      const recCount = (data.recommendations && data.recommendations.length) || 3;
+      const recCount = (data.recommendations && data.recommendations.length) || 5;
       const archetypeTags = (data.recommendations || []).map(r => r.archetype || "Counter-View").slice(0, 3);
       const tagHtml = archetypeTags.map(tag => `<span class="cognishield-peek-chip" title="Click to unlock this perspective">✦ ${tag}</span>`).join("");
 

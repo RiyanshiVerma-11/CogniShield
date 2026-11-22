@@ -220,27 +220,45 @@ class CognitiveEngine {
           source: "Institutional Economics & Science Review",
           archetype: "Empirical Baseline",
           duration: "14:15",
-          badge: "Methodology Audit",
+          badge: "Empirical Data",
           rationale: "Examines baseline methodology, sample sizes, and verifiable facts before accepting viral claims.",
-          searchQuery: `${title} empirical fact check evidence data analysis`
+          searchQuery: `${title} empirical data statistics studies analysis`
         },
         {
-          title: `The Other Side of the Story: Alternative Viewpoint on ${cleanT}`,
+          title: `The Direct Counter-Argument: Why the Consensus Challenges ${cleanT}`,
           source: "Domain Policy & Ethics Review",
-          archetype: "Systemic Trade-Offs",
+          archetype: "Direct Counter-Thesis",
           duration: "18:30",
-          badge: "Alternative Viewpoint",
+          badge: "Counter-Thesis",
           rationale: "Explores competing viewpoints and trade-offs that algorithmic recommendation systems systematically omit.",
-          searchQuery: `${title} counter argument alternative perspective opposing view`
+          searchQuery: `${title} why consensus disagree counter argument debate`
         },
         {
-          title: `Longitudinal Context: Lessons Applied to ${cleanT}`,
+          title: `The Hidden Opportunities & Positive Side of ${cleanT}`,
+          source: "Global Innovation & Technology Review",
+          archetype: "Systemic Trade-Offs",
+          duration: "15:45",
+          badge: "Opportunity Analysis",
+          rationale: "Surfaces constructive upsides, overlooked opportunities, or alternative economic solutions.",
+          searchQuery: `${title} positive benefits opportunities constructive solutions`
+        },
+        {
+          title: `Regulatory & Institutional Realities: Legal Frameworks Surrounding ${cleanT}`,
+          source: "International Statutory Observatory",
+          archetype: "Regulatory Framework",
+          duration: "17:10",
+          badge: "Statutory Governance",
+          rationale: "Examines how national and international regulations, liability laws, and standards govern this issue.",
+          searchQuery: `${title} legal regulations policy frameworks court analysis`
+        },
+        {
+          title: `Longitudinal Context: How History Explains ${cleanT}`,
           source: "Historical & Societal Archive",
           archetype: "Historical Precedent",
           duration: "16:00",
-          badge: "Longitudinal Context",
+          badge: "Historical Context",
           rationale: "Provides historical perspective to prevent knee-jerk panic and evaluate systemic drivers.",
-          searchQuery: `${title} historical analysis precedent deep dive context`
+          searchQuery: `${title} historical precedent past lessons structural deep dive`
         }
       ];
     }

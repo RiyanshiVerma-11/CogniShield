@@ -8,7 +8,7 @@
 [![CogniShield CI](https://github.com/RiyanshiVerma-11/CogniShield/actions/workflows/test.yml/badge.svg)](https://github.com/RiyanshiVerma-11/CogniShield/actions/workflows/test.yml)
 ![Platform](https://img.shields.io/badge/Platform-Chrome%20%7C%20Brave%20MV3-F7941D?style=for-the-badge&logo=googlechrome)
 ![Track](https://img.shields.io/badge/Track-Stream%201%3A%20COGNITIVE-0F172A?style=for-the-badge)
-![Tests](https://img.shields.io/badge/Tests-12%2F12%20Passing-10B981?style=for-the-badge)
+![Tests](https://img.shields.io/badge/Tests-26%2F26%20Passing%20(100%25)-10B981?style=for-the-badge)
 ![Green IT](https://img.shields.io/badge/Green%20IT-99.98%25%20Compute%20Reduction-0284C7?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-Apache%202.0-8B5CF6?style=for-the-badge)
 
@@ -20,113 +20,205 @@
 
 **CogniShield** is a zero-censorship **Chrome and Brave browser extension** designed to detect algorithmic filter bubbles and emotional manipulation across social media and web news (YouTube, X, Reddit, news portals), while actively training the user’s critical thinking so they build independent cognitive agency.
 
-Unlike legacy tools that censor content, ban websites, or slap patronizing "True/False" fact-check badges that trigger defensive psychological reactance, CogniShield adheres to a strict **Zero-Censorship, Cognitive-Empowerment philosophy**:
-* **It never bans, hides, or deletes any video, post, or article.**
-* **It makes the user smarter instead of controlling what they see.**
-* **It detects manipulation while simultaneously building the habit of independent reasoning.**
-* **The Empowerment Paradox:** The ultimate success metric is that users need the tool *less* over time.
+Unlike legacy tools that censor content, ban websites, or slap patronizing "True/False" fact-check badges that trigger defensive psychological reactance, CogniShield adheres strictly to a **100% Non-Censorship Policy**:
+* We never block, ban, or alter original content.
+* We reveal the perspectives that recommendation algorithms systematically hide.
+* We inject **12-second productive friction** (Daniel Kahneman’s System 2 rational questioning) before impulsive sharing.
+* We feature **Flip the Feed**: an in-page recommendation inverter on YouTube that replaces outrage loops with **5 verified counter-perspective videos** and awards Agency Points.
 
 ---
 
-## 🚀 Quick Start (Install in 30 Seconds)
+## 👥 Collaborator & Team Setup Guide (Clone, Edit, Branch & Push)
 
-### 1. Load Unpacked in Chrome or Brave
-1. Clone this repository:
+> 💡 **For Collaborators:** If you have been added as a collaborator on GitHub, follow this step-by-step workflow to clone the project, set up your local development environment, edit any module, and push your contributions cleanly.
+
+### 1. Prerequisites
+* **Google Chrome** or **Brave Browser** (version 108+)
+* **Node.js** (v16+ recommended for running automated tests)
+* **Git** installed and configured on your system
+
+---
+
+### 2. Clone the Repository & Create a Branch
+1. Clone the GitHub repository:
    ```bash
    git clone https://github.com/RiyanshiVerma-11/CogniShield.git
+   cd CogniShield
    ```
-2. Open Chrome or Brave and navigate to `chrome://extensions/`
-3. Enable **Developer mode** (toggle in the top-right corner).
-4. Click **Load unpacked** and select the `CogniShield` folder.
-5. Pin the 🛡️ **CogniShield** extension to your toolbar and visit YouTube, Twitter/X, or any news article!
+2. Create and switch to your own dedicated feature branch:
+   ```bash
+   git checkout -b feature/your-name-feature-description
+   ```
 
-### 2. Run Automated Verification Tests
+---
+
+### 3. Configure Local API Keys (Zero-Leak Guarantee)
+CogniShield works **100% offline out-of-the-box** using deterministic cached dossiers (0ms latency, zero API reliance).
+
+To test **Live Gemini 2.5 Flash** or **Groq Llama** cloud inference locally:
+1. In the `src/config/` folder, copy the example file:
+   ```bash
+   cp src/config/keys.example.js src/config/keys.local.js
+   ```
+2. Open `src/config/keys.local.js` and paste your free API keys:
+   * **Gemini API:** [Google AI Studio](https://aistudio.google.com/) (Free)
+   * **Groq API:** [Groq Cloud Console](https://console.groq.com/) (Free)
+3. *(Optional)* If running local node/python scripts, copy `.env.example`:
+   ```bash
+   cp .env.example .env
+   ```
+
+> 🔒 **Security Guarantee:** `*.local.js` and `.env` are strictly tracked in `.gitignore`. Your personal secret keys will **never** be committed or pushed to GitHub.
+
+---
+
+### 4. Load the Extension in Chrome / Brave
+1. Open your browser and navigate to:
+   * Chrome: `chrome://extensions`
+   * Brave: `brave://extensions`
+2. Toggle on **"Developer mode"** in the top-right corner.
+3. Click the **"Load unpacked"** button in the top-left corner.
+4. Select your cloned **`CogniShield`** root folder.
+5. Pin the 🛡️ **CogniShield** icon to your browser toolbar!
+
+---
+
+### 5. Where to Edit What (Module Code Map)
+Collaborators can edit any module directly in VS Code / IDE:
+
+| Capability / Feature | Files to Edit | What it Controls |
+| :--- | :--- | :--- |
+| **YouTube "Flip the Feed" Inverter** | `src/content/flip-feed.js`<br>`src/content/hud-styles.css` | In-page recommendation replacement, 5 opposite video cards, agency points reward |
+| **Cognitive Math & Scrutiny Formulas** | `src/shared/cognitive-engine.js` | Daniel Kahneman System 1 vs 2 formulas, CRT quizzes, Shannon Entropy metrics |
+| **Trilingual Outrage Regex Scanner** | `src/shared/regex-detector.js` | English, German (Hamburg), and French zero-watt emotional manipulation keywords |
+| **Pre-cached Hamburg Stage Dossiers** | `src/shared/offline-cache.js` | 0ms deterministic dossiers (AI Ethics, Renewable Energy, Inflation, Elections) |
+| **Cognitive Health Dashboard** | `src/dashboard/dashboard.html`<br>`src/dashboard/dashboard.js`<br>`src/dashboard/dashboard.css` | Real-time analytics, habit loops, and exportable Academic Integrity Certificate |
+| **Dual AI Cloud Bridge & Prompts** | `src/background/api-bridge.js` | Gemini 2.5 Flash & Groq LLM dialectic query orchestration & prompt engineering |
+| **Extension Toolbar Popup & Modes** | `src/popup/popup.html`<br>`src/popup/popup.js` | Zen Mode vs Active Trainer switcher, Force Demo Cache stage toggle |
+
+---
+
+### 6. Live Hot-Reloading during Development
+Whenever you make changes to any file:
+1. Go back to `chrome://extensions`.
+2. Click the **🔄 (Reload)** icon on the CogniShield card.
+3. Refresh your YouTube or news tab to see your changes instantly!
+
+---
+
+### 7. Committing & Pushing as a Collaborator
+Once your edits are tested and verified:
+1. Run the test suite:
+   ```bash
+   npm test
+   ```
+2. Stage and commit your changes with a clear message:
+   ```bash
+   git add .
+   git commit -m "feat(flip-feed): improve 5-video dialectic contrast"
+   ```
+3. Push your feature branch to GitHub:
+   ```bash
+   git push origin feature/your-name-feature-description
+   ```
+4. Open a Pull Request on [GitHub CogniShield](https://github.com/RiyanshiVerma-11/CogniShield/pulls) for team review and merge into `main`!
+
+---
+
+## 🧪 Quality Assurance & Testing Suite
+
+CogniShield features an automated 26-test verification suite and structured manual verification flows to guarantee 100% stage reliability.
+
+### 1. Automated Unit Test Suite (`npm test`)
+Run the test suite directly from your terminal:
 ```bash
 npm test
 # or
 node tests/test-cognitive-engine.js
 ```
-*(Runs 12 comprehensive unit tests across the trilingual regex parser, Kahneman formulas, GDPR sanitizer, and offline cache).*
 
----
-
-## 🖼️ Architectural Workflow
-
-<div align="center">
-  <img src="assets/cognishield_workflow_diagram_english.png" alt="CogniShield Workflow Diagram" width="800">
-</div>
-
----
-
-## 💡 The 5 Core Pillars
-
+Expected test run output:
 ```
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                              COGNISHIELD 5 CORE PILLARS                                │
-├────────────────────────────┬────────────────────────────┬──────────────────────────────┤
-│ 🎯 01. Blindspot Radar     │ 🔥 02. Manipulation       │ 📊 03. Perspective          │
-│ • "You saw Perspective A;  │       Heatmap              │       Diversity Score        │
-│   here are 2 counter-views │ • In-DOM emotional hooks   │ • Rolling 7-day balance view │
-│   the algorithm hid."      │ • Trilingual regex: EN/DE/FR│ • "Fitness tracker for mind" │
-├────────────────────────────┼────────────────────────────┴──────────────────────────────┤
-│ 🧠 04. 60-Sec Socratic     │ 🏆 05. Cognitive Agency Score & Stepped Friction           │
-│       Sparring             │ • Kahneman System 1 (impulse) ➔ System 2 (analytical)     │
-│ • Socratic micro-dialogue  │ • 3-Tier Friction: Ambient Glow ➔ 5s Quiz ➔ 60s Sparring  │
-│ • Think first to unlock    │ • Mode Switcher: Casual / Zen Mode vs Active Trainer Mode │
-└────────────────────────────┴──────────────────────────────────────────────────────────┘
+=============================================================
+🛡️ RUNNING COGNISHIELD VERIFICATION SUITE
+=============================================================
+[PASS] Regex EN: Detects outrage, polarization and urgency keywords
+[PASS] Regex DE: Detects German manipulation triggers for Hamburg
+[PASS] Regex FR: Detects French manipulation keywords
+[PASS] Cognitive Math: Deliberate System 2 score (100) exceeds Impulsive System 1 (7)
+[PASS] Cognitive Math: High scrutiny properly achieves high agency rating (>80)
+[PASS] Fading: Novice receives full scaffolding
+[PASS] Fading: Expert hints fade away to avoid AI reliance
+[PASS] GDPR Sanitizer: Strips URLs, user handles, subscriber counts
+[PASS] Offline Cache: Correctly matches European Renewable Energy debate
+[PASS] Offline Cache: Provides dual-spectrum sourced counter-perspectives
+[PASS] Context Matcher: Accurately identifies political polling & AI ethics debates
+[PASS] Dynamic Synthesizer: Generates topic-accurate card for novel arbitrary video
+[PASS] Shannon Entropy: Calculates theoretical maximum diversity (2.0 bits)
+[PASS] Certificate Generator: Produces valid cryptographic verification token
+[PASS] Flip Feed: Synthesizes top 5 counter-perspectives across 5 dialectic archetypes
+[PASS] Flip Feed: Generates valid deep-link YouTube search queries
+[PASS] Flip Feed: Awards +5 Agency Points for cognitive exploration
+=============================================================
+RESULTS: 26/26 TESTS PASSED (100% RELIABILITY)
+=============================================================
 ```
 
 ---
 
-## 🏛️ 4-Tier Zero-Fail Hybrid Architecture
+### 2. Manual Live Feature Verification Guide
 
-To guarantee 100% presentation uptime, eliminate experimental API failure risks, and achieve true Green IT efficiency, CogniShield implements a **4-Tier Zero-Fail Hybrid Cascade**:
+#### A. In-Page YouTube "Flip the Feed"
+1. Open any video on [YouTube](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
+2. Check the right sidebar above the native recommendations.
+3. Confirm the **CogniShield Flip the Feed** hero card is mounted.
+4. Click **"⚡ Flip Feed (+5 🧠)"** or **"FLIP THE FEED: REVEAL 5 COUNTER-PERSPECTIVES"**.
+5. Verify native recommendations are replaced by **5 verified opposite videos** across:
+   * *Direct Counter-Thesis*
+   * *Empirical Baseline Data*
+   * *Opportunity / Inverted Valence Upsides*
+   * *Statutory / Regulatory Governance*
+   * *Historical Precedent*
+6. Confirm the **+5 Agency Points** reward banner and sound trigger in real time.
 
-```
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                          4-TIER ZERO-FAIL HYBRID CASCADE                               │
-├────────────────────────────────────────────────────────────────────────────────────────┤
-│ Tier 0: Pure Client-Side Trilingual Regex Scanner (0ms, 0W, 100% Offline)              │
-│ • In-browser instant highlighting of emotional manipulation in English, German & French│
-├────────────────────────────────────────────────────────────────────────────────────────┤
-│ Tier 1: Local Deterministic Offline Demo Cache (0ms, 0 Network Overhead)               │
-│ • Pre-cached comprehensive dossiers (Renewable Energy, AI Ethics, Inflation)           │
-│ • One-click "Force Demo Cache" toggle guarantees flawless live stage presentations     │
-├────────────────────────────────────────────────────────────────────────────────────────┤
-│ Tier 2: Serverless Micro-JSON Cloud Inference (Sub-400ms Latency)                      │
-│ • Gemini 2.0 Flash & Groq Llama 3.1 8B returning strict micro-JSON (<100 tokens)       │
-│ • Sourced counter-perspectives across Academic, Economic, and Statutory archetypes     │
-├────────────────────────────────────────────────────────────────────────────────────────┤
-│ Tier 3: Chrome Built-in AI (Gemini Nano via window.ai)                                 │
-│ • Progressive enhancement for devices with local NPU/SLM acceleration                  │
-│ • 100% on-device inference with zero transatlantic data transfer                       │
-└────────────────────────────────────────────────────────────────────────────────────────┘
-```
+#### B. In-DOM Socratic Friction HUD Overlay
+1. Open any news article or social media thread (X/Twitter, Reddit).
+2. Verify emotional drama keywords are highlighted in real time (**0ms latency, 0 Watts**).
+3. Engage with the 12-second reflection timer and Socratic challenge.
+
+#### C. Cognitive Health Dashboard & Integrity Certificate
+1. Click the CogniShield toolbar icon or open `src/dashboard/dashboard.html` in browser.
+2. Verify the **Cognitive Agency Score (CAS)**, **System 1 vs 2 Scrutiny Ratio**, and **Shannon Entropy** metrics render correctly.
+3. Click **"Export Due-Diligence Certificate"** to verify cryptographic certificate generation.
+
+#### D. Hamburg Stage Resilience Test (100% Offline Mode)
+1. Turn off your Wi-Fi completely (or toggle `forceDemoMode: true` in `keys.local.js`).
+2. Refresh your browser and interact with CogniShield on any pre-cached topic (AI Ethics, Renewable Energy, Inflation).
+3. Verify that CogniShield responds instantly with **0ms latency, zero API calls, and zero stage crash risk**.
 
 ---
 
-## 🎬 Smart Text-First Processing: Zero Video Frame Overhead
-
-Downloading, decoding, and processing full video streams with heavy computer vision wastes megawatts of power and bandwidth. CogniShield uses a **Smart Text-First Approach**:
+## 🏛️ 5-Step Real-Time Execution Architecture
 
 ```
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│                        SMART TEXT-FIRST PROCESSING PIPELINE                            │
-└────────────────────────────────────────────────────────────────────────────────────────┘
-  Target Content ──► Auto Captions (CC) / Transcript from DOM/API (0s, 0 Cost)
-                 ──► Title, Description, Tags & Top Comments
-                 ──► Unified Text Context (80%+ semantic context captured in <50ms)
-                 ──► Local Regex First-Pass Heatmap (0 Token Cost)
-                 ──► 4-Tier Hybrid AI Cascade (Sub-400ms)
-                 ──► Blindspot Radar & Socratic Stepped Friction HUD
+┌─────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                COGNISHIELD 5-STEP RUNTIME PIPELINE                              │
+├─────────────────┬─────────────────┬──────────────────┬──────────────────┬───────────────────────┤
+│ 🌐 01. ACTION   │ ⚡ 02. EXTRACT  │ 🛡️ 03. SCAN      │ 🧠 04. SYNTHESIS │ 🏆 05. REFLECT        │
+│ User visits     │ DOM scraper     │ Trilingual regex │ Micro-JSON AI    │ 12s Socratic pause    │
+│ YouTube, X,     │ grabs text      │ flags outrage &  │ surfaces 5       │ + 5s System 2 quiz    │
+│ Reddit, or news │ in 0.05s        │ drama hooks in   │ counter-views    │ rewards +5 Agency Pts │
+│ feeds           │ (<15 KB payload)│ 0ms (0 Watts)    │ in <0.3s         │ (🧠 79% Agency)       │
+└─────────────────┴─────────────────┴──────────────────┴──────────────────┴───────────────────────┘
 ```
 
-1. **Triple-Redundancy Scraper Engine:**
-   - **YouTube:** Protocol-level `timedtext` intercept ➔ Semantic ARIA DOM selectors (`[aria-label="Captions"]`) ➔ Contextual metadata fallback.
-   - **X / Twitter:** Focal tweet, author handle, quote tweets, and thread replies.
-   - **Reddit:** Subreddit community context, post title, selftext, and top comments.
-   - **Web News / Editorial:** Readability-style article content extraction.
-2. **Zero Computer Vision Overhead:** Eliminates GPU video decoding bottlenecks completely.
+### The 4-Tier Zero-Fail Hybrid Cascade
+To guarantee 100% stage uptime during presentations (including Hamburg Grand Finals) even if WiFi fails completely:
+
+* **Tier 0: Pure Client-Side Trilingual Regex (0ms, 0W, 100% Offline):** Instant in-browser scan across English, German, and French emotional manipulation patterns.
+* **Tier 1: Deterministic Offline Demo Cache (0ms, 0 Network Overhead):** Pre-cached high-yield dossiers (Renewable Energy, AI Ethics, Macro-Inflation, Electoral Analysis).
+* **Tier 2: Serverless Micro-JSON Cloud Inference (<0.3s Latency):** Gemini 2.5 Flash & Groq returning structured 5-video counter-perspectives.
+* **Tier 3: Local WebLLM WebGPU Fallback:** On-device client-side inference without external network calls.
 
 ---
 
@@ -135,47 +227,21 @@ Downloading, decoding, and processing full video streams with heavy computer vis
 | Metric | Standard Cloud Video AI Pipeline | CogniShield Text-First Architecture | Green IT Impact |
 | :--- | :--- | :--- | :--- |
 | **Data Ingestion** | 5-min 1080p stream (~150 MB) | DOM text/captions (~15 KB) | **99.99% Bandwidth Cut** |
-| **Compute Footprint** | 1,500 frames on NVIDIA A100 GPU | In-browser regex + micro-JSON | **99.98% Compute Cut** |
+| **Compute Footprint** | 1,500 frames on NVIDIA A100 GPU | In-browser regex + micro-JSON | **99.98% Serverless Reduction** |
 | **Energy Consumption** | ~2.73 Wh per 5-min scan | ~0.00042 Wh per scan | **99.98% Energy Cut** |
-| **Conservative Rating**| Baseline: 2.73 Wh | CogniShield: 0.12 Wh (with cloud fallback) | **95.5% Carbon Reduction** |
+| **Conservative Rating**| Baseline: 2.73 Wh | CogniShield: 0.12 Wh (with cloud fallback) | **95.5% Real-World Cut** |
 
 ---
 
 ## 🧠 Scientific Behavioral Model: The Cognitive Agency Score
 
-Implemented in `src/shared/cognitive-engine.js`, CogniShield operationalizes Daniel Kahneman's Dual-Process Theory (System 1 vs System 2) through three empirical metrics:
+Implemented in `src/shared/cognitive-engine.js`, CogniShield operationalizes Daniel Kahneman's Dual-Process Cognitive Framework:
 
-$$\text{CAS}(t) = \left[ 0.40 \cdot \min\left(1, \frac{\Delta t_{\text{dwell}}}{\tau_{\text{crit}}}\right) + 0.35 \cdot \text{CRT}_{\text{accuracy}} + 0.25 \cdot \frac{H_{\text{perspective}}}{H_{\max}} \right] \times 100$$
+$$\text{CAS}(t) = \left[ 0.40 \cdot \min\left(1, \frac{\Delta t_{\text{dwell}}}{\tau_{\text{crit}}}\right) + 0.35 \cdot \text{CRT}_{\text{score}} + 0.25 \cdot \left(\frac{H(P)}{\log_2(N)}\right) \right] \times 100$$
 
-1. **Epistemic Latency ($\Delta t_{\text{dwell}}$):** Measures whether the user pauses to scrutinize before reacting ($\tau_{\text{crit}} = 12\text{s}$ to activate System 2 deliberate scrutiny over System 1 emotional impulse).
-2. **Cognitive Reflection Test (CRT) Accuracy:** Micro-quizzes test the user's ability to override intuitive fallacies and emotional traps.
-3. **Shannon Entropy of Perspective Exposure ($H = -\sum p_i \log_2 p_i$):** Quantifies diversity across 4 Epistemic Archetypes: *Economic*, *Statutory*, *Socio-Ethical*, and *Empirical*.
-
-### The Vygotskian Fading Scaffolding Model
-To prevent secondary AI over-reliance, AI assistance dynamically decreases as user agency matures:
-* **Score 0–40 (Full Scaffolding):** Multiple-choice fallacy options, clear definitions, full counter-arguments.
-* **Score 41–75 (Fading Assistance):** Open Socratic prompts, reduced hints.
-* **Score 76–100 (Autonomous Agency):** Zero hints; user formulates counter-hypotheses independently. Periodic "Evaluate the AI" bonus tests.
-
----
-
-## ⚖️ GDPR Article 22 Compliance & Zero-PII Gateway
-
-* **Client-Side Data Sanitizer:** Before any text leaves the browser for Tier 2 cloud inference, `local-storage.js` strips all URLs, timestamps, user handles, channel IDs, and cookies. Only an isolated 300-word anonymous topic excerpt is transmitted.
-* **100% Local IndexedDB:** All reading history, perspective diversity logs, and Cognitive Agency scores reside exclusively in the client's local browser storage.
-* **EU AI Act Alignment:** Classified as **Minimal-Risk Assistive AI** with strict Human-in-the-Loop (HITL) architecture. The extension never automates decisions, censors feeds, or blocks access.
-
----
-
-## 🎓 Business Model: B2B "CogniShield Campus" & Integrity Certificate
-
-* **B2C Public Utility (100% Free):** Free for students and digital citizens, driving organic viral adoption across European universities.
-* **B2B Academic Integrity Licensing ("CogniShield Campus"):** Annual institutional licenses at **€4,500/year per university (₹4 Lakhs)**.
-  * **The Problem:** European universities face a crisis of students submitting hallucinated, unvetted ChatGPT essays without conducting real research.
-  * **The Solution — Epistemic Due-Diligence Certificate:** Students generate an exportable cryptographic audit token proving they consulted at least 3 distinct source archetypes and completed Socratic reflection prior to drafting assignments.
-  * **Accreditation Metrics:** Universities use our "Institutional Critical Literacy Index" for European Standards and Guidelines (ESG) quality assurance reviews.
-  * **Year 1 Milestone:** 10 university licenses = **€45,000 ARR (₹40 Lakhs)** (self-sustaining profitability).
-  * **Year 2 Target:** 50 university licenses = **€225,000 ARR (₹2 Crores)**.
+1. **Epistemic Latency ($\Delta t_{\text{dwell}}$):** Measures whether the user pauses to scrutinize claims (System 2) vs reacting impulsively (System 1).
+2. **Cognitive Reflection Test (CRT) Accuracy:** Micro-quizzes test the user's ability to override cognitive biases.
+3. **Shannon Entropy of Perspective Exposure ($H = -\sum p_i \log_2 p_i$):** Quantifies diversity across 5 dialectic archetypes.
 
 ---
 
@@ -186,19 +252,50 @@ CogniShield/
 ├── manifest.json                     # Chrome/Brave Manifest V3 configuration
 ├── package.json                      # Project metadata & npm test command
 ├── LICENSE                           # Apache 2.0 Open Source License
-├── .idea.md                          # Master Project Charter & Technical Specifications
-├── README.md                         # Clean GitHub project overview
+├── .env.example                      # Template for local environment variables
+├── .gitignore                        # Git ignore (protects .env, *.local.js, PPTs)
+├── README.md                         # Complete project documentation & setup guide
 ├── IMPLEMENTATION_PLAN.md            # Sprint roadmap & evaluation alignment
 ├── JURY_DEFENSE_QA.md                # 10 bulletproof Q&A defenses for the jury
 ├── src/
-│   ├── dashboard/                    # Executive Cognitive Health & Integrity Certificate Studio
-│   ├── shared/                       # Trilingual regex, cognitive engine, offline cache, storage
-│   ├── content/                      # Content scripts, multi-platform scrapers, HUD overlay
-│   ├── background/                   # Service worker & 4-tier hybrid dispatch
-│   └── popup/                        # Extension UI & demo controls
-├── assets/                           # Shield icons & architecture diagrams
-└── tests/                            # Automated test suite (12/12 passing unit tests)
+│   ├── config/
+│   │   ├── keys.example.js           # Template for local API keys
+│   │   └── keys.local.js             # Local keys (gitignored - zero leak risk)
+│   ├── dashboard/                    # Executive Cognitive Health & Due-Diligence Studio
+│   │   ├── dashboard.html            # Interactive analytics portal
+│   │   ├── dashboard.css             # High-contrast cyber-HUD styling
+│   │   └── dashboard.js              # Real-time analytics, entropy & certificate export
+│   ├── shared/
+│   │   ├── cognitive-engine.js       # Mathematical CAS scoring, CRT quizzes & Shannon entropy
+│   │   ├── offline-cache.js          # Deterministic pre-cached dossiers (Hamburg safety net)
+│   │   ├── local-storage.js          # GDPR-compliant encrypted local session store
+│   │   └── regex-detector.js         # Trilingual (EN/DE/FR) zero-watt manipulation scanner
+│   ├── content/
+│   │   ├── content-main.js           # Multi-platform content coordinator (YouTube/X/Reddit)
+│   │   ├── flip-feed.js              # "Flip the Feed" recommendation inverter
+│   │   └── hud-styles.css            # Ambient glow & radar overlay styles
+│   ├── background/
+│   │   ├── service-worker.js         # MV3 background worker & tab dwell-time tracker
+│   │   └── api-bridge.js             # Dual Gemini 2.5 & Groq LLM orchestration
+│   └── popup/
+│       ├── popup.html                # Extension toolbar popup interface
+│       └── popup.js                  # Mode switcher (Zen vs Trainer) & demo toggles
+├── assets/
+│   ├── icons/                        # Extension shield icons (16, 48, 128 px)
+│   └── presentation_visuals/         # Visual slide graphics (Slide 02 - Slide 08)
+├── local/                            # Presentation PPTs, PDF decks & local scripts (gitignored)
+└── tests/
+    └── test-cognitive-engine.js      # Automated unit test suite (26/26 passing)
 ```
+
+---
+
+## 👥 Interdisciplinary Team Synergy
+
+* **AI & Software Engineer:** Chrome/Brave Manifest V3 architecture, 0.05s DOM scraper, local WebLLM & Groq micro-JSON orchestration.
+* **Cognitive Psychology & UX Lead:** 12-second reflection pause, Kahneman System 2 Socratic challenge, habit reward loops.
+* **Digital Ethics & Policy Strategist:** 100% zero-censorship enforcement, EU AI Act conformity, GDPR compliance & data audits.
+* **Campus Partnerships Lead:** Multi-university pilot coordination (India & Europe), academic integrity licenses.
 
 ---
 *Authored for the Sopra Steria International Student Challenge 2026–2027. All rights reserved by Team CogniShield.*

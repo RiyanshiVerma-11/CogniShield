@@ -149,45 +149,79 @@ Return only the raw JSON object. No markdown fences, no surrounding commentary.`
   }
 
   buildFlipFeedPrompt(videoTitle, contextPayload = "") {
-    return `You are CogniShield, an epistemic cognitive copilot that inverts recommendation algorithms and breaks filter bubbles.
+    return `You are CogniShield, an epistemic dialectic search-query generator and recommendation inverter designed to break YouTube algorithmic echo chambers.
 A user is watching a YouTube video titled:
 "${videoTitle}"
 Additional context:
 "${(contextPayload || "").slice(0, 1500)}"
 
-Analyze this video and generate 3 realistic, specific, verified counter-perspective video recommendations that present the legitimate alternative viewpoints, institutional empirical studies, or regulatory/economic realities that the current video's framing omits or downplays.
+Identify the core stance and emotional/narrative framing of the current video, then generate EXACTLY 5 distinct, high-credibility counter-perspective video recommendations representing the polar opposite or balancing worldview.
+
+Rules for Stance Inversion & Opposites:
+1. Polar Opposite Inversion:
+   - If the current video is NEGATIVE, ALARMIST, or PANIC-INDUCING (e.g. "AI will destroy all jobs", "Economic collapse imminent"): The 5 counter-videos MUST be CONSTRUCTIVE, EMPIRICAL, SOLUTION-ORIENTED, or HIGHLIGHTING OPPORTUNITIES & STABILITY.
+   - If the current video is OVERLY PROMOTIONAL, HYPE, or UNCRITICAL PRAISE (e.g. "Get rich with crypto", "Why this technology is 100% flawless"): The 5 counter-videos MUST be SKEPTICAL, HIGHLIGHTING REAL RISKS, HIDDEN COSTS, ETHICAL CONCERNS, or STATISTICAL DOWNFALLS.
+   - If PARTISAN or IDEOLOGICAL: The 5 counter-videos MUST present rigorous, respected counter-arguments from the other side or neutral academic/institutional analyses.
+2. Natural, High-Recall Search Queries:
+   - For each recommendation, generate a clean 4 to 8-word YouTube search query that real creators, researchers, and journalists actually use in titles.
+   - DO NOT use boilerplate phrases like "counter argument to", "fact check", "rebuttal", or "the other side of".
+   - Keep queries natural: no quotation marks, no boolean syntax (AND/OR), no punctuation, and no emojis.
+3. Cover 5 Distinct Dialectic Archetypes across the 5 recommendations:
+   - 1. Direct Counter-Thesis: Direct refutation or opposing viewpoint to the main claim.
+   - 2. Empirical Baseline: Hard data, census statistics, peer-reviewed studies, or benchmark audits.
+   - 3. Inverted Valence / Trade-Offs: Practical benefits (if video is a warning) OR risks & limits (if video is hype).
+   - 4. Institutional & Regulatory: Law, statutory policy, EU/OECD directives, or court rulings.
+   - 5. Longitudinal Precedent: Historical context, past economic transitions, or long-term structural realities.
 
 Return a strictly valid JSON object matching this exact structure:
 {
-  "detectedStance": "Short 3-6 word summary of this video's specific angle/narrative (e.g. Street Protests & Outrage Against Education Policy)",
-  "flippedStance": "Short 3-6 word summary of the balancing counter-narrative (e.g. Government Policy Reforms, Investigation Findings & Global Norms)",
+  "detectedStance": "Short 3-6 word summary of this video's specific angle/narrative (e.g. AI Automation Panic & Career Doom)",
+  "flippedStance": "Short 3-6 word summary of the balancing counter-narrative (e.g. Empirical Labor Demand, New Roles & Human Agency)",
   "recommendations": [
     {
-      "title": "A realistic, high-value documentary or investigative video title representing a verified counter-argument",
-      "source": "A real, respected publication or institutional channel (e.g. The Print, Rajya Sabha TV, DW Analysis, Ministry Briefing, Carnegie India, PRS Legislative, OECD)",
-      "archetype": "Regulatory Framework / Empirical Data / Historical Precedent / Institutional Review",
+      "title": "Natural YouTube video title representing the direct counter-thesis",
+      "source": "Respected publication, expert creator, or institutional channel",
+      "archetype": "Direct Counter-Thesis",
       "duration": "14 min",
-      "badge": "Verified Analysis",
-      "rationale": "One crisp sentence explaining specifically how this balances the narrative of the current video.",
-      "searchQuery": "Targeted search keywords on YouTube to find this counter-perspective (e.g. India education examination paper leak reforms law analysis)"
+      "badge": "Counter-Thesis",
+      "rationale": "One crisp sentence explaining how this directly rebuts the core premise.",
+      "searchQuery": "4 to 8 word natural YouTube search query (e.g. why AI won't replace software engineers)"
     },
     {
-      "title": "Second counter-perspective video title focusing on economic or systemic realities",
-      "source": "Respected economic/academic source",
-      "archetype": "Economic Trade-Offs",
-      "duration": "18 min",
-      "badge": "Alternative Viewpoint",
-      "rationale": "One crisp sentence explaining the structural or systemic context omitted.",
-      "searchQuery": "Targeted search keywords on YouTube"
-    },
-    {
-      "title": "Third counter-perspective video title focusing on long-term precedents or policy solutions",
-      "source": "Policy or historical think-tank source",
-      "archetype": "Systemic Governance",
+      "title": "Natural YouTube video title presenting empirical data or statistics",
+      "source": "Respected economic/academic source (e.g. Pew Research, OECD, MIT)",
+      "archetype": "Empirical Baseline",
       "duration": "16 min",
-      "badge": "Longitudinal Context",
-      "rationale": "One crisp sentence explaining the historical or legislative solutions.",
-      "searchQuery": "Targeted search keywords on YouTube"
+      "badge": "Empirical Data",
+      "rationale": "One crisp sentence highlighting verifiable statistics or study results.",
+      "searchQuery": "4 to 8 word natural YouTube search query (e.g. real economic impact of AI automation labor statistics)"
+    },
+    {
+      "title": "Natural YouTube video title presenting inverted valence and trade-offs",
+      "source": "Respected documentary or investigative channel (e.g. Bloomberg, CNBC, Vox)",
+      "archetype": "Systemic Trade-Offs",
+      "duration": "18 min",
+      "badge": "Opportunity Analysis",
+      "rationale": "One crisp sentence explaining the positive opportunities or overlooked advantages.",
+      "searchQuery": "4 to 8 word natural YouTube search query (e.g. how AI is creating new tech jobs)"
+    },
+    {
+      "title": "Natural YouTube video title presenting legal, policy, or regulatory realities",
+      "source": "Legal or governance think-tank (e.g. Brookings, CSIS, European Law Review)",
+      "archetype": "Regulatory Framework",
+      "duration": "15 min",
+      "badge": "Statutory Governance",
+      "rationale": "One crisp sentence explaining how regulations, standards, or institutional safeguards operate.",
+      "searchQuery": "4 to 8 word natural YouTube search query (e.g. government regulation AI workplace liability policy)"
+    },
+    {
+      "title": "Natural YouTube video title presenting longitudinal historical precedents",
+      "source": "Historical or systemic analyst (e.g. Stanford History, Kurzgesagt, Real Engineering)",
+      "archetype": "Historical Precedent",
+      "duration": "20 min",
+      "badge": "Historical Context",
+      "rationale": "One crisp sentence explaining how previous technological or societal transitions unfolded.",
+      "searchQuery": "4 to 8 word natural YouTube search query (e.g. what happened when computers first entered the workplace history)"
     }
   ]
 }

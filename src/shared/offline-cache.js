@@ -743,25 +743,43 @@ class OfflineCacheManager {
         source: "Academic & Institutional Research",
         archetype: "Empirical Baseline",
         duration: "14:15",
-        badge: "Methodology Audit",
+        badge: "Empirical Data",
         rationale: "Examines baseline methodology, sample sizes, and verifiable facts before accepting viral claims.",
         searchQuery: `${cleanTitle} empirical fact check evidence data analysis`
       },
       {
-        title: `The Other Side of the Story: Alternative Perspectives on "${truncatedShort}"`,
+        title: `The Direct Counter-Argument: Why Domain Experts Challenge "${truncatedShort}"`,
         source: "Domain Policy & Ethics Review",
-        archetype: "Systemic Trade-Offs",
+        archetype: "Direct Counter-Thesis",
         duration: "18:30",
-        badge: "Alternative Viewpoint",
+        badge: "Counter-Thesis",
         rationale: "Explores competing viewpoints and trade-offs that algorithmic recommendation systems systematically omit.",
         searchQuery: `${cleanTitle} counter argument alternative perspective opposing view`
+      },
+      {
+        title: `Constructive Opportunities: The Positive Side of "${truncatedShort}"`,
+        source: "Global Innovation & Technology Observatory",
+        archetype: "Systemic Trade-Offs",
+        duration: "15:45",
+        badge: "Opportunity Analysis",
+        rationale: "Surfaces constructive solutions, economic upsides, or pragmatic opportunities.",
+        searchQuery: `${cleanTitle} positive solutions opportunities benefits overview`
+      },
+      {
+        title: `Statutory & Institutional Oversight: Legal Realities of "${truncatedShort}"`,
+        source: "International Regulatory & Statutory Review",
+        archetype: "Regulatory Framework",
+        duration: "17:00",
+        badge: "Statutory Governance",
+        rationale: "Examines statutory liability frameworks, legal jurisprudence, and institutional safeguards.",
+        searchQuery: `${cleanTitle} statutory legal regulations policy governance framework`
       },
       {
         title: `Long-Term Context & Historical Lessons: Debating "${truncatedShort}"`,
         source: "Historical & Societal Archive",
         archetype: "Historical Precedent",
         duration: "16:00",
-        badge: "Longitudinal Context",
+        badge: "Historical Context",
         rationale: "Provides longitudinal perspective to prevent knee-jerk panic and evaluate systemic drivers.",
         searchQuery: `${cleanTitle} historical analysis precedent deep dive context`
       }
