@@ -207,9 +207,16 @@ class CognitiveEngine {
     } else if (activeDossier && Array.isArray(activeDossier.counter_recommendations)) {
       rawRecs = activeDossier.counter_recommendations;
     } else {
+      const safeTruncate = (s, len) => {
+        if (!s || s.length <= len) return s;
+        const sub = s.slice(0, len);
+        const sp = sub.lastIndexOf(" ");
+        return (sp > 8 ? sub.slice(0, sp) : sub) + "...";
+      };
+      const cleanT = safeTruncate(title, 45);
       rawRecs = [
         {
-          title: `Empirical Fact-Check & Data: ${title.slice(0, 48)}`,
+          title: `Empirical Fact-Check & Data: ${cleanT}`,
           source: "Institutional Economics & Science Review",
           archetype: "Empirical Baseline",
           duration: "14:15",
@@ -218,7 +225,7 @@ class CognitiveEngine {
           searchQuery: `${title} empirical fact check evidence data analysis`
         },
         {
-          title: `The Other Side of the Story: Alternative Viewpoint on ${title.slice(0, 45)}`,
+          title: `The Other Side of the Story: Alternative Viewpoint on ${cleanT}`,
           source: "Domain Policy & Ethics Review",
           archetype: "Systemic Trade-Offs",
           duration: "18:30",
@@ -227,7 +234,7 @@ class CognitiveEngine {
           searchQuery: `${title} counter argument alternative perspective opposing view`
         },
         {
-          title: `Longitudinal Context: Lessons Applied to ${title.slice(0, 42)}`,
+          title: `Longitudinal Context: Lessons Applied to ${cleanT}`,
           source: "Historical & Societal Archive",
           archetype: "Historical Precedent",
           duration: "16:00",

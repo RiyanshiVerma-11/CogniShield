@@ -62,6 +62,93 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true;
   }
 
+  if (request.action === "FLIP_FEED_ANALYZE") {
+    chrome.storage.local.get(["forceDemoMode", "geminiApiKey", "groqApiKey"], async (settings) => {
+      try {
+        let geminiKey = settings.geminiApiKey || "";
+        let groqKey = settings.groqApiKey || "";
+
+        if (!geminiKey || !groqKey) {
+          try {
+            const localMod = await import("../config/keys.local.js");
+            if (localMod?.LOCAL_AI_KEYS) {
+              if (!geminiKey) geminiKey = localMod.LOCAL_AI_KEYS.geminiApiKey || "";
+              if (!groqKey) groqKey = localMod.LOCAL_AI_KEYS.groqApiKey || "";
+            }
+          } catch (_) {}
+        }
+
+        const title = request.payload?.title || "";
+        const textPayload = request.payload?.textPayload || "";
+        const result = await aiBridge.generateFlipFeed(title, textPayload, {
+          forceDemoMode: !!settings.forceDemoMode,
+          geminiApiKey: geminiKey,
+          groqApiKey: groqKey
+        });
+        sendResponse(result);
+      } catch (err) {
+        console.warn("[CogniShield ServiceWorker] FlipFeed AI dispatch error:", err);
+        sendResponse({ status: "OFFLINE_FALLBACK" });
+      }
+    });
+    return true; // Keep message port open for async response
+  }
+
+  if (request.action === "LOG_SESSION_SYNC") {
+    const session = request.session;
+    if (session) {
+      chrome.storage.local.get(["_cognishield_sessions_store"], (res) => {
+        let store = res._cognishield_sessions_store || [];
+        // Add unique ID if missing
+        if (!session.id) session.id = "sess_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
+        store.unshift(session);
+        if (store.length > 500) store = store.slice(0, 500);
+        chrome.storage.local.set({
+          _cognishield_sessions_store: store,
+          _live_bus_event: { type: "SESSION_LOGGED", timestamp: Date.now() }
+        }, () => {
+          sendResponse({ status: "SAVED", id: session.id });
+        });
+      });
+    }
+    return true;
+  }
+
+  if (request.action === "UPDATE_SESSION_SYNC") {
+    const { id, updates } = request;
+    if (id && updates) {
+      chrome.storage.local.get(["_cognishield_sessions_store"], (res) => {
+        let store = res._cognishield_sessions_store || [];
+        let updated = false;
+        store = store.map(item => {
+          if (item.id === id) {
+            updated = true;
+            return Object.assign({}, item, updates);
+          }
+          return item;
+        });
+        if (updated) {
+          chrome.storage.local.set({
+            _cognishield_sessions_store: store,
+            _live_bus_event: { type: "SESSION_UPDATED", timestamp: Date.now() }
+          }, () => {
+            sendResponse({ status: "UPDATED" });
+          });
+        } else {
+          sendResponse({ status: "NOT_FOUND" });
+        }
+      });
+    }
+    return true;
+  }
+
+  if (request.action === "GET_ALL_SESSIONS_SYNC") {
+    chrome.storage.local.get(["_cognishield_sessions_store"], (res) => {
+      sendResponse({ sessions: res._cognishield_sessions_store || [] });
+    });
+    return true;
+  }
+
   if (request.action === "ANALYZE_LIVE_CONTENT") {
     chrome.storage.local.get(["forceDemoMode", "geminiApiKey", "groqApiKey"], async (settings) => {
       try {

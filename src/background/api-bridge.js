@@ -62,7 +62,7 @@ Return only the raw JSON object. No markdown fences, no surrounding commentary.`
   async callGemini(contentPayload, apiKey) {
     if (!apiKey) throw new Error("No Gemini API key provided");
     const prompt = this.buildSystemPrompt(contentPayload);
-    const models = ["gemini-2.0-flash", "gemini-1.5-flash"];
+    const models = ["gemini-2.5-flash", "gemini-flash-latest", "gemini-3.8-flash"];
     let lastError = null;
 
     for (const model of models) {
@@ -102,7 +102,7 @@ Return only the raw JSON object. No markdown fences, no surrounding commentary.`
   async callGroq(contentPayload, apiKey) {
     if (!apiKey) throw new Error("No Groq API key provided");
     const prompt = this.buildSystemPrompt(contentPayload);
-    const models = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"];
+    const models = ["openai/gpt-oss-20b", "qwen/qwen3.8-27b", "openai/gpt-oss-120b"];
     let lastError = null;
 
     for (const model of models) {
@@ -146,6 +146,149 @@ Return only the raw JSON object. No markdown fences, no surrounding commentary.`
     if (clean.startsWith("```")) clean = clean.slice(3);
     if (clean.endsWith("```")) clean = clean.slice(0, -3);
     return JSON.parse(clean.trim());
+  }
+
+  buildFlipFeedPrompt(videoTitle, contextPayload = "") {
+    return `You are CogniShield, an epistemic cognitive copilot that inverts recommendation algorithms and breaks filter bubbles.
+A user is watching a YouTube video titled:
+"${videoTitle}"
+Additional context:
+"${(contextPayload || "").slice(0, 1500)}"
+
+Analyze this video and generate 3 realistic, specific, verified counter-perspective video recommendations that present the legitimate alternative viewpoints, institutional empirical studies, or regulatory/economic realities that the current video's framing omits or downplays.
+
+Return a strictly valid JSON object matching this exact structure:
+{
+  "detectedStance": "Short 3-6 word summary of this video's specific angle/narrative (e.g. Street Protests & Outrage Against Education Policy)",
+  "flippedStance": "Short 3-6 word summary of the balancing counter-narrative (e.g. Government Policy Reforms, Investigation Findings & Global Norms)",
+  "recommendations": [
+    {
+      "title": "A realistic, high-value documentary or investigative video title representing a verified counter-argument",
+      "source": "A real, respected publication or institutional channel (e.g. The Print, Rajya Sabha TV, DW Analysis, Ministry Briefing, Carnegie India, PRS Legislative, OECD)",
+      "archetype": "Regulatory Framework / Empirical Data / Historical Precedent / Institutional Review",
+      "duration": "14 min",
+      "badge": "Verified Analysis",
+      "rationale": "One crisp sentence explaining specifically how this balances the narrative of the current video.",
+      "searchQuery": "Targeted search keywords on YouTube to find this counter-perspective (e.g. India education examination paper leak reforms law analysis)"
+    },
+    {
+      "title": "Second counter-perspective video title focusing on economic or systemic realities",
+      "source": "Respected economic/academic source",
+      "archetype": "Economic Trade-Offs",
+      "duration": "18 min",
+      "badge": "Alternative Viewpoint",
+      "rationale": "One crisp sentence explaining the structural or systemic context omitted.",
+      "searchQuery": "Targeted search keywords on YouTube"
+    },
+    {
+      "title": "Third counter-perspective video title focusing on long-term precedents or policy solutions",
+      "source": "Policy or historical think-tank source",
+      "archetype": "Systemic Governance",
+      "duration": "16 min",
+      "badge": "Longitudinal Context",
+      "rationale": "One crisp sentence explaining the historical or legislative solutions.",
+      "searchQuery": "Targeted search keywords on YouTube"
+    }
+  ]
+}
+Return only the raw JSON object. No markdown fences.`;
+  }
+
+  async generateFlipFeed(videoTitle, contextPayload = "", options = {}) {
+    if (options.forceDemoMode || !navigator.onLine) {
+      return { status: "OFFLINE_FALLBACK" };
+    }
+
+    const prompt = this.buildFlipFeedPrompt(videoTitle, contextPayload);
+    let rawResult = null;
+
+    // 1. Try Gemini
+    if (options.geminiApiKey) {
+      const models = ["gemini-2.5-flash", "gemini-flash-latest", "gemini-3.8-flash"];
+      for (const model of models) {
+        try {
+          const url = `${this.geminiBase}/${model}:generateContent?key=${options.geminiApiKey}`;
+          const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: prompt }] }],
+              generationConfig: {
+                responseMimeType: "application/json",
+                temperature: 0.3
+              }
+            })
+          });
+          if (response.ok) {
+            const data = await response.json();
+            const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (text) {
+              rawResult = this.parseCleanJson(text);
+              break;
+            }
+          }
+        } catch (e) {
+          console.warn(`[CogniShield FlipFeed] Gemini ${model} failed:`, e.message);
+        }
+      }
+    }
+
+    // 2. Fall back to Groq
+    if (!rawResult && options.groqApiKey) {
+      const models = ["openai/gpt-oss-20b", "qwen/qwen3.8-27b", "openai/gpt-oss-120b"];
+      for (const model of models) {
+        try {
+          const response = await fetch(this.groqEndpoint, {
+            method: "POST",
+            headers: {
+              "Authorization": `Bearer ${options.groqApiKey}`,
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              model: model,
+              messages: [{ role: "user", content: prompt }],
+              temperature: 0.3,
+              response_format: { type: "json_object" }
+            })
+          });
+          if (response.ok) {
+            const data = await response.json();
+            const text = data.choices?.[0]?.message?.content;
+            if (text) {
+              rawResult = this.parseCleanJson(text);
+              break;
+            }
+          }
+        } catch (e) {
+          console.warn(`[CogniShield FlipFeed] Groq ${model} failed:`, e.message);
+        }
+      }
+    }
+
+    if (!rawResult) {
+      return { status: "OFFLINE_FALLBACK" };
+    }
+
+    // Ensure recommendations have working YouTube search URLs
+    const recommendations = (rawResult.recommendations || []).map(r => {
+      const q = r.searchQuery || r.title;
+      return {
+        ...r,
+        searchUrl: `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`
+      };
+    });
+
+    return {
+      status: "SUCCESS",
+      data: {
+        activeVideoTitle: videoTitle,
+        detectedBias: "outrage_polarization",
+        sourcePerspective: rawResult.detectedStance || "Algorithmic Monoculture",
+        counterStance: rawResult.flippedStance || "Empirical Counter-Perspectives",
+        recommendations: recommendations,
+        agencyRewardPoints: 5
+      }
+    };
   }
 
   async dispatchAnalysis(contentPayload, options = {}) {

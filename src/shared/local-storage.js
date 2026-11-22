@@ -114,10 +114,30 @@ class LocalStorageManager {
         const store = tx.objectStore(STORE_SESSIONS);
         const req = store.add(record);
         req.onsuccess = () => {
-          this._notifyLiveChange("SESSION_LOGGED", { id: req.result, ...record });
-          resolve(req.result);
+          const generatedId = req.result;
+          this._notifyLiveChange("SESSION_LOGGED", { id: generatedId, ...record });
+          
+          // Cross-origin Extension Sync (bridges content scripts on youtube.com with dashboard at chrome-extension://)
+          try {
+            if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.sendMessage) {
+              chrome.runtime.sendMessage({ action: "LOG_SESSION_SYNC", session: { id: generatedId, ...record } });
+            }
+          } catch (_) {}
+
+          resolve(generatedId);
         };
-        req.onerror = () => resolve(null);
+        req.onerror = () => {
+          // If IndexedDB fails (e.g. sandbox), still sync via chrome.runtime
+          try {
+            if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.sendMessage) {
+              chrome.runtime.sendMessage({ action: "LOG_SESSION_SYNC", session: record }, (res) => {
+                resolve(res?.id || Date.now());
+              });
+              return;
+            }
+          } catch (_) {}
+          resolve(null);
+        };
       } catch (err) {
         console.error("[CogniShield] logSession error:", err);
         resolve(null);
@@ -163,6 +183,11 @@ class LocalStorageManager {
           const putReq = store.put(updated);
           putReq.onsuccess = () => {
             this._notifyLiveChange("SESSION_UPDATED", { id, ...updates });
+            try {
+              if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.sendMessage) {
+                chrome.runtime.sendMessage({ action: "UPDATE_SESSION_SYNC", id, updates });
+              }
+            } catch (_) {}
             resolve(true);
           };
           putReq.onerror = () => resolve(false);
@@ -188,23 +213,48 @@ class LocalStorageManager {
    */
   async getAllSessions() {
     await this.initPromise;
-    if (!this.db) return [];
 
-    return new Promise((resolve) => {
+    let dbSessions = [];
+    if (this.db) {
       try {
-        const tx = this.db.transaction([STORE_SESSIONS], "readonly");
-        const store = tx.objectStore(STORE_SESSIONS);
-        const req = store.getAll();
-        req.onsuccess = () => {
-          const list = req.result || [];
-          list.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-          resolve(list);
-        };
-        req.onerror = () => resolve([]);
-      } catch (err) {
-        resolve([]);
+        dbSessions = await new Promise((resolve) => {
+          const tx = this.db.transaction([STORE_SESSIONS], "readonly");
+          const store = tx.objectStore(STORE_SESSIONS);
+          const req = store.getAll();
+          req.onsuccess = () => resolve(req.result || []);
+          req.onerror = () => resolve([]);
+        });
+      } catch (_) {}
+    }
+
+    // Also read cross-context storage sync
+    let storageSessions = [];
+    if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
+      try {
+        storageSessions = await new Promise((resolve) => {
+          chrome.storage.local.get(["_cognishield_sessions_store"], (res) => {
+            resolve(res?._cognishield_sessions_store || []);
+          });
+        });
+      } catch (_) {}
+    }
+
+    // Merge sessions deduplicating by timestamp or title
+    const mergedMap = new Map();
+    [...dbSessions, ...storageSessions].forEach(s => {
+      const key = `${s.title}_${Math.floor((s.timestamp || 0) / 10000)}`;
+      if (!mergedMap.has(key)) {
+        mergedMap.set(key, s);
+      } else {
+        // Merge dwellSeconds / quiz status if updated
+        const existing = mergedMap.get(key);
+        mergedMap.set(key, Object.assign({}, existing, s));
       }
     });
+
+    const list = Array.from(mergedMap.values());
+    list.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+    return list;
   }
 
   /**

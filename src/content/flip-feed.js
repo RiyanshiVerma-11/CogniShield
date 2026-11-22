@@ -75,6 +75,7 @@ class FlipFeedController {
     this.currentVideoTitle = analysisPayload.title || document.title;
     const dossier = analysisPayload.dossier;
 
+    // 1. Initial immediate render from offline cache for 0ms UI readiness
     if (window.CogniShieldCognitive && typeof window.CogniShieldCognitive.generateCounterPerspectiveFeed === "function") {
       this.currentData = window.CogniShieldCognitive.generateCounterPerspectiveFeed(
         { title: this.currentVideoTitle },
@@ -85,6 +86,33 @@ class FlipFeedController {
 
     this.mountIntoYouTubeDOM();
     this.render();
+
+    // 2. LIVE AI INFERENCE: Call background service worker for Gemini 2.5 Flash / Groq real analysis
+    if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.sendMessage) {
+      chrome.storage.local.get(["forceDemoMode"], (settings) => {
+        if (settings.forceDemoMode) return; // Keep offline cache if demo mode forced
+
+        chrome.runtime.sendMessage({
+          action: "FLIP_FEED_ANALYZE",
+          payload: {
+            title: this.currentVideoTitle,
+            textPayload: analysisPayload.pageText || ""
+          }
+        }, (response) => {
+          if (chrome.runtime.lastError) {
+            console.warn("[CogniShield FlipFeed] Live bridge warning:", chrome.runtime.lastError.message);
+            return;
+          }
+
+          if (response && response.status === "SUCCESS" && response.data) {
+            console.log("[CogniShield FlipFeed] Live AI counter-perspectives received!");
+            this.currentData = response.data;
+            this.mountIntoYouTubeDOM();
+            this.render();
+          }
+        });
+      });
+    }
   }
 
   /**
@@ -259,21 +287,21 @@ class FlipFeedController {
 
       this.container.innerHTML = `
         <div class="cognishield-flip-card-active">
-          <!-- Active Header -->
-          <div class="cognishield-flip-header-row">
-            <div class="cognishield-flip-badge-title">
+          <!-- Active Header (Stacked Layout for Full Readability) -->
+          <div class="cognishield-active-header-stacked">
+            <div class="cognishield-active-brand-row">
               <span class="cognishield-flip-icon-glow">🛡️</span>
-              <div>
+              <div class="cognishield-active-title-block">
                 <span class="cognishield-flip-title">FEED FLIPPED: THE OTHER SIDE</span>
                 <div class="cognishield-flip-sub">Balanced perspectives replacing algorithmic echo chamber</div>
               </div>
             </div>
-            <div class="cognishield-flip-toggle-group">
-              <button class="cognishield-toggle-btn" id="btn-toggle-echo" title="Restore YouTube's default recommendations">
-                🔴 YouTube Echo
+            <div class="cognishield-segmented-switch">
+              <button class="cognishield-switch-option" id="btn-toggle-echo" title="Restore YouTube's default recommendations">
+                <span class="switch-dot red-dot"></span> YouTube Echo
               </button>
-              <button class="cognishield-toggle-btn active-flipped" id="btn-toggle-flip" title="CogniShield Counter-Perspective active">
-                🟢 Flipped Active
+              <button class="cognishield-switch-option active-flipped" id="btn-toggle-flip" title="CogniShield Counter-Perspective active">
+                <span class="switch-sparkle">⚡</span> Flipped Active <span class="pts-pill">Live</span>
               </button>
             </div>
           </div>

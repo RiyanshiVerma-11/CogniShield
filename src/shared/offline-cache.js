@@ -723,14 +723,23 @@ class OfflineCacheManager {
    * Otherwise dynamically synthesizes a topic-accurate Socratic card.
    */
 
+  _truncateWords(str, maxLen = 45) {
+    if (!str || typeof str !== "string") return "";
+    if (str.length <= maxLen) return str;
+    const trimmed = str.slice(0, maxLen);
+    const lastSpace = trimmed.lastIndexOf(" ");
+    return (lastSpace > 10 ? trimmed.slice(0, lastSpace) : trimmed) + "...";
+  }
+
   /**
    * Generates dynamic counter-recommendations for novel arbitrary videos / topics
    */
   generateUniversalCounterRecommendations(title) {
     const cleanTitle = this._cleanTitle(title);
+    const truncatedShort = this._truncateWords(cleanTitle, 45);
     return [
       {
-        title: `Empirical Review: The Evidence & Data Behind "${cleanTitle.slice(0, 48)}"`,
+        title: `Empirical Review: The Evidence & Data Behind "${truncatedShort}"`,
         source: "Academic & Institutional Research",
         archetype: "Empirical Baseline",
         duration: "14:15",
@@ -739,7 +748,7 @@ class OfflineCacheManager {
         searchQuery: `${cleanTitle} empirical fact check evidence data analysis`
       },
       {
-        title: `The Other Side of the Story: Alternative Perspectives on "${cleanTitle.slice(0, 45)}"`,
+        title: `The Other Side of the Story: Alternative Perspectives on "${truncatedShort}"`,
         source: "Domain Policy & Ethics Review",
         archetype: "Systemic Trade-Offs",
         duration: "18:30",
@@ -748,7 +757,7 @@ class OfflineCacheManager {
         searchQuery: `${cleanTitle} counter argument alternative perspective opposing view`
       },
       {
-        title: `Long-Term Context & Historical Lessons: Debating "${cleanTitle.slice(0, 42)}"`,
+        title: `Long-Term Context & Historical Lessons: Debating "${truncatedShort}"`,
         source: "Historical & Societal Archive",
         archetype: "Historical Precedent",
         duration: "16:00",
