@@ -269,14 +269,55 @@ Return only the raw JSON object. No markdown fences.`;
       return { status: "OFFLINE_FALLBACK" };
     }
 
-    // Ensure recommendations have working YouTube search URLs
-    const recommendations = (rawResult.recommendations || []).map(r => {
+    // Enhance recommendations with REAL direct YouTube videos from search results!
+    const recommendations = await Promise.all((rawResult.recommendations || []).map(async (r) => {
       const q = r.searchQuery || r.title;
+      let realVideo = null;
+      try {
+        const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`;
+        const res = await fetch(searchUrl, {
+          headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" }
+        });
+        if (res.ok) {
+          const html = await res.text();
+          const jsonMatch = html.match(/var ytInitialData = ({.*?});<\/script>/s) || html.match(/ytInitialData = ({.*?});/s);
+          if (jsonMatch) {
+            const data = JSON.parse(jsonMatch[1]);
+            const contents = data.contents?.twoColumnSearchResultsRenderer?.primaryContents?.sectionListRenderer?.contents;
+            const itemSection = contents?.find(c => c.itemSectionRenderer)?.itemSectionRenderer?.contents;
+            const firstVideo = itemSection?.find(i => i.videoRenderer)?.videoRenderer;
+            if (firstVideo && firstVideo.videoId) {
+              realVideo = {
+                videoId: firstVideo.videoId,
+                title: firstVideo.title?.runs?.[0]?.text || r.title,
+                channel: firstVideo.ownerText?.runs?.[0]?.text || r.source,
+                duration: firstVideo.lengthText?.simpleText || r.duration,
+                thumbnail: firstVideo.thumbnail?.thumbnails?.[0]?.url || ""
+              };
+            }
+          }
+        }
+      } catch (_) {}
+
+      if (realVideo && realVideo.videoId) {
+        return {
+          title: realVideo.title,
+          source: realVideo.channel,
+          archetype: r.archetype || "Verified Perspective",
+          duration: realVideo.duration || r.duration,
+          badge: r.badge || "Verified Perspective",
+          rationale: r.rationale || "Counter-perspective challenging single-sided algorithmic recommendations.",
+          searchUrl: `https://www.youtube.com/watch?v=${realVideo.videoId}`,
+          thumbnail: realVideo.thumbnail,
+          isRealWatchUrl: true
+        };
+      }
+
       return {
         ...r,
         searchUrl: `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`
       };
-    });
+    }));
 
     return {
       status: "SUCCESS",

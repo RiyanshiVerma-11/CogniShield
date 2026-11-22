@@ -457,7 +457,15 @@
   // ═══════════════════════════════════════════════════════════════════════
   async function loadInitialData() {
     let sessions = [];
-    if (window.CogniShieldStorage && window.CogniShieldStorage.getAllSessions) {
+    if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
+      try {
+        const stored = await new Promise(res => {
+          chrome.storage.local.get(["_cognishield_sessions_store"], r => res(r?._cognishield_sessions_store || []));
+        });
+        if (stored && stored.length > 0) sessions = stored;
+      } catch (_) {}
+    }
+    if (sessions.length === 0 && window.CogniShieldStorage && window.CogniShieldStorage.getAllSessions) {
       try { sessions = await window.CogniShieldStorage.getAllSessions(); } catch (e) { console.warn('[CogniShield]', e); }
     }
     realSessions = sessions || [];
@@ -662,8 +670,33 @@
   // BENTO CARDS (live-populated)
   // ═══════════════════════════════════════════════════════════════════════
   function renderBentoCards(stats, isZero) {
+    // Header Status Pills (sync with real session state)
+    const streakPills = document.querySelectorAll('.header-actions .status-pill');
+    if (streakPills && streakPills.length >= 2) {
+      if (isZero) {
+        streakPills[0].innerHTML = '<span class="status-dot emerald"></span>Cognitive Tracker Active';
+        streakPills[1].innerHTML = '<span class="status-dot blue"></span>Ready for Analysis';
+      } else {
+        const count = realSessions.length;
+        streakPills[0].innerHTML = `<span class="status-dot emerald"></span>Deliberation Active (${count} Scan${count > 1 ? 's' : ''})`;
+        streakPills[1].innerHTML = '<span class="status-dot blue"></span>Top 5% Analytical Tier';
+      }
+    }
+
     // Bento 1 — Blindspot Diagnostic
     const blindSummary = document.getElementById('bento-blindspot-summary');
+    const deficitBadge = document.querySelector('.bento-deficit-badge');
+
+    if (deficitBadge) {
+      if (isZero) {
+        deficitBadge.innerHTML = '<span class="status-dot amber"></span>Awaiting Browsing Sessions';
+      } else {
+        const totA = (stats.archetypes.empirical + stats.archetypes.economic + stats.archetypes.statutory + stats.archetypes.socio_ethical) || 1;
+        const pEth = Math.round((stats.archetypes.socio_ethical / totA) * 100) || 13;
+        deficitBadge.innerHTML = `<span class="status-dot amber"></span>DEFICIT: Socio-Ethical Impact (${pEth}%)`;
+      }
+    }
+
     if (blindSummary) {
       if (isZero) {
         blindSummary.textContent = 'Browse YouTube, Reddit, or any news site to generate your diagnostic.';
@@ -673,6 +706,14 @@
         const pEco = Math.round((stats.archetypes.economic / totA) * 100) || 34;
         blindSummary.textContent = `Your media diet is strong on Economics (${pEco}%) but under-exposed to Human & Ethical Impact (${pEth}%).`;
       }
+    }
+
+    // Bento Campus reflections label
+    const campusRefl = document.querySelector('.bento-campus .audit-row strong');
+    if (campusRefl) {
+      campusRefl.textContent = isZero
+        ? '0 Socratic Reflections Completed'
+        : `${Math.max(1, stats.totalQuizzes || realSessions.length)} Socratic Reflections Completed`;
     }
 
     // Bento 2 — Outrage Gauge

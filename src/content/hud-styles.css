@@ -1639,6 +1639,43 @@ mark.cognishield-cat-urgency_panic {
   color: #34D399;
 }
 
+.cognishield-ai-live-sync {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #38BDF8;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 6px;
+  padding: 5px 9px;
+  margin-top: 6px;
+}
+
+.cognishield-ai-live-sync.live-complete {
+  color: #34D399;
+  background: rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.cognishield-rec-thumb-img {
+  width: 42px;
+  height: 26px;
+  border-radius: 5px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* On YouTube watch pages, dock the floating score badge to the left of the recommendation sidebar */
+ytd-watch-flexy .cognishield-floating-trigger,
+#page-manager ytd-watch-flexy .cognishield-floating-trigger,
+[page-subtype="watch"] .cognishield-floating-trigger {
+  bottom: 80px !important;
+  right: 420px !important;
+}
+
 /* Recs Stack */
 .cognishield-recs-stack {
   display: flex;

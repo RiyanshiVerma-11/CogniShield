@@ -4,6 +4,7 @@
  */
 
 import { AIBridge } from "./api-bridge.js";
+import { LOCAL_AI_KEYS } from "../config/keys.local.js";
 
 console.log("[CogniShield] Service Worker loaded.");
 
@@ -13,19 +14,8 @@ const tabDwellMap = new Map();
 // Initialize secure local configuration on install/update
 async function initializeKeys() {
   chrome.storage.local.get(["geminiApiKey", "groqApiKey", "forceDemoMode"], async (existing) => {
-    let geminiKey = existing.geminiApiKey || "";
-    let groqKey = existing.groqApiKey || "";
-
-    // Try reading local developer config if present (ignored by Git)
-    try {
-      const localMod = await import("../config/keys.local.js");
-      if (localMod?.LOCAL_AI_KEYS) {
-        if (!geminiKey) geminiKey = localMod.LOCAL_AI_KEYS.geminiApiKey || "";
-        if (!groqKey) groqKey = localMod.LOCAL_AI_KEYS.groqApiKey || "";
-      }
-    } catch (_) {
-      // keys.local.js is gitignored and optional
-    }
+    let geminiKey = existing.geminiApiKey || LOCAL_AI_KEYS?.geminiApiKey || "";
+    let groqKey = existing.groqApiKey || LOCAL_AI_KEYS?.groqApiKey || "";
 
     chrome.storage.local.set({
       userMode: "trainer", // "zen" or "trainer"
@@ -65,18 +55,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "FLIP_FEED_ANALYZE") {
     chrome.storage.local.get(["forceDemoMode", "geminiApiKey", "groqApiKey"], async (settings) => {
       try {
-        let geminiKey = settings.geminiApiKey || "";
-        let groqKey = settings.groqApiKey || "";
-
-        if (!geminiKey || !groqKey) {
-          try {
-            const localMod = await import("../config/keys.local.js");
-            if (localMod?.LOCAL_AI_KEYS) {
-              if (!geminiKey) geminiKey = localMod.LOCAL_AI_KEYS.geminiApiKey || "";
-              if (!groqKey) groqKey = localMod.LOCAL_AI_KEYS.groqApiKey || "";
-            }
-          } catch (_) {}
-        }
+        let geminiKey = settings.geminiApiKey || LOCAL_AI_KEYS?.geminiApiKey || "";
+        let groqKey = settings.groqApiKey || LOCAL_AI_KEYS?.groqApiKey || "";
 
         const title = request.payload?.title || "";
         const textPayload = request.payload?.textPayload || "";
@@ -152,18 +132,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "ANALYZE_LIVE_CONTENT") {
     chrome.storage.local.get(["forceDemoMode", "geminiApiKey", "groqApiKey"], async (settings) => {
       try {
-        let geminiKey = settings.geminiApiKey || "";
-        let groqKey = settings.groqApiKey || "";
-
-        if (!geminiKey || !groqKey) {
-          try {
-            const localMod = await import("../config/keys.local.js");
-            if (localMod?.LOCAL_AI_KEYS) {
-              if (!geminiKey) geminiKey = localMod.LOCAL_AI_KEYS.geminiApiKey || "";
-              if (!groqKey) groqKey = localMod.LOCAL_AI_KEYS.groqApiKey || "";
-            }
-          } catch (_) {}
-        }
+        let geminiKey = settings.geminiApiKey || LOCAL_AI_KEYS?.geminiApiKey || "";
+        let groqKey = settings.groqApiKey || LOCAL_AI_KEYS?.groqApiKey || "";
 
         const textPayload = request.payload?.textPayload || request.payload?.title || "";
         const result = await aiBridge.dispatchAnalysis(textPayload, {

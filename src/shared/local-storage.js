@@ -89,10 +89,8 @@ class LocalStorageManager {
    * Log an interaction session to local IndexedDB (100% private)
    */
   async logSession(sessionData) {
-    await this.initPromise;
-    if (!this.db) return null;
-
     const record = {
+      id: "sess_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
       timestamp: sessionData.timestamp || Date.now(),
       title: sessionData.title || "Web Exploration Session",
       domain: sessionData.domain || "web",
@@ -100,7 +98,7 @@ class LocalStorageManager {
       detectedLang: sessionData.detectedLang || "en",
       biasCategory: sessionData.biasCategory || "neutral",
       emotionalIntensity: sessionData.emotionalIntensity || 0,
-      scaffoldingTier: sessionData.scaffoldingTier || "Autonomous",
+      scaffoldingTier: sessionData.scaffoldingTier || "Autonomous Agency",
       quizAnswered: sessionData.quizAnswered || false,
       quizCorrect: sessionData.quizCorrect || false,
       dwellSeconds: sessionData.dwellSeconds || 0,
@@ -108,41 +106,43 @@ class LocalStorageManager {
       perspectivesCount: sessionData.perspectivesCount || 2
     };
 
-    return new Promise((resolve) => {
+    // 1. Direct Extension-Wide Sync to chrome.storage.local (Available across YouTube & Dashboard)
+    try {
+      if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
+        chrome.storage.local.get(["_cognishield_sessions_store"], (res) => {
+          let store = res._cognishield_sessions_store || [];
+          store.unshift(record);
+          if (store.length > 500) store = store.slice(0, 500);
+          chrome.storage.local.set({
+            _cognishield_sessions_store: store,
+            _live_bus_event: { type: "SESSION_LOGGED", timestamp: Date.now() }
+          });
+        });
+      }
+    } catch (_) {}
+
+    // 2. Cross-origin Message Sync to background service worker
+    try {
+      if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.sendMessage) {
+        chrome.runtime.sendMessage({ action: "LOG_SESSION_SYNC", session: record });
+      }
+    } catch (_) {}
+
+    this._notifyLiveChange("SESSION_LOGGED", record);
+
+    // 3. Also write to IndexedDB if available
+    await this.initPromise;
+    if (this.db) {
       try {
         const tx = this.db.transaction([STORE_SESSIONS], "readwrite");
         const store = tx.objectStore(STORE_SESSIONS);
-        const req = store.add(record);
-        req.onsuccess = () => {
-          const generatedId = req.result;
-          this._notifyLiveChange("SESSION_LOGGED", { id: generatedId, ...record });
-          
-          // Cross-origin Extension Sync (bridges content scripts on youtube.com with dashboard at chrome-extension://)
-          try {
-            if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.sendMessage) {
-              chrome.runtime.sendMessage({ action: "LOG_SESSION_SYNC", session: { id: generatedId, ...record } });
-            }
-          } catch (_) {}
-
-          resolve(generatedId);
-        };
-        req.onerror = () => {
-          // If IndexedDB fails (e.g. sandbox), still sync via chrome.runtime
-          try {
-            if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.sendMessage) {
-              chrome.runtime.sendMessage({ action: "LOG_SESSION_SYNC", session: record }, (res) => {
-                resolve(res?.id || Date.now());
-              });
-              return;
-            }
-          } catch (_) {}
-          resolve(null);
-        };
+        store.add(record);
       } catch (err) {
-        console.error("[CogniShield] logSession error:", err);
-        resolve(null);
+        console.warn("[CogniShield] IndexedDB store write:", err);
       }
-    });
+    }
+
+    return record.id;
   }
 
   /**
@@ -169,34 +169,57 @@ class LocalStorageManager {
    * Update an existing session record by primary key (id)
    */
   async updateSession(id, updates) {
-    await this.initPromise;
-    if (!this.db || !id) return false;
+    if (!id || !updates) return false;
 
-    return new Promise((resolve) => {
+    // 1. Direct Extension-Wide Sync to chrome.storage.local
+    try {
+      if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
+        chrome.storage.local.get(["_cognishield_sessions_store"], (res) => {
+          let store = res._cognishield_sessions_store || [];
+          let modified = false;
+          store = store.map(item => {
+            if (item.id === id) {
+              modified = true;
+              return Object.assign({}, item, updates);
+            }
+            return item;
+          });
+          if (modified) {
+            chrome.storage.local.set({
+              _cognishield_sessions_store: store,
+              _live_bus_event: { type: "SESSION_UPDATED", timestamp: Date.now() }
+            });
+          }
+        });
+      }
+    } catch (_) {}
+
+    // 2. Cross-origin Message Sync
+    try {
+      if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.sendMessage) {
+        chrome.runtime.sendMessage({ action: "UPDATE_SESSION_SYNC", id, updates });
+      }
+    } catch (_) {}
+
+    this._notifyLiveChange("SESSION_UPDATED", { id, ...updates });
+
+    // 3. Also update in IndexedDB if available
+    await this.initPromise;
+    if (this.db) {
       try {
         const tx = this.db.transaction([STORE_SESSIONS], "readwrite");
         const store = tx.objectStore(STORE_SESSIONS);
         const req = store.get(id);
         req.onsuccess = () => {
-          if (!req.result) return resolve(false);
-          const updated = Object.assign({}, req.result, updates);
-          const putReq = store.put(updated);
-          putReq.onsuccess = () => {
-            this._notifyLiveChange("SESSION_UPDATED", { id, ...updates });
-            try {
-              if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.sendMessage) {
-                chrome.runtime.sendMessage({ action: "UPDATE_SESSION_SYNC", id, updates });
-              }
-            } catch (_) {}
-            resolve(true);
-          };
-          putReq.onerror = () => resolve(false);
+          if (req.result) {
+            const updated = Object.assign({}, req.result, updates);
+            store.put(updated);
+          }
         };
-        req.onerror = () => resolve(false);
-      } catch (err) {
-        resolve(false);
-      }
-    });
+      } catch (_) {}
+    }
+
+    return true;
   }
 
   _inferPlatform(domain) {
