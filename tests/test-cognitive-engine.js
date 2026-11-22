@@ -109,6 +109,24 @@ async function runTests() {
   assert(cert.certificateId.startsWith("CS-VERIFY-"), "Certificate Generator: Produces valid cryptographic verification token");
   assert(cert.studentAudit !== undefined, "Certificate Generator: Includes student audit breakdown");
 
+  // 11. "Flip the Feed" (CogniFlip) Anti-Bubble Engine Tests
+  const aiEduFeed = cognitive.generateCounterPerspectiveFeed(
+    { title: "Generative AI is destroying student homework and critical thinking" },
+    null,
+    offline
+  );
+  assert(aiEduFeed.recommendations.length >= 3, "Flip Feed: Synthesizes top 3-5 counter-perspectives for AI Education");
+  assert(aiEduFeed.recommendations[0].searchUrl.includes("youtube.com/results?search_query="), "Flip Feed: Generates valid deep-link YouTube search queries");
+  assert(aiEduFeed.detectedBias === "outrage_anger", "Flip Feed: Accurately tags detected bias category for counter-framing");
+
+  const arbitraryFeed = cognitive.generateCounterPerspectiveFeed(
+    { title: "The Hidden Catastrophe of Commercial Real Estate Defaults" },
+    null,
+    offline
+  );
+  assert(arbitraryFeed.recommendations.length >= 3, "Flip Feed: Successfully generates counter-recommendations for novel arbitrary video");
+  assert(arbitraryFeed.agencyRewardPoints === 5, "Flip Feed: Awards +5 Agency Points for cognitive exploration");
+
   console.log("\n=============================================================");
   console.log(`RESULTS: ${passed}/${total} TESTS PASSED (100% RELIABILITY)`);
   console.log("=============================================================");

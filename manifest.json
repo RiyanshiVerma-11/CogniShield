@@ -41,6 +41,7 @@
         "src/content/scrapers/news-scraper.js",
         "src/content/heatmap-highlighter.js",
         "src/content/hud-overlay.js",
+        "src/content/flip-feed.js",
         "src/content/content-main.js"
       ],
       "css": [

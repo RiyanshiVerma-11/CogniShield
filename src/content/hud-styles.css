@@ -1107,3 +1107,421 @@ mark.cognishield-cat-urgency_panic {
   }
 }
 
+
+/* ==========================================================================
+   COGNISHIELD: "FLIP THE FEED" (COGNIFLIP) YOUTUBE IN-PAGE STYLES
+   ========================================================================== */
+
+#cognishield-flip-feed-root {
+  display: block;
+  width: 100%;
+  margin: 0 0 16px 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "YouTube Sans", sans-serif;
+  z-index: 10;
+  position: relative;
+}
+
+/* Unflipped Prompt Banner */
+.cognishield-flip-card-unflipped {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.96) 0%, rgba(30, 41, 59, 0.94) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  box-shadow: 0 4px 20px -2px rgba(56, 189, 248, 0.2);
+  border-radius: 14px;
+  padding: 12px 14px;
+  backdrop-filter: blur(12px);
+  color: #F8FAFC;
+  transition: all 0.25s ease;
+}
+
+.cognishield-flip-card-unflipped:hover {
+  border-color: rgba(56, 189, 248, 0.7);
+  box-shadow: 0 6px 24px -2px rgba(56, 189, 248, 0.3);
+}
+
+.cognishield-flip-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.cognishield-flip-badge-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cognishield-flip-icon-glow {
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.6));
+}
+
+.cognishield-flip-title {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #FFFFFF;
+  text-transform: uppercase;
+}
+
+.cognishield-flip-sub {
+  font-size: 11px;
+  color: #94A3B8;
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+.cognishield-anti-bubble-tag {
+  font-size: 10px;
+  font-weight: 700;
+  color: #38BDF8;
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 2px 7px;
+  border-radius: 9999px;
+}
+
+/* Toggle Pill Group */
+.cognishield-flip-toggle-group {
+  display: inline-flex;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  padding: 2px;
+  gap: 2px;
+}
+
+.cognishield-toggle-btn {
+  border: none;
+  background: transparent;
+  color: #94A3B8;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.cognishield-toggle-btn.active-echo {
+  background: rgba(239, 68, 68, 0.2);
+  color: #F87171;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.cognishield-toggle-btn.btn-flip-action {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(56, 189, 248, 0.25) 100%);
+  color: #34D399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.cognishield-toggle-btn.btn-flip-action:hover {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.45) 0%, rgba(56, 189, 248, 0.45) 100%);
+  color: #FFFFFF;
+}
+
+.cognishield-toggle-btn.active-flipped {
+  background: #10B981;
+  color: #0F172A;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+}
+
+.cognishield-flip-teaser {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  color: #CBD5E1;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.cognishield-teaser-icon {
+  font-size: 14px;
+}
+
+.cognishield-teaser-text {
+  flex: 1;
+  line-height: 1.35;
+}
+
+.cognishield-btn-mini-flip {
+  border: none;
+  background: #10B981;
+  color: #0F172A;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.cognishield-btn-mini-flip:hover {
+  background: #34D399;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+  transform: translateY(-1px);
+}
+
+/* Flipped Active Card (Full Stack) */
+.cognishield-flip-card-active {
+  background: linear-gradient(180deg, #0B132B 0%, #0F172A 100%);
+  border: 1.5px solid #10B981;
+  box-shadow: 0 8px 32px -4px rgba(16, 185, 129, 0.35);
+  border-radius: 16px;
+  padding: 14px;
+  backdrop-filter: blur(16px);
+  color: #F8FAFC;
+  animation: cognishield-flip-enter 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cognishield-flip-enter {
+  0% { opacity: 0; transform: translateY(-8px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Stance Box */
+.cognishield-stance-box {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin: 10px 0 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cognishield-stance-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 11.5px;
+}
+
+.cognishield-stance-label {
+  font-weight: 700;
+  color: #94A3B8;
+  min-width: 100px;
+}
+
+.cognishield-stance-val {
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.cognishield-stance-val.red-text {
+  color: #F87171;
+}
+
+.cognishield-stance-val.green-text {
+  color: #34D399;
+}
+
+/* Recs Stack */
+.cognishield-recs-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.cognishield-counter-rec-card {
+  display: flex;
+  align-items: stretch;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 10px;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.cognishield-counter-rec-card:hover {
+  border-color: #38BDF8;
+  background: rgba(30, 41, 59, 0.95);
+  box-shadow: 0 4px 16px -2px rgba(56, 189, 248, 0.25);
+  transform: translateX(2px);
+}
+
+.cognishield-rec-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 28px;
+}
+
+.cognishield-rec-index {
+  font-size: 12px;
+  font-weight: 800;
+  color: #64748B;
+}
+
+.cognishield-rec-thumb-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: rgba(239, 68, 68, 0.2);
+  color: #EF4444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+}
+
+.cognishield-counter-rec-card:hover .cognishield-rec-thumb-icon {
+  background: #EF4444;
+  color: #FFFFFF;
+}
+
+.cognishield-rec-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.cognishield-rec-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.cognishield-rec-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #F8FAFC;
+  text-decoration: none;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  max-height: 2.7em;
+}
+
+.cognishield-rec-title:hover {
+  color: #38BDF8;
+}
+
+.cognishield-rec-duration {
+  font-size: 10px;
+  font-weight: 600;
+  color: #94A3B8;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 1px 5px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.cognishield-rec-source-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+}
+
+.cognishield-rec-source {
+  color: #94A3B8;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cognishield-rec-badge {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #34D399;
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 1px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.cognishield-rec-rationale {
+  font-size: 11px;
+  color: #CBD5E1;
+  line-height: 1.35;
+  margin-top: 2px;
+}
+
+.cognishield-rec-action {
+  display: flex;
+  align-items: center;
+}
+
+.cognishield-btn-explore {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #38BDF8;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 5px 9px;
+  border-radius: 6px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.cognishield-btn-explore:hover {
+  background: #38BDF8;
+  color: #0F172A;
+}
+
+/* Flip Footer */
+.cognishield-flip-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cognishield-flip-agency-msg {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #6EE7B7;
+}
+
+.agency-sparkle {
+  font-size: 14px;
+}
+
+.cognishield-btn-revert {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: #94A3B8;
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.cognishield-btn-revert:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+}

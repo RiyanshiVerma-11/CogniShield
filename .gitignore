@@ -10,11 +10,14 @@ AGENTS.md
 CLAUDE.md
 GEMINI.md
 
-# Slide and presentation files
+# Slide and presentation files & local visuals
 *.pptx
 *.ppt
 *.pdf
 slide_*.png
+assets/presentation_visuals/
+assets/slide*.png
+screenshots/
 
 # Environment and sensitive keys
 .env

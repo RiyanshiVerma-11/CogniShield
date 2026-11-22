@@ -24,6 +24,11 @@
       window.CogniShieldHUD.init();
     }
 
+    // 1b. Initialize "Flip the Feed" on YouTube
+    if (window.CogniShieldFlipFeed && window.location.hostname.includes("youtube.com")) {
+      window.CogniShieldFlipFeed.init();
+    }
+
     // Trigger initial scan
     triggerDynamicScan("initial-load");
   }
@@ -189,6 +194,17 @@
           window.CogniShieldHUD.loadDossier(matchedDossier, highlightStats.categoryCounts);
         }
 
+        // 5b. Update "Flip the Feed" (CogniFlip) for YouTube
+        if (window.CogniShieldFlipFeed && window.location.hostname.includes("youtube.com")) {
+          window.CogniShieldFlipFeed.updateFeed({
+            title: effectiveTitle,
+            dossier: matchedDossier,
+            pageText: pageText,
+            biasCategory: biasCategory,
+            intensityScore: intensityScore
+          });
+        }
+
         // 6. Live Multi-Tier AI Analysis (Gemini Flash Primary -> Groq Fallback)
         if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.sendMessage) {
           chrome.storage.local.get(["forceDemoMode"], (settings) => {
@@ -227,6 +243,17 @@
                     biasCategory = liveData.bias_category;
                   }
                   window.CogniShieldHUD.updateAmbientStatus(newScore, highlightStats.highlightedCount);
+
+                  // Update "Flip the Feed" with live data
+                  if (window.CogniShieldFlipFeed && window.location.hostname.includes("youtube.com")) {
+                    window.CogniShieldFlipFeed.updateFeed({
+                      title: effectiveTitle,
+                      dossier: liveData,
+                      pageText: pageText,
+                      biasCategory: biasCategory,
+                      intensityScore: newScore
+                    });
+                  }
 
                   if (currentSessionId && window.CogniShieldStorage && window.CogniShieldStorage.updateSession) {
                     let liveArchetypes = ["Empirical"];

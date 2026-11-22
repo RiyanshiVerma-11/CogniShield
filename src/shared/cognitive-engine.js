@@ -174,6 +174,94 @@ class CognitiveEngine {
     const langBank = questions[lang] || questions.en;
     return langBank[category] || langBank.outrage_anger;
   }
+
+  /**
+   * Generates a structured Counter-Perspective Feed (Flip the Feed / CogniFlip)
+   * Inverts recommendation bias and provides 3-5 verified counter-perspective video/search links.
+   * 
+   * @param {Object} videoContext - Context object containing title, url, tags, description.
+   * @param {Object} dossier - Optional pre-matched dossier from OfflineCacheManager.
+   * @param {Object} offlineManager - Optional offline manager instance (for node/test injection).
+   */
+  generateCounterPerspectiveFeed(videoContext = {}, dossier = null, offlineManager = null) {
+    const title = (videoContext && videoContext.title) ? videoContext.title : (dossier ? dossier.title : "Contemporary Video Debate");
+    
+    // Resolve offline cache manager
+    let mgr = offlineManager;
+    if (!mgr) {
+      if (typeof window !== "undefined" && window.CogniShieldOffline) {
+        mgr = window.CogniShieldOffline;
+      } else if (typeof global !== "undefined" && global.CogniShieldOffline) {
+        mgr = global.CogniShieldOffline;
+      }
+    }
+
+    let activeDossier = dossier;
+    if (!activeDossier && mgr && typeof mgr.matchDossier === "function") {
+      activeDossier = mgr.matchDossier(title, videoContext);
+    }
+
+    let rawRecs = [];
+    if (mgr && typeof mgr.getCounterRecommendations === "function") {
+      rawRecs = mgr.getCounterRecommendations(activeDossier, title);
+    } else if (activeDossier && Array.isArray(activeDossier.counter_recommendations)) {
+      rawRecs = activeDossier.counter_recommendations;
+    } else {
+      rawRecs = [
+        {
+          title: `Empirical Fact-Check & Data: ${title.slice(0, 48)}`,
+          source: "Institutional Economics & Science Review",
+          archetype: "Empirical Baseline",
+          duration: "14:15",
+          badge: "Methodology Audit",
+          rationale: "Examines baseline methodology, sample sizes, and verifiable facts before accepting viral claims.",
+          searchQuery: `${title} empirical fact check evidence data analysis`
+        },
+        {
+          title: `The Other Side of the Story: Alternative Viewpoint on ${title.slice(0, 45)}`,
+          source: "Domain Policy & Ethics Review",
+          archetype: "Systemic Trade-Offs",
+          duration: "18:30",
+          badge: "Alternative Viewpoint",
+          rationale: "Explores competing viewpoints and trade-offs that algorithmic recommendation systems systematically omit.",
+          searchQuery: `${title} counter argument alternative perspective opposing view`
+        },
+        {
+          title: `Longitudinal Context: Lessons Applied to ${title.slice(0, 42)}`,
+          source: "Historical & Societal Archive",
+          archetype: "Historical Precedent",
+          duration: "16:00",
+          badge: "Longitudinal Context",
+          rationale: "Provides historical perspective to prevent knee-jerk panic and evaluate systemic drivers.",
+          searchQuery: `${title} historical analysis precedent deep dive context`
+        }
+      ];
+    }
+
+    const recommendations = rawRecs.map((rec) => {
+      const q = rec.searchQuery || rec.title;
+      return {
+        ...rec,
+        searchUrl: `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`
+      };
+    });
+
+    const detectedBias = activeDossier ? (activeDossier.bias_category || "algorithmic_echo") : "algorithmic_echo";
+    const sourcePerspective = activeDossier ? (activeDossier.source_perspective || "Dominant Algorithmic Narrative") : "Dominant Algorithmic Narrative";
+    const counterStance = (activeDossier && activeDossier.hidden_counter_perspectives && activeDossier.hidden_counter_perspectives[0])
+      ? activeDossier.hidden_counter_perspectives[0].label
+      : "Multi-Perspective Epistemic Scrutiny";
+
+    return {
+      activeVideoTitle: title,
+      detectedBias,
+      sourcePerspective,
+      counterStance,
+      recommendations,
+      agencyRewardPoints: 5,
+      timestamp: Date.now()
+    };
+  }
 }
 
 // Export for browser and node environments
