@@ -148,12 +148,52 @@ Return only the raw JSON object. No markdown fences, no surrounding commentary.`
     return JSON.parse(clean.trim());
   }
 
+  /**
+   * Detects if a video is celebrity/influencer/drama content.
+   * These topics need different counter-perspective archetypes vs. academic/policy topics.
+   */
+  detectContentType(videoTitle, context = "") {
+    const combined = (videoTitle + " " + context).toLowerCase();
+    const influencerSignals = [
+      "vlog", "controversy", "drama", "exposed", "cancelled", "beef", "clout",
+      "reacts", "reaction", "storytime", "tea", "gossip", "relationship",
+      "breakup", "cheating", "family", "boyfriend", "girlfriend", "toxic",
+      "influencer", "youtuber", "streamer", "tiktok", "instagram", "collab",
+      "roast", "callout", "apology", "canceled", "receipts", "shade"
+    ];
+    const matchCount = influencerSignals.filter(s => combined.includes(s)).length;
+    return matchCount >= 2 ? "influencer_drama" : "structured_discourse";
+  }
+
   buildFlipFeedPrompt(videoTitle, contextPayload = "") {
+    const contentType = this.detectContentType(videoTitle, contextPayload);
+    const isInfluencerDrama = contentType === "influencer_drama";
+
+    // For influencer/celebrity drama, use socio-cultural archetypes anchored to the specific video context
+    const archetypeBlock = isInfluencerDrama ? `
+3. Cover 5 Distinct Socio-Cultural Archetypes (since this is creator/influencer content).
+   CRITICAL RULE — Each recommendation must be BOTH:
+   a) BROAD: rooted in a universal theme (parasocial dynamics, platform incentives, media literacy, accountability culture).
+   b) SPECIFIC: the searchQuery must reference the core context/theme of the video (e.g. if family conflict: "family loyalty influencer public drama psychology"; if cheating/betrayal: "trust betrayal public figures parasocial fans").
+   NEVER use the creator's name or specific person's name in any searchQuery.
+   - 1. Platform Incentives: How platforms structurally profit from THIS TYPE of personal drama content.
+   - 2. Parasocial & Fan Psychology: What emotionally draws fans to follow THIS KIND of personal conflict.
+   - 3. Accountability vs. Mob Culture: Nuanced debate about online accountability for THIS CATEGORY of behavior.
+   - 4. Creator Economy: How THIS TYPE of content is algorithmically rewarded and monetized.
+   - 5. Media Literacy: How to critically consume and not be emotionally manipulated by THIS KIND of viral content.` : `
+3. Cover 5 Distinct Dialectic Archetypes across the 5 recommendations:
+   - 1. Direct Counter-Thesis: Direct refutation or opposing viewpoint to the main claim.
+   - 2. Empirical Baseline: Hard data, census statistics, peer-reviewed studies, or benchmark audits.
+   - 3. Inverted Valence / Trade-Offs: Practical benefits (if video is a warning) OR risks & limits (if video is hype).
+   - 4. Institutional & Regulatory: Law, statutory policy, EU/OECD directives, or court rulings.
+   - 5. Longitudinal Precedent: Historical context, past economic transitions, or long-term structural realities.`;
+
     return `You are CogniShield, an epistemic dialectic search-query generator and recommendation inverter designed to break YouTube algorithmic echo chambers.
 A user is watching a YouTube video titled:
 "${videoTitle}"
 Additional context:
 "${(contextPayload || "").slice(0, 1500)}"
+Content type detected: ${isInfluencerDrama ? "INFLUENCER/CREATOR DRAMA" : "STRUCTURED DISCOURSE"}
 
 Identify the core stance and emotional/narrative framing of the current video, then generate EXACTLY 5 distinct, high-credibility counter-perspective video recommendations representing the polar opposite or balancing worldview.
 
@@ -162,16 +202,13 @@ Rules for Stance Inversion & Opposites:
    - If the current video is NEGATIVE, ALARMIST, or PANIC-INDUCING (e.g. "AI will destroy all jobs", "Economic collapse imminent"): The 5 counter-videos MUST be CONSTRUCTIVE, EMPIRICAL, SOLUTION-ORIENTED, or HIGHLIGHTING OPPORTUNITIES & STABILITY.
    - If the current video is OVERLY PROMOTIONAL, HYPE, or UNCRITICAL PRAISE (e.g. "Get rich with crypto", "Why this technology is 100% flawless"): The 5 counter-videos MUST be SKEPTICAL, HIGHLIGHTING REAL RISKS, HIDDEN COSTS, ETHICAL CONCERNS, or STATISTICAL DOWNFALLS.
    - If PARTISAN or IDEOLOGICAL: The 5 counter-videos MUST present rigorous, respected counter-arguments from the other side or neutral academic/institutional analyses.
+   - If INFLUENCER/CREATOR DRAMA: DO NOT generate more drama. Generate broader socio-cultural, psychological, and media literacy perspectives.
 2. Natural, High-Recall Search Queries:
    - For each recommendation, generate a clean 4 to 8-word YouTube search query that real creators, researchers, and journalists actually use in titles.
-   - DO NOT use boilerplate phrases like "counter argument to", "fact check", "rebuttal", or "the other side of".
+   - STRICT RULE: NEVER include phrases like "counter argument", "alternative perspective", "opposing view", "fact check", "rebuttal", "the other side of", or any meta-commentary in the searchQuery field.
    - Keep queries natural: no quotation marks, no boolean syntax (AND/OR), no punctuation, and no emojis.
-3. Cover 5 Distinct Dialectic Archetypes across the 5 recommendations:
-   - 1. Direct Counter-Thesis: Direct refutation or opposing viewpoint to the main claim.
-   - 2. Empirical Baseline: Hard data, census statistics, peer-reviewed studies, or benchmark audits.
-   - 3. Inverted Valence / Trade-Offs: Practical benefits (if video is a warning) OR risks & limits (if video is hype).
-   - 4. Institutional & Regulatory: Law, statutory policy, EU/OECD directives, or court rulings.
-   - 5. Longitudinal Precedent: Historical context, past economic transitions, or long-term structural realities.
+   - If content is influencer/creator drama: NEVER use the creator's name or the specific controversy in the searchQuery. Use broad thematic concepts instead.
+${archetypeBlock}
 
 Return a strictly valid JSON object matching this exact structure:
 {
@@ -229,22 +266,23 @@ Return only the raw JSON object. No markdown fences.`;
   }
 
   async generateFlipFeed(videoTitle, contextPayload = "", options = {}) {
-    if (options.forceDemoMode || !navigator.onLine) {
+    if (options.forceDemoMode || (typeof navigator !== "undefined" && navigator.onLine === false)) {
       return { status: "OFFLINE_FALLBACK" };
     }
 
     const prompt = this.buildFlipFeedPrompt(videoTitle, contextPayload);
     let rawResult = null;
 
-    // 1. Try Gemini
+    // 1. Try Gemini (with 3.5s timeout per model to prevent UI lag on overload)
     if (options.geminiApiKey) {
-      const models = ["gemini-2.5-flash", "gemini-flash-latest", "gemini-3.8-flash"];
+      const models = ["gemini-3.8-flash", "gemini-flash-latest"];
       for (const model of models) {
         try {
           const url = `${this.geminiBase}/${model}:generateContent?key=${options.geminiApiKey}`;
           const response = await fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            signal: AbortSignal.timeout(3500),
             body: JSON.stringify({
               contents: [{ parts: [{ text: prompt }] }],
               generationConfig: {
@@ -262,14 +300,14 @@ Return only the raw JSON object. No markdown fences.`;
             }
           }
         } catch (e) {
-          console.warn(`[CogniShield FlipFeed] Gemini ${model} failed:`, e.message);
+          console.warn(`[CogniShield FlipFeed] Gemini ${model} failed or timed out:`, e.message);
         }
       }
     }
 
-    // 2. Fall back to Groq
+    // 2. Fall back to Groq (qwen/qwen3.8-27b is ultra-fast and reliable for JSON output)
     if (!rawResult && options.groqApiKey) {
-      const models = ["openai/gpt-oss-20b", "qwen/qwen3.8-27b", "openai/gpt-oss-120b"];
+      const models = ["qwen/qwen3.8-27b", "openai/gpt-oss-120b", "openai/gpt-oss-20b"];
       for (const model of models) {
         try {
           const response = await fetch(this.groqEndpoint, {
@@ -303,35 +341,108 @@ Return only the raw JSON object. No markdown fences.`;
       return { status: "OFFLINE_FALLBACK" };
     }
 
-    // Enhance recommendations with REAL direct YouTube videos from search results!
-    const recommendations = await Promise.all((rawResult.recommendations || []).map(async (r) => {
-      const q = r.searchQuery || r.title;
-      let realVideo = null;
-      try {
-        const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`;
-        const res = await fetch(searchUrl, {
-          headers: { "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" }
+    // --- Post-process: Sanitize search queries ---
+    // 1. Strip boilerplate meta-phrases that confuse YouTube's search engine.
+    // 2. Strip the verbatim video title if AI echoed it into the searchQuery
+    //    (common failure mode: "FULL TITLE counter argument alternative perspective").
+    const META_PHRASE_BLOCKLIST = [
+      "counter argument", "counterargument", "alternative perspective",
+      "opposing view", "other side", "fact check", "fact-check",
+      "rebuttal", "debunked", "refutation", "critical analysis of",
+      "against the idea", "challenges the claim", "response to"
+    ];
+    // Build a normalised lower-case version of the video title for substring detection
+    const normTitle = videoTitle.toLowerCase().replace(/[^\w\s]/g, "").trim();
+    if (rawResult.recommendations) {
+      rawResult.recommendations = rawResult.recommendations.map(r => {
+        if (!r.searchQuery) return r;
+        let q = r.searchQuery;
+
+        // Strip meta-phrases
+        META_PHRASE_BLOCKLIST.forEach(phrase => {
+          const regex = new RegExp(phrase.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi');
+          q = q.replace(regex, "").trim();
         });
-        if (res.ok) {
-          const html = await res.text();
-          const jsonMatch = html.match(/var ytInitialData = ({.*?});<\/script>/s) || html.match(/ytInitialData = ({.*?});/s);
-          if (jsonMatch) {
-            const data = JSON.parse(jsonMatch[1]);
-            const contents = data.contents?.twoColumnSearchResultsRenderer?.primaryContents?.sectionListRenderer?.contents;
-            const itemSection = contents?.find(c => c.itemSectionRenderer)?.itemSectionRenderer?.contents;
-            const firstVideo = itemSection?.find(i => i.videoRenderer)?.videoRenderer;
-            if (firstVideo && firstVideo.videoId) {
-              realVideo = {
-                videoId: firstVideo.videoId,
-                title: firstVideo.title?.runs?.[0]?.text || r.title,
-                channel: firstVideo.ownerText?.runs?.[0]?.text || r.source,
-                duration: firstVideo.lengthText?.simpleText || r.duration,
-                thumbnail: firstVideo.thumbnail?.thumbnails?.[0]?.url || ""
-              };
+
+        // Strip verbatim video title (or long leading chunk of it) from the query.
+        // If the query starts with or contains 6+ consecutive words from the title, it's noise.
+        if (normTitle.length > 10) {
+          const titleWords = normTitle.split(/\s+/).filter(Boolean);
+          // Check if the first 6 words of the title appear at the start of the query (case-insensitive)
+          if (titleWords.length >= 6) {
+            const prefix = titleWords.slice(0, 6).join(" ");
+            const qLow = q.toLowerCase().replace(/[^\w\s]/g, "").trim();
+            if (qLow.startsWith(prefix)) {
+              // Strip everything up to and including that prefix, keep the remainder
+              const afterPrefix = q.slice(prefix.length).trim();
+              q = afterPrefix || q; // fallback to original if stripping leaves nothing
             }
           }
         }
-      } catch (_) {}
+
+        // Clean up double spaces and trailing punctuation left by removals
+        q = q.replace(/\s{2,}/g, " ").replace(/^[\s,]+|[\s,]+$/g, "").trim();
+        // If sanitization left the query too short (<3 words), use rec title keywords
+        if (q.split(" ").filter(Boolean).length < 3) {
+          q = r.title || videoTitle;
+        }
+        // Final cap: YouTube search query should be at most 8 words
+        const words = q.split(/\s+/).filter(Boolean);
+        if (words.length > 8) q = words.slice(0, 8).join(" ");
+        return { ...r, searchQuery: q };
+      });
+    }
+
+    // Enhance recommendations with REAL YouTube videos using YouTube Data API v3
+    // (Replaces brittle ytInitialData HTML scraping which is CORS-blocked in MV3 service workers)
+    const recommendations = await Promise.all((rawResult.recommendations || []).map(async (r) => {
+      const q = r.searchQuery || r.title;
+      let realVideo = null;
+
+      // --- YouTube Data API v3 (reliable structured JSON, CORS-safe from MV3 service worker) ---
+      if (options.youtubeApiKey) {
+        try {
+          const apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(q)}&type=video&maxResults=1&key=${options.youtubeApiKey}`;
+          const res = await fetch(apiUrl);
+          if (res.ok) {
+            const data = await res.json();
+            const item = data.items?.[0];
+            if (item && item.id?.videoId) {
+              const videoId = item.id.videoId;
+              const snippet = item.snippet;
+              realVideo = {
+                videoId,
+                title: snippet.title || r.title,
+                channel: snippet.channelTitle || r.source,
+                duration: r.duration, // refined below via Videos API
+                thumbnail: snippet.thumbnails?.high?.url
+                  || snippet.thumbnails?.medium?.url
+                  || snippet.thumbnails?.default?.url
+                  || ""
+              };
+
+              // Fetch exact duration from Videos API (single additional call per video)
+              try {
+                const videoUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoId}&key=${options.youtubeApiKey}`;
+                const vRes = await fetch(videoUrl);
+                if (vRes.ok) {
+                  const vData = await vRes.json();
+                  const iso = vData.items?.[0]?.contentDetails?.duration || "";
+                  // Convert ISO 8601 (e.g. PT14M32S) → "14 min"
+                  const match = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+                  if (match) {
+                    const h = parseInt(match[1] || 0);
+                    const m = parseInt(match[2] || 0);
+                    realVideo.duration = h > 0 ? `${h}h ${m}m` : `${m} min`;
+                  }
+                }
+              } catch (_) { /* duration stays as AI estimate */ }
+            }
+          }
+        } catch (e) {
+          console.warn("[CogniShield FlipFeed] YouTube Data API v3 failed:", e.message);
+        }
+      }
 
       if (realVideo && realVideo.videoId) {
         return {
@@ -347,9 +458,11 @@ Return only the raw JSON object. No markdown fences.`;
         };
       }
 
+      // Graceful fallback: show a YouTube search page link when no API key or API quota exceeded
       return {
         ...r,
-        searchUrl: `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`
+        searchUrl: `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`,
+        isRealWatchUrl: false
       };
     }));
 

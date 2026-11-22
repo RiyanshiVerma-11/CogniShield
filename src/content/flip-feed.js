@@ -140,19 +140,11 @@ class FlipFeedController {
 
   /**
    * Toggles between YouTube's original algorithmic feed and CogniShield's counter-perspective feed.
+   * NOTE: We NEVER hide YouTube's native recommendations — Zero Censorship principle.
+   * CogniShield cards stay pinned at the top; YouTube's feed remains fully visible below.
    */
   toggleFeed(shouldFlip) {
     this.isFlipped = typeof shouldFlip === "boolean" ? shouldFlip : !this.isFlipped;
-
-    // Toggle native YouTube recommendations visibility
-    const nativeRelatedItems = document.querySelector("#secondary #related #items, ytd-watch-next-secondary-results-renderer #items");
-    if (nativeRelatedItems) {
-      if (this.isFlipped) {
-        nativeRelatedItems.style.display = "none";
-      } else {
-        nativeRelatedItems.style.display = "";
-      }
-    }
 
     // Award agency points once per video when flipping to the counter-perspective
     if (this.isFlipped && !this.hasAwardedPoints) {
