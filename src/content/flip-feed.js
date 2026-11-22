@@ -162,32 +162,65 @@ class FlipFeedController {
 
     if (!this.isFlipped) {
       // -------------------------------------------------------------
-      // UNFLIPPED STATE (Prompt Banner above YouTube Recommendations)
+      // UNFLIPPED STATE (High-Impact Interactive Anti-Bubble Controller)
       // -------------------------------------------------------------
+      const recCount = (data.recommendations && data.recommendations.length) || 3;
+      const archetypeTags = (data.recommendations || []).map(r => r.archetype || "Counter-View").slice(0, 3);
+      const tagHtml = archetypeTags.map(tag => `<span class="cognishield-peek-chip" title="Click to unlock this perspective">✦ ${tag}</span>`).join("");
+
       this.container.innerHTML = `
-        <div class="cognishield-flip-card-unflipped">
+        <div class="cognishield-flip-card-unflipped interactive-glow">
+          <!-- Top Cyber-Glass Header -->
           <div class="cognishield-flip-header-row">
-            <div class="cognishield-flip-badge-title">
-              <span class="cognishield-flip-icon-glow">🔄</span>
-              <span class="cognishield-flip-title">FLIP THE FEED</span>
-              <span class="cognishield-anti-bubble-tag">Anti-Bubble Engine</span>
+            <div class="cognishield-flip-brand">
+              <span class="cognishield-flip-icon-animated">🛡️</span>
+              <div class="cognishield-brand-text-col">
+                <span class="cognishield-brand-name">COGNISHIELD</span>
+                <span class="cognishield-live-radar-tag">
+                  <span class="cognishield-radar-pulse"></span>
+                  ANTI-ECHO ENGINE
+                </span>
+              </div>
             </div>
-            <div class="cognishield-flip-toggle-group">
-              <button class="cognishield-toggle-btn active-echo" id="btn-toggle-echo" title="Currently showing YouTube's default recommendations">
-                🔴 YouTube Echo
+
+            <!-- Tactile Interactive Switcher -->
+            <div class="cognishield-segmented-switch" id="cognishield-main-switch" role="tablist" title="Click to toggle between YouTube Echo and Balanced Feed">
+              <button class="cognishield-switch-option active-echo" id="btn-toggle-echo" role="tab" aria-selected="true">
+                <span class="switch-dot red-dot"></span> YouTube Echo
               </button>
-              <button class="cognishield-toggle-btn btn-flip-action" id="btn-toggle-flip" title="Click to break the filter bubble and explore the other side">
-                🟢 Flip Feed (+5 🧠)
+              <button class="cognishield-switch-option btn-flip-action" id="btn-toggle-flip" role="tab" aria-selected="false">
+                <span class="switch-sparkle">⚡</span> Flip Feed <span class="pts-pill">+5 🧠</span>
               </button>
             </div>
           </div>
-          <div class="cognishield-flip-teaser">
-            <span class="cognishield-teaser-icon">⚡</span>
-            <span class="cognishield-teaser-text">
-              Watching a controversial opinion? Don't let the algorithm decide your perspective. 
-              <strong>Flip the feed</strong> to see verified counter-arguments.
-            </span>
-            <button class="cognishield-btn-mini-flip" id="btn-quick-flip">Flip Now ➔</button>
+
+          <!-- Alert / Detection Context -->
+          <div class="cognishield-detection-banner">
+            <div class="detection-icon-col">
+              <span class="warning-badge-icon">⚠️</span>
+            </div>
+            <div class="detection-text-col">
+              <div class="detection-title">Algorithmic Bubble Detected</div>
+              <div class="detection-sub">YouTube's algorithm is prioritizing single-perspective outrage engagement.</div>
+            </div>
+          </div>
+
+          <!-- HERO INTERACTIVE CALL-TO-ACTION BUTTON (Attention Magnet) -->
+          <button class="cognishield-hero-flip-btn" id="btn-hero-flip" title="Click to invert recommendations and uncover hidden perspectives">
+            <div class="hero-btn-shimmer"></div>
+            <div class="hero-btn-content">
+              <span class="hero-btn-icon">⚡</span>
+              <span class="hero-btn-text">FLIP THE FEED: REVEAL ${recCount} COUNTER-PERSPECTIVES</span>
+              <span class="hero-btn-badge">+5 🧠</span>
+            </div>
+          </button>
+
+          <!-- Interactive Curiosity Chips -->
+          <div class="cognishield-peek-bar" id="cognishield-peek-container" title="Click any perspective to flip">
+            <span class="peek-label">Ready to unlock:</span>
+            <div class="peek-chips-list">
+              ${tagHtml || `<span class="cognishield-peek-chip">✦ Empirical Data</span><span class="cognishield-peek-chip">✦ Institutional Review</span>`}
+            </div>
           </div>
         </div>
       `;
@@ -287,12 +320,16 @@ class FlipFeedController {
     if (!this.container) return;
 
     const btnToggleFlip = this.container.querySelector("#btn-toggle-flip");
+    const btnHeroFlip = this.container.querySelector("#btn-hero-flip");
     const btnQuickFlip = this.container.querySelector("#btn-quick-flip");
     const btnToggleEcho = this.container.querySelector("#btn-toggle-echo");
     const btnRevertFeed = this.container.querySelector("#btn-revert-feed");
 
     if (btnToggleFlip) {
       btnToggleFlip.addEventListener("click", () => this.toggleFeed(true));
+    }
+    if (btnHeroFlip) {
+      btnHeroFlip.addEventListener("click", () => this.toggleFeed(true));
     }
     if (btnQuickFlip) {
       btnQuickFlip.addEventListener("click", () => this.toggleFeed(true));
@@ -303,6 +340,11 @@ class FlipFeedController {
     if (btnRevertFeed) {
       btnRevertFeed.addEventListener("click", () => this.toggleFeed(false));
     }
+
+    // Clicking curiosity chips flips feed
+    this.container.querySelectorAll(".cognishield-peek-chip").forEach((chip) => {
+      chip.addEventListener("click", () => this.toggleFeed(true));
+    });
 
     // Make entire counter-card clickable
     this.container.querySelectorAll(".cognishield-counter-rec-card").forEach((card) => {
