@@ -2,6 +2,8 @@
  * CogniShield - Extension Popup Controller
  */
 
+import { LOCAL_AI_KEYS } from "../config/keys.local.js";
+
 document.addEventListener("DOMContentLoaded", async () => {
   const toggleTrainer = document.getElementById("toggle-trainer-mode");
   const toggleDemo = document.getElementById("toggle-demo-mode");
@@ -19,6 +21,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const btnOpenDashboard = document.getElementById("btn-open-dashboard");
   const statAgency = document.getElementById("stat-agency");
   const statDiversity = document.getElementById("stat-diversity");
+
+  const localKeys = (typeof LOCAL_AI_KEYS !== "undefined" && LOCAL_AI_KEYS) ? LOCAL_AI_KEYS : { geminiApiKey: "", groqApiKey: "" };
 
   // Load dynamic metrics from IndexedDB
   async function loadDynamicPopupStats() {
@@ -80,17 +84,27 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       if (toggleDemo) toggleDemo.checked = !!res.forceDemoMode;
 
-      // Populate API key inputs if saved
-      if (inputGemini && res.geminiApiKey) {
-        inputGemini.value = res.geminiApiKey;
+      // Populate API key inputs if saved in storage, or fallback to local developer keys
+      const geminiKey = res.geminiApiKey || localKeys.geminiApiKey || "";
+      const groqKey = res.groqApiKey || localKeys.groqApiKey || "";
+
+      // Automatically sync to storage if storage had not been populated yet
+      if ((!res.geminiApiKey && geminiKey) || (!res.groqApiKey && groqKey)) {
+        chrome.storage.local.set({ geminiApiKey: geminiKey, groqApiKey: groqKey });
       }
-      if (inputGroq && res.groqApiKey) {
-        inputGroq.value = res.groqApiKey;
+
+      if (inputGemini) {
+        inputGemini.value = geminiKey;
+      }
+      if (inputGroq) {
+        inputGroq.value = groqKey;
       }
       if (badgeApiStatus) {
-        const hasKey = !!(res.geminiApiKey || res.groqApiKey);
-        badgeApiStatus.textContent = hasKey ? "READY" : "OFFLINE";
-        badgeApiStatus.style.color = hasKey ? "#10B981" : "#94A3B8";
+        const hasKey = !!(geminiKey || groqKey);
+        badgeApiStatus.textContent = hasKey ? "ACTIVE" : "OFFLINE";
+        badgeApiStatus.style.color = hasKey ? "#10B981" : "#EF4444";
+        badgeApiStatus.style.background = hasKey ? "rgba(16, 185, 129, 0.15)" : "rgba(239, 68, 68, 0.15)";
+        badgeApiStatus.style.borderColor = hasKey ? "rgba(16, 185, 129, 0.3)" : "rgba(239, 68, 68, 0.3)";
       }
     });
   }

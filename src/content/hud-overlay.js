@@ -6,6 +6,25 @@
  * Level 3: Deep Socratic Sparring dialogue & Sourced Blindspot Radar.
  */
 
+const COGNISHIELD_ICONS = {
+  shield: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+  brain: `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 4.44-2.04Z"/><path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-4.44-2.04Z"/></svg>`,
+  sun: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`,
+  moon: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`,
+  chart: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>`,
+  expand: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>`,
+  collapse: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/></svg>`,
+  close: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`,
+  zap: `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+  search: `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,
+  flame: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>`,
+  pause: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="10" y1="15" x2="10" y2="9"/><line x1="14" y1="15" x2="14" y2="9"/></svg>`,
+  radar: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 10 10"/><path d="m21.17 8-7.35 4"/><circle cx="12" cy="12" r="2"/></svg>`,
+  book: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`,
+  check: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>`,
+  play: `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>`
+};
+
 class HUDOverlayController {
   constructor() {
     this.container = null;
@@ -42,7 +61,7 @@ class HUDOverlayController {
     this.container.innerHTML = `
       <div class="cognishield-floating-trigger" id="cognishield-trigger-btn" title="CogniShield: Drag to reposition • Click to inspect hidden perspectives">
         <div class="cognishield-badge-icon cognishield-glow-green" id="cognishield-glow-dot">
-          <span style="font-size: 11px;">🛡️</span>
+          <span style="display: flex; align-items: center; justify-content: center; color: #FFFFFF;">${COGNISHIELD_ICONS.shield}</span>
         </div>
         <div class="cognishield-trigger-text-group">
           <span class="cognishield-badge-text">CogniShield</span>
@@ -58,40 +77,44 @@ class HUDOverlayController {
           <div class="cognishield-resize-handle-corner" id="cognishield-resize-corner" title="Drag to adjust width and height"></div>
 
           <div class="cognishield-modal-header">
-            <div class="cognishield-header-left">
-              <div class="cognishield-shield-icon-glow">🛡️</div>
-              <div>
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <h3 class="cognishield-modal-title">CogniShield</h3>
-                  <span class="cognishield-tier-pill local" id="cognishield-tier-pill">Smart Engine</span>
+            <div class="cognishield-header-top">
+              <div class="cognishield-brand-wrap">
+                <span class="cognishield-shield-icon">${COGNISHIELD_ICONS.shield}</span>
+                <h3 class="cognishield-modal-title">CogniShield</h3>
+                <span class="cognishield-tier-pill local" id="cognishield-tier-pill">Smart Engine</span>
+              </div>
+
+              <!-- Compact Header Actions -->
+              <div class="cognishield-header-actions">
+                <div class="cognishield-agency-pill" id="cognishield-agency-pill" title="Daily Cognitive Focus Score">
+                  <span class="agency-ring-icon">${COGNISHIELD_ICONS.brain}</span>
+                  <span class="agency-score-num" id="cognishield-agency-val">74%</span>
                 </div>
-                <div class="cognishield-status-row">
-                  <span class="cognishield-status-dot" id="cognishield-status-indicator"></span>
-                  <span class="cognishield-status-label" id="cognishield-status-text">100% On-Device · Private</span>
-                </div>
+                <button class="cognishield-header-btn" id="cognishield-theme-btn" title="Toggle Light / Dark Theme">${this.currentTheme === 'dark' ? COGNISHIELD_ICONS.moon : COGNISHIELD_ICONS.sun}</button>
+                <button class="cognishield-header-btn" id="cognishield-dash-btn" title="Open Cognitive Health Dashboard">${COGNISHIELD_ICONS.chart}</button>
+                <button class="cognishield-header-btn" id="cognishield-expand-btn" title="Toggle Focus Mode (Expand / Compact)">${COGNISHIELD_ICONS.expand}</button>
+                <button class="cognishield-modal-close" id="cognishield-close-btn" title="Close Panel">${COGNISHIELD_ICONS.close}</button>
               </div>
             </div>
 
-            <!-- Animated Focus / Clarity Score Tracker -->
-            <div class="cognishield-header-right">
-              <div class="cognishield-agency-pill" id="cognishield-agency-pill" title="Your Daily Cognitive Focus Score">
-                <span class="agency-ring-icon">🧠</span>
-                <span class="agency-score-num" id="cognishield-agency-val">74%</span>
-                <span class="agency-score-lbl">FOCUS</span>
-              </div>
-              <div class="cognishield-header-actions">
-                <button class="cognishield-header-btn" id="cognishield-theme-btn" title="Toggle Light / Dark Theme">${this.currentTheme === 'dark' ? '🌙' : '☀️'}</button>
-                <button class="cognishield-header-btn" id="cognishield-dash-btn" title="Open Cognitive Health Dashboard">📊</button>
-                <button class="cognishield-header-btn" id="cognishield-expand-btn" title="Toggle Focus Mode (Expand / Compact)">⤢</button>
-                <button class="cognishield-modal-close" id="cognishield-close-btn" title="Close Panel">&times;</button>
-              </div>
+            <!-- Single-Line Truncated Status Row (Never wraps or pushes layout) -->
+            <div class="cognishield-status-row">
+              <span class="cognishield-status-dot" id="cognishield-status-indicator"></span>
+              <span class="cognishield-status-label" id="cognishield-status-text">100% On-Device · Private</span>
             </div>
           </div>
 
           <!-- Progressive Disclosure Tab Navigation -->
           <div class="cognishield-tabs-bar">
-            <button class="cognishield-tab-nav-btn active" id="btn-tab-quick" data-tab="quick">⚡ Quick Check</button>
-            <button class="cognishield-tab-nav-btn" id="btn-tab-deep" data-tab="deep">🔍 Other Perspectives <span class="tab-badge" id="tab-perspectives-count">2</span></button>
+            <button class="cognishield-tab-nav-btn active" id="btn-tab-quick" data-tab="quick">
+              ${COGNISHIELD_ICONS.zap}
+              <span>Quick Check</span>
+            </button>
+            <button class="cognishield-tab-nav-btn" id="btn-tab-deep" data-tab="deep">
+              ${COGNISHIELD_ICONS.search}
+              <span>Perspectives</span>
+              <span class="tab-badge" id="tab-perspectives-count">2</span>
+            </button>
           </div>
 
           <div id="cognishield-modal-body">
@@ -179,12 +202,12 @@ class HUDOverlayController {
         if (this.currentTheme === "dark") {
           modalEl.classList.add("theme-dark");
           modalEl.classList.remove("theme-light");
-          themeBtn.textContent = "🌙";
+          themeBtn.innerHTML = COGNISHIELD_ICONS.moon;
           themeBtn.title = "Dark Theme Active (Click for Light Theme)";
         } else {
           modalEl.classList.add("theme-light");
           modalEl.classList.remove("theme-dark");
-          themeBtn.textContent = "☀️";
+          themeBtn.innerHTML = COGNISHIELD_ICONS.sun;
           themeBtn.title = "Light Theme Active (Click for Dark Theme)";
         }
       });
@@ -285,15 +308,15 @@ class HUDOverlayController {
         isFocusMode = !isFocusMode;
         if (isFocusMode) {
           card.style.width = "75vw";
-          card.style.height = "calc(100vh - 32px)";
-          card.style.bottom = "16px";
-          expandBtn.textContent = "⤡";
+          card.style.height = "calc(100vh - 16px)";
+          card.style.bottom = "8px";
+          expandBtn.innerHTML = COGNISHIELD_ICONS.collapse;
           expandBtn.title = "Restore Normal Width";
         } else {
-          card.style.width = "440px";
-          card.style.height = "calc(100vh - 32px)";
-          card.style.bottom = "16px";
-          expandBtn.textContent = "⤢";
+          card.style.width = "400px";
+          card.style.height = "calc(100vh - 16px)";
+          card.style.bottom = "8px";
+          expandBtn.innerHTML = COGNISHIELD_ICONS.expand;
           expandBtn.title = "Focus Mode (Expand Breadth)";
         }
       });
@@ -422,6 +445,65 @@ class HUDOverlayController {
   }
 
   /**
+   * WhatsApp-status style celebration burst that shoots emojis and celebratory particles
+   * upwards from the bottom of the screen with physics, wobble, and scaling!
+   */
+  triggerCelebrationBurst(congratsText = "Okay, got +5 points!") {
+    try {
+      const burstContainer = document.createElement("div");
+      burstContainer.className = "cognishield-whatsapp-burst-container";
+      document.body.appendChild(burstContainer);
+
+      // Floating celebration banner
+      const banner = document.createElement("div");
+      banner.className = "cognishield-whatsapp-celebration-banner";
+      banner.innerHTML = `
+        <span class="burst-trophy">🎉</span>
+        <span class="burst-text">${congratsText}</span>
+        <span class="burst-badge">+5 Focus</span>
+      `;
+      burstContainer.appendChild(banner);
+
+      // WhatsApp status style celebration particles
+      const particleSymbols = ["🎉", "✨", "🧠", "🌟", "🔥", "💯", "👏", "⚡", "🎯", "🚀", "+5", "⭐"];
+      const particleCount = 20;
+
+      for (let i = 0; i < particleCount; i++) {
+        const p = document.createElement("div");
+        p.className = "cognishield-burst-particle";
+        p.textContent = particleSymbols[i % particleSymbols.length];
+
+        // Randomize initial position across the bottom of the viewport
+        const startX = Math.max(20, Math.min(window.innerWidth - 40, (window.innerWidth / 2) + (Math.random() * 360 - 180)));
+        const startY = window.innerHeight + 10;
+        const driftX = (Math.random() * 260 - 130);
+        const floatDistance = 320 + Math.random() * 420;
+        const duration = 1.3 + Math.random() * 0.8;
+        const delay = Math.random() * 0.3;
+        const rot = (Math.random() * 80 - 40);
+        const scale = 0.9 + Math.random() * 0.8;
+
+        p.style.left = `${startX}px`;
+        p.style.top = `${startY}px`;
+        p.style.setProperty("--drift-x", `${driftX}px`);
+        p.style.setProperty("--float-dist", `-${floatDistance}px`);
+        p.style.setProperty("--rot", `${rot}deg`);
+        p.style.setProperty("--scale", `${scale}`);
+        p.style.animation = `cognishield-whatsapp-float ${duration}s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s forwards`;
+
+        burstContainer.appendChild(p);
+      }
+
+      // Automatically remove from DOM
+      setTimeout(() => {
+        burstContainer.remove();
+      }, 2600);
+    } catch (e) {
+      console.warn("[CogniShield] Celebration error:", e);
+    }
+  }
+
+  /**
    * Loads dialectic dossier into the modal card with dynamic readings & progressive disclosure
    */
   loadDossier(data, categoryCounts = {}, meta = {}) {
@@ -436,17 +518,17 @@ class HUDOverlayController {
 
     if (meta && meta.isLiveAi) {
       if (tierPill) {
-        tierPill.textContent = "⚡ Live AI";
+        tierPill.textContent = "Live AI";
         tierPill.className = "cognishield-tier-pill live";
       }
-      if (statusText) statusText.innerHTML = `<strong>Live AI Active:</strong> ${meta.tier || 'Gemini 2.5 Flash'}`;
+      if (statusText) statusText.innerHTML = `<strong>Live AI:</strong> ${meta.tier || 'Google Gemini Flash'}`;
       if (statusIndicator) {
         statusIndicator.style.backgroundColor = "#10B981";
         statusIndicator.style.boxShadow = "0 0 8px #10B981";
       }
     } else {
       if (tierPill) {
-        tierPill.textContent = "🛡️ On-Device";
+        tierPill.textContent = "On-Device";
         tierPill.className = "cognishield-tier-pill local";
       }
       if (statusText) statusText.innerHTML = `<strong>Smart Engine:</strong> 100% On-Device · Private`;
@@ -555,9 +637,9 @@ class HUDOverlayController {
         </div>
         <div class="perspective-title">${cp.label || 'Counter-Perspective'}</div>
         <div class="perspective-summary">${cp.summary || cp.argument || ''}</div>
-        <div class="cognishield-citation">📌 Verified Source: ${cp.citation || 'Independent Research & Public Records'}</div>
+        <div class="cognishield-citation">Verified Source: ${cp.citation || 'Independent Research & Public Records'}</div>
         <a href="https://www.youtube.com/results?search_query=${encodeURIComponent((cp.label || '') + ' ' + currentTopicForSearch)}" target="_blank" class="cognishield-watch-counter-btn">
-          ▶ Watch Balancing Videos on YouTube ↗
+          ${COGNISHIELD_ICONS.play} <span>Watch Balancing Videos on YouTube ↗</span>
         </a>
       </div>
     `).join("");
@@ -576,24 +658,24 @@ class HUDOverlayController {
         <div class="cognishield-topic-title">${data.contextTitle || data.title || "Live Web Analysis"}</div>
       </div>
 
-      <!-- TAB 1: QUICK CHECK (Default Card) -->
+      <!-- TAB 1: QUICK CHECK (Direct Text Splash) -->
       <div id="cognishield-tab-quick" class="cognishield-tab-view active">
         
-        <!-- CARD: Emotional Tone Check -->
-        <div class="cognishield-card cognishield-card-heatmap">
-          <div class="cognishield-card-header">
-            <div class="cognishield-card-title-group">
-              <span class="cognishield-icon-fire">🔥</span>
-              <span class="cognishield-card-title">Emotional Tone Check</span>
+        <!-- SECTION: Emotional Tone Check -->
+        <div class="cognishield-direct-section">
+          <div class="cognishield-section-header">
+            <div class="cognishield-section-title-group">
+              <span class="cognishield-section-icon">${COGNISHIELD_ICONS.flame}</span>
+              <span class="cognishield-section-title">Emotional Tone Check</span>
             </div>
             <span class="cognishield-intensity-tag" style="border-color: ${meterColor}40; color: ${meterColor};">
               Heat: ${intensityFormatted} / 10
             </span>
           </div>
 
-          <!-- Micro-Tooltip -->
-          <div class="cognishield-micro-tooltip">
-            💡 <em>Measures emotional language and sensational hooks used to grab your attention.</em>
+          <!-- Direct Hint Text (No Box) -->
+          <div class="cognishield-direct-hint">
+            Measures emotional language and sensational hooks used to grab your attention.
           </div>
 
           <!-- Dynamic Meter Bar -->
@@ -629,30 +711,29 @@ class HUDOverlayController {
               </span>
             ` : ""}
             ${totalMatches === 0 ? `
-              <span class="cognishield-chip chip-green" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #10B981;">
+              <span class="cognishield-chip chip-green" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); color: #047857;">
                 ✓ Low Emotional Distortion
               </span>
             ` : ""}
           </div>
         </div>
 
-        <!-- CARD: Think Twice (Pause & Reflect) -->
-        <div class="cognishield-card cognishield-card-socratic" style="margin-top: 10px;">
-          <div class="cognishield-card-header">
-            <div class="cognishield-card-title-group">
-              <span class="cognishield-icon-brain">🧠</span>
-              <span class="cognishield-card-title">Take 10 Seconds: Think Twice</span>
+        <!-- SECTION: Think Twice (Pause & Reflect Splashed Directly) -->
+        <div class="cognishield-direct-section" style="margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.07);">
+          <div class="cognishield-section-header">
+            <div class="cognishield-section-title-group">
+              <span class="cognishield-section-icon">${COGNISHIELD_ICONS.pause}</span>
+              <span class="cognishield-section-title">Take 10 Seconds: Think Twice</span>
             </div>
             <span class="cognishield-pill-amber">10s Mindful Pause</span>
           </div>
 
-          <!-- Micro-Tooltip -->
-          <div class="cognishield-micro-tooltip">
-            ⏸️ <em>Take a quick breath before reacting, commenting, or sharing.</em>
+          <div class="cognishield-direct-hint">
+            Take a quick breath before reacting, commenting, or sharing.
           </div>
 
           <div class="cognishield-socratic-quote">
-            “${(data.socratic_dialogue && data.socratic_dialogue[0]) || 'What other viewpoints or evidence might be missing from this story?'}”
+            “${(data.socratic_dialogue && data.socratic_dialogue[0]) || 'What important facts might this headline leave out to get more clicks?'}”
           </div>
           <div class="cognishield-socratic-actions">
             <button class="btn-cognishield-secondary" id="btn-socratic-dismiss">Keep Reading</button>
@@ -667,19 +748,18 @@ class HUDOverlayController {
       <!-- TAB 2: OTHER PERSPECTIVES -->
       <div id="cognishield-tab-deep" class="cognishield-tab-view" style="display: none;">
         
-        <!-- CARD: Different Sides of the Story -->
-        <div class="cognishield-card cognishield-card-radar">
-          <div class="cognishield-card-header">
-            <div class="cognishield-card-title-group">
-              <span class="cognishield-icon-radar">🎯</span>
-              <span class="cognishield-card-title">Different Sides of This Story</span>
+        <!-- SECTION: Different Sides of the Story -->
+        <div class="cognishield-direct-section">
+          <div class="cognishield-section-header">
+            <div class="cognishield-section-title-group">
+              <span class="cognishield-section-icon">${COGNISHIELD_ICONS.radar}</span>
+              <span class="cognishield-section-title">Different Sides of This Story</span>
             </div>
             <span class="cognishield-badge-count">${perspectives.length} Perspectives Found</span>
           </div>
 
-          <!-- Micro-Tooltip -->
-          <div class="cognishield-micro-tooltip">
-            🔍 <em>Algorithms often push one-sided content; here are alternative viewpoints to give you the full picture.</em>
+          <div class="cognishield-direct-hint">
+            Algorithms often push one-sided content; here are alternative viewpoints to give you the full picture.
           </div>
 
           <div class="cognishield-radar-layout">
@@ -687,9 +767,9 @@ class HUDOverlayController {
             <div class="cognishield-radar-svg-wrap">
               <svg viewBox="0 0 100 100" class="cognishield-concentric-svg">
                 <!-- Background Tracks -->
-                <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="7" />
-                <circle cx="50" cy="50" r="30" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="7" />
-                <circle cx="50" cy="50" r="20" fill="none" stroke="rgba(0,0,0,0.08)" stroke-width="7" />
+                <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="7" />
+                <circle cx="50" cy="50" r="30" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="7" />
+                <circle cx="50" cy="50" r="20" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="7" />
                 
                 <!-- Dynamic Rings -->
                 ${svgCirclesHtml}
@@ -707,10 +787,13 @@ class HUDOverlayController {
           </div>
         </div>
 
-        <!-- Verified Alternative Perspectives List -->
-        <div class="cognishield-card cognishield-card-perspectives" style="margin-top: 10px;">
-          <div class="cognishield-card-header">
-            <span class="cognishield-card-title">📚 Sourced Perspectives</span>
+        <!-- Verified Alternative Perspectives List (Splashed directly) -->
+        <div class="cognishield-direct-section" style="margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.07);">
+          <div class="cognishield-section-header">
+            <div class="cognishield-section-title-group">
+              <span class="cognishield-section-icon">${COGNISHIELD_ICONS.book}</span>
+              <span class="cognishield-section-title">Sourced Perspectives</span>
+            </div>
             <span class="cognishield-badge-source">Zero Censorship</span>
           </div>
           <div class="cognishield-counter-list">
@@ -718,16 +801,18 @@ class HUDOverlayController {
           </div>
         </div>
 
-        <!-- QUICK 30-SECOND CRITICAL THINKING CHALLENGE -->
-        <div class="cognishield-card cognishield-card-quiz" style="margin-top: 10px;">
-          <div class="cognishield-card-header">
-            <span class="cognishield-card-title">⚡ 30-Second Thinking Challenge</span>
+        <!-- QUICK 30-SECOND CRITICAL THINKING CHALLENGE (Splashed directly) -->
+        <div class="cognishield-direct-section" style="margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.07);">
+          <div class="cognishield-section-header">
+            <div class="cognishield-section-title-group">
+              <span class="cognishield-section-icon">${COGNISHIELD_ICONS.check}</span>
+              <span class="cognishield-section-title">30-Second Thinking Challenge</span>
+            </div>
             <span class="cognishield-badge-agency">+5 Focus Pts</span>
           </div>
 
-          <!-- Micro-Tooltip -->
-          <div class="cognishield-micro-tooltip">
-            🧠 <em>Spot the assumption to train your media discernment and earn Focus Points.</em>
+          <div class="cognishield-direct-hint">
+            Spot the assumption to train your media discernment and earn Focus Points.
           </div>
 
           <div style="font-weight: 700; font-size: 13px; margin: 8px 0; color: inherit;">${quiz.question}</div>
@@ -750,7 +835,7 @@ class HUDOverlayController {
 
       <!-- Epistemic Transparency Disclaimer -->
       <div class="cognishield-transparency-card">
-        🛡️ <strong>How CogniShield works:</strong> We highlight emotional triggers and find alternative viewpoints so you can think for yourself. We never block or censor anything.
+        <strong>How CogniShield works:</strong> We highlight emotional triggers and find alternative viewpoints so you can think for yourself. We never block or censor anything.
       </div>
     `;
 
@@ -793,8 +878,9 @@ class HUDOverlayController {
 
         if (correct) {
           feedbackBox.className = "cognishield-quiz-feedback correct";
-          feedbackBox.innerHTML = `✓ <strong>Spot on!</strong> ${quiz.explanation}`;
+          feedbackBox.innerHTML = `✓ <strong>Spot on! Okay, got +5 points.</strong> ${quiz.explanation}`;
           this.celebrateAgencyGain(5, "Agency Challenge Mastered!");
+          this.triggerCelebrationBurst("Okay, got +5 points! 🎉");
         } else {
           feedbackBox.className = "cognishield-quiz-feedback incorrect";
           feedbackBox.innerHTML = `✕ <strong>Reflect again:</strong> ${quiz.explanation}`;

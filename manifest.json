@@ -63,6 +63,7 @@
       "resources": [
         "assets/icons/*",
         "src/shared/*",
+        "src/config/*",
         "src/dashboard/*"
       ],
       "matches": [

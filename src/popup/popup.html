@@ -11,7 +11,9 @@
     <!-- Header -->
     <header class="popup-header">
       <div class="logo-group">
-        <span class="logo-icon">🛡️</span>
+        <span class="logo-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </span>
         <div>
           <h1 class="logo-title">CogniShield</h1>
           <p class="logo-sub">Zero-Censorship Cognitive Copilot</p>
@@ -36,39 +38,42 @@
 
     <!-- Supported Platforms Chips -->
     <div class="platform-chips-row">
-      <span class="chip-platform">▶ YouTube</span>
-      <span class="chip-platform">𝕏 Twitter/X</span>
-      <span class="chip-platform">💬 Reddit</span>
-      <span class="chip-platform">📰 Web News</span>
+      <span class="chip-platform">YouTube</span>
+      <span class="chip-platform">Twitter / X</span>
+      <span class="chip-platform">Reddit</span>
+      <span class="chip-platform">Web News</span>
     </div>
 
     <!-- Quick Scan & Dashboard Actions -->
-    <div class="action-section" style="display: flex; flex-direction: column; gap: 8px;">
+    <div class="action-section" style="display: flex; flex-direction: column; gap: 6px;">
       <button class="btn-primary" id="btn-trigger-scan">
-        <span>⚡ Scan Current Feed Now</span>
+        <span>Scan Current Feed Now</span>
       </button>
-      <button class="btn-secondary" id="btn-open-dashboard" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); color: #38BDF8; font-weight: 600;">
-        <span>📊 Open Mind Fitness Dashboard ↗</span>
+      <button class="btn-secondary" id="btn-open-dashboard" style="display: flex; align-items: center; justify-content: center; gap: 6px; background: transparent; border: 1px solid rgba(56, 189, 248, 0.25); color: #38BDF8; font-weight: 600;">
+        <span>Open Mind Fitness Dashboard ↗</span>
       </button>
     </div>
 
-    <!-- Live AI Engine Settings & API Keys (100% Client-Side Local Storage) -->
-    <details class="setting-row" style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 12px; padding: 12px 14px; margin-bottom: 12px; cursor: pointer;">
-      <summary style="font-size: 13px; font-weight: 600; color: #38BDF8; display: flex; align-items: center; justify-content: space-between; outline: none;">
-        <span>🔑 Live AI Engine (Gemini & Groq)</span>
-        <span id="badge-api-status" style="font-size: 10px; font-weight: 700; color: #10B981; background: rgba(16, 185, 129, 0.15); padding: 2px 7px; border-radius: 9999px; border: 1px solid rgba(16, 185, 129, 0.3);">ACTIVE</span>
-      </summary>
-      <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px; cursor: default;">
+    <!-- Live AI Engine Status -->
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 4px 2px;">
+      <span style="font-size: 12px; font-weight: 600; color: #38BDF8;">Live AI Engine (Gemini & Groq)</span>
+      <span id="badge-api-status" style="font-size: 10px; font-weight: 700; color: #10B981; background: rgba(16, 185, 129, 0.15); padding: 2px 7px; border-radius: 9999px; border: 1px solid rgba(16, 185, 129, 0.3);">ACTIVE</span>
+    </div>
+
+    <!-- API Key Inputs (Collapsible) -->
+    <details style="cursor: pointer; padding: 0;">
+      <summary style="font-size: 11px; color: #64748B; padding: 2px 0; outline: none;">▸ Edit API Keys</summary>
+      <div style="margin-top: 6px; display: flex; flex-direction: column; gap: 6px; cursor: default;">
         <div>
-          <label style="font-size: 11px; color: #94A3B8; display: block; margin-bottom: 3px;">Gemini API Key (Primary - 2.5 Flash):</label>
-          <input type="password" id="input-gemini-key" placeholder="Paste Gemini API Key" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 7px 10px; color: #F8FAFC; font-size: 11px; font-family: monospace;">
+          <label style="font-size: 10px; color: #94A3B8; display: block; margin-bottom: 2px;">Gemini API Key (Primary):</label>
+          <input type="password" id="input-gemini-key" placeholder="Paste Gemini API Key" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 5px; padding: 5px 8px; color: #F8FAFC; font-size: 11px; font-family: monospace;">
         </div>
         <div>
-          <label style="font-size: 11px; color: #94A3B8; display: block; margin-bottom: 3px;">Groq API Key (Secondary Failover):</label>
-          <input type="password" id="input-groq-key" placeholder="Paste Groq API Key" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; padding: 7px 10px; color: #F8FAFC; font-size: 11px; font-family: monospace;">
+          <label style="font-size: 10px; color: #94A3B8; display: block; margin-bottom: 2px;">Groq API Key (Failover):</label>
+          <input type="password" id="input-groq-key" placeholder="Paste Groq API Key" style="width: 100%; box-sizing: border-box; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 5px; padding: 5px 8px; color: #F8FAFC; font-size: 11px; font-family: monospace;">
         </div>
-        <button id="btn-save-keys" class="btn-secondary" style="padding: 7px 12px; font-size: 12px; margin-top: 4px;">Save Keys to Browser</button>
-        <span id="label-keys-saved" style="font-size: 11px; color: #10B981; display: none; text-align: center;">✓ Saved Securely in Browser Storage</span>
+        <button id="btn-save-keys" class="btn-secondary" style="padding: 5px 10px; font-size: 11px; margin-top: 2px;">Save Keys</button>
+        <span id="label-keys-saved" style="font-size: 11px; color: #10B981; display: none; text-align: center;">✓ Saved</span>
       </div>
     </details>
 
@@ -110,7 +115,7 @@
     <!-- Academic Integrity Certificate (B2B Feature) -->
     <div class="certificate-section">
       <button class="btn-outline" id="btn-cert-export">
-        <span>🎓 Export Due-Diligence Certificate</span>
+        <span>Export Due-Diligence Certificate</span>
       </button>
     </div>
 
@@ -122,7 +127,7 @@
 
   <script src="../shared/cognitive-engine.js"></script>
   <script src="../shared/local-storage.js"></script>
-  <script src="popup.js"></script>
+  <script type="module" src="popup.js"></script>
 </body>
 </html>
 

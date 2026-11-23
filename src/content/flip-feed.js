@@ -278,7 +278,9 @@ class FlipFeedController {
           <!-- Top Cyber-Glass Header -->
           <div class="cognishield-flip-header-row">
             <div class="cognishield-flip-brand">
-              <span class="cognishield-flip-icon-animated">🛡️</span>
+              <span class="cognishield-flip-icon-animated">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </span>
               <div class="cognishield-brand-text-col">
                 <span class="cognishield-brand-name">COGNISHIELD</span>
                 <span class="cognishield-live-radar-tag">
@@ -294,7 +296,7 @@ class FlipFeedController {
                 <span class="switch-dot red-dot"></span> YouTube Echo
               </button>
               <button class="cognishield-switch-option btn-flip-action" id="btn-toggle-flip" role="tab" aria-selected="false">
-                <span class="switch-sparkle">⚡</span> Flip Feed <span class="pts-pill">+5 🧠</span>
+                Flip Feed <span class="pts-pill">+5 Focus Pts</span>
               </button>
             </div>
           </div>
@@ -302,7 +304,9 @@ class FlipFeedController {
           <!-- Alert / Detection Context -->
           <div class="cognishield-detection-banner">
             <div class="detection-icon-col">
-              <span class="warning-badge-icon">⚠️</span>
+              <span class="warning-badge-icon">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              </span>
             </div>
             <div class="detection-text-col">
               <div class="detection-title">Algorithmic Bubble Detected</div>
@@ -314,9 +318,8 @@ class FlipFeedController {
           <button class="cognishield-hero-flip-btn" id="btn-hero-flip" title="Click to invert recommendations and uncover hidden perspectives">
             <div class="hero-btn-shimmer"></div>
             <div class="hero-btn-content">
-              <span class="hero-btn-icon">⚡</span>
               <span class="hero-btn-text">FLIP THE FEED: REVEAL ${recCount} COUNTER-PERSPECTIVES</span>
-              <span class="hero-btn-badge">+5 🧠</span>
+              <span class="hero-btn-badge">+5 Focus Pts</span>
             </div>
           </button>
 
@@ -337,7 +340,7 @@ class FlipFeedController {
         <div class="cognishield-counter-rec-card" data-url="${rec.searchUrl}">
           <div class="cognishield-rec-left">
             <div class="cognishield-rec-index">${index + 1}</div>
-            ${rec.thumbnail ? `<img src="${rec.thumbnail}" class="cognishield-rec-thumb-img" alt="" />` : `<div class="cognishield-rec-thumb-icon">▶</div>`}
+            ${rec.thumbnail ? `<img src="${rec.thumbnail}" class="cognishield-rec-thumb-img" alt="" />` : `<div class="cognishield-rec-thumb-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>`}
           </div>
           <div class="cognishield-rec-body">
             <div class="cognishield-rec-title-row">
@@ -347,11 +350,11 @@ class FlipFeedController {
               <span class="cognishield-rec-duration">${rec.duration || "15 min"}</span>
             </div>
             <div class="cognishield-rec-source-row">
-              <span class="cognishield-rec-source">🏛️ ${rec.source}</span>
+              <span class="cognishield-rec-source">${rec.source}</span>
               <span class="cognishield-rec-badge">${rec.badge || "Verified Perspective"}</span>
             </div>
             <div class="cognishield-rec-rationale">
-              💡 <strong>Why watch:</strong> ${rec.rationale}
+              <strong>Why watch:</strong> ${rec.rationale}
             </div>
           </div>
           <div class="cognishield-rec-action">
@@ -367,7 +370,9 @@ class FlipFeedController {
           <!-- Active Header (Stacked Layout for Full Readability) -->
           <div class="cognishield-active-header-stacked">
             <div class="cognishield-active-brand-row">
-              <span class="cognishield-flip-icon-glow">🛡️</span>
+              <span class="cognishield-flip-icon-glow">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </span>
               <div class="cognishield-active-title-block">
                 <span class="cognishield-flip-title">FEED FLIPPED: THE OTHER SIDE</span>
                 <div class="cognishield-flip-sub">Balanced perspectives replacing algorithmic echo chamber</div>
@@ -378,7 +383,7 @@ class FlipFeedController {
                 <span class="switch-dot red-dot"></span> YouTube Echo
               </button>
               <button class="cognishield-switch-option active-flipped" id="btn-toggle-flip" title="CogniShield Counter-Perspective active">
-                <span class="switch-sparkle">⚡</span> Flipped Active <span class="pts-pill">Live</span>
+                Flipped Active <span class="pts-pill">Live</span>
               </button>
             </div>
           </div>
@@ -400,11 +405,11 @@ class FlipFeedController {
               </div>
             ` : (this.hasLiveAiData ? `
               <div class="cognishield-ai-live-sync live-complete">
-                <span>⚡ Live AI Active • Real Counter-Perspective Videos Loaded</span>
+                <span>Live AI Active • Real Counter-Perspective Videos Loaded</span>
               </div>
             ` : `
               <div class="cognishield-ai-live-sync local-ready" style="color: #38BDF8;">
-                <span>🔒 Smart Local Engine • Balancing Videos & Search Links Ready</span>
+                <span>Smart Local Engine • Balancing Videos & Search Links Ready</span>
               </div>
             `)}
           </div>
@@ -417,7 +422,9 @@ class FlipFeedController {
           <!-- Agency Celebration Footer -->
           <div class="cognishield-flip-footer">
             <div class="cognishield-flip-agency-msg">
-              <span class="agency-sparkle">🧠</span>
+              <span class="agency-sparkle">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </span>
               <span><strong>+5 Agency Points Earned!</strong> You broke out of the algorithmic echo chamber.</span>
             </div>
             <button class="cognishield-btn-revert" id="btn-revert-feed" title="Show original YouTube recommendations">

@@ -62,7 +62,7 @@ Return only the raw JSON object. No markdown fences, no surrounding commentary.`
   async callGemini(contentPayload, apiKey) {
     if (!apiKey) throw new Error("No Gemini API key provided");
     const prompt = this.buildSystemPrompt(contentPayload);
-    const models = ["gemini-2.5-flash", "gemini-flash-latest", "gemini-3.8-flash"];
+    const models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"];
     let lastError = null;
 
     for (const model of models) {
@@ -102,7 +102,7 @@ Return only the raw JSON object. No markdown fences, no surrounding commentary.`
   async callGroq(contentPayload, apiKey) {
     if (!apiKey) throw new Error("No Groq API key provided");
     const prompt = this.buildSystemPrompt(contentPayload);
-    const models = ["openai/gpt-oss-20b", "qwen/qwen3.8-27b", "openai/gpt-oss-120b"];
+    const models = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768"];
     let lastError = null;
 
     for (const model of models) {
@@ -239,7 +239,7 @@ Return only the raw JSON object. No markdown fences.`;
 
     // 1. Try Gemini
     if (options.geminiApiKey) {
-      const models = ["gemini-2.5-flash", "gemini-flash-latest", "gemini-3.8-flash"];
+      const models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"];
       for (const model of models) {
         try {
           const url = `${this.geminiBase}/${model}:generateContent?key=${options.geminiApiKey}`;
@@ -270,7 +270,7 @@ Return only the raw JSON object. No markdown fences.`;
 
     // 2. Fall back to Groq
     if (!rawResult && options.groqApiKey) {
-      const models = ["openai/gpt-oss-20b", "qwen/qwen3.8-27b", "openai/gpt-oss-120b"];
+      const models = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768"];
       for (const model of models) {
         try {
           const response = await fetch(this.groqEndpoint, {
