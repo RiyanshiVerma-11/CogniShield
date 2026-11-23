@@ -447,6 +447,7 @@ class HUDOverlayController {
   /**
    * WhatsApp-status style celebration burst that shoots emojis and celebratory particles
    * upwards from the bottom of the screen with physics, wobble, and scaling!
+   * Sustained multi-wave celebration lasting 3.5 to 4.5 seconds.
    */
   triggerCelebrationBurst(congratsText = "Okay, got +5 points!") {
     try {
@@ -454,7 +455,7 @@ class HUDOverlayController {
       burstContainer.className = "cognishield-whatsapp-burst-container";
       document.body.appendChild(burstContainer);
 
-      // Floating celebration banner
+      // Floating celebration banner (persists 4 seconds)
       const banner = document.createElement("div");
       banner.className = "cognishield-whatsapp-celebration-banner";
       banner.innerHTML = `
@@ -464,40 +465,46 @@ class HUDOverlayController {
       `;
       burstContainer.appendChild(banner);
 
-      // WhatsApp status style celebration particles
       const particleSymbols = ["🎉", "✨", "🧠", "🌟", "🔥", "💯", "👏", "⚡", "🎯", "🚀", "+5", "⭐"];
-      const particleCount = 20;
 
-      for (let i = 0; i < particleCount; i++) {
-        const p = document.createElement("div");
-        p.className = "cognishield-burst-particle";
-        p.textContent = particleSymbols[i % particleSymbols.length];
+      // Function to spawn a burst wave
+      const spawnWave = (count, baseDelay = 0) => {
+        for (let i = 0; i < count; i++) {
+          const p = document.createElement("div");
+          p.className = "cognishield-burst-particle";
+          p.textContent = particleSymbols[(i + Math.floor(Math.random() * particleSymbols.length)) % particleSymbols.length];
 
-        // Randomize initial position across the bottom of the viewport
-        const startX = Math.max(20, Math.min(window.innerWidth - 40, (window.innerWidth / 2) + (Math.random() * 360 - 180)));
-        const startY = window.innerHeight + 10;
-        const driftX = (Math.random() * 260 - 130);
-        const floatDistance = 320 + Math.random() * 420;
-        const duration = 1.3 + Math.random() * 0.8;
-        const delay = Math.random() * 0.3;
-        const rot = (Math.random() * 80 - 40);
-        const scale = 0.9 + Math.random() * 0.8;
+          const startX = Math.max(30, Math.min(window.innerWidth - 50, (window.innerWidth / 2) + (Math.random() * 420 - 210)));
+          const startY = window.innerHeight + 15;
+          const driftX = (Math.random() * 280 - 140);
+          const floatDistance = 380 + Math.random() * 480;
+          const duration = 2.4 + Math.random() * 1.2; // 2.4s to 3.6s float duration
+          const delay = baseDelay + (Math.random() * 0.4);
+          const rot = (Math.random() * 90 - 45);
+          const scale = 0.95 + Math.random() * 0.8;
 
-        p.style.left = `${startX}px`;
-        p.style.top = `${startY}px`;
-        p.style.setProperty("--drift-x", `${driftX}px`);
-        p.style.setProperty("--float-dist", `-${floatDistance}px`);
-        p.style.setProperty("--rot", `${rot}deg`);
-        p.style.setProperty("--scale", `${scale}`);
-        p.style.animation = `cognishield-whatsapp-float ${duration}s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s forwards`;
+          p.style.left = `${startX}px`;
+          p.style.top = `${startY}px`;
+          p.style.setProperty("--drift-x", `${driftX}px`);
+          p.style.setProperty("--float-dist", `-${floatDistance}px`);
+          p.style.setProperty("--rot", `${rot}deg`);
+          p.style.setProperty("--scale", `${scale}`);
+          p.style.animation = `cognishield-whatsapp-float ${duration}s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s forwards`;
 
-        burstContainer.appendChild(p);
-      }
+          burstContainer.appendChild(p);
+        }
+      };
 
-      // Automatically remove from DOM
+      // 4 Continuous Waves spanning a full 3.5 to 4.5 seconds celebration
+      spawnWave(12, 0);       // Wave 1: Immediate burst
+      spawnWave(10, 0.5);     // Wave 2: 0.5s follow-up
+      spawnWave(8, 1.1);      // Wave 3: 1.1s sustained wave
+      spawnWave(6, 1.7);      // Wave 4: 1.7s final wave
+
+      // Keep celebration on screen for 4.3 seconds
       setTimeout(() => {
         burstContainer.remove();
-      }, 2600);
+      }, 4300);
     } catch (e) {
       console.warn("[CogniShield] Celebration error:", e);
     }

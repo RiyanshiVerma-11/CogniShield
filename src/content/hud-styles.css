@@ -1716,26 +1716,26 @@ mark.cognishield-cat-urgency_panic {
   background: #0F172A !important;
   color: #FFFFFF !important;
   border: 2px solid #10B981 !important;
-  padding: 10px 22px !important;
+  padding: 12px 24px !important;
   border-radius: 9999px !important;
   display: flex !important;
   align-items: center !important;
-  gap: 10px !important;
+  gap: 12px !important;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-  box-shadow: 0 12px 36px rgba(16, 185, 129, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-  animation: cognishield-banner-pop-up 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  box-shadow: 0 12px 40px rgba(16, 185, 129, 0.45), 0 4px 14px rgba(0, 0, 0, 0.4) !important;
+  animation: cognishield-banner-pop-up 4.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
   z-index: 2147483647 !important;
   pointer-events: none !important;
 }
 
 .burst-trophy {
-  font-size: 20px !important;
+  font-size: 22px !important;
   line-height: 1 !important;
   animation: burst-wiggle 0.6s infinite ease-in-out !important;
 }
 
 .burst-text {
-  font-size: 14px !important;
+  font-size: 14.5px !important;
   font-weight: 800 !important;
   letter-spacing: -0.2px !important;
   color: #FFFFFF !important;
@@ -1746,7 +1746,7 @@ mark.cognishield-cat-urgency_panic {
   color: #FFFFFF !important;
   font-size: 11px !important;
   font-weight: 800 !important;
-  padding: 2px 8px !important;
+  padding: 3px 9px !important;
   border-radius: 9999px !important;
 }
 
@@ -1755,20 +1755,20 @@ mark.cognishield-cat-urgency_panic {
     opacity: 0;
     transform: translateX(-50%) translateY(80px) scale(0.7);
   }
-  15% {
+  8% {
     opacity: 1;
-    transform: translateX(-50%) translateY(0) scale(1.05);
+    transform: translateX(-50%) translateY(0) scale(1.06);
   }
-  25% {
+  16% {
     transform: translateX(-50%) translateY(0) scale(1);
   }
-  75% {
+  82% {
     opacity: 1;
     transform: translateX(-50%) translateY(-10px) scale(1);
   }
   100% {
     opacity: 0;
-    transform: translateX(-50%) translateY(-40px) scale(0.9);
+    transform: translateX(-50%) translateY(-45px) scale(0.9);
   }
 }
 
@@ -1781,11 +1781,11 @@ mark.cognishield-cat-urgency_panic {
 /* Individual Celebration Particles floating up from the bottom */
 .cognishield-burst-particle {
   position: absolute !important;
-  font-size: 26px !important;
+  font-size: 32px !important;
   user-select: none !important;
   pointer-events: none !important;
   opacity: 0;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25)) !important;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.35)) !important;
   will-change: transform, opacity;
 }
 
@@ -1794,21 +1794,21 @@ mark.cognishield-cat-urgency_panic {
     opacity: 0;
     transform: translate(0, 0) scale(0.3) rotate(0deg);
   }
-  10% {
+  8% {
     opacity: 1;
-    transform: translate(calc(var(--drift-x) * 0.2), calc(var(--float-dist) * 0.15)) scale(calc(var(--scale) * 1.35)) rotate(calc(var(--rot) * 0.5));
+    transform: translate(calc(var(--drift-x) * 0.15), calc(var(--float-dist) * 0.12)) scale(calc(var(--scale) * 1.35)) rotate(calc(var(--rot) * 0.4));
   }
-  35% {
+  30% {
     opacity: 1;
-    transform: translate(calc(var(--drift-x) * 0.5), calc(var(--float-dist) * 0.45)) scale(var(--scale)) rotate(var(--rot));
+    transform: translate(calc(var(--drift-x) * 0.45), calc(var(--float-dist) * 0.4)) scale(var(--scale)) rotate(var(--rot));
   }
-  70% {
-    opacity: 0.9;
-    transform: translate(calc(var(--drift-x) * 0.85), calc(var(--float-dist) * 0.8)) scale(calc(var(--scale) * 0.95)) rotate(calc(var(--rot) * 1.2));
+  75% {
+    opacity: 0.95;
+    transform: translate(calc(var(--drift-x) * 0.85), calc(var(--float-dist) * 0.8)) scale(calc(var(--scale) * 0.95)) rotate(calc(var(--rot) * 1.25));
   }
   100% {
     opacity: 0;
-    transform: translate(var(--drift-x), var(--float-dist)) scale(calc(var(--scale) * 0.7)) rotate(calc(var(--rot) * 1.5));
+    transform: translate(var(--drift-x), var(--float-dist)) scale(calc(var(--scale) * 0.75)) rotate(calc(var(--rot) * 1.5));
   }
 }
 
