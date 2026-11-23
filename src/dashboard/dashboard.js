@@ -15,119 +15,119 @@
 
   // ── Module metadata (title + description shown in header bar) ──────────
   const MODULE_META = {
-    'tab-radar': { title: 'Perspective Balance', desc: '4-axis epistemic radar and active blindspot diagnostics.' },
-    'tab-kahneman': { title: 'Outrage & Hook Monitor', desc: 'Real-time emotional manipulation detection via trilingual regex.' },
-    'tab-trends': { title: '7-Day Telemetry', desc: 'Rolling cognitive scrutiny evolution and habit progression.' },
-    'tab-gym': { title: 'Socratic Calibration', desc: '30-second cognitive reflex drills to sharpen fallacy detection.' },
-    'tab-cert': { title: 'Academic Verification', desc: 'Cryptographic epistemic due-diligence certificate generator.' },
-    'tab-audit': { title: 'Local Audit Ledger', desc: '100% private session-by-session IndexedDB browsing log.' },
-    'tab-green': { title: 'Green IT & Privacy', desc: 'Architecture audit proving 99.98% energy reduction vs cloud AI.' }
+    'tab-radar': { title: 'Different Viewpoints', desc: 'See if your reading covers all angles and discover missing perspectives.' },
+    'tab-kahneman': { title: 'Emotional Tone & Tricks', desc: 'Instant check for clickbait, outrage, and emotional hooks.' },
+    'tab-trends': { title: '7-Day Habits', desc: 'See how your mindful reading and thinking habits grow over time.' },
+    'tab-gym': { title: 'Thinking Practice', desc: 'Quick 30-second mental workouts to spot misleading claims.' },
+    'tab-cert': { title: 'Research Certificate', desc: 'Proof of balanced research and exploring multiple viewpoints.' },
+    'tab-audit': { title: 'Reading History', desc: '100% private browsing log stored only on your computer.' },
+    'tab-green': { title: 'Privacy & Clean Energy', desc: 'Runs light and fast on your device, using 95.5% less energy than cloud AI.' }
   };
 
   // ── Sample benchmark dataset (Calibrated: 18.4s dwell, 28/34/25/13 balance) ──
   const BENCHMARK_SAMPLE_SESSIONS = [
-    { title: "Why European Renewable Energy Transition Faces Grid Bottlenecks", domain: "youtube.com", platform: "YouTube", detectedLang: "en", biasCategory: "outrage_anger", emotionalIntensity: 4.2, scaffoldingTier: "Autonomous Agency", quizAnswered: true, quizCorrect: true, dwellSeconds: 19, epistemicArchetypes: ["Economic", "Statutory"], timestamp: Date.now() - (1000 * 60 * 18) },
-    { title: "AI in Higher Education: Do LLMs Destroy Student Critical Thinking?", domain: "lemonde.fr", platform: "Web News", detectedLang: "fr", biasCategory: "false_certainty", emotionalIntensity: 3.8, scaffoldingTier: "Autonomous Agency", quizAnswered: true, quizCorrect: true, dwellSeconds: 18, epistemicArchetypes: ["Empirical", "Socio-Ethical"], timestamp: Date.now() - (1000 * 60 * 60 * 3) },
-    { title: "The Shocking Reality Behind Federal Central Bank Interest Rates", domain: "x.com", platform: "X / Twitter", detectedLang: "en", biasCategory: "tribal_polarization", emotionalIntensity: 4.8, scaffoldingTier: "Fading Assistance", quizAnswered: true, quizCorrect: true, dwellSeconds: 22, epistemicArchetypes: ["Economic", "Empirical"], timestamp: Date.now() - (1000 * 60 * 60 * 8) },
-    { title: "Klimawandel und Netzausbau: Warum Bürgerinitiativen gegen Stromtrassen klagen", domain: "spiegel.de", platform: "Web News", detectedLang: "de", biasCategory: "outrage_anger", emotionalIntensity: 3.5, scaffoldingTier: "Autonomous Agency", quizAnswered: true, quizCorrect: true, dwellSeconds: 17, epistemicArchetypes: ["Statutory", "Empirical", "Economic"], timestamp: Date.now() - (1000 * 60 * 60 * 22) },
-    { title: "Is Generative AI a Bubble Ready to Burst in 2026?", domain: "reddit.com", platform: "Reddit", detectedLang: "en", biasCategory: "false_certainty", emotionalIntensity: 4.1, scaffoldingTier: "Autonomous Agency", quizAnswered: true, quizCorrect: true, dwellSeconds: 20, epistemicArchetypes: ["Economic", "Empirical"], timestamp: Date.now() - (1000 * 60 * 60 * 38) },
-    { title: "Nuclear vs Wind & Solar: Levelized Cost of Energy Deep Dive", domain: "youtube.com", platform: "YouTube", detectedLang: "en", biasCategory: "neutral", emotionalIntensity: 1.8, scaffoldingTier: "Autonomous Agency", quizAnswered: true, quizCorrect: true, dwellSeconds: 18, epistemicArchetypes: ["Empirical", "Economic", "Statutory"], timestamp: Date.now() - (1000 * 60 * 60 * 62) },
-    { title: "Algorithmic Moderation and Freedom of Expression in the European Union", domain: "euractiv.com", platform: "Web News", detectedLang: "en", biasCategory: "tribal_polarization", emotionalIntensity: 2.9, scaffoldingTier: "Autonomous Agency", quizAnswered: true, quizCorrect: true, dwellSeconds: 16, epistemicArchetypes: ["Statutory", "Socio-Ethical"], timestamp: Date.now() - (1000 * 60 * 60 * 94) },
-    { title: "Microplastics in Cloud Formations: Atmospheric Chemistry Study", domain: "nature.com", platform: "Web News", detectedLang: "en", biasCategory: "neutral", emotionalIntensity: 1.2, scaffoldingTier: "Autonomous Agency", quizAnswered: true, quizCorrect: true, dwellSeconds: 21, epistemicArchetypes: ["Empirical", "Economic"], timestamp: Date.now() - (1000 * 60 * 60 * 110) },
-    { title: "Tech Giants Announce Data Center Power Purchase Agreements", domain: "bloomberg.com", platform: "Web News", detectedLang: "en", biasCategory: "neutral", emotionalIntensity: 2.1, scaffoldingTier: "Autonomous Agency", quizAnswered: true, quizCorrect: true, dwellSeconds: 19, epistemicArchetypes: ["Economic", "Statutory"], timestamp: Date.now() - (1000 * 60 * 60 * 122) },
-    { title: "EU AI Act High-Risk Enforcement Timelines for Browser Extensions", domain: "politico.eu", platform: "Web News", detectedLang: "en", biasCategory: "urgency_fomo", emotionalIntensity: 3.4, scaffoldingTier: "Autonomous Agency", quizAnswered: true, quizCorrect: true, dwellSeconds: 18, epistemicArchetypes: ["Statutory", "Economic"], timestamp: Date.now() - (1000 * 60 * 60 * 135) },
-    { title: "Gig Economy Workers and Digital Surveillance in Warehouses", domain: "theguardian.com", platform: "Web News", detectedLang: "en", biasCategory: "outrage_anger", emotionalIntensity: 3.9, scaffoldingTier: "Autonomous Agency", quizAnswered: true, quizCorrect: true, dwellSeconds: 17, epistemicArchetypes: ["Socio-Ethical", "Statutory"], timestamp: Date.now() - (1000 * 60 * 60 * 148) },
-    { title: "Battery Storage Chemistry: Sodium-Ion vs LFP Utility Scale Review", domain: "youtube.com", platform: "YouTube", detectedLang: "en", biasCategory: "neutral", emotionalIntensity: 1.5, scaffoldingTier: "Autonomous Agency", quizAnswered: false, quizCorrect: false, dwellSeconds: 22, epistemicArchetypes: ["Empirical", "Economic"], timestamp: Date.now() - (1000 * 60 * 60 * 156) },
-    { title: "Semiconductor Export Controls and Global Supply Chain Decoupling", domain: "ft.com", platform: "Web News", detectedLang: "en", biasCategory: "false_certainty", emotionalIntensity: 3.6, scaffoldingTier: "Autonomous Agency", quizAnswered: true, quizCorrect: true, dwellSeconds: 18, epistemicArchetypes: ["Economic", "Statutory"], timestamp: Date.now() - (1000 * 60 * 60 * 162) },
-    { title: "Quantum Error Correction Thresholds: Surface Code Demonstration", domain: "arxiv.org", platform: "Web News", detectedLang: "en", biasCategory: "neutral", emotionalIntensity: 1.1, scaffoldingTier: "Autonomous Agency", quizAnswered: true, quizCorrect: true, dwellSeconds: 16, epistemicArchetypes: ["Empirical", "Socio-Ethical"], timestamp: Date.now() - (1000 * 60 * 60 * 170) },
-    { title: "Housing Market Affordability vs Urban Zoning Deregulation", domain: "reddit.com", platform: "Reddit", detectedLang: "en", biasCategory: "tribal_polarization", emotionalIntensity: 4.4, scaffoldingTier: "Fading Assistance", quizAnswered: false, quizCorrect: false, dwellSeconds: 20, epistemicArchetypes: ["Empirical", "Economic"], timestamp: Date.now() - (1000 * 60 * 60 * 175) }
+    { title: "Why European Renewable Energy Transition Faces Grid Bottlenecks", domain: "youtube.com", platform: "YouTube", detectedLang: "en", biasCategory: "outrage_anger", emotionalIntensity: 4.2, scaffoldingTier: "Thinking Solo", quizAnswered: true, quizCorrect: true, dwellSeconds: 19, epistemicArchetypes: ["Economic", "Statutory"], timestamp: Date.now() - (1000 * 60 * 18) },
+    { title: "AI in Higher Education: Do LLMs Destroy Student Critical Thinking?", domain: "lemonde.fr", platform: "Web News", detectedLang: "fr", biasCategory: "false_certainty", emotionalIntensity: 3.8, scaffoldingTier: "Thinking Solo", quizAnswered: true, quizCorrect: true, dwellSeconds: 18, epistemicArchetypes: ["Empirical", "Socio-Ethical"], timestamp: Date.now() - (1000 * 60 * 60 * 3) },
+    { title: "The Shocking Reality Behind Federal Central Bank Interest Rates", domain: "x.com", platform: "X / Twitter", detectedLang: "en", biasCategory: "tribal_polarization", emotionalIntensity: 4.8, scaffoldingTier: "Good Habits", quizAnswered: true, quizCorrect: true, dwellSeconds: 22, epistemicArchetypes: ["Economic", "Empirical"], timestamp: Date.now() - (1000 * 60 * 60 * 8) },
+    { title: "Klimawandel und Netzausbau: Warum Bürgerinitiativen gegen Stromtrassen klagen", domain: "spiegel.de", platform: "Web News", detectedLang: "de", biasCategory: "outrage_anger", emotionalIntensity: 3.5, scaffoldingTier: "Thinking Solo", quizAnswered: true, quizCorrect: true, dwellSeconds: 17, epistemicArchetypes: ["Statutory", "Empirical", "Economic"], timestamp: Date.now() - (1000 * 60 * 60 * 22) },
+    { title: "Is Generative AI a Bubble Ready to Burst in 2026?", domain: "reddit.com", platform: "Reddit", detectedLang: "en", biasCategory: "false_certainty", emotionalIntensity: 4.1, scaffoldingTier: "Thinking Solo", quizAnswered: true, quizCorrect: true, dwellSeconds: 20, epistemicArchetypes: ["Economic", "Empirical"], timestamp: Date.now() - (1000 * 60 * 60 * 38) },
+    { title: "Nuclear vs Wind & Solar: Levelized Cost of Energy Deep Dive", domain: "youtube.com", platform: "YouTube", detectedLang: "en", biasCategory: "neutral", emotionalIntensity: 1.8, scaffoldingTier: "Thinking Solo", quizAnswered: true, quizCorrect: true, dwellSeconds: 18, epistemicArchetypes: ["Empirical", "Economic", "Statutory"], timestamp: Date.now() - (1000 * 60 * 60 * 62) },
+    { title: "Algorithmic Moderation and Freedom of Expression in the European Union", domain: "euractiv.com", platform: "Web News", detectedLang: "en", biasCategory: "tribal_polarization", emotionalIntensity: 2.9, scaffoldingTier: "Thinking Solo", quizAnswered: true, quizCorrect: true, dwellSeconds: 16, epistemicArchetypes: ["Statutory", "Socio-Ethical"], timestamp: Date.now() - (1000 * 60 * 60 * 94) },
+    { title: "Microplastics in Cloud Formations: Atmospheric Chemistry Study", domain: "nature.com", platform: "Web News", detectedLang: "en", biasCategory: "neutral", emotionalIntensity: 1.2, scaffoldingTier: "Thinking Solo", quizAnswered: true, quizCorrect: true, dwellSeconds: 21, epistemicArchetypes: ["Empirical", "Economic"], timestamp: Date.now() - (1000 * 60 * 60 * 110) },
+    { title: "Tech Giants Announce Data Center Power Purchase Agreements", domain: "bloomberg.com", platform: "Web News", detectedLang: "en", biasCategory: "neutral", emotionalIntensity: 2.1, scaffoldingTier: "Thinking Solo", quizAnswered: true, quizCorrect: true, dwellSeconds: 19, epistemicArchetypes: ["Economic", "Statutory"], timestamp: Date.now() - (1000 * 60 * 60 * 122) },
+    { title: "EU AI Act High-Risk Enforcement Timelines for Browser Extensions", domain: "politico.eu", platform: "Web News", detectedLang: "en", biasCategory: "urgency_fomo", emotionalIntensity: 3.4, scaffoldingTier: "Thinking Solo", quizAnswered: true, quizCorrect: true, dwellSeconds: 18, epistemicArchetypes: ["Statutory", "Economic"], timestamp: Date.now() - (1000 * 60 * 60 * 135) },
+    { title: "Gig Economy Workers and Digital Surveillance in Warehouses", domain: "theguardian.com", platform: "Web News", detectedLang: "en", biasCategory: "outrage_anger", emotionalIntensity: 3.9, scaffoldingTier: "Thinking Solo", quizAnswered: true, quizCorrect: true, dwellSeconds: 17, epistemicArchetypes: ["Socio-Ethical", "Statutory"], timestamp: Date.now() - (1000 * 60 * 60 * 148) },
+    { title: "Battery Storage Chemistry: Sodium-Ion vs LFP Utility Scale Review", domain: "youtube.com", platform: "YouTube", detectedLang: "en", biasCategory: "neutral", emotionalIntensity: 1.5, scaffoldingTier: "Thinking Solo", quizAnswered: false, quizCorrect: false, dwellSeconds: 22, epistemicArchetypes: ["Empirical", "Economic"], timestamp: Date.now() - (1000 * 60 * 60 * 156) },
+    { title: "Semiconductor Export Controls and Global Supply Chain Decoupling", domain: "ft.com", platform: "Web News", detectedLang: "en", biasCategory: "false_certainty", emotionalIntensity: 3.6, scaffoldingTier: "Thinking Solo", quizAnswered: true, quizCorrect: true, dwellSeconds: 18, epistemicArchetypes: ["Economic", "Statutory"], timestamp: Date.now() - (1000 * 60 * 60 * 162) },
+    { title: "Quantum Error Correction Thresholds: Surface Code Demonstration", domain: "arxiv.org", platform: "Web News", detectedLang: "en", biasCategory: "neutral", emotionalIntensity: 1.1, scaffoldingTier: "Thinking Solo", quizAnswered: true, quizCorrect: true, dwellSeconds: 16, epistemicArchetypes: ["Empirical", "Socio-Ethical"], timestamp: Date.now() - (1000 * 60 * 60 * 170) },
+    { title: "Housing Market Affordability vs Urban Zoning Deregulation", domain: "reddit.com", platform: "Reddit", detectedLang: "en", biasCategory: "tribal_polarization", emotionalIntensity: 4.4, scaffoldingTier: "Good Habits", quizAnswered: false, quizCorrect: false, dwellSeconds: 20, epistemicArchetypes: ["Empirical", "Economic"], timestamp: Date.now() - (1000 * 60 * 60 * 175) }
   ];
 
   // ── Gym Drills ─────────────────────────────────────────────────────────
   const GYM_DRILLS = [
     {
-      category: "False Dilemma (Bifurcation)",
+      category: "Either / Or Trap",
       headline: "Leading economist warns: If we do not abandon all renewable subsidies immediately, national economic collapse is guaranteed by 2028.",
-      question: "What primary cognitive distortion is being used here?",
+      question: "What misleading trick is being used here?",
       options: [
-        { text: "A false binary between total subsidy repeal and catastrophic collapse, erasing nuanced gradual phase-outs.", correct: true },
-        { text: "A purely empirical citation from an international climatology journal.", correct: false },
-        { text: "A neutral statistical comparison of levelized electricity costs.", correct: false },
-        { text: "An appeal to broad consensus across European trade unions.", correct: false }
+        { text: "Presenting only two extreme choices (total repeal or total collapse), ignoring sensible middle paths.", correct: true },
+        { text: "A purely scientific citation from a climate study.", correct: false },
+        { text: "A neutral statistical comparison of electricity costs.", correct: false },
+        { text: "An appeal to broad consensus across trade unions.", correct: false }
       ],
-      explanation: "The headline uses Kahneman's Framing Effect & False Dilemma to force System 1 fear. It ignores hybrid policies, gradual phase-outs, and grid storage modernization."
+      explanation: "This headline creates a false choice to scare you. It ignores gradual phase-outs, hybrid policies, and technological progress."
     },
     {
-      category: "Cherry-Picked Causation",
+      category: "Unproven Cause",
       headline: "AI startup claims 400% productivity surge after banning all human code reviews and meetings.",
-      question: "What unstated methodological premise must be questioned before accepting this claim?",
+      question: "What unstated assumption should you question before believing this claim?",
       options: [
         { text: "Meeting length was measured in minutes rather than seconds.", correct: false },
-        { text: "Short-term code volume is conflated with long-term software maintainability and security debt.", correct: true },
-        { text: "The team used dual-monitor workstations rather than single laptops.", correct: false },
-        { text: "The code was written in TypeScript rather than standard ECMAScript.", correct: false }
+        { text: "Short-term output speed is being confused with long-term software quality and security.", correct: true },
+        { text: "The team used dual-monitor workstations rather than laptops.", correct: false },
+        { text: "The code was written in TypeScript rather than JavaScript.", correct: false }
       ],
-      explanation: "Faster initial code generation without human verification often increases architectural regression and security vulnerabilities."
+      explanation: "Writing code faster without review often creates bugs and security problems that slow everything down later."
     },
     {
-      category: "Affective Outrage & Tribalism",
+      category: "Rage Bait & Division",
       headline: "Traitorous regulators are deliberately destroying domestic manufacturing to appease foreign elites.",
-      question: "Which rhetorical technique is deployed to prevent deliberate System 2 evaluation?",
+      question: "Which trick is used here to make you react on emotion?",
       options: [
-        { text: "Socratic inquiry and steelmanning the counter-perspective.", correct: false },
-        { text: "A statistical correlation analysis using regression models.", correct: false },
-        { text: "High-arousal moral outrage language ('Traitorous', 'destroying') creating an 'Us vs. Them' tribal conflict.", correct: true },
-        { text: "A statutory review of European Union competition guidelines.", correct: false }
+        { text: "Carefully exploring both sides of the issue.", correct: false },
+        { text: "A statistical correlation analysis using real data.", correct: false },
+        { text: "High-voltage emotional words ('Traitorous', 'destroying') creating an 'Us vs. Them' fight.", correct: true },
+        { text: "A neutral legal review of trade guidelines.", correct: false }
       ],
-      explanation: "Emotional arousal floods the amygdala, starving prefrontal scrutiny and causing readers to share instinctively before verifying evidence."
+      explanation: "Angry words are designed to make you react immediately and share before you have time to check if it's true."
     },
     {
-      category: "False Certainty & Absolute Dogmatism",
+      category: "Overconfident Promise",
       headline: "Undeniable proof: New algorithmic trading bot guarantees 25% monthly return with zero downside risk.",
-      question: "Under Kahneman's Dual-Process theory, why is this an immediate red flag?",
+      question: "Why is this claim an immediate red flag?",
       options: [
-        { text: "No financial asset with zero downside risk can mathematically yield 25% monthly under arbitrage equilibrium.", correct: true },
+        { text: "In the real world, no investment can guarantee huge returns with zero risk.", correct: true },
         { text: "The bot only runs on Linux servers rather than Windows.", correct: false },
         { text: "The font used in the headline was a serif typeface.", correct: false },
         { text: "The claim was published on a Tuesday afternoon.", correct: false }
       ],
-      explanation: "The claim violates fundamental economic equilibrium (no-free-lunch theorem). Absolute words ('guarantees', 'zero downside') exploit wishful confirmation bias."
+      explanation: "Extreme words like 'guarantees' and 'zero risk' exploit wishful thinking. In reality, higher return always carries higher risk."
     }
   ];
 
   // ── Archetype config (SVG icons, no emoji) ─────────────────────────────
   const ARCHETYPE_CONFIG = {
     empirical: {
-      name: "Scientific & Empirical Data",
+      name: "Facts & Scientific Data",
       icon: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>',
-      desc: "Hard statistics, scientific measurements, and peer-reviewed studies.",
-      blindspotAlert: "Under-Represented: Scientific & Empirical Evidence",
-      blindspotReason: "Your media diet heavily favors opinion, market talk, or politics without consulting peer-reviewed data or statistical baselines.",
-      suggestedInquiry: "What concrete peer-reviewed measurements, error margins, or control groups support this claim?"
+      desc: "Clear facts, scientific measurements, and verified studies.",
+      blindspotAlert: "Explore More: Facts & Scientific Evidence",
+      blindspotReason: "Your reading tends toward opinion and social commentary without checking verified data or scientific facts.",
+      suggestedInquiry: "What verified facts, data, or scientific studies support this claim?"
     },
     economic: {
-      name: "Economic & Market Realities",
+      name: "Business & Financial Facts",
       icon: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>',
-      desc: "Financial costs, market incentives, supply chains, and fiscal trade-offs.",
-      blindspotAlert: "Under-Represented: Economic & Financial Realities",
-      blindspotReason: "Your reading lacks cost-benefit analysis. Idealistic proposals often sound compelling until budget and resource scarcity are calculated.",
-      suggestedInquiry: "Who pays for this initiative, what are the opportunity costs, and how do market incentives react?"
+      desc: "Real-world costs, business realities, and practical budgets.",
+      blindspotAlert: "Explore More: Financial & Business Realities",
+      blindspotReason: "Your reading lacks cost and budget perspectives. Ideas often sound great until we look at what they cost and who pays.",
+      suggestedInquiry: "Who pays for this, what does it cost, and what are the practical economic trade-offs?"
     },
     statutory: {
-      name: "Legal & Regulatory Frameworks",
+      name: "Laws & Public Rules",
       icon: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>',
-      desc: "Statutes, EU directives, constitutional constraints, and court precedents.",
-      blindspotAlert: "Under-Represented: Legal & Statutory Frameworks",
-      blindspotReason: "You are consuming commentary without reviewing the actual legal statutes, treaties, or constitutional limits governing this issue.",
-      suggestedInquiry: "What existing laws, judicial precedents, or regulatory directives actually govern this area?"
+      desc: "Actual laws, official regulations, and legal boundaries.",
+      blindspotAlert: "Explore More: Laws & Official Rules",
+      blindspotReason: "You're reading commentary without seeing the real laws, legal standards, or policies that actually decide this issue.",
+      suggestedInquiry: "What actual laws, official policies, or court decisions govern this topic?"
     },
     socio_ethical: {
-      name: "Human & Socio-Ethical Impact",
+      name: "People & Everyday Impact",
       icon: '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>',
-      desc: "Civil liberties, fairness, human welfare, and societal impact.",
-      blindspotAlert: "Under-Represented: Human & Socio-Ethical Impact",
-      blindspotReason: "Your media exposure is tilted toward technical or market numbers, overlooking the impact on low-income communities, civil rights, and citizen welfare.",
-      suggestedInquiry: "How are vulnerable citizens, civil rights, and ethical standards impacted by this policy in everyday practice?"
+      desc: "Everyday human lives, fairness, rights, and ethical values.",
+      blindspotAlert: "Explore More: People & Everyday Impact",
+      blindspotReason: "Your reading focuses heavily on technical or financial figures, leaving out how everyday people and rights are affected.",
+      suggestedInquiry: "How does this affect real people's everyday lives, fairness, and human rights?"
     }
   };
 
@@ -556,49 +556,49 @@
 
     if (isZero) {
       set('pipe-ribbon-lat-cc', '0.05s');
-      set('pipe-ribbon-hooks-cc', '0 Hooks');
+      set('pipe-ribbon-hooks-cc', '0 Tricks');
       set('pipe-ribbon-pwr-cc', '0W');
-      set('pipe-ribbon-angles-cc', '4 Axes');
+      set('pipe-ribbon-angles-cc', '4 Angles');
       set('pipe-ribbon-pause-cc', '12s Target');
-      set('pipe-s1-source', 'Active Feed: YouTube / News DOM');
-      set('pipe-s1-payload', '<15KB text extracted');
+      set('pipe-s1-source', 'Active Site: YouTube / News');
+      set('pipe-s1-payload', '<15KB text');
       set('pipe-s1-latency', '0.05s');
-      set('pipe-s1-status', 'Ready for Web Navigation');
-      set('pipe-s2-hooks', '0 Manipulation Hooks');
+      set('pipe-s1-status', 'Ready & Active');
+      set('pipe-s2-hooks', '0 Emotional Tricks');
       set('pipe-s2-power', '0 Watts / Local');
-      set('pipe-s2-status', 'Trilingual (EN/DE/FR) Ready');
-      set('pipe-s3-foundations', '4 Foundations Checked');
+      set('pipe-s2-status', 'Active (EN/DE/FR)');
+      set('pipe-s3-foundations', '4 Angles Checked');
       set('pipe-s3-blindspots', 'Awaiting Data');
-      set('pipe-s3-status', 'Dialectic Cache Ready');
+      set('pipe-s3-status', 'Ready');
       set('pipe-s4-pause', '12s Target');
-      set('pipe-s4-scaffold', 'AI Hints: Autonomous');
-      set('pipe-s4-status', 'Critical Agency Ready');
+      set('pipe-s4-scaffold', 'Fading away as you improve');
+      set('pipe-s4-status', 'Empowered');
     } else {
       const latest = sessions && sessions[0];
       const platform = latest ? (latest.platform || latest.domain || 'Web') : 'YouTube / News';
       const intVal = stats.avgIntensity ? stats.avgIntensity.toFixed(1) : '3.5';
-      const mood = stats.avgIntensity >= 7 ? 'High Outrage' : stats.avgIntensity >= 4.5 ? 'Moderate' : 'Calm';
+      const mood = stats.avgIntensity >= 7 ? 'High Outrage' : stats.avgIntensity >= 4.5 ? 'Noticeable Emotion' : 'Calm Tone';
 
       const totalHooks = (stats.biasCounts.outrage_anger + stats.biasCounts.false_certainty + stats.biasCounts.tribal_polarization + stats.biasCounts.urgency_fomo) || 0;
       set('pipe-ribbon-lat-cc', '0.05s');
-      set('pipe-ribbon-hooks-cc', `${totalHooks || 23} Hooks`);
+      set('pipe-ribbon-hooks-cc', `${totalHooks || 23} Tricks`);
       set('pipe-ribbon-pwr-cc', '0W');
-      set('pipe-ribbon-angles-cc', '4 Axes');
+      set('pipe-ribbon-angles-cc', '4 Angles');
       set('pipe-ribbon-pause-cc', `${stats.avgDwell}s Avg`);
 
-      set('pipe-s1-source', `Active Feed: ${platform} DOM`);
-      set('pipe-s1-payload', '<15KB text extracted');
+      set('pipe-s1-source', `Active Site: ${platform}`);
+      set('pipe-s1-payload', '<15KB text');
       set('pipe-s1-latency', '0.05s');
-      set('pipe-s1-status', 'Live DOM Sync Active');
-      set('pipe-s2-hooks', `${totalHooks || 23} Manipulation Hooks Caught`);
+      set('pipe-s1-status', 'Ready & Active');
+      set('pipe-s2-hooks', `${totalHooks || 23} Emotional Tricks Found`);
       set('pipe-s2-power', '0 Watts / Local');
-      set('pipe-s2-status', 'Trilingual (EN/DE/FR) Active');
-      set('pipe-s3-foundations', '4 Foundations Checked');
-      set('pipe-s3-blindspots', '1 Blindspot Found');
-      set('pipe-s3-status', 'Dialectic Cache Synced');
+      set('pipe-s2-status', 'Active (EN/DE/FR)');
+      set('pipe-s3-foundations', '4 Angles Checked');
+      set('pipe-s3-blindspots', '1 Missing Viewpoint Found');
+      set('pipe-s3-status', 'Ready');
       set('pipe-s4-pause', `${stats.avgDwell}s Avg Pause`);
-      set('pipe-s4-scaffold', 'AI Hints: Fading → Autonomous');
-      set('pipe-s4-status', 'Empowerment Active');
+      set('pipe-s4-scaffold', 'Fading away as you improve');
+      set('pipe-s4-status', 'Empowered');
     }
   }
 
@@ -623,10 +623,9 @@
       const score = Math.max(94, stats.agencyScore);
       if (casNum) casNum.textContent = score;
       if (casCirc) casCirc.style.strokeDashoffset = 264 - (264 * score / 100);
-      if (casTier) casTier.textContent = 'Autonomous Tier';
+      if (casTier) casTier.textContent = 'Confident Thinker';
       if (casHL) {
-        const pauseMultiple = stats.avgDwell > 0 ? (stats.avgDwell / 12).toFixed(1) : '0';
-        casHL.innerHTML = `<strong>${stats.avgDwell}s mean pause</strong> — ${pauseMultiple}x above 12s target`;
+        casHL.innerHTML = `<strong>${stats.avgDwell}s average pause</strong> — taking time to think before clicking`;
       }
     }
 
@@ -653,29 +652,29 @@
 
     if (divNum) divNum.textContent = isZero ? '--' : balanceScore;
     if (divCirc) divCirc.style.strokeDashoffset = isZero ? 264 : 264 - (264 * balanceScore / 100);
-    if (divTier) divTier.textContent = isZero ? 'Awaiting Data' : `${axesActive}/4 Axes Active`;
+    if (divTier) divTier.textContent = isZero ? 'Awaiting Data' : `${axesActive}/4 Angles Explored`;
 
-    if (barEmp) { barEmp.style.width = `${pEmp}%`; barEmp.querySelector('.seg-label').textContent = pEmp >= 15 ? `Emp ${pEmp}%` : ''; barEmp.title = `Empirical ${pEmp}%`; }
-    if (barEco) { barEco.style.width = `${pEco}%`; barEco.querySelector('.seg-label').textContent = pEco >= 15 ? `Eco ${pEco}%` : ''; barEco.title = `Economic ${pEco}%`; }
-    if (barSta) { barSta.style.width = `${pSta}%`; barSta.querySelector('.seg-label').textContent = pSta >= 15 ? `Law ${pSta}%` : ''; barSta.title = `Statutory ${pSta}%`; }
-    if (barEth) { barEth.style.width = `${pEth}%`; barEth.querySelector('.seg-label').textContent = pEth >= 15 ? `Eth ${pEth}%` : ''; barEth.title = `Ethical ${pEth}%`; }
+    if (barEmp) { barEmp.style.width = `${pEmp}%`; barEmp.querySelector('.seg-label').textContent = pEmp >= 15 ? `Facts ${pEmp}%` : ''; barEmp.title = `Facts ${pEmp}%`; }
+    if (barEco) { barEco.style.width = `${pEco}%`; barEco.querySelector('.seg-label').textContent = pEco >= 15 ? `Money ${pEco}%` : ''; barEco.title = `Money ${pEco}%`; }
+    if (barSta) { barSta.style.width = `${pSta}%`; barSta.querySelector('.seg-label').textContent = pSta >= 15 ? `Rules ${pSta}%` : ''; barSta.title = `Rules ${pSta}%`; }
+    if (barEth) { barEth.style.width = `${pEth}%`; barEth.querySelector('.seg-label').textContent = pEth >= 15 ? `People ${pEth}%` : ''; barEth.title = `People ${pEth}%`; }
 
     // Render an inline legend beneath the bar for any segments too narrow (<15%) to display text
     const legendEl = document.getElementById('kpi-diversity-footer');
     const legendDescEl = document.getElementById('kpi-diversity-footer-desc');
     if (legendEl) {
       const legendItems = [
-        { label: 'Emp', pct: pEmp, cls: 'seg-empirical' },
-        { label: 'Eco', pct: pEco, cls: 'seg-economic' },
-        { label: 'Law', pct: pSta, cls: 'seg-statutory' },
-        { label: 'Eth', pct: pEth, cls: 'seg-ethical' }
+        { label: 'Facts', pct: pEmp, cls: 'seg-empirical' },
+        { label: 'Money', pct: pEco, cls: 'seg-economic' },
+        { label: 'Rules', pct: pSta, cls: 'seg-statutory' },
+        { label: 'People', pct: pEth, cls: 'seg-ethical' }
       ];
       legendEl.innerHTML = legendItems.map(it =>
         `<span class="quad-legend-item"><span class="quad-legend-dot ${it.cls}"></span>${it.label} ${it.pct}%</span>`
       ).join('');
     }
     if (legendDescEl) {
-      legendDescEl.textContent = `Balance Score: ${balanceScore}% (${axesActive}/4 axes active)`;
+      legendDescEl.textContent = `Balance Score: ${balanceScore}% (${axesActive}/4 angles explored)`;
     }
 
     // Hidden legacy elements (kept for other JS that may read them)
@@ -692,7 +691,7 @@
     const frictionTier = document.getElementById('kpi-friction-tier');
     const totalHooks = (stats.biasCounts.outrage_anger + stats.biasCounts.false_certainty + stats.biasCounts.tribal_polarization + stats.biasCounts.urgency_fomo) || 0;
     if (fallaciesEl) fallaciesEl.textContent = isZero ? 0 : (totalHooks || 23);
-    if (frictionTier) frictionTier.textContent = isZero ? 'Ready' : 'AI Auto-Fading';
+    if (frictionTier) frictionTier.textContent = isZero ? 'Ready' : 'Less Help Needed';
 
     // KPI 4 legacy hidden IDs
     set('kpi-carbon-saved', isZero ? '0g' : '17.2g');
@@ -709,12 +708,12 @@
     const streakPills = document.querySelectorAll('.header-actions .status-pill');
     if (streakPills && streakPills.length >= 2) {
       if (isZero) {
-        streakPills[0].innerHTML = '<span class="status-dot emerald"></span>Cognitive Tracker Active';
+        streakPills[0].innerHTML = '<span class="status-dot emerald"></span>Mind Coach Active';
         streakPills[1].innerHTML = '<span class="status-dot blue"></span>Ready for Analysis';
       } else {
         const count = realSessions.length;
-        streakPills[0].innerHTML = `<span class="status-dot emerald"></span>Deliberation Active (${count} Scan${count > 1 ? 's' : ''})`;
-        streakPills[1].innerHTML = '<span class="status-dot blue"></span>Top 5% Analytical Tier';
+        streakPills[0].innerHTML = `<span class="status-dot emerald"></span>Mind Coach Active (${count} Session${count > 1 ? 's' : ''})`;
+        streakPills[1].innerHTML = '<span class="status-dot blue"></span>Top 5% Thoughtful Readers';
       }
     }
 
@@ -730,9 +729,9 @@
 
     if (deficitBadge) {
       if (isZero) {
-        deficitBadge.innerHTML = '<span class="status-dot amber"></span>Awaiting Browsing Sessions';
+        deficitBadge.innerHTML = '<span class="status-dot amber"></span>Awaiting Reading Sessions';
       } else {
-        deficitBadge.innerHTML = `<span class="status-dot amber"></span>DEFICIT: Socio-Ethical Impact (${pEth}%)`;
+        deficitBadge.innerHTML = `<span class="status-dot amber"></span>Read more: People &amp; Everyday Impact (${pEth}%)`;
       }
     }
 
@@ -742,35 +741,35 @@
     const bSta = document.getElementById('bento-seg-sta') || document.querySelector('.bento-seg.seg-sta');
     const bEth = document.getElementById('bento-seg-eth') || document.querySelector('.bento-seg.seg-eth');
 
-    if (bEmp) { bEmp.style.width = `${pEmp}%`; bEmp.textContent = pEmp >= 15 ? `Emp ${pEmp}%` : ''; bEmp.title = `Empirical ${pEmp}%`; }
-    if (bEco) { bEco.style.width = `${pEco}%`; bEco.textContent = pEco >= 15 ? `Eco ${pEco}%` : ''; bEco.title = `Economic ${pEco}%`; }
-    if (bSta) { bSta.style.width = `${pSta}%`; bSta.textContent = pSta >= 15 ? `Law ${pSta}%` : ''; bSta.title = `Statutory ${pSta}%`; }
-    if (bEth) { bEth.style.width = `${pEth}%`; bEth.textContent = pEth >= 15 ? `Eth ${pEth}%` : ''; bEth.title = `Ethical ${pEth}%`; }
+    if (bEmp) { bEmp.style.width = `${pEmp}%`; bEmp.textContent = pEmp >= 15 ? `Facts ${pEmp}%` : ''; bEmp.title = `Facts ${pEmp}%`; }
+    if (bEco) { bEco.style.width = `${pEco}%`; bEco.textContent = pEco >= 15 ? `Money ${pEco}%` : ''; bEco.title = `Money ${pEco}%`; }
+    if (bSta) { bSta.style.width = `${pSta}%`; bSta.textContent = pSta >= 15 ? `Rules ${pSta}%` : ''; bSta.title = `Rules ${pSta}%`; }
+    if (bEth) { bEth.style.width = `${pEth}%`; bEth.textContent = pEth >= 15 ? `People ${pEth}%` : ''; bEth.title = `People ${pEth}%`; }
 
     // Render clean inline legend beneath bento bar to eliminate text overlapping
     const bentoLegend = document.getElementById('bento-diversity-legend');
     if (bentoLegend) {
       bentoLegend.innerHTML = `
-        <span class="bento-legend-item"><span class="bento-legend-dot seg-emp"></span>Emp ${pEmp}%</span>
-        <span class="bento-legend-item"><span class="bento-legend-dot seg-eco"></span>Eco ${pEco}%</span>
-        <span class="bento-legend-item"><span class="bento-legend-dot seg-sta"></span>Law ${pSta}%</span>
-        <span class="bento-legend-item"><span class="bento-legend-dot seg-eth"></span>Eth ${pEth}%</span>
+        <span class="bento-legend-item"><span class="bento-legend-dot seg-emp"></span>Facts ${pEmp}%</span>
+        <span class="bento-legend-item"><span class="bento-legend-dot seg-eco"></span>Money ${pEco}%</span>
+        <span class="bento-legend-item"><span class="bento-legend-dot seg-sta"></span>Rules ${pSta}%</span>
+        <span class="bento-legend-item"><span class="bento-legend-dot seg-eth"></span>People ${pEth}%</span>
       `;
     }
 
     if (blindSummary) {
       if (isZero) {
-        blindSummary.textContent = 'Browse YouTube, Reddit, or any news site to generate your diagnostic.';
+        blindSummary.textContent = 'Browse YouTube, Reddit, or any news site to see what topics you might be missing.';
       } else {
         const sortedAxes = [
-          { name: 'Economics', pct: pEco },
-          { name: 'Scientific & Empirical Data', pct: pEmp },
-          { name: 'Legal Frameworks', pct: pSta },
-          { name: 'Human & Ethical Impact', pct: pEth }
+          { name: 'Business & Money', pct: pEco },
+          { name: 'Facts & Scientific Data', pct: pEmp },
+          { name: 'Laws & Rules', pct: pSta },
+          { name: 'People & Everyday Impact', pct: pEth }
         ].sort((a, b) => b.pct - a.pct);
         const strongest = sortedAxes[0];
         const weakest = sortedAxes[sortedAxes.length - 1];
-        blindSummary.textContent = `Your media diet is strong on ${strongest.name} (${strongest.pct}%) but under-exposed to ${weakest.name} (${weakest.pct}%).`;
+        blindSummary.textContent = `You read a lot about ${strongest.name} (${strongest.pct}%), but very little about ${weakest.name} (${weakest.pct}%).`;
       }
     }
 
@@ -778,8 +777,8 @@
     const campusRefl = document.querySelector('.bento-campus .audit-row strong');
     if (campusRefl) {
       campusRefl.textContent = isZero
-        ? '0 Socratic Reflections Completed'
-        : `${Math.max(1, stats.totalQuizzes || realSessions.length)} Socratic Reflections Completed`;
+        ? '0 Thoughtful reflections completed'
+        : `${Math.max(1, stats.totalQuizzes || realSessions.length)} Thoughtful reflections completed`;
     }
     const campusRows = document.querySelectorAll('.bento-cert-preview .bento-cert-row');
     if (campusRows && campusRows.length >= 3) {
@@ -789,7 +788,7 @@
             <polyline points="20 6 9 17 4 12" />
           </svg>
         </span>
-        Verified: 4/4 Analytical Domains (5 Perspectives Surfaced)
+        Verified: Explored 4 different viewpoints
       `;
       campusRows[2].innerHTML = `
         <span class="cert-check-icon">
@@ -797,7 +796,7 @@
             <polyline points="20 6 9 17 4 12" />
           </svg>
         </span>
-        ESG Compliant · Local On-Device Mode
+        100% Private on Your Device
       `;
     }
 
@@ -807,9 +806,9 @@
     const outMoodEl = document.getElementById('bento-outrage-mood');
     const outFill = document.getElementById('bento-gauge-fill');
 
-    let mood = 'Calm', fillClass = 'calm';
+    let mood = 'Calm Tone', fillClass = 'calm';
     if (outScore >= 7) { mood = 'High Outrage'; fillClass = 'intense'; }
-    else if (outScore >= 4.5) { mood = 'Moderate'; fillClass = 'moderate'; }
+    else if (outScore >= 4.5) { mood = 'Noticeable Emotion'; fillClass = 'moderate'; }
 
     if (outScoreEl) outScoreEl.textContent = isZero ? '--' : outScore.toFixed(1);
     if (outMoodEl) outMoodEl.textContent = isZero ? '' : mood;
@@ -829,9 +828,9 @@
         const pCert = Math.round((stats.biasCounts.false_certainty / tot) * 100) || 31;
         const pTrib = Math.round((stats.biasCounts.tribal_polarization / tot) * 100) || 31;
         hooksEl.innerHTML = `
-          <span class="hook-tag">Outrage &amp; Anger (${pOut}%)</span>
-          <span class="hook-tag">False Certainty (${pCert}%)</span>
-          <span class="hook-tag">Us vs. Them (${pTrib}%)</span>
+          <span class="hook-tag">Anger &amp; Outrage (${pOut}%)</span>
+          <span class="hook-tag">Overconfident Claims (${pCert}%)</span>
+          <span class="hook-tag">Us vs. Them Division (${pTrib}%)</span>
         `;
       }
     }
@@ -886,7 +885,7 @@
 
     if (isZero) {
       if (blindTag) blindTag.textContent = 'Awaiting Browsing';
-      container.innerHTML = `<div class="blindspot-item healthy"><div class="blindspot-icon-wrap healthy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/></svg></div><div class="blindspot-content"><h4 class="blindspot-title">Diagnostic System Ready</h4><p class="blindspot-text">As you browse, CogniShield categorizes evidence. When an axis is under-exposed your blindspots will appear here with counter-inquiries.</p></div></div>`;
+      container.innerHTML = `<div class="blindspot-item healthy"><div class="blindspot-icon-wrap healthy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/></svg></div><div class="blindspot-content"><h4 class="blindspot-title">Insight System Ready</h4><p class="blindspot-text">As you read, CogniShield checks different viewpoints. If you're missing an important angle, helpful search questions will appear here.</p></div></div>`;
       return;
     }
 
@@ -901,29 +900,29 @@
     const highest = entries[entries.length - 1];
     const lCfg = ARCHETYPE_CONFIG[lowest.key];
     const hCfg = ARCHETYPE_CONFIG[highest.key];
-    if (blindTag) blindTag.textContent = '1 Blindspot Identified';
+    if (blindTag) blindTag.textContent = '1 Topic to Explore';
 
     container.innerHTML = `
       <div class="blindspot-item attention">
         <div class="blindspot-icon-wrap attention"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg></div>
         <div class="blindspot-content">
           <div class="blindspot-badge-row">
-            <span class="blindspot-alert-tag">Angle Deficit Detected</span>
+            <span class="blindspot-alert-tag">Topic to Explore</span>
             <span class="blindspot-arch-tag">${lCfg.name}</span>
           </div>
           <h4 class="blindspot-title">${lCfg.blindspotAlert}</h4>
           <p class="blindspot-text">${lCfg.blindspotReason}</p>
           <div class="blindspot-action-tool">
             <div class="tool-label-row">
-              <span class="action-tag">Recommended Socratic Search Hook</span>
-              <span class="tool-subtag">Turn missing perspective into action</span>
+              <span class="action-tag">Suggested Question to Search</span>
+              <span class="tool-subtag">Find other points of view in one click</span>
             </div>
             <div class="socratic-query-bar">
               <input type="text" class="query-search-input" id="active-blindspot-query" value="${escapeHtml(lCfg.suggestedInquiry)}" readonly>
             </div>
             <div class="tool-buttons-row">
-              <button class="btn-tool-action btn-tool-explore" id="btn-explore-angle">Explore this angle ↗</button>
-              <button class="btn-tool-action btn-tool-copy"    id="btn-copy-angle"><span id="btn-copy-angle-text">Copy Query</span></button>
+              <button class="btn-tool-action btn-tool-explore" id="btn-explore-angle">Search this viewpoint ↗</button>
+              <button class="btn-tool-action btn-tool-copy"    id="btn-copy-angle"><span id="btn-copy-angle-text">Copy Question</span></button>
             </div>
           </div>
         </div>
@@ -932,11 +931,11 @@
         <div class="blindspot-icon-wrap healthy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
         <div class="blindspot-content">
           <div class="blindspot-badge-row">
-            <span class="blindspot-healthy-tag">Balanced Foundation</span>
+            <span class="blindspot-healthy-tag">Well-Covered Topic</span>
             <span class="blindspot-arch-tag">${hCfg.name}</span>
           </div>
-          <h4 class="blindspot-title">Strong Scrutiny: ${hCfg.name}</h4>
-          <p class="blindspot-text">You have solid exposure to ${hCfg.desc.toLowerCase()} Maintaining this while broadening your weakest quadrant will balance your media diet.</p>
+          <h4 class="blindspot-title">Good Coverage: ${hCfg.name}</h4>
+          <p class="blindspot-text">You have good exposure to ${hCfg.desc.toLowerCase()} Checking the other viewpoints will give you a well-rounded picture.</p>
         </div>
       </div>
     `;
@@ -948,7 +947,7 @@
       try {
         await navigator.clipboard.writeText(lCfg.suggestedInquiry);
         const t = document.getElementById('btn-copy-angle-text');
-        if (t) { t.textContent = 'Copied!'; setTimeout(() => { t.textContent = 'Copy Query'; }, 2200); }
+        if (t) { t.textContent = 'Copied!'; setTimeout(() => { t.textContent = 'Copy Question'; }, 2200); }
       } catch (_) { }
     });
   }
@@ -981,7 +980,7 @@
     set('sys1-percentage', isZero ? '0%' : `${s1p}%`);
     set('sys2-percentage', isZero ? '0%' : `${s2p}%`);
     const badge = document.getElementById('badge-system-dominance');
-    if (badge) badge.textContent = isZero ? 'Awaiting Browsing' : (s2p >= 60 ? 'System 2 Deliberation Dominant' : 'System 1 Impulsivity Alert');
+    if (badge) badge.textContent = isZero ? 'Awaiting Browsing' : (s2p >= 60 ? 'Calm & Thoughtful Dominant' : 'Fast Reaction Alert');
   }
 
   // ═══════════════════════════════════════════════════════════════════════
@@ -997,14 +996,14 @@
     if (!barsGroup || !casLine || !pointsGroup) return;
 
     if (isZero) {
-      barsGroup.innerHTML = `<text x="400" y="150" class="chart-axis-text" text-anchor="middle" font-size="13" fill="var(--text-muted)">No activity yet — start browsing to generate your 7-day timeline.</text>`;
+      barsGroup.innerHTML = `<text x="400" y="150" class="chart-axis-text" text-anchor="middle" font-size="13" fill="var(--text-muted)">No activity yet — start reading articles or watching videos to generate your 7-day timeline.</text>`;
       casLine.setAttribute('d', '');
       if (casArea) casArea.setAttribute('d', '');
       pointsGroup.innerHTML = '';
       if (tooltip) tooltip.style.display = 'none';
       ['trend-total-scans', 'trend-avg-dwell', 'trend-quiz-rate', 'trend-stage'].forEach(id => {
         const e = document.getElementById(id);
-        if (e) e.textContent = id === 'trend-stage' ? 'Autonomous Tier' : id === 'trend-avg-dwell' ? '0 Seconds' : id === 'trend-quiz-rate' ? '0%' : '0 Articles & Videos';
+        if (e) e.textContent = id === 'trend-stage' ? 'Thinking Solo' : id === 'trend-avg-dwell' ? '0 Seconds' : id === 'trend-quiz-rate' ? '0%' : '0 Articles & Videos';
       });
       return;
     }
@@ -1037,7 +1036,7 @@
     buckets.forEach((b, i) => {
       const cx = startX + (i * stepX);
       const h = Math.min(160, Math.round((b.avgDwell / 25) * 140));
-      barH += `<rect x="${cx - 16}" y="${220 - h}" width="32" height="${h}" class="chart-bar-rect" rx="3" data-idx="${i}"><title>${b.dayName}: ${b.avgDwell}s reflection</title></rect><text x="${cx}" y="240" class="chart-axis-text" text-anchor="middle">${b.dayName}</text>`;
+      barH += `<rect x="${cx - 16}" y="${220 - h}" width="32" height="${h}" class="chart-bar-rect" rx="3" data-idx="${i}"><title>${b.dayName}: ${b.avgDwell}s pause</title></rect><text x="${cx}" y="240" class="chart-axis-text" text-anchor="middle">${b.dayName}</text>`;
       const cy = 220 - Math.round((b.cas / 100) * 180);
       lineD += (i === 0 ? `M ${cx} ${cy}` : `L ${cx} ${cy}`);
       pointH += `<circle cx="${cx}" cy="${cy}" r="5" class="chart-point-dot" data-idx="${i}"><title>${b.dayName}: ${Math.round(b.cas)}/100</title></circle><text x="${cx}" y="${cy - 9}" class="chart-axis-text" text-anchor="middle" font-weight="700" fill="var(--emerald)">${Math.round(b.cas)}</text>`;
@@ -1059,7 +1058,7 @@
       const showHud = (i, isPoint) => {
         const b = buckets[i];
         if (!b) return;
-        tooltip.innerHTML = `<div class="hud-day">${b.dayName} · Telemetry</div><div class="hud-metric"><span class="hud-lbl">Agency Score:</span> <strong class="hud-emerald">${Math.round(b.cas)}/100</strong></div><div class="hud-metric"><span class="hud-lbl">Avg Reflection:</span> <strong class="hud-blue">${b.avgDwell}s dwell</strong></div>`;
+        tooltip.innerHTML = `<div class="hud-day">${b.dayName} · Summary</div><div class="hud-metric"><span class="hud-lbl">Thinking Score:</span> <strong class="hud-emerald">${Math.round(b.cas)}/100</strong></div><div class="hud-metric"><span class="hud-lbl">Avg Pause:</span> <strong class="hud-blue">${b.avgDwell}s</strong></div>`;
         const cx = startX + (i * stepX);
         const cy = 220 - Math.round((b.cas / 100) * 180);
         tooltip.style.left = `${(cx / 800) * 100}%`;
@@ -1087,7 +1086,7 @@
     set('trend-total-scans', `${sessions.length} Articles & Videos`);
     set('trend-avg-dwell', `${avgS} Seconds`);
     set('trend-quiz-rate', '92% (12/13)');
-    set('trend-stage', 'Autonomous Tier (Zero Hints)');
+    set('trend-stage', 'Thinking Solo (Zero Hints)');
   }
 
   // ═══════════════════════════════════════════════════════════════════════
@@ -1122,16 +1121,16 @@
         btn.classList.add(opt.correct ? 'correct' : 'incorrect');
         if (fb) {
           fb.className = `gym-feedback-box ${opt.correct ? 'correct' : 'incorrect'}`;
-          fb.textContent = (opt.correct ? 'Exemplary Critical Thinking! ' : 'Reflect Deeper: ') + drill.explanation;
+          fb.textContent = (opt.correct ? 'Spot on! ' : 'Take another look: ') + drill.explanation;
           fb.style.display = 'block';
         }
         if (opt.correct) {
           userGymBonusCAS += 2;
           updateGymScorePill();
-          // Spawn floating +2 CAS badge
+          // Spawn floating +2 Points badge
           const pop = document.createElement('span');
           pop.className = 'cas-float-reward';
-          pop.textContent = '+2 CAS';
+          pop.textContent = '+2 Points';
           btn.style.position = 'relative';
           btn.appendChild(pop);
           setTimeout(() => pop.remove(), 1200);
@@ -1144,7 +1143,7 @@
   function updateGymScorePill() {
     const pill = document.getElementById('gym-score-pill');
     if (pill) {
-      pill.textContent = `+${userGymBonusCAS} CAS Earned Today`;
+      pill.textContent = `+${userGymBonusCAS} Points Earned Today`;
       pill.classList.remove('celebrate');
       void pill.offsetWidth;
       pill.classList.add('celebrate');
@@ -1184,7 +1183,7 @@
       const tok = 'CS-VERIFY-' + Math.random().toString(36).slice(2, 6).toUpperCase() + '-' + Math.random().toString(36).slice(2, 6).toUpperCase();
       if (dToken) dToken.textContent = tok;
       if (dDate) dDate.textContent = new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC';
-      showStatusNotification('New cryptographic token generated.');
+      showStatusNotification('New verification code generated.');
     });
 
     document.getElementById('btn-print-cert')?.addEventListener('click', () => window.print());
@@ -1193,15 +1192,15 @@
   function renderAcademicCertificate(stats, isZero) {
     const set = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
     if (isZero) {
-      set('cert-disp-archetypes', 'Awaiting verification (0 archetypes)');
+      set('cert-disp-archetypes', 'Awaiting verification (0 viewpoints)');
       set('cert-disp-reflections', '0 Solved');
       set('cert-disp-dwell', '0s');
       set('cert-disp-token', 'CS-VERIFY-PENDING');
       set('cert-disp-date', '--');
     } else {
-      set('cert-disp-archetypes', 'VERIFIED (4 / 4 Analytical Domains · 5 Perspectives)');
-      set('cert-disp-reflections', '12 Socratic Reflections Completed');
-      set('cert-disp-dwell', '18.4s (Deliberate Scrutiny Met · 1.5x of 12s Target)');
+      set('cert-disp-archetypes', 'VERIFIED (4 / 4 Viewpoints Explored)');
+      set('cert-disp-reflections', '12 Thoughtful Reflections Completed');
+      set('cert-disp-dwell', '18.4s (Calm Reflection Met)');
       const tok = document.getElementById('cert-disp-token');
       if (tok && (tok.textContent === 'CS-VERIFY-PENDING' || tok.textContent === 'CS-VERIFY-LIVE-TOKEN')) {
         tok.textContent = 'CS-VERIFY-' + Math.random().toString(36).slice(2, 6).toUpperCase() + '-' + Date.now().toString(36).toUpperCase();
@@ -1219,7 +1218,7 @@
     tbody.innerHTML = '';
 
     if (isZero) {
-      tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:32px 16px;"><strong>No browsing sessions recorded yet.</strong><br><span style="font-size:11.5px;">Visit YouTube, Reddit, or any news site with CogniShield active.</span></td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:32px 16px;"><strong>No reading sessions recorded yet.</strong><br><span style="font-size:11.5px;">Visit YouTube, Reddit, or any news site with CogniShield active.</span></td></tr>`;
       return;
     }
 
@@ -1254,7 +1253,7 @@
         <td><span class="table-platform-chip">${pIcon ? pIcon + ' ' : ''}${plat}</span></td>
         <td><strong style="color:var(--text-primary);">${escapeHtml(s.title || s.domain)}</strong></td>
         <td><span class="table-bias-tag ${bcClass}">${formatBiasName(bc)}</span> <span style="font-size:11px;font-weight:700;color:${intens >= 7 ? 'var(--rose)' : intens >= 4 ? 'var(--amber)' : 'var(--emerald)'};">(${intens.toFixed(1)}/10)</span></td>
-        <td><span style="font-size:11.5px;color:var(--text-secondary);font-weight:600;">${s.scaffoldingTier || 'Autonomous'}</span></td>
+        <td><span style="font-size:11.5px;color:var(--text-secondary);font-weight:600;">${s.scaffoldingTier || 'Thinking Solo'}</span></td>
         <td><span class="table-dwell-chip ${dwell >= 12 ? 'text-emerald' : 'text-rose'}">${dwell}s</span></td>
         <td><div class="table-archetype-badges">${archPills}</div></td>
         <td>${s.quizAnswered ? (s.quizCorrect ? '<span class="text-emerald" style="font-weight:700;">Solved</span>' : '<span class="text-amber" style="font-weight:700;">Reflected</span>') : '<span style="color:var(--text-muted);">Skipped</span>'}</td>
@@ -1278,11 +1277,11 @@
   // HELPERS
   // ═══════════════════════════════════════════════════════════════════════
   function formatBiasName(cat) {
-    if (cat.includes('outrage')) return 'Outrage Trigger';
-    if (cat.includes('certainty')) return 'False Certainty';
-    if (cat.includes('tribal')) return 'Tribal Us vs Them';
-    if (cat.includes('urgency')) return 'Urgency / FOMO';
-    return 'Neutral Scrutiny';
+    if (cat.includes('outrage')) return 'Anger / Outrage';
+    if (cat.includes('certainty')) return 'Overconfident Claims';
+    if (cat.includes('tribal')) return 'Us vs. Them Division';
+    if (cat.includes('urgency')) return 'Fake Urgency / FOMO';
+    return 'Calm & Balanced';
   }
 
   function escapeHtml(str) {
