@@ -229,7 +229,8 @@ Return only the raw JSON object. No markdown fences.`;
   }
 
   async generateFlipFeed(videoTitle, contextPayload = "", options = {}) {
-    if (options.forceDemoMode || !navigator.onLine) {
+    const isExplicitlyOffline = typeof navigator !== "undefined" && navigator.onLine === false;
+    if (options.forceDemoMode || isExplicitlyOffline) {
       return { status: "OFFLINE_FALLBACK" };
     }
 
@@ -368,7 +369,8 @@ Return only the raw JSON object. No markdown fences.`;
 
   async dispatchAnalysis(contentPayload, options = {}) {
     // 1. If user forced offline Demo Mode or browser is offline, use Tier 3 offline cache
-    if (options.forceDemoMode || !navigator.onLine) {
+    const isExplicitlyOffline = typeof navigator !== "undefined" && navigator.onLine === false;
+    if (options.forceDemoMode || isExplicitlyOffline) {
       console.log("[CogniShield Bridge] ForceDemoMode enabled or offline. Using Tier 3 Offline Cache.");
       return { status: "OFFLINE_CACHE" };
     }

@@ -44,28 +44,26 @@ mark.cognishield-cat-urgency_panic {
   z-index: 2147483647 !important;
   display: flex !important;
   align-items: center !important;
-  gap: 6px !important;
-  background: rgba(15, 23, 42, 0.92) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  gap: 7px !important;
+  background: #FFFFFF !important;
+  border: 2px solid #000000 !important;
   border-radius: 9999px !important;
-  padding: 4px 9px 4px 6px !important;
-  box-shadow: 0 6px 18px -3px rgba(0, 0, 0, 0.5), 0 4px 8px -4px rgba(0, 0, 0, 0.5) !important;
+  padding: 5px 12px 5px 8px !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.16), 0 2px 6px rgba(0, 0, 0, 0.08) !important;
   cursor: grab !important;
   user-select: none !important;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-  transition: opacity 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, opacity 0.2s ease !important;
   pointer-events: auto !important;
-  opacity: 0.82 !important;
-  max-height: 32px !important;
+  opacity: 0.95 !important;
+  max-height: 36px !important;
 }
 
 .cognishield-floating-trigger:hover {
   opacity: 1 !important;
-  transform: translateY(-1px) scale(1.02);
-  border-color: rgba(56, 189, 248, 0.4) !important;
-  box-shadow: 0 8px 22px -3px rgba(0, 0, 0, 0.6) !important;
+  transform: translateY(-2px) scale(1.04) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22) !important;
+  border-color: #000000 !important;
 }
 
 .cognishield-floating-trigger:active {
@@ -73,10 +71,10 @@ mark.cognishield-cat-urgency_panic {
 }
 
 .cognishield-badge-icon {
-  width: 18px !important;
-  height: 18px !important;
-  min-width: 18px !important;
-  min-height: 18px !important;
+  width: 20px !important;
+  height: 20px !important;
+  min-width: 20px !important;
+  min-height: 20px !important;
   border-radius: 50% !important;
   position: relative !important;
   display: flex !important;
@@ -113,7 +111,7 @@ mark.cognishield-cat-urgency_panic {
 
 .cognishield-glow-green {
   background: radial-gradient(circle at 35% 35%, #34D399 15%, #10B981 85%) !important;
-  box-shadow: 0 0 16px rgba(16, 185, 129, 0.8), inset 0 1px 2px rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 0 14px rgba(16, 185, 129, 0.75), inset 0 1px 2px rgba(255, 255, 255, 0.5) !important;
 }
 
 .cognishield-glow-green::after {
@@ -122,7 +120,7 @@ mark.cognishield-cat-urgency_panic {
 
 .cognishield-glow-amber {
   background: radial-gradient(circle at 35% 35%, #FBBF24 15%, #F59E0B 85%) !important;
-  box-shadow: 0 0 18px rgba(245, 158, 11, 0.85), inset 0 1px 2px rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.8), inset 0 1px 2px rgba(255, 255, 255, 0.5) !important;
 }
 
 .cognishield-glow-amber::after {
@@ -131,7 +129,7 @@ mark.cognishield-cat-urgency_panic {
 
 .cognishield-glow-red {
   background: radial-gradient(circle at 35% 35%, #F87171 15%, #EF4444 85%) !important;
-  box-shadow: 0 0 22px rgba(239, 68, 68, 0.95), inset 0 1px 2px rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.9), inset 0 1px 2px rgba(255, 255, 255, 0.5) !important;
 }
 
 .cognishield-glow-red::after {
@@ -151,24 +149,24 @@ mark.cognishield-cat-urgency_panic {
 }
 
 .cognishield-badge-text {
-  color: #F8FAFC !important;
-  font-size: 11px !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.2px !important;
+  color: #0F172A !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.2px !important;
   line-height: 1 !important;
 }
 
 .cognishield-badge-sub {
   display: none !important;
-  /* Kept hidden to make the widget ultra-compact and avoid blocking UI buttons */
 }
 
 .cognishield-badge-score {
   font-size: 10px !important;
-  padding: 1px 5px !important;
+  padding: 2px 6px !important;
   border-radius: 8px !important;
-  background: rgba(255, 255, 255, 0.1) !important;
-  color: #94A3B8 !important;
+  background: #F1F5F9 !important;
+  color: #334155 !important;
+  border: 1px solid #CBD5E1 !important;
   font-weight: 700 !important;
   line-height: 1.2 !important;
 }
@@ -183,13 +181,10 @@ mark.cognishield-cat-urgency_panic {
   width: 100vw !important;
   height: 100vh !important;
   background: transparent !important;
-  /* Zero dimming, webpage is 100% visible */
   backdrop-filter: none !important;
-  /* Zero blur on video & webpage */
   -webkit-backdrop-filter: none !important;
   z-index: 2147483647 !important;
   pointer-events: none !important;
-  /* Allows clicks to pass through to the page */
   opacity: 0 !important;
   visibility: hidden !important;
   transition: opacity 0.25s ease, visibility 0.25s ease !important;
@@ -214,20 +209,26 @@ mark.cognishield-cat-urgency_panic {
   max-height: calc(100vh - 32px) !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
-  background: #0F172A !important;
-  /* Solid, crisp dark slate */
-  border: 1px solid rgba(255, 255, 255, 0.16) !important;
-  border-radius: 16px !important;
+  background: #FFFFFF !important;
+  border: 2.5px solid #000000 !important;
+  border-radius: 20px !important;
   padding: 22px 20px !important;
-  color: #F8FAFC !important;
-  box-shadow: -8px 12px 36px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08) !important;
+  color: #0F172A !important;
+  box-shadow: -10px 18px 48px rgba(0, 0, 0, 0.22), 0 4px 14px rgba(0, 0, 0, 0.08) !important;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
   box-sizing: border-box !important;
   pointer-events: auto !important;
-  /* Interactive buttons and quizzes */
   transform: translateX(115%) !important;
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease !important;
   z-index: 2147483647 !important;
+}
+
+/* Dark Theme Overrides */
+.cognishield-modal-card.theme-dark {
+  background: #0F172A !important;
+  border: 2.5px solid #38BDF8 !important;
+  color: #F8FAFC !important;
+  box-shadow: -10px 18px 48px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(56, 189, 248, 0.2) !important;
 }
 
 /* Left Edge Drag Handle (Breadth / Width Resizer) */
@@ -329,9 +330,14 @@ mark.cognishield-cat-urgency_panic {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 2px solid #F1F5F9;
   padding-bottom: 14px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
+  transition: border-color 0.25s ease;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-modal-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .cognishield-header-left {
@@ -341,10 +347,47 @@ mark.cognishield-cat-urgency_panic {
 }
 
 .cognishield-modal-title {
-  font-size: 17px;
-  font-weight: 700;
-  color: #F8FAFC;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: #0F172A;
   margin: 0;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-modal-title {
+  color: #F8FAFC;
+}
+
+.cognishield-tier-pill {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.cognishield-tier-pill.live {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #059669;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-tier-pill.live {
+  color: #34D399;
+}
+
+.cognishield-tier-pill.local {
+  background: rgba(2, 132, 199, 0.1);
+  border: 1px solid rgba(2, 132, 199, 0.3);
+  color: #0284C7;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-tier-pill.local {
+  color: #38BDF8;
 }
 
 .cognishield-header-actions {
@@ -354,31 +397,45 @@ mark.cognishield-cat-urgency_panic {
 }
 
 .cognishield-header-btn {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #94A3B8;
-  font-size: 15px;
+  background: #F8FAFC;
+  border: 1.5px solid #CBD5E1;
+  color: #0F172A;
+  font-size: 14px;
   cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 6px;
+  padding: 5px 9px;
+  border-radius: 8px;
   line-height: 1;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   user-select: none;
+  font-weight: 600;
 }
 
 .cognishield-header-btn:hover {
-  background: rgba(247, 148, 29, 0.2);
-  border-color: #F7941D;
+  background: #000000;
+  border-color: #000000;
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.cognishield-modal-card.theme-dark .cognishield-header-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   color: #F8FAFC;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-header-btn:hover {
+  background: #38BDF8;
+  border-color: #38BDF8;
+  color: #0F172A;
 }
 
 .cognishield-modal-close {
   background: transparent;
   border: none;
-  color: #94A3B8;
+  color: #64748B;
   font-size: 22px;
   cursor: pointer;
   padding: 2px 6px;
@@ -387,6 +444,14 @@ mark.cognishield-cat-urgency_panic {
 }
 
 .cognishield-modal-close:hover {
+  color: #0F172A;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-modal-close {
+  color: #94A3B8;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-modal-close:hover {
   color: #F8FAFC;
 }
 
@@ -465,43 +530,69 @@ mark.cognishield-cat-urgency_panic {
 
 /* Level 2: Micro-Quiz */
 .cognishield-quiz-card {
-  background: rgba(30, 41, 59, 0.8);
-  border: 1px solid rgba(247, 148, 29, 0.3);
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 16px;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-quiz-card {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(247, 148, 29, 0.3);
 }
 
 .cognishield-quiz-option {
   display: block;
   width: 100%;
   text-align: left;
-  background: rgba(15, 23, 42, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  background: #FFFFFF;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 10px;
   padding: 10px 14px;
-  color: #F8FAFC;
+  color: #0F172A;
   font-size: 13px;
+  font-weight: 600;
   margin-top: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
+  line-height: 1.4;
 }
 
 .cognishield-quiz-option:hover {
+  background: #F1F5F9;
+  border-color: #000000;
+  transform: translateY(-1px);
+}
+
+.cognishield-modal-card.theme-dark .cognishield-quiz-option {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #F8FAFC;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-quiz-option:hover {
   background: rgba(247, 148, 29, 0.15);
   border-color: #F7941D;
 }
 
 .cognishield-quiz-feedback {
   margin-top: 12px;
-  padding: 10px;
-  border-radius: 8px;
-  font-size: 12px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  font-size: 12.5px;
   display: none;
+  line-height: 1.45;
 }
 
 .cognishield-quiz-feedback.correct {
   display: block;
+  background: #ECFDF5;
+  border: 1.5px solid #10B981;
+  color: #065F46;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-quiz-feedback.correct {
   background: rgba(16, 185, 129, 0.2);
   border: 1px solid #10B981;
   color: #34D399;
@@ -509,6 +600,12 @@ mark.cognishield-cat-urgency_panic {
 
 .cognishield-quiz-feedback.incorrect {
   display: block;
+  background: #FEF2F2;
+  border: 1.5px solid #EF4444;
+  color: #991B1B;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-quiz-feedback.incorrect {
   background: rgba(239, 68, 68, 0.2);
   border: 1px solid #EF4444;
   color: #F87171;
@@ -517,13 +614,20 @@ mark.cognishield-cat-urgency_panic {
 /* Epistemic Transparency Disclaimer */
 .cognishield-transparency-card {
   font-size: 11px;
+  color: #475569;
+  background: #F1F5F9;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 10px;
+  padding: 11px 14px;
+  margin-top: 14px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-transparency-card {
   color: #64748B;
   background: rgba(15, 23, 42, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  padding: 10px;
-  margin-top: 14px;
-  text-align: center;
 }
 
 /* ==========================================================================
@@ -559,44 +663,71 @@ mark.cognishield-cat-urgency_panic {
 
 /* Active Topic Banner */
 .cognishield-topic-banner {
-  background: rgba(30, 41, 59, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
+  background: #F1F5F9;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
   padding: 10px 14px;
   margin-bottom: 14px;
+  transition: all 0.25s ease;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-topic-banner {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .cognishield-topic-tag {
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 0.6px;
-  color: #38BDF8;
-  background: rgba(56, 189, 248, 0.15);
+  color: #0284C7;
+  background: #E0F2FE;
   padding: 2px 6px;
   border-radius: 4px;
   display: inline-block;
   margin-bottom: 4px;
 }
 
+.cognishield-modal-card.theme-dark .cognishield-topic-tag {
+  color: #38BDF8;
+  background: rgba(56, 189, 248, 0.15);
+}
+
 .cognishield-topic-title {
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
+  color: #0F172A;
+  line-height: 1.35;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-topic-title {
   color: #F8FAFC;
-  line-height: 1.3;
 }
 
 /* Common Card Container */
 .cognishield-card {
-  background: rgba(15, 23, 42, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #F8FAFC;
+  border: 1.5px solid #E2E8F0;
   border-radius: 14px;
   padding: 16px;
   margin-bottom: 14px;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
-  transition: border-color 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s ease;
+  color: #0F172A;
 }
 
 .cognishield-card:hover {
+  border-color: #CBD5E1;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-card {
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+  color: #F8FAFC;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-card:hover {
   border-color: rgba(255, 255, 255, 0.18);
 }
 
@@ -616,12 +747,21 @@ mark.cognishield-cat-urgency_panic {
 .cognishield-card-title {
   font-size: 14px;
   font-weight: 700;
-  color: #F8FAFC;
+  color: #0F172A;
   letter-spacing: -0.2px;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-card-title {
+  color: #F8FAFC;
 }
 
 /* Card 1: Blindspot Radar Concentric Circles */
 .cognishield-card-radar {
+  border-color: #BAE6FD;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F0F9FF 100%);
+}
+
+.cognishield-modal-card.theme-dark .cognishield-card-radar {
   border-color: rgba(6, 182, 212, 0.35);
   background: linear-gradient(180deg, rgba(15, 23, 42, 0.85) 0%, rgba(8, 47, 73, 0.25) 100%);
 }
@@ -629,11 +769,17 @@ mark.cognishield-cat-urgency_panic {
 .cognishield-badge-count {
   font-size: 10px;
   font-weight: 700;
+  color: #0284C7;
+  background: #E0F2FE;
+  border: 1px solid #BAE6FD;
+  padding: 3px 8px;
+  border-radius: 9999px;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-badge-count {
   color: #06B6D4;
   background: rgba(6, 182, 212, 0.15);
   border: 1px solid rgba(6, 182, 212, 0.3);
-  padding: 3px 8px;
-  border-radius: 9999px;
 }
 
 .cognishield-radar-layout {
@@ -653,7 +799,7 @@ mark.cognishield-cat-urgency_panic {
 .cognishield-concentric-svg {
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 0 6px rgba(6, 182, 212, 0.4));
+  filter: drop-shadow(0 0 6px rgba(6, 182, 212, 0.3));
 }
 
 .cognishield-ring-anim {
@@ -673,15 +819,23 @@ mark.cognishield-cat-urgency_panic {
   display: block;
   font-size: 18px;
   font-weight: 800;
-  color: #F8FAFC;
+  color: #0F172A;
   line-height: 1;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-radar-center-num {
+  color: #F8FAFC;
 }
 
 .cognishield-radar-center-lbl {
   font-size: 8px;
-  font-weight: 600;
-  color: #94A3B8;
+  font-weight: 700;
+  color: #64748B;
   text-transform: uppercase;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-radar-center-lbl {
+  color: #94A3B8;
 }
 
 .cognishield-radar-legend {
@@ -728,17 +882,30 @@ mark.cognishield-cat-urgency_panic {
 }
 
 .cognishield-legend-name {
+  color: #475569;
+  font-weight: 600;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-legend-name {
   color: #CBD5E1;
-  font-weight: 500;
 }
 
 .cognishield-legend-val {
-  color: #F8FAFC;
+  color: #0F172A;
   font-weight: 700;
 }
 
-/* Card 2: Manipulation Heatmap */
+.cognishield-modal-card.theme-dark .cognishield-legend-val {
+  color: #F8FAFC;
+}
+
+/* Card 2: Manipulation Heatmap / Emotional Tone */
 .cognishield-card-heatmap {
+  border-color: #FECACA;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FEF2F2 100%);
+}
+
+.cognishield-modal-card.theme-dark .cognishield-card-heatmap {
   border-color: rgba(239, 68, 68, 0.3);
   background: linear-gradient(180deg, rgba(15, 23, 42, 0.85) 0%, rgba(69, 10, 10, 0.15) 100%);
 }
@@ -746,13 +913,18 @@ mark.cognishield-cat-urgency_panic {
 .cognishield-intensity-tag {
   font-size: 11px;
   font-weight: 700;
-  color: #F97316;
+  color: #EA580C;
 }
 
 .cognishield-biases-label {
   font-size: 11px;
-  color: #94A3B8;
+  color: #64748B;
   margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-biases-label {
+  color: #94A3B8;
 }
 
 .cognishield-chips-container {
@@ -785,9 +957,9 @@ mark.cognishield-cat-urgency_panic {
 }
 
 .chip-red {
-  background: rgba(239, 68, 68, 0.15);
-  border-color: rgba(239, 68, 68, 0.4);
-  color: #FCA5A5;
+  background: #FEE2E2;
+  border-color: #FCA5A5;
+  color: #DC2626;
 }
 
 .chip-red .chip-badge {
@@ -795,9 +967,9 @@ mark.cognishield-cat-urgency_panic {
 }
 
 .chip-orange {
-  background: rgba(249, 115, 22, 0.15);
-  border-color: rgba(249, 115, 22, 0.4);
-  color: #FDBA74;
+  background: #FFEDD5;
+  border-color: #FDBA74;
+  color: #EA580C;
 }
 
 .chip-orange .chip-badge {
@@ -805,17 +977,33 @@ mark.cognishield-cat-urgency_panic {
 }
 
 .chip-yellow {
-  background: rgba(245, 158, 11, 0.15);
-  border-color: rgba(245, 158, 11, 0.4);
-  color: #FDE68A;
+  background: #FEF3C7;
+  border-color: #FCD34D;
+  color: #D97706;
 }
 
 .chip-yellow .chip-badge {
   background: #F59E0B;
 }
 
-/* Card 3: Socratic Reflection */
+.chip-blue {
+  background: #E0F2FE;
+  border-color: #BAE6FD;
+  color: #0284C7;
+}
+
+.chip-blue .chip-badge {
+  background: #0284C7;
+}
+
+/* Card 3: Think Twice (Socratic Reflection) */
 .cognishield-card-socratic {
+  border: 1.5px solid #FDE68A;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFFBEB 100%);
+  box-shadow: 0 2px 10px rgba(245, 158, 11, 0.08);
+}
+
+.cognishield-modal-card.theme-dark .cognishield-card-socratic {
   border: 1px solid rgba(245, 158, 11, 0.45);
   background: linear-gradient(180deg, rgba(15, 23, 42, 0.9) 0%, rgba(120, 53, 15, 0.18) 100%);
   box-shadow: 0 0 20px -5px rgba(245, 158, 11, 0.2);
@@ -824,20 +1012,34 @@ mark.cognishield-cat-urgency_panic {
 .cognishield-pill-amber {
   font-size: 10px;
   font-weight: 700;
-  color: #FBBF24;
-  background: rgba(245, 158, 11, 0.15);
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #D97706;
+  background: #FEF3C7;
+  border: 1px solid #FDE68A;
   padding: 2px 7px;
   border-radius: 9999px;
 }
 
+.cognishield-modal-card.theme-dark .cognishield-pill-amber {
+  color: #FBBF24;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
 .cognishield-socratic-quote {
-  font-size: 13px;
+  font-size: 13.5px;
   font-style: italic;
-  color: #FEF3C7;
+  color: #78350F;
   line-height: 1.45;
   margin: 10px 0 14px 0;
-  padding-left: 10px;
+  padding: 10px 14px;
+  border-left: 3.5px solid #F59E0B;
+  background: #FFFBEB;
+  border-radius: 0 8px 8px 0;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-socratic-quote {
+  color: #FEF3C7;
+  background: rgba(120, 53, 15, 0.2);
   border-left: 2px solid #F59E0B;
 }
 
@@ -848,30 +1050,41 @@ mark.cognishield-cat-urgency_panic {
 
 .btn-cognishield-primary {
   flex: 1;
-  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-  color: #0F172A;
+  background: #000000;
+  color: #FFFFFF;
   border: none;
-  border-radius: 8px;
-  padding: 8px 12px;
+  border-radius: 10px;
+  padding: 9px 14px;
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
 }
 
 .btn-cognishield-primary:hover {
+  background: #1E293B;
   transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.cognishield-modal-card.theme-dark .btn-cognishield-primary {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+  color: #0F172A;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.cognishield-modal-card.theme-dark .btn-cognishield-primary:hover {
   box-shadow: 0 6px 16px rgba(245, 158, 11, 0.45);
 }
 
 .btn-cognishield-secondary {
   flex: 1;
-  background: rgba(255, 255, 255, 0.08);
-  color: #E2E8F0;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 8px;
-  padding: 8px 12px;
+  background: #FFFFFF;
+  color: #0F172A;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 10px;
+  padding: 9px 14px;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -879,8 +1092,80 @@ mark.cognishield-cat-urgency_panic {
 }
 
 .btn-cognishield-secondary:hover {
+  background: #F1F5F9;
+  border-color: #0F172A;
+}
+
+.cognishield-modal-card.theme-dark .btn-cognishield-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #E2E8F0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.cognishield-modal-card.theme-dark .btn-cognishield-secondary:hover {
   background: rgba(255, 255, 255, 0.14);
   color: #FFFFFF;
+}
+
+.cognishield-watch-counter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 6px 14px;
+  background: #000000;
+  color: #FFFFFF !important;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 8px;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.cognishield-watch-counter-btn:hover {
+  background: #DC2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.35);
+}
+
+.cognishield-modal-card.theme-dark .cognishield-watch-counter-btn {
+  background: #EF4444;
+}
+
+.perspective-title {
+  font-weight: 700;
+  font-size: 13.5px;
+  color: #0F172A;
+  margin-top: 5px;
+}
+
+.cognishield-modal-card.theme-dark .perspective-title {
+  color: #F8FAFC;
+}
+
+.perspective-summary {
+  font-size: 12.5px;
+  color: #334155;
+  margin-top: 5px;
+  line-height: 1.5;
+}
+
+.cognishield-modal-card.theme-dark .perspective-summary {
+  color: #CBD5E1;
+}
+
+.cognishield-perspective-item {
+  background: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-top: 10px;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-perspective-item {
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* Badge for Source / Agency */
@@ -933,12 +1218,18 @@ mark.cognishield-cat-urgency_panic {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(16, 185, 129, 0.12);
-  border: 1px solid rgba(16, 185, 129, 0.4);
+  background: #F8FAFC;
+  border: 1.5px solid #CBD5E1;
   padding: 4px 10px;
   border-radius: 9999px;
-  box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cognishield-modal-card.theme-dark .cognishield-agency-pill {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
 }
 
 .agency-ring-icon {
@@ -949,15 +1240,23 @@ mark.cognishield-cat-urgency_panic {
 .agency-score-num {
   font-size: 13px;
   font-weight: 800;
-  color: #34D399;
+  color: #059669;
   letter-spacing: -0.3px;
+}
+
+.cognishield-modal-card.theme-dark .agency-score-num {
+  color: #34D399;
 }
 
 .agency-score-lbl {
   font-size: 9px;
   font-weight: 700;
-  color: #94A3B8;
+  color: #64748B;
   letter-spacing: 0.5px;
+}
+
+.cognishield-modal-card.theme-dark .agency-score-lbl {
+  color: #94A3B8;
 }
 
 .cognishield-agency-pill.agency-gain-pulse {
@@ -987,9 +1286,16 @@ mark.cognishield-cat-urgency_panic {
 .cognishield-tabs-bar {
   display: flex;
   gap: 6px;
+  background: #F1F5F9;
+  padding: 4px;
+  border-radius: 12px;
+  border: 1.5px solid #E2E8F0;
+  margin-bottom: 14px;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-tabs-bar {
   background: rgba(15, 23, 42, 0.85);
-  padding: 6px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .cognishield-tab-nav-btn {
@@ -999,10 +1305,10 @@ mark.cognishield-cat-urgency_panic {
   justify-content: center;
   gap: 6px;
   background: transparent;
-  color: #94A3B8;
-  border: 1px solid transparent;
+  color: #64748B;
+  border: none;
   border-radius: 8px;
-  padding: 7px 12px;
+  padding: 8px 12px;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -1010,15 +1316,26 @@ mark.cognishield-cat-urgency_panic {
 }
 
 .cognishield-tab-nav-btn:hover {
+  color: #0F172A;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.cognishield-modal-card.theme-dark .cognishield-tab-nav-btn:hover {
   color: #F1F5F9;
   background: rgba(255, 255, 255, 0.04);
 }
 
 .cognishield-tab-nav-btn.active {
-  color: #38BDF8;
-  background: rgba(56, 189, 248, 0.12);
-  border-color: rgba(56, 189, 248, 0.35);
+  color: #FFFFFF !important;
+  background: #000000 !important;
   font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cognishield-modal-card.theme-dark .cognishield-tab-nav-btn.active {
+  color: #38BDF8 !important;
+  background: rgba(56, 189, 248, 0.15) !important;
+  border: 1px solid rgba(56, 189, 248, 0.4);
   box-shadow: 0 2px 8px rgba(56, 189, 248, 0.15);
 }
 
@@ -1032,6 +1349,11 @@ mark.cognishield-cat-urgency_panic {
   border-radius: 9999px;
   font-size: 10px;
   font-weight: 800;
+  background: #FFFFFF;
+  color: #000000;
+}
+
+.cognishield-modal-card.theme-dark .tab-badge {
   background: rgba(56, 189, 248, 0.25);
   color: #38BDF8;
 }
@@ -1039,13 +1361,21 @@ mark.cognishield-cat-urgency_panic {
 /* Micro-Tooltip ("Why This Matters") */
 .cognishield-micro-tooltip {
   font-size: 11px;
+  color: #64748B;
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-left: 3px solid #0284C7;
+  padding: 6px 10px;
+  border-radius: 0 8px 8px 0;
+  margin: 6px 0 10px 0;
+  line-height: 1.45;
+}
+
+.cognishield-modal-card.theme-dark .cognishield-micro-tooltip {
   color: #94A3B8;
   background: rgba(15, 23, 42, 0.6);
-  border-left: 2px solid #38BDF8;
-  padding: 6px 10px;
-  border-radius: 0 6px 6px 0;
-  margin: 6px 0 10px 0;
-  line-height: 1.4;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-left: 3px solid #38BDF8;
 }
 
 .cognishield-micro-tooltip em {

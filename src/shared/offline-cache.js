@@ -33,19 +33,19 @@ const OFFLINE_DEMO_DOSSIERS = {
       }
     ],
     micro_quiz: {
-      question: "When media commentators declare a permanent 'voter coalition collapse' from early exit polls, which fallacy is at play?",
+      question: "When commentators claim a whole group of voters permanently changed their minds based on early exit polls, what mistake is made?",
       options: [
-        "A) Ecological Fallacy (attributing aggregate demographic shifts uniformly to individual voter intent)",
-        "B) Sunk Cost Fallacy in Campaign Spending",
-        "C) Survivorship Bias in Polling Turnout Samples"
+        "A) Jumping to quick conclusions from small, early voter samples",
+        "B) Assuming all voting machines have identical software",
+        "C) Believing voter turnout never changes between elections"
       ],
       correctIndex: 0,
-      explanation: "The ecological fallacy occurs when statistical conclusions about individual voters are deduced from group averages without controlling for local turnout variance."
+      explanation: "Early exit polls have a notable margin of error. Minor shifts in which voters showed up on election day often get mistaken for permanent ideological realignments."
     },
     socratic_dialogue: [
-      "What localized economic or turnout variables might explain this coalition shift without assuming an ideological conversion?",
-      "How might the framing and sample size of exit poll surveys shape the reported sentiment of independent voters?",
-      "What contradictory historical precedents exist where supposed permanent coalition shifts reversed in the next election cycle?"
+      "What local economic factors or voter turnout differences might explain this result rather than a sudden shift in beliefs?",
+      "How might the small sample size of early exit polls exaggerate the reported shift?",
+      "Can you think of previous elections where supposed 'permanent shifts' reversed in the next cycle?"
     ],
     counter_recommendations: [
       {
@@ -106,19 +106,19 @@ const OFFLINE_DEMO_DOSSIERS = {
       }
     ],
     micro_quiz: {
-      question: "When assigning legal or moral responsibility for autonomous AI decisions, which dilemma arises?",
+      question: "When an autonomous AI system makes a mistake or causes an accident, who is legally responsible?",
       options: [
-        "A) The 'Responsibility Gap' (difficulty of attributing moral/legal liability when opaque neural networks act autonomously)",
-        "B) Assuming algorithms possess biological consciousness",
-        "C) Believing statistical models never make mathematical errors"
+        "A) The humans and companies who built, trained, and deployed the tool",
+        "B) The algorithm itself as an independent legal person",
+        "C) Nobody, because digital software cannot be held to rules"
       ],
       correctIndex: 0,
-      explanation: "The 'Responsibility Gap' in epistemic ethics describes the difficulty of distributing statutory or moral accountability across developers, deployers, and autonomous predictive models."
+      explanation: "Under legal frameworks like the EU AI Act, AI is a tool. Legal accountability always traces back to the human operators and organizations deploying it."
     },
     socratic_dialogue: [
-      "Can a non-conscious predictive statistical model hold moral responsibility, or must legal accountability strictly rest with human deployers?",
-      "How does human-in-the-loop oversight change the distribution of legal liability when algorithmic errors occur?",
-      "Are we using 'the algorithm did it' as an epistemic shield to obscure corporate and institutional accountability?"
+      "Can a computer program hold moral blame, or should legal responsibility always rest with the human creators?",
+      "Could blaming 'the algorithm' be an excuse used by organizations to avoid taking responsibility?",
+      "What human checks should always be required before automated decisions go live?"
     ],
     counter_recommendations: [
       {
@@ -179,19 +179,19 @@ const OFFLINE_DEMO_DOSSIERS = {
       }
     ],
     micro_quiz: {
-      question: "What unstated premise does the claim 'AI turns students into passive sheep' rely upon?",
+      question: "When commentators claim 'AI is turning students into passive learners', what assumption is being made?",
       options: [
-        "A) Assuming that educational assessment formats can never evolve beyond memorization essays",
-        "B) Assuming students never use calculators in math",
-        "C) Assuming AI models are 100% accurate"
+        "A) Assuming schools only test rote memorization instead of real reasoning and problem-solving",
+        "B) Assuming students never use calculators in math class",
+        "C) Assuming AI answers are always 100% accurate"
       ],
       correctIndex: 0,
-      explanation: "It assumes that assessment must remain passive essay regurgitation rather than dialectic defense."
+      explanation: "When used as an interactive study partner to ask probing questions, AI actually strengthens critical thinking. The issue is outdated tests that only reward copying facts."
     },
     socratic_dialogue: [
-      "Are we conflating the tool itself with outdated assessment methods that test rote memory?",
-      "How can evaluation systems reward the process of verification rather than just final prose?",
-      "What is the difference between cognitive offloading and cognitive scaffolding?"
+      "Is the real issue the AI tool itself, or testing methods that rely on memorizing information?",
+      "How can teachers encourage using AI for research while still testing deep understanding?",
+      "What is the difference between letting AI think for you versus using AI as a study partner?"
     ],
     counter_recommendations: [
       {
@@ -507,19 +507,19 @@ class OfflineCacheManager {
         }
       ],
       micro_quiz: {
-        question: "When scouting uncapped players based on domestic tournament strike rates, which cognitive trap is most prevalent?",
+        question: "When evaluating uncapped players based on domestic strike rates, which mistake is most common?",
         options: [
-          "A) Small-Sample Size & Survivorship Bias (generalizing future performance from a few high-leverage innings)",
-          "B) Believing all cricket grounds have identical boundary dimensions",
+          "A) Small-Sample Bias (judging long-term skill from just 2-3 lucky games)",
+          "B) Believing all grounds have identical boundary sizes",
           "C) Assuming strike rates never change over a player's career"
         ],
         correctIndex: 0,
-        explanation: "Small-sample bias occurs when scouts extrapolate long-term talent from short tournament bursts without controlling for bowling quality or match pressure."
+        explanation: "Evaluating players from a tiny sample often exaggerates their skill while ignoring bowling quality and match pressure."
       },
       socratic_dialogue: [
-        "When evaluating uncapped players under high pressure, what selection bias or small-sample anomalies might distort domestic league strike rates?",
-        "How do purse cap limits and bidding wars create the 'Winner's Curse' in franchise auctions?",
-        "What situational variables (pitch conditions, opposition bowling quality, game context) are overlooked by pure aggregate statistics?"
+        "How much of this player's high strike rate was influenced by pitch conditions or weak opposition bowling?",
+        "Are franchise teams bidding up prices based on viral hype rather than proven consistency?",
+        "What key situational factors (match pressure, game context) are missing from pure raw averages?"
       ]
     };
   }
@@ -533,41 +533,41 @@ class OfflineCacheManager {
       id: "competition_case_challenge",
       title: cleanTitle,
       contextTitle: cleanTitle,
-      source_perspective: "Competitive Problem-Solving & Case Architecture",
+      source_perspective: "Problem-Solving & Strategy Challenge",
       emotional_intensity: 4.2,
       epistemic_card: {
-        model_type: "Local Deterministic Dialectic Synthesizer (Zero-PII, GDPR Compliant)",
-        epistemic_confidence: "Decision Science Framework",
-        disclaimer: "Algorithmic counter-hypothesis generated for dialectic reflection, not competition judging."
+        model_type: "Smart Local Engine (Private & On-Device)",
+        epistemic_confidence: "Case Strategy & Feasibility Check",
+        disclaimer: "CogniShield highlights alternative angles so you can form your own independent opinion."
       },
       hidden_counter_perspectives: [
         {
-          archetype: "Operational Feasibility",
-          label: "Implementation Friction vs Conceptual Elegance",
-          summary: "Case solutions that score high on conceptual novelty often fail organizational adoption due to unmodeled integration costs and change management barriers.",
-          citation: "Harvard Business School Case Method Review"
+          archetype: "Real-World Adoption",
+          label: "Real-World Feasibility vs Fancy Ideas",
+          summary: "Ideas that look brilliant on presentation slides often struggle in the real world due to adoption friction and integration costs.",
+          citation: "Applied Business Case & Project Management Analysis"
         },
         {
-          archetype: "Empirical Validation",
-          label: "Overfitting to Brief Deliverables",
-          summary: "Participants frequently optimize solutions specifically to match stated evaluation rubrics, omitting critical edge cases and stress tests that real production environments require.",
-          citation: "Association for Information Systems (AIS) Applied Case Studies"
+          archetype: "Edge-Case Testing",
+          label: "Testing for Real-World Edge Cases",
+          summary: "Teams often optimize only for the competition rubric, forgetting the tricky edge cases and stress tests that real production software faces.",
+          citation: "Systems Engineering & Product Validation Guidelines"
         }
       ],
       micro_quiz: {
-        question: "When tackling a competitive case challenge, which cognitive bias most often undermines strategy?",
+        question: "When tackling a hackathon or case challenge, which mistake most often hurts teams?",
         options: [
-          "A) Premature Optimization (jumping to complex technical architectures before validating core problem constraints)",
+          "A) Overcomplicating the technical design before validating the core user problem",
           "B) Assuming team members have identical working hours",
-          "C) Believing presentation slide formatting does not matter"
+          "C) Believing presentation slides don't matter"
         ],
         correctIndex: 0,
-        explanation: "Premature optimization leads competitors to build complex, brittle models before thoroughly validating the fundamental business assumptions."
+        explanation: "Teams often jump to build complex architectures before verifying whether their solution actually solves the fundamental problem."
       },
       socratic_dialogue: [
-        "What implicit constraints or stakeholder incentives in this challenge are left unstated in the official brief?",
-        "How would this proposed solution behave under extreme operational edge cases or resource shortages?",
-        "Are you solving the actual root problem or an idealized proxy presented in the prompt?"
+        "What unstated constraints or real-world user needs might be missing from the competition prompt?",
+        "How would this proposed solution work under tight budgets and real operational constraints?",
+        "Are you solving the real root problem, or just the most obvious surface symptom?"
       ]
     };
   }
@@ -581,41 +581,41 @@ class OfflineCacheManager {
       id: "software_engineering",
       title: cleanTitle,
       contextTitle: cleanTitle,
-      source_perspective: "Technical Architecture & System Design Trade-Offs",
+      source_perspective: "Software Architecture & System Design",
       emotional_intensity: 3.5,
       epistemic_card: {
-        model_type: "Local Deterministic Dialectic Synthesizer (Zero-PII, GDPR Compliant)",
-        epistemic_confidence: "Computer Science Architectural Principles",
-        disclaimer: "Algorithmic counter-hypothesis generated for dialectic reflection, not system architecture sign-off."
+        model_type: "Smart Local Engine (Private & On-Device)",
+        epistemic_confidence: "System Reliability & Maintenance Check",
+        disclaimer: "CogniShield highlights alternative angles so you can form your own independent opinion."
       },
       hidden_counter_perspectives: [
         {
-          archetype: "Systemic Reliability",
-          label: "Accidental Complexity & Maintenance Overhead",
-          summary: "Adopting modern cutting-edge frameworks or microservices often introduces distributed network failure modes that outweigh single-node monolithic operational simplicity.",
-          citation: "ACM Queue / IEEE Software Engineering Practices"
+          archetype: "Maintainability",
+          label: "Simplicity vs Hidden Maintenance Bugs",
+          summary: "Adopting the latest trendy framework often introduces distributed failure points that outweigh the simplicity of proven, standard tools.",
+          citation: "Software Engineering Best Practices & Architecture Standards"
         },
         {
-          archetype: "Economic Lifecycle",
-          label: "Long-Term Technical Debt & Dependency Lock-In",
-          summary: "Fast initial development velocity with third-party abstractions frequently incurs non-linear maintenance debt when underlying libraries deprecate or shift licensing.",
-          citation: "Software Engineering Institute (SEI) / Carnegie Mellon University"
+          archetype: "Long-Term Cost",
+          label: "Dependency Lock-in & Tech Debt",
+          summary: "Fast initial development with heavy third-party libraries often brings maintenance headaches when dependencies break or change licensing.",
+          citation: "Enterprise Software Lifecycle Research"
         }
       ],
       micro_quiz: {
-        question: "When evaluating a new software paradigm or tool, which fallacy is most common among engineers?",
+        question: "When choosing a new software tool or framework, what trap do developers often fall into?",
         options: [
-          "A) Golden Hammer Fallacy (assuming a familiar or trending tool is optimal for every workload)",
-          "B) Believing compilers never optimize byte code",
-          "C) Assuming code never requires testing"
+          "A) Using a favorite or trending tool everywhere even when simpler options work better",
+          "B) Believing code never needs tests",
+          "C) Assuming compilers never optimize code"
         ],
         correctIndex: 0,
-        explanation: "The Golden Hammer fallacy occurs when an engineer over-applies a favorite technology regardless of whether it fits the specific problem domain."
+        explanation: "Known as the 'Golden Hammer', developers often force a familiar or trendy tool onto a problem that would be simpler with standard technology."
       },
       socratic_dialogue: [
-        "What operational failure modes or latency trade-offs does this technical design introduce?",
-        "How does the maintenance burden of this architecture evolve as team size and query volume scale by 10x?",
-        "What simpler, boring technology could solve 80% of this problem with zero dependency risk?"
+        "What hidden maintenance effort or network failure risks does this complex setup introduce?",
+        "How does the difficulty of maintaining this system grow as your codebase expands?",
+        "Could a simpler, proven approach solve 80% of this with zero dependency risks?"
       ]
     };
   }
@@ -629,41 +629,41 @@ class OfflineCacheManager {
       id: "business_finance",
       title: cleanTitle,
       contextTitle: cleanTitle,
-      source_perspective: "Market Dynamics & Venture Unit Economics",
+      source_perspective: "Market Dynamics & Startup Economics",
       emotional_intensity: 4.5,
       epistemic_card: {
-        model_type: "Local Deterministic Dialectic Synthesizer (Zero-PII, GDPR Compliant)",
-        epistemic_confidence: "Venture Economics & Market Dynamics",
-        disclaimer: "Algorithmic counter-hypothesis generated for dialectic reflection, not financial investment counsel."
+        model_type: "Smart Local Engine (Private & On-Device)",
+        epistemic_confidence: "Business Economics & Market Realities",
+        disclaimer: "CogniShield highlights alternative angles so you can form your own independent opinion."
       },
       hidden_counter_perspectives: [
         {
           archetype: "Unit Economics",
-          label: "Customer Acquisition Cost Inflation & Churn Reality",
-          summary: "Top-line revenue expansion frequently masks deteriorating net revenue retention (NRR) and unsustainable payback periods once paid acquisition subsidies subside.",
-          citation: "National Bureau of Economic Research (NBER) Working Papers"
+          label: "Marketing Subsidies vs Real Retention",
+          summary: "Fast early revenue growth often hides poor customer retention once expensive marketing subsidies or discounts end.",
+          citation: "Venture Economics & Market Dynamics Research"
         },
         {
-          archetype: "Market Structure",
-          label: "Incumbent Moats & Distribution Superiority",
-          summary: "Product superiority rarely defeats established enterprise distribution networks unless switching costs are offset by an order-of-magnitude efficiency multiplier.",
-          citation: "Stanford Graduate School of Business Case Studies"
+          archetype: "Market Competition",
+          label: "Incumbent Moats & Distribution Power",
+          summary: "A slightly better product rarely beats an established competitor with massive sales channels unless it offers an order-of-magnitude leap in value.",
+          citation: "Business Strategy & Competitive Analysis"
         }
       ],
       micro_quiz: {
-        question: "When assessing high-growth startup projections, which heuristic is most misleading?",
+        question: "When evaluating early startup revenue growth, which mistake is most misleading?",
         options: [
-          "A) Extrapolation Bias (assuming exponential early growth continues indefinitely without market saturation)",
-          "B) Believing audited balance sheets are completely false",
-          "C) Checking customer retention rates monthly"
+          "A) Assuming exponential early growth continues forever without hitting market saturation",
+          "B) Checking customer retention rates monthly",
+          "C) Believing audited balance sheets"
         ],
         correctIndex: 0,
-        explanation: "Extrapolation bias treats early adopter acquisition rates as permanent linear trends, ignoring market saturation curves."
+        explanation: "Early adopter growth rarely continues at the same rate forever; every business eventually encounters competition and market limits."
       },
       socratic_dialogue: [
-        "What happens to the unit economics if customer acquisition costs double over the next 18 months?",
-        "Are these metrics capturing genuine user retention or subsidized engagement?",
-        "What regulatory or structural moat prevents deep-pocketed competitors from duplicating this model?"
+        "What happens to profits if customer acquisition costs double over the next year?",
+        "Are the numbers showing genuine repeat customers, or temporary hype?",
+        "What prevents a larger competitor from copying this model?"
       ]
     };
   }
@@ -678,41 +678,41 @@ class OfflineCacheManager {
       id: "dynamic_universal",
       title: cleanTitle,
       contextTitle: cleanTitle,
-      source_perspective: "Algorithmic Prioritization / Emotional Framing",
+      source_perspective: "Mainstream Headline & Social Media Framing",
       emotional_intensity: 5.2,
       epistemic_card: {
-        model_type: "Local Deterministic Dialectic Synthesizer (Zero-PII, GDPR Compliant)",
-        epistemic_confidence: "Dynamic Perspective Verification",
-        disclaimer: "Algorithmic counter-hypothesis generated for dialectic reflection, not absolute truth."
+        model_type: "Smart Local Engine (Private & On-Device)",
+        epistemic_confidence: "Balanced Perspective Check",
+        disclaimer: "CogniShield highlights alternative viewpoints so you can form your own independent opinion."
       },
       hidden_counter_perspectives: [
         {
-          archetype: "Empirical Baseline",
-          label: "Contextual Evidence & Statistical Normalization",
-          summary: `When evaluating "${cleanTitle.slice(0, 48)}...", examine baseline rates, methodology, and multi-source corroboration before forming a final judgment.`,
-          citation: "Dual-Spectrum Media Diligence Guidelines (Peer-Reviewed Standard)"
+          archetype: "Verified Evidence",
+          label: "Facts, Data & Real-World Numbers",
+          summary: `Before reacting to "${cleanTitle.slice(0, 48)}...", check the actual data, sample sizes, and source evidence behind the claims.`,
+          citation: "Public Records & Cross-Checked Research"
         },
         {
-          archetype: "Systemic Trade-Offs",
-          label: "Omitted Counter-Variables",
-          summary: "Complex socio-economic and political events involve multi-causal drivers that high-engagement feeds systematically simplify into single-vector narratives.",
-          citation: "European Standards for Academic Due Diligence & Critical Reflection"
+          archetype: "The Other Side",
+          label: "Alternative Viewpoints & Counter-Arguments",
+          summary: "Sensational headlines often show only one extreme angle. Consider what people with different experiences or viewpoints say about this.",
+          citation: "Multi-Source Independent Analysis"
         }
       ],
       micro_quiz: {
-        question: `When engaging with this report ("${cleanTitle.slice(0, 45)}..."), what critical question should you ask first?`,
+        question: `When looking at this headline ("${cleanTitle.slice(0, 45)}..."), what is the most helpful question to ask first?`,
         options: [
-          "A) What confounding variables or alternative hypotheses were omitted?",
-          "B) Which political faction does this emotional framing favor?",
-          "C) How can I immediately share this without verifying primary data?"
+          "A) What context, data, or opposing viewpoints might be left out?",
+          "B) How fast can I share or react to this to get attention?",
+          "C) Does this headline match what I already wanted to believe?"
         ],
         correctIndex: 0,
-        explanation: "Critical agency begins by identifying omitted confounding variables and verifying whether initial claims withstand methodological scrutiny."
+        explanation: "Good critical thinking starts by noticing what context or alternative viewpoints might have been skipped to make the title dramatic."
       },
       socratic_dialogue: [
-        `What unstated assumptions must you accept for "${cleanTitle.slice(0, 50)}" to hold as absolute truth?`,
-        "What data or counter-arguments might have been omitted to maximize audience dwell-time?",
-        "How would an impartial domain expert describe this exact same development?"
+        `What important facts might this headline leave out to get more clicks?`,
+        "How would someone with an opposing viewpoint explain this situation?",
+        "Is the tone trying to inform you with facts, or make you feel angry or anxious?"
       ]
     };
   }

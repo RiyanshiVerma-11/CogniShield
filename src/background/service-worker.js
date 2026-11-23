@@ -153,10 +153,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           geminiApiKey: geminiKey,
           groqApiKey: groqKey
         });
-        sendResponse(result);
+        if (result && result.status === "SUCCESS") {
+          sendResponse({ ...result, isLiveAi: true });
+        } else {
+          sendResponse({ status: "OFFLINE_CACHE", isLiveAi: false });
+        }
       } catch (err) {
         console.warn("[CogniShield ServiceWorker] Live dispatch error:", err);
-        sendResponse({ status: "OFFLINE_CACHE" });
+        sendResponse({ status: "OFFLINE_CACHE", isLiveAi: false });
       }
     });
     return true; // Keep message port open for async response

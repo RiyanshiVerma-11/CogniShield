@@ -191,7 +191,7 @@
 
         // 5. Initial Load into HUD via Cache / Synthesizer
         if (matchedDossier) {
-          window.CogniShieldHUD.loadDossier(matchedDossier, highlightStats.categoryCounts);
+          window.CogniShieldHUD.loadDossier(matchedDossier, highlightStats.categoryCounts, { isLiveAi: false, tier: "Smart Local Engine" });
         }
 
         // 5b. Update "Flip the Feed" (CogniFlip) for YouTube
@@ -236,7 +236,7 @@
                   if (!liveData.contextTitle) {
                     liveData.contextTitle = effectiveTitle;
                   }
-                  window.CogniShieldHUD.loadDossier(liveData, highlightStats.categoryCounts);
+                  window.CogniShieldHUD.loadDossier(liveData, highlightStats.categoryCounts, { isLiveAi: true, tier: response.tier || "Google Gemini 2.5 Flash" });
                   const newScore = parseFloat(liveData.emotional_intensity) || intensityScore;
                   intensityScore = newScore;
                   if (liveData.bias_category) {

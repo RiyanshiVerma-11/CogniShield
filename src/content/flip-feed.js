@@ -386,23 +386,27 @@ class FlipFeedController {
           <!-- Stance Overview Bar -->
           <div class="cognishield-stance-box">
             <div class="cognishield-stance-row">
-              <span class="cognishield-stance-label">Detected Stance:</span>
+              <span class="cognishield-stance-label">Video Angle:</span>
               <span class="cognishield-stance-val red-text">${data.sourcePerspective}</span>
             </div>
             <div class="cognishield-stance-row">
-              <span class="cognishield-stance-label">Flipped Stance:</span>
+              <span class="cognishield-stance-label">Other Sides:</span>
               <span class="cognishield-stance-val green-text">${data.counterStance}</span>
             </div>
             ${this.isLoadingAi ? `
               <div class="cognishield-ai-live-sync">
                 <span class="cognishield-radar-pulse"></span>
-                <span>Live Dialectic AI: Fetching verified counter-videos via Gemini 2.5 & Groq...</span>
+                <span>Finding alternative perspectives & videos via Gemini 2.5 Flash...</span>
               </div>
             ` : (this.hasLiveAiData ? `
               <div class="cognishield-ai-live-sync live-complete">
-                <span>⚡ Live AI Verified • Real Counter-Perspective Videos Loaded</span>
+                <span>⚡ Live AI Active • Real Counter-Perspective Videos Loaded</span>
               </div>
-            ` : '')}
+            ` : `
+              <div class="cognishield-ai-live-sync local-ready" style="color: #38BDF8;">
+                <span>🔒 Smart Local Engine • Balancing Videos & Search Links Ready</span>
+              </div>
+            `)}
           </div>
 
           <!-- Counter-Perspective Recommendations Stack -->
