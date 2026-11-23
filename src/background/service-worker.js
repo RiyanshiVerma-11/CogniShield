@@ -5,15 +5,20 @@
 
 import { AIBridge } from "./api-bridge.js";
 
-// Resilient local keys loader (supports keys.local.js when present, falls back gracefully on fresh clones)
-let LOCAL_AI_KEYS = { geminiApiKey: "", groqApiKey: "" };
-try {
-  const localConfig = await import("../config/keys.local.js");
-  if (localConfig && localConfig.LOCAL_AI_KEYS) {
-    LOCAL_AI_KEYS = localConfig.LOCAL_AI_KEYS;
-  }
-} catch (_) {
-  // keys.local.js is optional; teammates can supply keys via extension settings or use offline demo mode
+// Resilient local keys loader without top-level await (Service workers disallow top-level await in Chrome)
+let cachedLocalKeys = null;
+
+async function getLocalAiKeys() {
+  if (cachedLocalKeys) return cachedLocalKeys;
+  try {
+    const localConfig = await import("../config/keys.local.js");
+    if (localConfig && localConfig.LOCAL_AI_KEYS) {
+      cachedLocalKeys = localConfig.LOCAL_AI_KEYS;
+      return cachedLocalKeys;
+    }
+  } catch (_) {}
+  cachedLocalKeys = { geminiApiKey: "", groqApiKey: "" };
+  return cachedLocalKeys;
 }
 
 console.log("[CogniShield] Service Worker loaded.");
@@ -23,9 +28,10 @@ const tabDwellMap = new Map();
 
 // Initialize secure local configuration on install/update
 async function initializeKeys() {
+  const localKeys = await getLocalAiKeys();
   chrome.storage.local.get(["geminiApiKey", "groqApiKey", "forceDemoMode"], async (existing) => {
-    let geminiKey = existing.geminiApiKey || LOCAL_AI_KEYS?.geminiApiKey || "";
-    let groqKey = existing.groqApiKey || LOCAL_AI_KEYS?.groqApiKey || "";
+    let geminiKey = existing.geminiApiKey || localKeys?.geminiApiKey || "";
+    let groqKey = existing.groqApiKey || localKeys?.groqApiKey || "";
 
     chrome.storage.local.set({
       userMode: "trainer", // "zen" or "trainer"
@@ -65,23 +71,25 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 
   if (request.action === "FLIP_FEED_ANALYZE") {
-    chrome.storage.local.get(["forceDemoMode", "geminiApiKey", "groqApiKey"], async (settings) => {
-      try {
-        let geminiKey = settings.geminiApiKey || LOCAL_AI_KEYS?.geminiApiKey || "";
-        let groqKey = settings.groqApiKey || LOCAL_AI_KEYS?.groqApiKey || "";
+    getLocalAiKeys().then((localKeys) => {
+      chrome.storage.local.get(["forceDemoMode", "geminiApiKey", "groqApiKey"], async (settings) => {
+        try {
+          let geminiKey = settings.geminiApiKey || localKeys?.geminiApiKey || "";
+          let groqKey = settings.groqApiKey || localKeys?.groqApiKey || "";
 
-        const title = request.payload?.title || "";
-        const textPayload = request.payload?.textPayload || "";
-        const result = await aiBridge.generateFlipFeed(title, textPayload, {
-          forceDemoMode: !!settings.forceDemoMode,
-          geminiApiKey: geminiKey,
-          groqApiKey: groqKey
-        });
-        sendResponse(result);
-      } catch (err) {
-        console.warn("[CogniShield ServiceWorker] FlipFeed AI dispatch error:", err);
-        sendResponse({ status: "OFFLINE_FALLBACK" });
-      }
+          const title = request.payload?.title || "";
+          const textPayload = request.payload?.textPayload || "";
+          const result = await aiBridge.generateFlipFeed(title, textPayload, {
+            forceDemoMode: !!settings.forceDemoMode,
+            geminiApiKey: geminiKey,
+            groqApiKey: groqKey
+          });
+          sendResponse(result);
+        } catch (err) {
+          console.warn("[CogniShield ServiceWorker] FlipFeed AI dispatch error:", err);
+          sendResponse({ status: "OFFLINE_FALLBACK" });
+        }
+      });
     });
     return true; // Keep message port open for async response
   }
@@ -142,26 +150,28 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 
   if (request.action === "ANALYZE_LIVE_CONTENT") {
-    chrome.storage.local.get(["forceDemoMode", "geminiApiKey", "groqApiKey"], async (settings) => {
-      try {
-        let geminiKey = settings.geminiApiKey || LOCAL_AI_KEYS?.geminiApiKey || "";
-        let groqKey = settings.groqApiKey || LOCAL_AI_KEYS?.groqApiKey || "";
+    getLocalAiKeys().then((localKeys) => {
+      chrome.storage.local.get(["forceDemoMode", "geminiApiKey", "groqApiKey"], async (settings) => {
+        try {
+          let geminiKey = settings.geminiApiKey || localKeys?.geminiApiKey || "";
+          let groqKey = settings.groqApiKey || localKeys?.groqApiKey || "";
 
-        const textPayload = request.payload?.textPayload || request.payload?.title || "";
-        const result = await aiBridge.dispatchAnalysis(textPayload, {
-          forceDemoMode: !!settings.forceDemoMode,
-          geminiApiKey: geminiKey,
-          groqApiKey: groqKey
-        });
-        if (result && result.status === "SUCCESS") {
-          sendResponse({ ...result, isLiveAi: true });
-        } else {
+          const textPayload = request.payload?.textPayload || request.payload?.title || "";
+          const result = await aiBridge.dispatchAnalysis(textPayload, {
+            forceDemoMode: !!settings.forceDemoMode,
+            geminiApiKey: geminiKey,
+            groqApiKey: groqKey
+          });
+          if (result && result.status === "SUCCESS") {
+            sendResponse({ ...result, isLiveAi: true });
+          } else {
+            sendResponse({ status: "OFFLINE_CACHE", isLiveAi: false });
+          }
+        } catch (err) {
+          console.warn("[CogniShield ServiceWorker] Live dispatch error:", err);
           sendResponse({ status: "OFFLINE_CACHE", isLiveAi: false });
         }
-      } catch (err) {
-        console.warn("[CogniShield ServiceWorker] Live dispatch error:", err);
-        sendResponse({ status: "OFFLINE_CACHE", isLiveAi: false });
-      }
+      });
     });
     return true; // Keep message port open for async response
   }
