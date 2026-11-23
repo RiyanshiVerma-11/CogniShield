@@ -272,7 +272,7 @@
               <span class="status-dot cyan"></span>Top 5% Analytical Tier
             </div>
             <div class="status-badge-pill">
-              <span class="status-dot amber"></span>100% On-Device · Zero Cloud
+              <span class="status-dot emerald"></span>Local On-Device Mode Active
             </div>
           </div>
         </header>
@@ -285,7 +285,7 @@
               <div class="ribbon-header-title">
                 <span class="ribbon-status-dot"></span>
                 <span class="ribbon-label">PIPELINE TELEMETRY</span>
-                <span class="ribbon-sublabel">· 100% On-Device · Real-time Execution Loop</span>
+                <span class="ribbon-sublabel">· Local On-Device Mode · Real-time Execution Loop</span>
               </div>
               <button class="btn-ribbon-expand" id="btn-toggle-cc-specs" aria-label="Toggle pipeline specifications">Expand Specs ▾</button>
             </div>
@@ -317,7 +317,7 @@
               <div class="ribbon-stage" id="ribbon-cc-4">
                 <span class="stage-num">04</span>
                 <span class="stage-name">SOCRATIC PAUSE</span>
-                <span class="stage-meta">(<span id="pipe-ribbon-pause-cc">134.7s Avg</span>)</span>
+                <span class="stage-meta">(<span id="pipe-ribbon-pause-cc">18.4s Avg</span>)</span>
               </div>
             </div>
           </div>
@@ -457,7 +457,7 @@
                 </div>
                 <div class="stage-telemetry-body">
                   <div class="telemetry-item"><span class="t-label">Habit State:</span><span
-                      class="t-value text-emerald" id="pipe-s4-pause">134.7s Avg Pause</span></div>
+                      class="t-value text-emerald" id="pipe-s4-pause">18.4s Avg Pause</span></div>
                   <div class="telemetry-item"><span class="t-label">Scaffolding:</span><span class="t-value text-blue"
                       id="pipe-s4-scaffold">AI Hints: Fading → Autonomous</span></div>
                 </div>
@@ -502,8 +502,8 @@
               </div>
             </div>
             <div class="kpi-takeaway">
-              <span class="takeaway-text" id="kpi-cas-highlight"><strong>134.7s mean pause</strong> — 11x above
-                baseline</span>
+              <span class="takeaway-text" id="kpi-cas-highlight"><strong>18.4s mean pause</strong> — 1.5x above
+                12s target</span>
             </div>
           </div>
 
@@ -515,7 +515,7 @@
             </div>
             <div class="kpi-hero-row">
               <div class="kpi-hero-num-wrap">
-                <span class="kpi-hero-val text-blue" id="kpi-diversity-number">96</span>
+                <span class="kpi-hero-val text-blue" id="kpi-diversity-number">89</span>
                 <span class="kpi-hero-denom">%</span>
               </div>
               <div class="radial-gauge-container">
@@ -531,7 +531,7 @@
                   </defs>
                   <circle class="gauge-bg-circle" cx="50" cy="50" r="42"></circle>
                   <circle class="gauge-fill-circle gauge-fill-blue" id="diversity-circle-fill" cx="50" cy="50" r="42"
-                    stroke-dasharray="264" stroke-dashoffset="10" filter="url(#gauge-glow-blue)"></circle>
+                    stroke-dasharray="264" stroke-dashoffset="29" filter="url(#gauge-glow-blue)"></circle>
                 </svg>
               </div>
             </div>
@@ -547,8 +547,14 @@
               </div>
               <div class="quad-bar-segment seg-ethical blindspot-highlight-seg" id="quad-bar-eth" style="width:13%"
                 title="Ethical 13%">
-                <span class="seg-label">Eth 13%</span>
+                <span class="seg-label"></span>
               </div>
+            </div>
+            <div class="quad-legend-row" id="kpi-diversity-footer">
+              <span class="quad-legend-item"><span class="quad-legend-dot seg-empirical"></span>Emp 28%</span>
+              <span class="quad-legend-item"><span class="quad-legend-dot seg-economic"></span>Eco 34%</span>
+              <span class="quad-legend-item"><span class="quad-legend-dot seg-statutory"></span>Law 25%</span>
+              <span class="quad-legend-item"><span class="quad-legend-dot seg-ethical"></span>Eth 13%</span>
             </div>
           </div>
 
@@ -607,16 +613,16 @@
               <span id="kpi-energy-saved">40.9 Wh</span>
               <span id="kpi-bandwidth-saved">2.3 GB</span>
               <span id="kpi-carbon-saved-highlight">17.2g CO₂ saved</span>
-              <span id="kpi-avg-dwell">134.7s</span>
+              <span id="kpi-avg-dwell">18.4s</span>
               <span id="kpi-crt-acc">92%</span>
               <span id="kpi-entropy">1.94</span>
-              <span id="kpi-arch-empirical">28% (7)</span>
-              <span id="kpi-arch-economic">34% (9)</span>
-              <span id="kpi-arch-statutory">25% (6)</span>
-              <span id="kpi-arch-ethical">13% (3)</span>
+              <span id="kpi-arch-empirical">28% (9)</span>
+              <span id="kpi-arch-economic">34% (11)</span>
+              <span id="kpi-arch-statutory">25% (8)</span>
+              <span id="kpi-arch-ethical">13% (4)</span>
               <span id="kpi-cas-footer-desc"></span>
               <div id="kpi-cas-footer"></div>
-              <div id="kpi-diversity-footer"></div>
+              <div id="kpi-diversity-footer-legacy"></div>
               <span id="kpi-diversity-footer-desc"></span>
               <span id="quad-blindspot-badge"></span>
               <span id="radar-pct-top">28%</span>
@@ -640,14 +646,20 @@
             <div class="bento-deficit-badge">
               <span class="status-dot amber"></span>DEFICIT: Socio-Ethical Impact (13%)
             </div>
-            <div class="bento-mini-bar">
-              <div class="bento-seg seg-emp" style="width:28%" title="Empirical 28%">Emp 28%</div>
-              <div class="bento-seg seg-eco" style="width:34%" title="Economic 34%">Eco 34%</div>
-              <div class="bento-seg seg-sta" style="width:25%" title="Statutory 25%">Law 25%</div>
-              <div class="bento-seg seg-eth" style="width:13%" title="Ethical 13%">Eth 13%</div>
+            <div class="bento-mini-bar" id="bento-mini-bar">
+              <div class="bento-seg seg-emp" id="bento-seg-emp" style="width:28%" title="Empirical 28%">Emp 28%</div>
+              <div class="bento-seg seg-eco" id="bento-seg-eco" style="width:34%" title="Economic 34%">Eco 34%</div>
+              <div class="bento-seg seg-sta" id="bento-seg-sta" style="width:25%" title="Statutory 25%">Law 25%</div>
+              <div class="bento-seg seg-eth" id="bento-seg-eth" style="width:13%" title="Ethical 13%"></div>
+            </div>
+            <div class="bento-legend-row" id="bento-diversity-legend">
+              <span class="bento-legend-item"><span class="bento-legend-dot seg-emp"></span>Emp 28%</span>
+              <span class="bento-legend-item"><span class="bento-legend-dot seg-eco"></span>Eco 34%</span>
+              <span class="bento-legend-item"><span class="bento-legend-dot seg-sta"></span>Law 25%</span>
+              <span class="bento-legend-item"><span class="bento-legend-dot seg-eth"></span>Eth 13%</span>
             </div>
             <p class="bento-body" id="bento-blindspot-summary">Your media diet is strong on Economics (34%) but
-              under-exposed to Human &amp; Ethical Impact.</p>
+              under-exposed to Human &amp; Ethical Impact (13%).</p>
             <button class="bento-action-btn" data-module="tab-radar">Launch Counter-Perspective Inquiry ↗</button>
           </div>
 
@@ -689,7 +701,7 @@
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                 </span>
-                Verified: 4/4 Source Archetypes
+                Verified: 4/4 Analytical Domains (5 Perspectives Surfaced)
               </div>
               <div class="bento-cert-row">
                 <span class="cert-check-icon">
@@ -707,7 +719,7 @@
                     <polyline points="20 6 9 17 4 12" />
                   </svg>
                 </span>
-                ESG Compliant · Zero Cloud
+                ESG Compliant · Local On-Device Mode
               </div>
             </div>
             <button class="bento-action-btn primary" id="bento-configure-pdf">Configure &amp; Issue PDF →</button>

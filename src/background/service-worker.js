@@ -51,7 +51,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "GET_DWELL_TIME") {
     const tabId = sender.tab ? sender.tab.id : null;
     const startTime = tabDwellMap.get(tabId) || Date.now();
-    const elapsedSeconds = Math.round((Date.now() - startTime) / 1000);
+    const rawElapsed = Math.round((Date.now() - startTime) / 1000);
+    // Cap dwell tracking at 45s max to prevent uncapped background tabs from inflating telemetry
+    const elapsedSeconds = Math.min(rawElapsed, 45);
     sendResponse({ dwellSeconds: elapsedSeconds });
     return true;
   }
