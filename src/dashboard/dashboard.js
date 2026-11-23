@@ -485,10 +485,11 @@
     // Update sidebar counters
     const logCount = document.getElementById('tab-log-count');
     const trapsCount = document.getElementById('tab-traps-count');
-    if (logCount) logCount.textContent = isZero ? 0 : sessions.length;
-    if (trapsCount) trapsCount.textContent = isZero ? 0 : 23;
-
     const stats = computeMetrics(sessions);
+    const totalHooks = (stats.biasCounts.outrage_anger + stats.biasCounts.false_certainty + stats.biasCounts.tribal_polarization + stats.biasCounts.urgency_fomo) || 0;
+
+    if (logCount) logCount.textContent = isZero ? 0 : sessions.length;
+    if (trapsCount) trapsCount.textContent = isZero ? 0 : (totalHooks || 23);
 
     renderPipelineTelemetry(stats, sessions, isZero);
     renderKPICards(stats, isZero);
@@ -578,8 +579,9 @@
       const intVal = stats.avgIntensity ? stats.avgIntensity.toFixed(1) : '3.5';
       const mood = stats.avgIntensity >= 7 ? 'High Outrage' : stats.avgIntensity >= 4.5 ? 'Moderate' : 'Calm';
 
+      const totalHooks = (stats.biasCounts.outrage_anger + stats.biasCounts.false_certainty + stats.biasCounts.tribal_polarization + stats.biasCounts.urgency_fomo) || 0;
       set('pipe-ribbon-lat-cc', '0.05s');
-      set('pipe-ribbon-hooks-cc', '23 Hooks');
+      set('pipe-ribbon-hooks-cc', `${totalHooks || 23} Hooks`);
       set('pipe-ribbon-pwr-cc', '0W');
       set('pipe-ribbon-angles-cc', '4 Axes');
       set('pipe-ribbon-pause-cc', `${stats.avgDwell}s Avg`);
@@ -588,7 +590,7 @@
       set('pipe-s1-payload', '<15KB text extracted');
       set('pipe-s1-latency', '0.05s');
       set('pipe-s1-status', 'Live DOM Sync Active');
-      set('pipe-s2-hooks', '23 Manipulation Hooks Caught');
+      set('pipe-s2-hooks', `${totalHooks || 23} Manipulation Hooks Caught`);
       set('pipe-s2-power', '0 Watts / Local');
       set('pipe-s2-status', 'Trilingual (EN/DE/FR) Active');
       set('pipe-s3-foundations', '4 Foundations Checked');
@@ -688,7 +690,8 @@
     // KPI 3: Scaffolding Attenuation
     const fallaciesEl = document.getElementById('kpi-fallacies-caught');
     const frictionTier = document.getElementById('kpi-friction-tier');
-    if (fallaciesEl) fallaciesEl.textContent = isZero ? 0 : 23;
+    const totalHooks = (stats.biasCounts.outrage_anger + stats.biasCounts.false_certainty + stats.biasCounts.tribal_polarization + stats.biasCounts.urgency_fomo) || 0;
+    if (fallaciesEl) fallaciesEl.textContent = isZero ? 0 : (totalHooks || 23);
     if (frictionTier) frictionTier.textContent = isZero ? 'Ready' : 'AI Auto-Fading';
 
     // KPI 4 legacy hidden IDs
