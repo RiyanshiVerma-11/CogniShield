@@ -553,12 +553,6 @@ mark.cognishield-cat-urgency_panic {
   align-items: center;
   justify-content: center;
 }
-  color: #94A3B8;
-}
-
-.cognishield-modal-card.theme-dark .cognishield-modal-close:hover {
-  color: #F8FAFC;
-}
 
 /* Stepped Friction Sections */
 .cognishield-section-badge {
