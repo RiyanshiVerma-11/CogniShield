@@ -14,8 +14,8 @@ const OFFLINE_DEMO_DOSSIERS = {
     source_perspective: "Partisan Realignment / Predictive Polling Narrative",
     emotional_intensity: 6.8,
     epistemic_card: {
-      model_type: "Local Deterministic Dialectic Engine (GDPR Compliant)",
-      epistemic_confidence: "95% Multi-Cohort Verification",
+      model_type: "Local Deterministic Dialectic Engine (Private & On-Device)",
+      epistemic_confidence: "Demographic & Economic Analysis",
       disclaimer: "Algorithmic counter-hypothesis generated for dialectic reflection, not political endorsement."
     },
     hidden_counter_perspectives: [
@@ -53,9 +53,10 @@ const OFFLINE_DEMO_DOSSIERS = {
         source: "Pew Research Center",
         archetype: "Empirical Demographic Census",
         duration: "13:45",
-        badge: "Verified Institutional Study",
+        badge: "Institutional Study (Search Suggestion)",
         rationale: "Examines historical +/- 4.5% exit poll variances across multi-cycle swing cohorts.",
-        searchQuery: "Pew Research exit poll margin of error demographic swing analysis"
+        searchQuery: "Pew Research exit poll margin of error demographic swing analysis",
+        isSearchUrl: true
       },
       {
         title: "Economic Voting: Why Local Price Indices Drive Coalitions More Than Ideology",
@@ -64,16 +65,18 @@ const OFFLINE_DEMO_DOSSIERS = {
         duration: "17:10",
         badge: "Economic Grounding",
         rationale: "Shows how regional mortgage rates and consumer baskets correlate directly with independent voting.",
-        searchQuery: "Cook Political Report inflation cost of living independent voters"
+        searchQuery: "Cook Political Report inflation cost of living independent voters",
+        isSearchUrl: true
       },
       {
         title: "Historical Realignment: When Early 'Permanent Shifts' Reversed Next Cycle",
-        source: "Congressional Center for Electoral History",
+        source: "Historical Electoral & Polling Archives",
         archetype: "Historical Precedent",
         duration: "15:20",
         badge: "Historical Context",
         rationale: "Compares current post-election claims against 1976, 1992, and 2008 electoral shifts.",
-        searchQuery: "Historical presidential electoral realignments cyclical voting patterns"
+        searchQuery: "Historical presidential electoral realignments cyclical voting patterns",
+        isSearchUrl: true
       }
     ],
   },
@@ -87,8 +90,8 @@ const OFFLINE_DEMO_DOSSIERS = {
     source_perspective: "Algorithmic Accountability & Moral Agency Debate",
     emotional_intensity: 6.9,
     epistemic_card: {
-      model_type: "Local Deterministic Dialectic Engine (GDPR Compliant)",
-      epistemic_confidence: "98% Statutory Framework Alignment",
+      model_type: "Local Deterministic Dialectic Engine (Private & On-Device)",
+      epistemic_confidence: "Statutory Framework Analysis",
       disclaimer: "Algorithmic counter-hypothesis generated for dialectic reflection, not statutory legal counsel."
     },
     hidden_counter_perspectives: [
@@ -151,17 +154,18 @@ const OFFLINE_DEMO_DOSSIERS = {
     ],
   },
 
-  // Topic 3: Generative AI in Higher Education (Cognitive Over-reliance, Students & Learning)
+  // Topic 3: Generative AI in Higher Education (Cognitive Over-reliance, Students & Learning) - STAGE DEMO PACK 1
   ai_education: {
     id: "ai_education",
+    isStagePack: true,
     title: "AI in Higher Education: Cognitive Collapse or Supercharged Learning?",
     keywords: ["destroying education", "cheating epidemic", "brain rot", "moutons", "student", "homework", "classroom", "school", "university", "passive sheep", "essay cheating", "plagiarism"],
     bias_category: "outrage_anger",
     source_perspective: "Techno-Pessimism / Ban All AI from Universities",
     emotional_intensity: 7.8,
     epistemic_card: {
-      model_type: "Local Deterministic Fallback Engine (GDPR Compliant)",
-      epistemic_confidence: "91% Dual-Spectrum Alignment",
+      model_type: "Local Deterministic Fallback Engine (Private & On-Device)",
+      epistemic_confidence: "Educational Scaffolding Analysis",
       disclaimer: "Algorithmic counter-hypothesis generated for dialectic reflection, not absolute truth."
     },
     hidden_counter_perspectives: [
@@ -199,42 +203,46 @@ const OFFLINE_DEMO_DOSSIERS = {
         source: "OECD Directorate for Employment & Skills",
         archetype: "Economic Labor Census",
         duration: "14:20",
-        badge: "Verified Institutional Data",
+        badge: "Institutional Data (Search Suggestion)",
         rationale: "Empirical workforce projections show human-in-the-loop synthesis is increasing in value.",
-        searchQuery: "OECD Future of Work AI skills verification knowledge labor census"
+        searchQuery: "OECD Future of Work AI skills verification knowledge labor census",
+        isSearchUrl: true
       },
       {
         title: "Stanford HAI: Socratic AI Interlocutors Increase Critical Thinking by 34%",
         source: "Journal of Educational Psychology",
         archetype: "Cognitive Science Empirical",
         duration: "19:10",
-        badge: "Longitudinal Study",
+        badge: "Longitudinal Study (Search Suggestion)",
         rationale: "Demonstrates that active cognitive scaffolding turns AI into a reasoning tutor rather than a crutch.",
-        searchQuery: "Stanford HAI generative AI education critical thinking Socratic scaffolding"
+        searchQuery: "Stanford HAI generative AI education critical thinking Socratic scaffolding",
+        isSearchUrl: true
       },
       {
         title: "Harvard EdTech: Active Scaffolding vs. Passive Homework Summarization",
         source: "Harvard Graduate School of Education",
         archetype: "Educational Psychology",
         duration: "16:50",
-        badge: "Academic Research",
+        badge: "Academic Research (Search Suggestion)",
         rationale: "Highlights why modern evaluation must assess verification and dialectic defense over static essays.",
-        searchQuery: "Harvard education cognitive offloading vs cognitive scaffolding AI classroom"
+        searchQuery: "Harvard education cognitive offloading vs cognitive scaffolding AI classroom",
+        isSearchUrl: true
       }
     ],
   },
 
-  // Topic 4: Renewable Energy Transition & Grid Reliability (Crucial for European / Hamburg finals)
+  // Topic 4: Renewable Energy Transition & Grid Reliability (Crucial for European / Hamburg finals) - STAGE DEMO PACK 2
   energy_transition: {
     id: "energy_transition",
+    isStagePack: true,
     title: "The Renewable Energy Transition: Reality vs Outrage",
     keywords: ["blackout", "collapse", "green scam", "unbestreitbar", "katastrophe", "skandal", "energy", "solar", "wind", "grid", "klima", "nuclear", "power"],
     bias_category: "urgency_panic",
     source_perspective: "Pro-Immediate Fossil Phaseout / Alarmist Grid Vulnerability",
     emotional_intensity: 8.2,
     epistemic_card: {
-      model_type: "Local Deterministic Fallback Engine (GDPR Compliant)",
-      epistemic_confidence: "94% Dual-Spectrum Alignment",
+      model_type: "Local Deterministic Fallback Engine (Private & On-Device)",
+      epistemic_confidence: "Engineering Grid Analysis",
       disclaimer: "Algorithmic counter-hypothesis generated for dialectic reflection, not absolute truth."
     },
     hidden_counter_perspectives: [
@@ -272,27 +280,30 @@ const OFFLINE_DEMO_DOSSIERS = {
         source: "Fraunhofer Institute for Solar Energy (ISE)",
         archetype: "Economic Census",
         duration: "15:40",
-        badge: "Verified Engineering Study",
+        badge: "Engineering Study (Search Suggestion)",
         rationale: "Provides concrete engineering metrics on battery storage requirements and capital expenditures.",
-        searchQuery: "Fraunhofer ISE battery storage grid stability renewable transition engineering"
+        searchQuery: "Fraunhofer ISE battery storage grid stability renewable transition engineering",
+        isSearchUrl: true
       },
       {
         title: "European Energy Security: French Nuclear & Nordic Hydro Cross-Border Balancing",
         source: "European Commission Energy Security",
         archetype: "Statutory Framework",
         duration: "18:05",
-        badge: "EU Regulatory Benchmark",
+        badge: "EU Regulatory Framework (Search Suggestion)",
         rationale: "Details how EU Regulation 2024/1735 mandates cross-border power balancing against localized lulls.",
-        searchQuery: "EU energy security cross-border electricity interconnection regulation"
+        searchQuery: "EU energy security cross-border electricity interconnection regulation",
+        isSearchUrl: true
       },
       {
         title: "MIT Energy Initiative: Comparing Lifecycle Carbon of Wind, Solar & SMRs",
         source: "MIT Energy Initiative",
         archetype: "Engineering Economics",
         duration: "22:30",
-        badge: "Empirical Decarbonization",
+        badge: "Decarbonization Review (Search Suggestion)",
         rationale: "Analyzes the holistic lifecycle emissions and supply-chain dependencies across all clean energy sources.",
-        searchQuery: "MIT Energy Initiative lifecycle carbon comparison solar wind nuclear SMR"
+        searchQuery: "MIT Energy Initiative lifecycle carbon comparison solar wind nuclear SMR",
+        isSearchUrl: true
       }
     ],
   },
@@ -306,8 +317,8 @@ const OFFLINE_DEMO_DOSSIERS = {
     source_perspective: "Hyper-Polarized Populist Blame Narrative",
     emotional_intensity: 8.9,
     epistemic_card: {
-      model_type: "Local Deterministic Fallback Engine (GDPR Compliant)",
-      epistemic_confidence: "96% Dual-Spectrum Alignment",
+      model_type: "Local Deterministic Fallback Engine (Private & On-Device)",
+      epistemic_confidence: "Macroeconomic Analysis",
       disclaimer: "Algorithmic counter-hypothesis generated for dialectic reflection, not absolute truth."
     },
     hidden_counter_perspectives: [
@@ -379,8 +390,8 @@ const OFFLINE_DEMO_DOSSIERS = {
     source_perspective: "Hawkish Escalation / Zero-Sum Geopolitical Framing",
     emotional_intensity: 8.4,
     epistemic_card: {
-      model_type: "Local Deterministic Dialectic Engine (GDPR Compliant)",
-      epistemic_confidence: "93% Multilateral Alignment",
+      model_type: "Local Deterministic Dialectic Engine (Private & On-Device)",
+      epistemic_confidence: "Diplomatic Framework Analysis",
       disclaimer: "Algorithmic counter-hypothesis generated for dialectic reflection, not military advisory."
     },
     hidden_counter_perspectives: [
@@ -422,8 +433,8 @@ const OFFLINE_DEMO_DOSSIERS = {
     source_perspective: "Sensationalized Health Breakthrough or Medical Alarmism",
     emotional_intensity: 7.9,
     epistemic_card: {
-      model_type: "Local Deterministic Dialectic Engine (GDPR Compliant)",
-      epistemic_confidence: "97% Clinical Benchmark",
+      model_type: "Local Deterministic Dialectic Engine (Private & On-Device)",
+      epistemic_confidence: "Clinical Evidence Analysis",
       disclaimer: "Algorithmic counter-hypothesis generated for dialectic reflection, not medical advice."
     },
     hidden_counter_perspectives: [
@@ -679,7 +690,7 @@ class OfflineCacheManager {
       title: cleanTitle,
       contextTitle: cleanTitle,
       source_perspective: "Mainstream Headline & Social Media Framing",
-      emotional_intensity: 5.2,
+      emotional_intensity: 0,
       epistemic_card: {
         model_type: "Smart Local Engine (Private & On-Device)",
         epistemic_confidence: "Balanced Perspective Check",
@@ -687,7 +698,7 @@ class OfflineCacheManager {
       },
       hidden_counter_perspectives: [
         {
-          archetype: "Verified Evidence",
+          archetype: "Supporting Evidence",
           label: "Facts, Data & Real-World Numbers",
           summary: `Before reacting to "${cleanTitle.slice(0, 48)}...", check the actual data, sample sizes, and source evidence behind the claims.`,
           citation: "Public Records & Cross-Checked Research"
@@ -742,46 +753,46 @@ class OfflineCacheManager {
         title: `Empirical Review: The Evidence & Data Behind "${truncatedShort}"`,
         source: "Academic & Institutional Research",
         archetype: "Empirical Baseline",
-        duration: "14:15",
-        badge: "Empirical Data",
+        badge: "Search Suggestion",
         rationale: "Examines baseline methodology, sample sizes, and verifiable facts before accepting viral claims.",
-        searchQuery: `${cleanTitle} empirical fact check evidence data analysis`
+        searchQuery: `${cleanTitle} empirical fact check evidence data analysis`,
+        isSearchUrl: true
       },
       {
         title: `The Direct Counter-Argument: Why Domain Experts Challenge "${truncatedShort}"`,
         source: "Domain Policy & Ethics Review",
         archetype: "Direct Counter-Thesis",
-        duration: "18:30",
-        badge: "Counter-Thesis",
+        badge: "Search Suggestion",
         rationale: "Explores competing viewpoints and trade-offs that algorithmic recommendation systems systematically omit.",
-        searchQuery: `${cleanTitle} counter argument alternative perspective opposing view`
+        searchQuery: `${cleanTitle} counter argument alternative perspective opposing view`,
+        isSearchUrl: true
       },
       {
         title: `Constructive Opportunities: The Positive Side of "${truncatedShort}"`,
         source: "Global Innovation & Technology Observatory",
         archetype: "Systemic Trade-Offs",
-        duration: "15:45",
-        badge: "Opportunity Analysis",
+        badge: "Search Suggestion",
         rationale: "Surfaces constructive solutions, economic upsides, or pragmatic opportunities.",
-        searchQuery: `${cleanTitle} positive solutions opportunities benefits overview`
+        searchQuery: `${cleanTitle} positive solutions opportunities benefits overview`,
+        isSearchUrl: true
       },
       {
         title: `Statutory & Institutional Oversight: Legal Realities of "${truncatedShort}"`,
         source: "International Regulatory & Statutory Review",
         archetype: "Regulatory Framework",
-        duration: "17:00",
-        badge: "Statutory Governance",
+        badge: "Search Suggestion",
         rationale: "Examines statutory liability frameworks, legal jurisprudence, and institutional safeguards.",
-        searchQuery: `${cleanTitle} statutory legal regulations policy governance framework`
+        searchQuery: `${cleanTitle} statutory legal regulations policy governance framework`,
+        isSearchUrl: true
       },
       {
         title: `Long-Term Context & Historical Lessons: Debating "${truncatedShort}"`,
         source: "Historical & Societal Archive",
         archetype: "Historical Precedent",
-        duration: "16:00",
-        badge: "Historical Context",
+        badge: "Search Suggestion",
         rationale: "Provides longitudinal perspective to prevent knee-jerk panic and evaluate systemic drivers.",
-        searchQuery: `${cleanTitle} historical analysis precedent deep dive context`
+        searchQuery: `${cleanTitle} historical analysis precedent deep dive context`,
+        isSearchUrl: true
       }
     ];
   }

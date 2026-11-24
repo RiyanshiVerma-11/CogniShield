@@ -1,12 +1,13 @@
 /**
- * CogniShield - Local Storage & GDPR Article 22 Privacy Gateway
+ * CogniShield - Local Storage & Client-Side Privacy Gateway
  * 
  * Enforces:
  * 1. 100% On-Device Data Storage via IndexedDB (Zero Cloud Retention).
  * 2. Client-Side Zero-PII Sanitization Gateway: Strips all URLs, timestamps, user handles, 
  *    channel names, and cookies before any optional cloud inference.
  * 3. Epistemic Audit Logging: Stores rolling 7-day perspective diversity & Cognitive Agency logs.
- * 4. Academic Due-Diligence Certificate Generator for B2B university integrity validation.
+ * 4. Local Session Log Generator for student reflection review.
+ * 5. Anonymous Pilot Evaluation Counters (pauses started/completed, counter-views explored).
  */
 
 const DB_NAME = "CogniShieldDB";
@@ -424,11 +425,11 @@ class LocalStorageManager {
     await this.initPromise;
     const defaultStats = {
       totalScans: 0,
-      diversityScore: 78,
-      agencyScore: 65,
-      correctQuizzes: 3,
-      totalQuizzes: 4,
-      archetypeCounts: { empirical: 4, economic: 3, statutory: 2, socio_ethical: 2 },
+      diversityScore: 0,
+      agencyScore: 0,
+      correctQuizzes: 0,
+      totalQuizzes: 0,
+      archetypeCounts: { empirical: 0, economic: 0, statutory: 0, socio_ethical: 0 },
       records: []
     };
 
@@ -468,9 +469,9 @@ class LocalStorageManager {
           }
 
           // Use CognitiveEngine if available
-          let agencyScore = 65;
-          if (typeof CogniShieldCognitive !== "undefined") {
-            const avgDwell = records.length > 0 ? (totalDwell / records.length) : 10;
+          let agencyScore = records.length > 0 ? 50 : 0;
+          if (typeof CogniShieldCognitive !== "undefined" && records.length > 0) {
+            const avgDwell = totalDwell / records.length;
             agencyScore = CogniShieldCognitive.calculateAgencyScore(
               avgDwell,
               correctQuizzes,
@@ -497,26 +498,98 @@ class LocalStorageManager {
   }
 
   /**
-   * B2B Feature: Generate an Epistemic Due-Diligence Certificate
-   * Creates a tamper-evident audit receipt proving the student consulted multi-perspective research.
+   * Generates a local session log of student reflection and sources explored.
+   * Note: This is an on-device reflection summary, not a cryptographic or accredited university credential.
    */
-  async generateAcademicCertificate(assignmentTopic) {
+  async generateSessionLog(assignmentTopic) {
     const stats = await this.getWeeklyStats();
-    const token = "CS-VERIFY-" + Math.random().toString(36).substring(2, 10).toUpperCase() + "-" + Date.now().toString(36).toUpperCase();
-    const archetypes = stats.archetypeCounts || { empirical: 4, economic: 3, statutory: 2, socio_ethical: 2 };
+    const token = "CS-LOG-" + Math.random().toString(36).substring(2, 10).toUpperCase() + "-" + Date.now().toString(36).toUpperCase();
+    const archetypes = stats.archetypeCounts || { empirical: 0, economic: 0, statutory: 0, socio_ethical: 0 };
 
     return {
-      certificateId: token,
+      certificateId: token, // Kept for backwards compatibility
+      logId: token,
       topic: assignmentTopic || "Independent Research Session",
       timestamp: new Date().toISOString(),
       studentAudit: {
-        verifiedArchetypesReviewed: Object.keys(archetypes).filter(k => archetypes[k] > 0),
-        cognitiveAgencyRating: (stats.agencyScore || 78) + " / 100",
-        socraticReflectionsCompleted: stats.totalQuizzes || 4,
-        gdprComplianceStatus: "100% On-Device Local Audit (Zero Cloud Tracking)"
+        perspectivesReviewed: Object.keys(archetypes).filter(k => archetypes[k] > 0),
+        cognitiveAgencyRating: (stats.agencyScore || 0) + " / 100",
+        socraticReflectionsCompleted: stats.totalQuizzes || 0,
+        privacyStatus: "100% On-Device Local Audit (Zero Cloud Tracking)"
       },
-      accreditationNotice: "Compliant with European Standards & Guidelines (ESG) for Higher Education Academic Integrity."
+      notice: "Local session log generated on-device. This document records user-initiated inquiry and is not an accredited university certification."
     };
+  }
+
+  async generateAcademicCertificate(assignmentTopic) {
+    return this.generateSessionLog(assignmentTopic);
+  }
+
+  /**
+   * Anonymous Pilot Evaluation Counters
+   */
+  async getPilotStats() {
+    if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
+      return new Promise((resolve) => {
+        chrome.storage.local.get(["_cognishield_pilot_stats"], (res) => {
+          resolve(res._cognishield_pilot_stats || {
+            pausesStarted: 0,
+            pausesCompleted: 0,
+            flipFeedOpens: 0,
+            counterItemsClicked: 0
+          });
+        });
+      });
+    }
+    if (!this._memPilotStats) {
+      this._memPilotStats = {
+        pausesStarted: 0,
+        pausesCompleted: 0,
+        flipFeedOpens: 0,
+        counterItemsClicked: 0
+      };
+    }
+    return this._memPilotStats;
+  }
+
+  async recordPilotEvent(eventType) {
+    const stats = await this.getPilotStats();
+    if (stats[eventType] !== undefined) {
+      stats[eventType]++;
+    }
+    if (typeof chrome !== "undefined" && chrome.storage && chrome.storage.local) {
+      await new Promise((resolve) => {
+        chrome.storage.local.set({ _cognishield_pilot_stats: stats }, resolve);
+      });
+    } else {
+      this._memPilotStats = stats;
+    }
+    this._notifyLiveChange("PILOT_STAT_UPDATED", stats);
+    return stats;
+  }
+
+  async exportPilotStats() {
+    const stats = await this.getPilotStats();
+    return `
+=============================================================
+COGNISHIELD PILOT EVALUATION REPORT (ANONYMOUS AGGREGATE)
+=============================================================
+Partner Organization : [PARTNER_NAME]
+Pilot Cohort Size    : [PILOT_N]
+Forwards Paused      : [FORWARDS_PAUSED]
+Generated At         : ${new Date().toISOString()}
+
+MEASURED INTERVENTIONS:
+- 12-Second Pauses Started   : ${stats.pausesStarted}
+- 12-Second Pauses Completed : ${stats.pausesCompleted}
+- Flip-the-Feed Activations  : ${stats.flipFeedOpens}
+- Counter-Views Clicked      : ${stats.counterItemsClicked}
+
+NOTE:
+All data is stored locally on-device.
+Zero user profiling, zero student tracking, zero psychological categorization.
+=============================================================
+`.trim();
   }
 }
 

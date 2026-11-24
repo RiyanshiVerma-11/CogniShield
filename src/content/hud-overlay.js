@@ -573,22 +573,10 @@ class HUDOverlayController {
     }
 
     // 2. Dynamic Missing Perspectives / The Other Side
+    // Only use real perspectives from the dossier; never show generic static placeholders.
     const perspectives = Array.isArray(data.hidden_counter_perspectives) && data.hidden_counter_perspectives.length > 0
       ? data.hidden_counter_perspectives
-      : [
-          {
-            archetype: "Verified Evidence",
-            label: "Independent Empirical Validation",
-            summary: "Comparative cross-study reviews show alternative contextual factors that qualify the primary narrative.",
-            citation: "Peer-Reviewed Comparative Meta-Analysis (2025)"
-          },
-          {
-            archetype: "Systemic Context",
-            label: "Regulatory & Institutional Safeguards",
-            summary: "Standard governance frameworks already mandate multi-stakeholder audits before policy changes.",
-            citation: "Federal Accountability & Oversight Report"
-          }
-        ];
+      : [];
 
     // Update tab badge
     const tabBadge = document.getElementById("tab-perspectives-count");
@@ -605,7 +593,7 @@ class HUDOverlayController {
 
     const computedRings = perspectives.slice(0, 3).map((p, idx) => {
       const cfg = ringConfigs[idx] || ringConfigs[0];
-      const pct = Math.min(95, Math.max(40, 80 - (idx * 16) + (p.label ? (p.label.length % 12) : 0)));
+      const pct = cfg.defaultPct;
       const offset = (cfg.circ * (1 - (pct / 100))).toFixed(1);
       return {
         r: cfg.r,
@@ -615,7 +603,8 @@ class HUDOverlayController {
         pct,
         offset,
         name: p.label || p.archetype || `Perspective ${idx + 1}`,
-        archetype: p.archetype || "Counter-View"
+        archetype: p.archetype || "Counter-View",
+        indexLabel: `Angle ${idx + 1}`
       };
     });
 
@@ -630,7 +619,7 @@ class HUDOverlayController {
         <span class="cognishield-dot ${r.dotClass}"></span>
         <div class="cognishield-legend-text">
           <span class="cognishield-legend-name">${r.archetype}</span>
-          <span class="cognishield-legend-val">${r.pct}% Visibility</span>
+          <span class="cognishield-legend-val">${r.indexLabel}</span>
         </div>
       </div>
     `).join("");
@@ -644,7 +633,7 @@ class HUDOverlayController {
         </div>
         <div class="perspective-title">${cp.label || 'Counter-Perspective'}</div>
         <div class="perspective-summary">${cp.summary || cp.argument || ''}</div>
-        <div class="cognishield-citation">Verified Source: ${cp.citation || 'Independent Research & Public Records'}</div>
+        <div class="cognishield-citation">Source: ${cp.citation || 'Independent Research & Public Records'}</div>
         <a href="https://www.youtube.com/results?search_query=${encodeURIComponent((cp.label || '') + ' ' + currentTopicForSearch)}" target="_blank" class="cognishield-watch-counter-btn">
           ${COGNISHIELD_ICONS.play} <span>Watch Balancing Videos on YouTube ↗</span>
         </a>
@@ -730,13 +719,13 @@ class HUDOverlayController {
           <div class="cognishield-section-header">
             <div class="cognishield-section-title-group">
               <span class="cognishield-section-icon">${COGNISHIELD_ICONS.pause}</span>
-              <span class="cognishield-section-title">Take 10 Seconds: Think Twice</span>
+              <span class="cognishield-section-title">Take 12 Seconds Before You React</span>
             </div>
-            <span class="cognishield-pill-amber">10s Mindful Pause</span>
+            <span class="cognishield-pill-amber" id="pause-countdown-pill">12s Mindful Pause</span>
           </div>
 
           <div class="cognishield-direct-hint">
-            Take a quick breath before reacting, commenting, or sharing.
+            Take 12 seconds to pause before amplifying, forwarding, or reacting.
           </div>
 
           <div class="cognishield-socratic-quote">
@@ -744,8 +733,8 @@ class HUDOverlayController {
           </div>
           <div class="cognishield-socratic-actions">
             <button class="btn-cognishield-secondary" id="btn-socratic-dismiss">Keep Reading</button>
-            <button class="btn-cognishield-primary" id="btn-socratic-explore">
-              See Other Perspectives (${perspectives.length}) ➔
+            <button class="btn-cognishield-primary" id="btn-socratic-explore" disabled style="opacity: 0.6; cursor: not-allowed;">
+              <span id="btn-explore-text">Pause 12s to Reflect...</span>
             </button>
           </div>
         </div>
@@ -794,7 +783,7 @@ class HUDOverlayController {
           </div>
         </div>
 
-        <!-- Verified Alternative Perspectives List (Splashed directly) -->
+        <!-- Sourced Alternative Perspectives List (Splashed directly) -->
         <div class="cognishield-direct-section" style="margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.07);">
           <div class="cognishield-section-header">
             <div class="cognishield-section-title-group">
@@ -848,8 +837,49 @@ class HUDOverlayController {
 
     // Bind Tab Switching & Actions
     const btnExplore = body.querySelector("#btn-socratic-explore");
+    const btnExploreText = body.querySelector("#btn-explore-text");
+    const pausePill = body.querySelector("#pause-countdown-pill");
+
+    // 12-Second Active Pause Timer (P1 Mechanism)
+    if (this.pauseInterval) {
+      clearInterval(this.pauseInterval);
+      this.pauseInterval = null;
+    }
+    let secondsRemaining = 12;
+
+    if (window.CogniShieldStorage && typeof window.CogniShieldStorage.recordPilotEvent === "function") {
+      window.CogniShieldStorage.recordPilotEvent("pausesStarted");
+    }
+
+    this.pauseInterval = setInterval(() => {
+      secondsRemaining--;
+      if (pausePill) pausePill.textContent = `${secondsRemaining}s Pause`;
+      if (btnExploreText) btnExploreText.textContent = `Pause ${secondsRemaining}s to Reflect...`;
+
+      if (secondsRemaining <= 0) {
+        clearInterval(this.pauseInterval);
+        this.pauseInterval = null;
+        if (btnExplore) {
+          btnExplore.disabled = false;
+          btnExplore.style.opacity = "1";
+          btnExplore.style.cursor = "pointer";
+        }
+        if (btnExploreText) btnExploreText.textContent = `See Other Perspectives (${perspectives.length}) ➔`;
+        if (pausePill) {
+          pausePill.textContent = "✓ 12s Pause Met";
+          pausePill.className = "cognishield-pill-green";
+          pausePill.style.background = "rgba(16, 185, 129, 0.15)";
+          pausePill.style.color = "#047857";
+        }
+        if (window.CogniShieldStorage && typeof window.CogniShieldStorage.recordPilotEvent === "function") {
+          window.CogniShieldStorage.recordPilotEvent("pausesCompleted");
+        }
+      }
+    }, 1000);
+
     if (btnExplore) {
       btnExplore.addEventListener("click", () => {
+        if (btnExplore.disabled) return;
         this.switchTab("deep");
         if (!this.hasCelebrated) {
           this.celebrateAgencyGain(5, "Explored Missing Perspectives");
@@ -857,6 +887,14 @@ class HUDOverlayController {
         }
       });
     }
+
+    body.querySelectorAll(".cognishield-watch-counter-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        if (window.CogniShieldStorage && typeof window.CogniShieldStorage.recordPilotEvent === "function") {
+          window.CogniShieldStorage.recordPilotEvent("counterItemsClicked");
+        }
+      });
+    });
 
     const btnDismiss = body.querySelector("#btn-socratic-dismiss");
     if (btnDismiss) {
@@ -915,6 +953,125 @@ class HUDOverlayController {
             });
           }
         }
+      });
+    });
+  }
+
+  /**
+   * Shows an honest "analysis in progress" state when no topic-matched dossier exists.
+   * Called instead of loadDossier() when the dossier is the generic dynamic_universal fallback.
+   * Live AI will overwrite this via loadDossier() once it responds.
+   *
+   * @param {string} title          - Page/video title for display
+   * @param {number} intensityScore - Real intensity from local regex engine (0 if no matches)
+   * @param {Object} categoryCounts - Live trigger chip counts from DOM highlighter
+   */
+  loadWaitingState(title = "", intensityScore = 0, categoryCounts = {}) {
+    const body = document.getElementById("cognishield-modal-body");
+    if (!body) return;
+
+    // Update header to show "Connecting…" state
+    const tierPill = document.getElementById("cognishield-tier-pill");
+    const statusText = document.getElementById("cognishield-status-text");
+    const statusIndicator = document.getElementById("cognishield-status-indicator");
+    const tabBadge = document.getElementById("tab-perspectives-count");
+
+    if (tierPill) { tierPill.textContent = "Connecting…"; tierPill.className = "cognishield-tier-pill local"; }
+    if (statusText) statusText.innerHTML = `<strong>Analysing:</strong> Contacting Live AI…`;
+    if (statusIndicator) { statusIndicator.style.backgroundColor = "#F59E0B"; statusIndicator.style.boxShadow = "0 0 8px #F59E0B"; }
+    if (tabBadge) tabBadge.textContent = "—";
+
+    const intensityNum = Number.isFinite(intensityScore) ? Math.min(10, Math.max(0, intensityScore)) : 0;
+    const intensityFormatted = intensityNum.toFixed(1);
+    const meterPct = Math.min(100, Math.max(0, Math.round(intensityNum * 10)));
+    const meterColor = intensityNum >= 7 ? "#EF4444" : (intensityNum >= 4 ? "#F59E0B" : "#10B981");
+    const meterLabel = intensityNum >= 7 ? "High Emotional Heat" : (intensityNum >= 4 ? "Moderate Sensationalism" : (intensityNum > 0 ? "Calm & Informative" : "Neutral & Factual"));
+
+    const cOutrage  = categoryCounts.outrage_anger          !== undefined ? categoryCounts.outrage_anger          : 0;
+    const cCertainty= categoryCounts.false_certainty        !== undefined ? categoryCounts.false_certainty        : 0;
+    const cTribal   = categoryCounts.tribal_polarization    !== undefined ? categoryCounts.tribal_polarization    : 0;
+    const cUrgency  = categoryCounts.urgency_panic          !== undefined ? categoryCounts.urgency_panic          : 0;
+
+    const chipsHtml = `
+      <span class="cognishield-bias-chip" title="Outrage / Anger triggers">${COGNISHIELD_ICONS.flame} Outrage · ${cOutrage}</span>
+      <span class="cognishield-bias-chip" title="False certainty triggers">${COGNISHIELD_ICONS.radar} Certainty · ${cCertainty}</span>
+      <span class="cognishield-bias-chip" title="Tribal polarization triggers">${COGNISHIELD_ICONS.search} Tribal · ${cTribal}</span>
+      <span class="cognishield-bias-chip" title="Urgency / panic triggers">${COGNISHIELD_ICONS.zap} Urgency · ${cUrgency}</span>
+    `;
+
+    body.innerHTML = `
+      <!-- Active Topic Bar -->
+      <div class="cognishield-topic-banner">
+        <span class="cognishield-topic-tag">TOPIC UNDER ANALYSIS</span>
+        <div class="cognishield-topic-title">${title || document.title || "Live Web Analysis"}</div>
+      </div>
+
+      <!-- TAB 1: QUICK CHECK -->
+      <div id="cognishield-tab-quick" class="cognishield-tab-view active">
+
+        <!-- Emotional Tone (from local regex — honest) -->
+        <div class="cognishield-direct-section">
+          <div class="cognishield-section-header">
+            <div class="cognishield-section-title-group">
+              <span class="cognishield-section-icon">${COGNISHIELD_ICONS.flame}</span>
+              <span class="cognishield-section-title">Emotional Tone Check</span>
+            </div>
+            <span class="cognishield-intensity-tag" style="border-color: ${meterColor}40; color: ${meterColor};">
+              Heat: ${intensityFormatted} / 10
+            </span>
+          </div>
+          <div class="cognishield-direct-hint">
+            Local scan complete. Waiting for deeper AI analysis of this content.
+          </div>
+          <div class="cognishield-meter-track" title="Emotional Temperature: ${intensityFormatted} / 10 (${meterLabel})">
+            <div class="cognishield-meter-fill" style="width: ${meterPct}%; background: linear-gradient(90deg, #10B981, ${meterColor});"></div>
+          </div>
+          <div class="meter-status-row">
+            <span class="meter-status-text">${meterLabel}</span>
+            <span class="meter-status-reading">${meterPct}% Emotion Index</span>
+          </div>
+          <div class="cognishield-biases-label">Triggers Detected on This Page:</div>
+          <div class="cognishield-chips-container">${chipsHtml}</div>
+        </div>
+
+        <!-- AI Connecting Spinner -->
+        <div class="cognishield-direct-section" style="text-align:center; padding: 24px 16px;">
+          <div style="font-size:28px; margin-bottom:8px; animation: cognishield-spin 1.4s linear infinite; display:inline-block;">⟳</div>
+          <div style="font-size:13px; font-weight:600; color: var(--cs-text-primary, #1a1a1a); margin-bottom:6px;">
+            Analysing content…
+          </div>
+          <div style="font-size:11px; color: var(--cs-text-secondary, #6b7280); line-height:1.5;">
+            Live AI is scanning for hidden perspectives, bias signals,<br>and counter-arguments. This takes a few seconds.
+          </div>
+          <div style="margin-top:14px; font-size:10px; color: var(--cs-text-secondary, #6b7280);">
+            No Gemini / Groq key? <a href="#" onclick="document.getElementById('cognishield-close-btn').click(); return false;" style="color: #0284C7;">Add one in the popup</a> to enable live insights.
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: PERSPECTIVES (waiting) -->
+      <div id="cognishield-tab-deep" class="cognishield-tab-view">
+        <div class="cognishield-direct-section" style="text-align:center; padding: 32px 16px;">
+          <div style="font-size:13px; font-weight:600; color: var(--cs-text-primary, #1a1a1a); margin-bottom:8px;">
+            ${COGNISHIELD_ICONS.radar} Perspectives loading…
+          </div>
+          <div style="font-size:11px; color: var(--cs-text-secondary, #6b7280); line-height:1.5;">
+            CogniShield will show real counter-perspectives once the Live AI analysis completes.
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Re-attach tab switching behaviour for this simplified body
+    const tabBtns = document.querySelectorAll(".cognishield-tab-nav-btn");
+    tabBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabBtns.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const target = btn.dataset.tab;
+        document.querySelectorAll(".cognishield-tab-view").forEach(v => {
+          v.classList.toggle("active", v.id === `cognishield-tab-${target}`);
+        });
       });
     });
   }

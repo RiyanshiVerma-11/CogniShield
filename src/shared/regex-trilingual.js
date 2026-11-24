@@ -10,22 +10,23 @@ const TRILINGUAL_DICTIONARY = {
     name: "English",
     categories: {
       outrage_anger: [
-        /\b(destroy(ed|s)?|demolish(ed|es)?|obliterat(ed|es)?|slams?|eviscerat(ed|es)?)\b/gi,
+        /\b(destroy(ed|s)?|destroying (our|your|education|future|culture|country)|demolish(ed|es)?|obliterat(ed|es)?|slams?|eviscerat(ed|es)?)\b/gi,
         /\b(outrageous|disgusting|infuriating|humiliat(ed|ing)|pathetic|treason|traitor)\b/gi,
-        /\b(furious|raging|unhinged|shameful|scandalous)\b/gi
+        /\b(furious|raging|unhinged|shameful|scandalous|cheating epidemic|reckless|freaked (everybody|everyone) out|lied to (people|us|the public))\b/gi
       ],
       false_certainty: [
-        /\b(undeniable|indisputable|100%|absolute truth|guaranteed|irrefutable)\b/gi,
+        /\b(undeniable|indisputable|100%|absolute truth|guaranteed|irrefutable|hoax)\b/gi,
         /\b(they don'?t want you to know|secret exposed|hidden truth|censored truth)\b/gi,
         /\b(everyone knows|obviously|clearly without doubt|zero debate)\b/gi
       ],
       tribal_polarization: [
-        /\b(us vs them|the enemy|wake up sheeple|brainwashed|corrupt elite)\b/gi,
-        /\b(they are lying|destroying our culture|evil agenda|infiltrat(ed|ion))\b/gi
+        /\b(us vs them|the enemy|wake up sheeple|brainwashed|corrupt elite|passive sheep)\b/gi,
+        /\b(they are lying|evil agenda|infiltrat(ed|ion))\b/gi
       ],
       urgency_panic: [
-        /\b(before it'?s deleted|watch this now|urgent alert|emergency|panic)\b/gi,
-        /\b(running out of time|collapse imminent|disaster strikes|final warning)\b/gi
+        /\b(before it'?s deleted|watch this now|urgent alert|widespread panic|panic button)\b/gi,
+        /\b(running out of time|collapse imminent|disaster strikes|final warning)\b/gi,
+        /\b(human extinction|kill all humans|wipe us out|catastrophic|terribly dangerous|desperately needs|going rogue|get(ting)? worse)\b/gi
       ]
     }
   },
@@ -33,9 +34,9 @@ const TRILINGUAL_DICTIONARY = {
     name: "Deutsch",
     categories: {
       outrage_anger: [
-        /\b(zerstört|vernichtet|skandal(ös)?|schandtat|widerlich|empörend)\b/gi,
+        /\b(zerstört|vernichtet|absolut(er|e|es)? skandal|riesenskandal|skandalös|schandtat|widerlich|empörend)\b/gi,
         /\b(entlarvt|zerlegt|wutentbrannt|volksverrat|verräter|demütigung)\b/gi,
-        /\b(fassungslos|katastrophe|erbärmlich)\b/gi
+        /\b(fassungslos|drohende katastrophe|totaler kollaps|erbärmlich)\b/gi
       ],
       false_certainty: [
         /\b(unbestreitbar|unwiderlegbar|die ganze wahrheit|was verschwiegen wird)\b/gi,
@@ -47,8 +48,8 @@ const TRILINGUAL_DICTIONARY = {
         /\b(zerstören unser land|böse agenda|zensurwahn)\b/gi
       ],
       urgency_panic: [
-        /\b(bevor es gelöscht wird|sofort ansehen|eilmeldung|panik|kollaps)\b/gi,
-        /\b(letzte warnung|notstand|untergang droht)\b/gi
+        /\b(bevor es gelöscht wird|sofort ansehen|eilmeldung|massenpanik|kollaps droht)\b/gi,
+        /\b(letzte warnung|ausnahmezustand droht|untergang droht)\b/gi
       ]
     }
   },
@@ -56,9 +57,9 @@ const TRILINGUAL_DICTIONARY = {
     name: "Français",
     categories: {
       outrage_anger: [
-        /\b(scandale(ux)?|détruit|anéanti|démoli|honteux|humilié|trahison)\b/gi,
+        /\b(scandaleux|scandale absolu|pur scandale|détruit|anéanti|démoli|honteux|humilié|trahison)\b/gi,
         /\b(inadmissible|révoltant|immonde|traître|écœurant)\b/gi,
-        /\b(furieux|massacré|catastrophique)\b/gi
+        /\b(furieux|massacré|catastrophe totale)\b/gi
       ],
       false_certainty: [
         /\b(irréfutable|incontestable|vérité cachée|ce qu'?on vous cache)\b/gi,
@@ -70,7 +71,7 @@ const TRILINGUAL_DICTIONARY = {
         /\b(ils détruisent tout|agenda secret|ennemis du peuple)\b/gi
       ],
       urgency_panic: [
-        /\b(avant censure|avant suppression|urgent|alerte immédiate)\b/gi,
+        /\b(avant censure|avant suppression|urgence absolue|alerte immédiate)\b/gi,
         /\b(dernière chance|panique générale|effondrement imminent)\b/gi
       ]
     }

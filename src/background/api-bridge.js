@@ -21,7 +21,8 @@ Return a strictly valid JSON object matching this exact structure:
   "title": "Clear concise topic headline (e.g. Autonomous AI Decision-Making: Liability & Agency)",
   "contextTitle": "Exact video or article title",
   "source_perspective": "Concise summary of the framing, tone, and angle (e.g. Technocentric Liability / Alarmist Outrage)",
-  "emotional_intensity": 5.5,
+  "emotional_intensity": 0.0,
+  "_scoring_note": "Set emotional_intensity to a float from 0.0 (completely calm, factual) to 10.0 (extreme outrage/panic/manipulation) based strictly on the provided text.",
   "epistemic_card": {
     "model_type": "Live Multi-Tier AI (Gemini Flash / Groq)",
     "epistemic_confidence": "Live Epistemic Analysis",
@@ -41,14 +42,14 @@ Return a strictly valid JSON object matching this exact structure:
     {
       "archetype": "Empirical Baseline or Statutory Law or Macro-Economic",
       "label": "First Counter-Perspective Title",
-      "summary": "1-2 sentences summarizing verified counter-evidence or trade-offs that the media narrative omitted.",
-      "citation": "Real academic, institutional, or empirical source (e.g. Pew Research, OECD, EU AI Act, Fraunhofer)"
+      "summary": "1-2 sentences summarizing counter-evidence or trade-offs that the media narrative omitted.",
+      "citation": "Real well-known institution or legal framework (e.g. EU AI Act, OECD, Pew Research) if known. If unsure, say 'Source not verified — explore further'. Never invent citations, institutions, or statistics."
     },
     {
       "archetype": "Macro-Economic or Socio-Ethical or Systemic Oversight",
       "label": "Second Counter-Perspective Title",
       "summary": "1-2 sentences presenting another angle or structural reality not mentioned in the clip.",
-      "citation": "Institutional source or peer-reviewed study"
+      "citation": "Real institution or 'Source not verified — explore further'"
     }
   ],
   "socratic_dialogue": [
@@ -62,7 +63,7 @@ Return only the raw JSON object. No markdown fences, no surrounding commentary.`
   async callGemini(contentPayload, apiKey) {
     if (!apiKey) throw new Error("No Gemini API key provided");
     const prompt = this.buildSystemPrompt(contentPayload);
-    const models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"];
+    const models = ["gemini-2.5-flash", "gemini-2.0-flash"];
     let lastError = null;
 
     for (const model of models) {
@@ -102,7 +103,7 @@ Return only the raw JSON object. No markdown fences, no surrounding commentary.`
   async callGroq(contentPayload, apiKey) {
     if (!apiKey) throw new Error("No Groq API key provided");
     const prompt = this.buildSystemPrompt(contentPayload);
-    const models = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768"];
+    const models = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"];
     let lastError = null;
 
     for (const model of models) {
@@ -173,55 +174,50 @@ Rules for Stance Inversion & Opposites:
    - 4. Institutional & Regulatory: Law, statutory policy, EU/OECD directives, or court rulings.
    - 5. Longitudinal Precedent: Historical context, past economic transitions, or long-term structural realities.
 
-Return a strictly valid JSON object matching this exact structure:
+Return a strictly valid JSON object matching this exact structure (never invent video durations, statistics, papers, or channel names):
 {
   "detectedStance": "Short 3-6 word summary of this video's specific angle/narrative (e.g. AI Automation Panic & Career Doom)",
-  "flippedStance": "Short 3-6 word summary of the balancing counter-narrative (e.g. Empirical Labor Demand, New Roles & Human Agency)",
+  "flippedStance": "Short 3-6 word summary of the balancing counter-narrative (e.g. Empirical Labor Demand & Human Agency)",
   "recommendations": [
     {
-      "title": "Natural YouTube video title representing the direct counter-thesis",
-      "source": "Respected publication, expert creator, or institutional channel",
+      "title": "Suggested counter-perspective topic representing the direct counter-thesis",
+      "source": "Topic domain or public institution type (or 'Search suggestion' if unverified)",
       "archetype": "Direct Counter-Thesis",
-      "duration": "14 min",
-      "badge": "Counter-Thesis",
-      "rationale": "One crisp sentence explaining how this directly rebuts the core premise.",
+      "badge": "Counter-Thesis (Search Suggestion)",
+      "rationale": "One crisp sentence explaining how exploring this angle challenges the core premise.",
       "searchQuery": "4 to 8 word natural YouTube search query (e.g. why AI won't replace software engineers)"
     },
     {
-      "title": "Natural YouTube video title presenting empirical data or statistics",
-      "source": "Respected economic/academic source (e.g. Pew Research, OECD, MIT)",
+      "title": "Suggested empirical study topic or data angle",
+      "source": "Empirical / Academic Search Topic",
       "archetype": "Empirical Baseline",
-      "duration": "16 min",
-      "badge": "Empirical Data",
-      "rationale": "One crisp sentence highlighting verifiable statistics or study results.",
-      "searchQuery": "4 to 8 word natural YouTube search query (e.g. real economic impact of AI automation labor statistics)"
+      "badge": "Empirical Data (Search Suggestion)",
+      "rationale": "One crisp sentence describing what evidence or study data should be checked.",
+      "searchQuery": "4 to 8 word natural YouTube search query (e.g. economic impact of AI automation labor statistics)"
     },
     {
-      "title": "Natural YouTube video title presenting inverted valence and trade-offs",
-      "source": "Respected documentary or investigative channel (e.g. Bloomberg, CNBC, Vox)",
+      "title": "Suggested trade-offs or inverted valence angle",
+      "source": "Investigative / Analytical Topic",
       "archetype": "Systemic Trade-Offs",
-      "duration": "18 min",
-      "badge": "Opportunity Analysis",
-      "rationale": "One crisp sentence explaining the positive opportunities or overlooked advantages.",
-      "searchQuery": "4 to 8 word natural YouTube search query (e.g. how AI is creating new tech jobs)"
+      "badge": "Opportunity Analysis (Search Suggestion)",
+      "rationale": "One crisp sentence explaining alternative opportunities or overlooked trade-offs.",
+      "searchQuery": "4 to 8 word natural YouTube search query (e.g. how AI changes engineering workflows and new roles)"
     },
     {
-      "title": "Natural YouTube video title presenting legal, policy, or regulatory realities",
-      "source": "Legal or governance think-tank (e.g. Brookings, CSIS, European Law Review)",
+      "title": "Suggested legal, policy, or regulatory topic",
+      "source": "Policy & Statutory Topic",
       "archetype": "Regulatory Framework",
-      "duration": "15 min",
-      "badge": "Statutory Governance",
+      "badge": "Statutory Governance (Search Suggestion)",
       "rationale": "One crisp sentence explaining how regulations, standards, or institutional safeguards operate.",
       "searchQuery": "4 to 8 word natural YouTube search query (e.g. government regulation AI workplace liability policy)"
     },
     {
-      "title": "Natural YouTube video title presenting longitudinal historical precedents",
-      "source": "Historical or systemic analyst (e.g. Stanford History, Kurzgesagt, Real Engineering)",
+      "title": "Suggested historical precedent topic",
+      "source": "Historical & Structural Context",
       "archetype": "Historical Precedent",
-      "duration": "20 min",
-      "badge": "Historical Context",
+      "badge": "Historical Context (Search Suggestion)",
       "rationale": "One crisp sentence explaining how previous technological or societal transitions unfolded.",
-      "searchQuery": "4 to 8 word natural YouTube search query (e.g. what happened when computers first entered the workplace history)"
+      "searchQuery": "4 to 8 word natural YouTube search query (e.g. what happened when computers entered the workplace history)"
     }
   ]
 }
@@ -239,7 +235,7 @@ Return only the raw JSON object. No markdown fences.`;
 
     // 1. Try Gemini
     if (options.geminiApiKey) {
-      const models = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"];
+      const models = ["gemini-2.5-flash", "gemini-2.0-flash"];
       for (const model of models) {
         try {
           const url = `${this.geminiBase}/${model}:generateContent?key=${options.geminiApiKey}`;
@@ -270,7 +266,7 @@ Return only the raw JSON object. No markdown fences.`;
 
     // 2. Fall back to Groq
     if (!rawResult && options.groqApiKey) {
-      const models = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768"];
+      const models = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"];
       for (const model of models) {
         try {
           const response = await fetch(this.groqEndpoint, {
@@ -338,9 +334,9 @@ Return only the raw JSON object. No markdown fences.`;
         return {
           title: realVideo.title,
           source: realVideo.channel,
-          archetype: r.archetype || "Verified Perspective",
+          archetype: r.archetype || "Counter-Perspective",
           duration: realVideo.duration || r.duration,
-          badge: r.badge || "Verified Perspective",
+          badge: r.badge || "Suggested Video",
           rationale: r.rationale || "Counter-perspective challenging single-sided algorithmic recommendations.",
           searchUrl: `https://www.youtube.com/watch?v=${realVideo.videoId}`,
           thumbnail: realVideo.thumbnail,
@@ -350,6 +346,7 @@ Return only the raw JSON object. No markdown fences.`;
 
       return {
         ...r,
+        badge: r.badge || "Search Suggestion",
         searchUrl: `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`
       };
     }));
@@ -358,7 +355,7 @@ Return only the raw JSON object. No markdown fences.`;
       status: "SUCCESS",
       data: {
         activeVideoTitle: videoTitle,
-        detectedBias: "outrage_polarization",
+        detectedBias: rawResult.detectedBias || "neutral",
         sourcePerspective: rawResult.detectedStance || "Algorithmic Monoculture",
         counterStance: rawResult.flippedStance || "Empirical Counter-Perspectives",
         recommendations: recommendations,

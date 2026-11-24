@@ -1,10 +1,12 @@
 /**
  * CogniShield - Cognitive Behavioral Engine & Dual-Process Scaffolding
- * Based on Daniel Kahneman's Dual-Process Theory (System 1 vs System 2)
+ * Inspired by Daniel Kahneman's Dual-Process Theory (System 1 vs System 2)
  * and Frederick's Cognitive Reflection Test (CRT) frameworks.
  * 
  * Implements:
- * 1. Scientific Cognitive Agency Score (CAS) via Epistemic Latency, CRT Accuracy & Shannon Entropy.
+ * 1. Cognitive Agency Habit Score: A heuristic design metric combining dwell time friction,
+ *    reflection quiz accuracy, and source perspective diversity. This is an intentional product design
+ *    choice to cultivate thoughtful habits, not an established psychological diagnostic scale.
  * 2. The Fading Scaffolding Model: AI hints fade as user agency matures, combating AI over-reliance.
  * 3. 3-Tier Socratic Question Generation & Epistemic Calibration.
  */
@@ -42,7 +44,7 @@ class CognitiveEngine {
     const latencyRatio = Math.min(1.0, Math.max(0, dwellTime / this.TAU_CRITICAL_LATENCY));
 
     // 2. Cognitive Reflection Accuracy (Ability to spot intuitive cognitive traps)
-    const crtAccuracy = totalQuizzes > 0 ? (correctQuizzes / totalQuizzes) : 0.5;
+    const crtAccuracy = totalQuizzes > 0 ? (correctQuizzes / totalQuizzes) : 0;
 
     // 3. Shannon Entropy of Perspective Exposure (Diversity of ideological / factual inputs)
     const entropy = this.calculatePerspectiveEntropy(perspectiveCounts);
@@ -56,7 +58,7 @@ class CognitiveEngine {
       0.25 * normalizedEntropy
     ) * 100;
 
-    return Math.round(Math.min(100, Math.max(1, compositeScore)));
+    return Math.round(Math.min(100, Math.max(0, compositeScore)));
   }
 
   /**
@@ -83,7 +85,7 @@ class CognitiveEngine {
    * As the user's agency score rises, AI intervention dynamically decreases:
    * - Novice (0-40): Full hints, fallacy definitions, multiple-choice options.
    * - Intermediate (41-75): Minimal hints, prompt-based open questions.
-   * - Advanced (76-100): Zero hints, unassisted critical prompt, "Evaluate the AI" bonus tests.
+   * - Advanced (76-100): Zero hints, unassisted critical prompt for independent scrutiny.
    */
   getScaffoldingLevel(agencyScore) {
     if (agencyScore < 40) {
@@ -177,7 +179,8 @@ class CognitiveEngine {
 
   /**
    * Generates a structured Counter-Perspective Feed (Flip the Feed / CogniFlip)
-   * Inverts recommendation bias and provides 3-5 verified counter-perspective video/search links.
+   * Inverts recommendation bias and provides 3-5 counter-perspective search query suggestions.
+   * Note: These are suggested search topics, not pre-verified video links.
    * 
    * @param {Object} videoContext - Context object containing title, url, tags, description.
    * @param {Object} dossier - Optional pre-matched dossier from OfflineCacheManager.
@@ -219,46 +222,46 @@ class CognitiveEngine {
           title: `Empirical Fact-Check & Data: ${cleanT}`,
           source: "Institutional Economics & Science Review",
           archetype: "Empirical Baseline",
-          duration: "14:15",
-          badge: "Empirical Data",
+          badge: "Search Suggestion",
           rationale: "Examines baseline methodology, sample sizes, and verifiable facts before accepting viral claims.",
-          searchQuery: `${title} empirical data statistics studies analysis`
+          searchQuery: `${title} empirical data statistics studies analysis`,
+          isSearchUrl: true
         },
         {
           title: `The Direct Counter-Argument: Why the Consensus Challenges ${cleanT}`,
           source: "Domain Policy & Ethics Review",
           archetype: "Direct Counter-Thesis",
-          duration: "18:30",
-          badge: "Counter-Thesis",
+          badge: "Search Suggestion",
           rationale: "Explores competing viewpoints and trade-offs that algorithmic recommendation systems systematically omit.",
-          searchQuery: `${title} why consensus disagree counter argument debate`
+          searchQuery: `${title} why consensus disagree counter argument debate`,
+          isSearchUrl: true
         },
         {
           title: `The Hidden Opportunities & Positive Side of ${cleanT}`,
           source: "Global Innovation & Technology Review",
           archetype: "Systemic Trade-Offs",
-          duration: "15:45",
-          badge: "Opportunity Analysis",
+          badge: "Search Suggestion",
           rationale: "Surfaces constructive upsides, overlooked opportunities, or alternative economic solutions.",
-          searchQuery: `${title} positive benefits opportunities constructive solutions`
+          searchQuery: `${title} positive benefits opportunities constructive solutions`,
+          isSearchUrl: true
         },
         {
           title: `Regulatory & Institutional Realities: Legal Frameworks Surrounding ${cleanT}`,
           source: "International Statutory Observatory",
           archetype: "Regulatory Framework",
-          duration: "17:10",
-          badge: "Statutory Governance",
+          badge: "Search Suggestion",
           rationale: "Examines how national and international regulations, liability laws, and standards govern this issue.",
-          searchQuery: `${title} legal regulations policy frameworks court analysis`
+          searchQuery: `${title} legal regulations policy frameworks court analysis`,
+          isSearchUrl: true
         },
         {
           title: `Longitudinal Context: How History Explains ${cleanT}`,
           source: "Historical & Societal Archive",
           archetype: "Historical Precedent",
-          duration: "16:00",
-          badge: "Historical Context",
+          badge: "Search Suggestion",
           rationale: "Provides historical perspective to prevent knee-jerk panic and evaluate systemic drivers.",
-          searchQuery: `${title} historical precedent past lessons structural deep dive`
+          searchQuery: `${title} historical precedent past lessons structural deep dive`,
+          isSearchUrl: true
         }
       ];
     }

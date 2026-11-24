@@ -19,12 +19,12 @@
     'tab-kahneman': { title: 'Emotional Tone & Tricks', desc: 'Instant check for clickbait, outrage, and emotional hooks.' },
     'tab-trends': { title: '7-Day Habits', desc: 'See how your mindful reading and thinking habits grow over time.' },
     'tab-gym': { title: 'Thinking Practice', desc: 'Quick 30-second mental workouts to spot misleading claims.' },
-    'tab-cert': { title: 'Research Certificate', desc: 'Proof of balanced research and exploring multiple viewpoints.' },
+    'tab-cert': { title: 'Local Session Log', desc: 'Summary of user-initiated inquiry and explored viewpoints. Not an accredited university credential.' },
     'tab-audit': { title: 'Reading History', desc: '100% private browsing log stored only on your computer.' },
-    'tab-green': { title: 'Privacy & Clean Energy', desc: 'Runs light and fast on your device, using 95.5% less energy than cloud AI.' }
+    'tab-green': { title: 'Privacy & Local Architecture', desc: 'Runs light and fast on your device without server-side video streaming.' }
   };
 
-  // ── Sample benchmark dataset (Calibrated: 18.4s dwell, 28/34/25/13 balance) ──
+  // ── Sample benchmark dataset (Calibrated: 12s+ dwell, multi-perspective balance) ──
   const BENCHMARK_SAMPLE_SESSIONS = [
     { title: "Why European Renewable Energy Transition Faces Grid Bottlenecks", domain: "youtube.com", platform: "YouTube", detectedLang: "en", biasCategory: "outrage_anger", emotionalIntensity: 4.2, scaffoldingTier: "Thinking Solo", quizAnswered: true, quizCorrect: true, dwellSeconds: 19, epistemicArchetypes: ["Economic", "Statutory"], timestamp: Date.now() - (1000 * 60 * 18) },
     { title: "AI in Higher Education: Do LLMs Destroy Student Critical Thinking?", domain: "lemonde.fr", platform: "Web News", detectedLang: "fr", biasCategory: "false_certainty", emotionalIntensity: 3.8, scaffoldingTier: "Thinking Solo", quizAnswered: true, quizCorrect: true, dwellSeconds: 18, epistemicArchetypes: ["Empirical", "Socio-Ethical"], timestamp: Date.now() - (1000 * 60 * 60 * 3) },
@@ -489,16 +489,20 @@
     const totalHooks = (stats.biasCounts.outrage_anger + stats.biasCounts.false_certainty + stats.biasCounts.tribal_polarization + stats.biasCounts.urgency_fomo) || 0;
 
     if (logCount) logCount.textContent = isZero ? 0 : sessions.length;
-    if (trapsCount) trapsCount.textContent = isZero ? 0 : (totalHooks || 23);
+    if (trapsCount) trapsCount.textContent = isZero ? 0 : totalHooks;
 
-    renderPipelineTelemetry(stats, sessions, isZero);
-    renderKPICards(stats, isZero);
-    renderBentoCards(stats, isZero);
-    renderPerspectiveRadar(stats, isZero);
-    renderDualProcessAndRhetoric(stats, isZero);
-    renderTrendsChart(sessions, isZero);
-    renderAcademicCertificate(stats, isZero);
-    renderAuditTable(sessions, isZero);
+    [
+      () => renderPipelineTelemetry(stats, sessions, isZero),
+      () => renderKPICards(stats, isZero),
+      () => renderBentoCards(stats, isZero),
+      () => renderPerspectiveRadar(stats, isZero),
+      () => renderDualProcessAndRhetoric(stats, isZero),
+      () => renderTrendsChart(sessions, isZero),
+      () => renderAcademicCertificate(stats, isZero),
+      () => renderAuditTable(sessions, isZero)
+    ].forEach(fn => {
+      try { fn(); } catch (err) { console.warn('[CogniShield] Dashboard section render error:', err); }
+    });
   }
 
   // ═══════════════════════════════════════════════════════════════════════
@@ -506,7 +510,7 @@
   // ═══════════════════════════════════════════════════════════════════════
   function computeMetrics(sessions) {
     if (!sessions || sessions.length === 0) {
-      return { totalScans: 0, avgDwell: 0, avgIntensity: 0, crtAccuracy: 92, totalQuizzes: 0, correctQuizzes: 0, agencyScore: 0, entropy: 0, archetypes: { empirical: 0, economic: 0, statutory: 0, socio_ethical: 0 }, biasCounts: { outrage_anger: 0, false_certainty: 0, tribal_polarization: 0, urgency_fomo: 0 }, sys1Count: 0, sys2Count: 0 };
+      return { totalScans: 0, avgDwell: 0, avgIntensity: 0, crtAccuracy: 0, totalQuizzes: 0, correctQuizzes: 0, agencyScore: 0, entropy: 0, archetypes: { empirical: 0, economic: 0, statutory: 0, socio_ethical: 0 }, biasCounts: { outrage_anger: 0, false_certainty: 0, tribal_polarization: 0, urgency_fomo: 0 }, sys1Count: 0, sys2Count: 0 };
     }
     let totalDwell = 0, totalIntensity = 0, totalQuizzes = 0, correctQuizzes = 0, sys1 = 0, sys2 = 0;
     const arch = { empirical: 0, economic: 0, statutory: 0, socio_ethical: 0 };
@@ -514,8 +518,8 @@
 
     sessions.forEach(s => {
       const rawDwell = +s.dwellSeconds || 0;
-      // Cap per-page dwell tracking to max 25s so uncapped test tabs (e.g. 642s) don't inflate the average
-      const dwell = rawDwell > 40 ? 18.4 : (rawDwell > 0 ? Math.min(rawDwell, 25) : 0);
+      // Cap per-page dwell tracking to max 120s so uncapped background tabs don't skew telemetry
+      const dwell = rawDwell > 120 ? 120 : (rawDwell > 0 ? rawDwell : 0);
       const intens = +s.emotionalIntensity || 0;
       totalDwell += dwell;
       totalIntensity += intens;
@@ -682,9 +686,9 @@
     set('kpi-arch-economic', isZero ? '--' : `${pEco}% (${stats.archetypes.economic || 9})`);
     set('kpi-arch-statutory', isZero ? '--' : `${pSta}% (${stats.archetypes.statutory || 6})`);
     set('kpi-arch-ethical', isZero ? '--' : `${pEth}% (${stats.archetypes.socio_ethical || 3})`);
-    set('kpi-avg-dwell', isZero ? '--' : `${stats.avgDwell || 18.4}s`);
-    set('kpi-crt-acc', isZero ? '--' : `${stats.crtAccuracy || 92}%`);
-    set('kpi-entropy', isZero ? '--' : `${stats.entropy || 1.94}`);
+    set('kpi-avg-dwell', isZero ? '--' : `${stats.avgDwell || 0}s`);
+    set('kpi-crt-acc', isZero ? '--' : `${stats.totalQuizzes > 0 ? stats.crtAccuracy + '%' : '0%'}`);
+    set('kpi-entropy', isZero ? '--' : `${stats.entropy || 0}`);
 
     // KPI 3: Scaffolding Attenuation
     const fallaciesEl = document.getElementById('kpi-fallacies-caught');
@@ -1080,13 +1084,13 @@
       });
     }
 
-    const totSec = sessions.reduce((a, s) => a + (s.dwellSeconds > 40 ? 18.4 : Math.min(+s.dwellSeconds || 18, 30)), 0);
-    const avgS = sessions.length ? Math.round(totSec / sessions.length) : 18;
+    const totSec = sessions.reduce((a, s) => a + Math.min(+s.dwellSeconds || 0, 120), 0);
+    const avgS = sessions.length ? Math.round(totSec / sessions.length) : 0;
     const set = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
     set('trend-total-scans', `${sessions.length} Articles & Videos`);
     set('trend-avg-dwell', `${avgS} Seconds`);
-    set('trend-quiz-rate', '92% (12/13)');
-    set('trend-stage', 'Thinking Solo (Zero Hints)');
+    set('trend-quiz-rate', sessions.length && stats && stats.totalQuizzes > 0 ? `${stats.crtAccuracy}% (${stats.correctQuizzes}/${stats.totalQuizzes})` : 'No quizzes yet');
+    set('trend-stage', 'Self-Paced Inquiry');
   }
 
   // ═══════════════════════════════════════════════════════════════════════
@@ -1151,7 +1155,7 @@
     }
     const casEl = document.getElementById('kpi-cas-number');
     if (casEl && casEl.textContent !== '--') {
-      const cur = parseInt(casEl.textContent, 10) || 94;
+      const cur = parseInt(casEl.textContent, 10) || 0;
       casEl.textContent = Math.min(100, cur + 2);
       casEl.style.textShadow = '0 0 16px var(--emerald)';
       setTimeout(() => { casEl.style.textShadow = ''; }, 1200);
@@ -1198,12 +1202,14 @@
       set('cert-disp-token', 'CS-VERIFY-PENDING');
       set('cert-disp-date', '--');
     } else {
-      set('cert-disp-archetypes', 'VERIFIED (4 / 4 Viewpoints Explored)');
-      set('cert-disp-reflections', '12 Thoughtful Reflections Completed');
-      set('cert-disp-dwell', '18.4s (Calm Reflection Met)');
+      const arch = stats.archetypes || {};
+      const activeCount = ['empirical', 'economic', 'statutory', 'ethical'].filter(k => (arch[k] || 0) > 0).length;
+      set('cert-disp-archetypes', `${activeCount} / 4 Viewpoints Explored`);
+      set('cert-disp-reflections', `${stats.correctQuizzes || 0} Reflections Completed`);
+      set('cert-disp-dwell', `${stats.avgDwell || 0}s Average Reflection Time`);
       const tok = document.getElementById('cert-disp-token');
-      if (tok && (tok.textContent === 'CS-VERIFY-PENDING' || tok.textContent === 'CS-VERIFY-LIVE-TOKEN')) {
-        tok.textContent = 'CS-VERIFY-' + Math.random().toString(36).slice(2, 6).toUpperCase() + '-' + Date.now().toString(36).toUpperCase();
+      if (tok && (tok.textContent === 'CS-VERIFY-PENDING' || tok.textContent === 'CS-LOG-LIVE-TOKEN' || tok.textContent === 'CS-VERIFY-LIVE-TOKEN')) {
+        tok.textContent = 'CS-LOG-' + Math.random().toString(36).slice(2, 6).toUpperCase() + '-' + Date.now().toString(36).toUpperCase();
       }
       set('cert-disp-date', new Date().toISOString().replace('T', ' ').slice(0, 19) + ' UTC');
     }

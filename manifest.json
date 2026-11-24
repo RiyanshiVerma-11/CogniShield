@@ -15,7 +15,7 @@
       "48": "assets/icons/icon48.png",
       "128": "assets/icons/icon128.png"
     },
-    "default_title": "CogniShield: Cognitive Health & Agency"
+    "default_title": "CogniShield: Critical Thinking & Digital Agency"
   },
   "options_ui": {
     "page": "src/dashboard/dashboard.html",
@@ -28,7 +28,20 @@
   "content_scripts": [
     {
       "matches": [
-        "<all_urls>"
+        "*://*.youtube.com/*",
+        "*://*.twitter.com/*",
+        "*://*.x.com/*",
+        "*://*.reddit.com/*",
+        "*://*.bbc.com/*",
+        "*://*.lemonde.fr/*",
+        "*://*.spiegel.de/*",
+        "*://*.theguardian.com/*",
+        "*://*.reuters.com/*",
+        "*://*.euractiv.com/*",
+        "*://*.politico.eu/*",
+        "*://*.bloomberg.com/*",
+        "*://*.thehindu.com/*",
+        "*://*.indianexpress.com/*"
       ],
       "js": [
         "src/shared/regex-trilingual.js",
@@ -56,18 +69,35 @@
     "scripting"
   ],
   "host_permissions": [
-    "<all_urls>"
+    "*://*.youtube.com/*",
+    "*://*.twitter.com/*",
+    "*://*.x.com/*",
+    "*://*.reddit.com/*",
+    "*://*.bbc.com/*",
+    "*://*.lemonde.fr/*",
+    "*://*.spiegel.de/*",
+    "*://*.theguardian.com/*",
+    "*://*.reuters.com/*",
+    "*://*.euractiv.com/*",
+    "*://*.politico.eu/*",
+    "*://*.bloomberg.com/*",
+    "*://*.thehindu.com/*",
+    "*://*.indianexpress.com/*",
+    "https://generativelanguage.googleapis.com/*",
+    "https://api.groq.com/*"
   ],
   "web_accessible_resources": [
     {
       "resources": [
         "assets/icons/*",
         "src/shared/*",
-        "src/config/*",
         "src/dashboard/*"
       ],
       "matches": [
-        "<all_urls>"
+        "*://*.youtube.com/*",
+        "*://*.twitter.com/*",
+        "*://*.x.com/*",
+        "*://*.reddit.com/*"
       ]
     }
   ]

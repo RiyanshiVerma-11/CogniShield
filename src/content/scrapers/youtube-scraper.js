@@ -2,7 +2,7 @@
  * CogniShield - Triple-Redundant YouTube & Social Content Scraper
  * 
  * Implements:
- * Tier A: Network / Internal timedtext caption interceptor.
+ * Tier A: Cached transcript from network intercept (reserved for future timedtext wiring).
  * Tier B: Semantic ARIA accessibility selectors (protected by European Accessibility Act mandates).
  * Tier C: Contextual metadata fallback (Title, Description, Tags, Top Comments) capturing 80%+ semantic context.
  */
@@ -25,10 +25,14 @@ class YouTubeScraper {
   async extractVideoContext() {
     const metadata = this.extractMetadata();
 
-    // Try Tier A: Cached transcript from network intercept
+    // Try Tier A: Cached or fetched captionTracks transcript from ytInitialPlayerResponse
+    if (!this.cachedTranscript || this.cachedTranscript.length <= 50) {
+      await this.fetchPlayerCaptions();
+    }
+
     if (this.cachedTranscript && this.cachedTranscript.length > 50) {
       return {
-        sourceTier: "Tier A (Network Intercept)",
+        sourceTier: "Tier A (YouTube Captions / Transcript)",
         transcript: this.cachedTranscript,
         metadata,
         textPayload: `${metadata.title}\n${metadata.description}\n${this.cachedTranscript}`
@@ -118,6 +122,58 @@ class YouTubeScraper {
     }
 
     return { title, description, pinnedComment };
+  }
+
+  /**
+   * Tier A helper: Extracts captionTracks URL from YouTube's ytInitialPlayerResponse
+   * script tag on the watch page and fetches the JSON3 transcript same-origin.
+   */
+  async fetchPlayerCaptions() {
+    try {
+      const scripts = document.querySelectorAll("script");
+      let tracks = null;
+      for (const s of scripts) {
+        const txt = s.textContent || "";
+        if (!txt.includes("captionTracks")) continue;
+        const match = txt.match(/"captionTracks"\s*:\s*(\[[^\]]+\])/);
+        if (match && match[1]) {
+          try {
+            tracks = JSON.parse(match[1]);
+            break;
+          } catch (_) { /* ignore malformed match */ }
+        }
+      }
+      if (!Array.isArray(tracks) || tracks.length === 0) return null;
+
+      const preferred = tracks.find(t => t.languageCode && t.languageCode.startsWith("en")) || tracks[0];
+      if (!preferred || !preferred.baseUrl) return null;
+
+      const captionUrl = preferred.baseUrl.includes("fmt=")
+        ? preferred.baseUrl
+        : `${preferred.baseUrl}&fmt=json3`;
+      const resp = await fetch(captionUrl);
+      if (!resp.ok) return null;
+
+      const data = await resp.json();
+      const events = data && Array.isArray(data.events) ? data.events : [];
+      const words = [];
+      for (const ev of events) {
+        if (!Array.isArray(ev.segs)) continue;
+        for (const seg of ev.segs) {
+          if (seg.utf8 && seg.utf8.trim() && seg.utf8.trim() !== "\n") {
+            words.push(seg.utf8.trim());
+          }
+        }
+      }
+      const transcript = words.join(" ").replace(/\s+/g, " ").trim().slice(0, 6000);
+      if (transcript.length > 50) {
+        this.cachedTranscript = transcript;
+        return transcript;
+      }
+    } catch (e) {
+      console.warn("[CogniShield] Caption track fetch skipped:", e.message || e);
+    }
+    return null;
   }
 
   /**

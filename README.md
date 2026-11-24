@@ -8,8 +8,8 @@
 [![CogniShield CI](https://github.com/RiyanshiVerma-11/CogniShield/actions/workflows/test.yml/badge.svg)](https://github.com/RiyanshiVerma-11/CogniShield/actions/workflows/test.yml)
 ![Platform](https://img.shields.io/badge/Platform-Chrome%20%7C%20Brave%20MV3-F7941D?style=for-the-badge&logo=googlechrome)
 ![Track](https://img.shields.io/badge/Track-Stream%201%3A%20COGNITIVE-0F172A?style=for-the-badge)
-![Tests](https://img.shields.io/badge/Tests-26%2F26%20Passing%20(100%25)-10B981?style=for-the-badge)
-![Green IT](https://img.shields.io/badge/Green%20IT-99.98%25%20Compute%20Reduction-0284C7?style=for-the-badge)
+![Tests](https://img.shields.io/badge/Tests-38%2F38%20Passing-10B981?style=for-the-badge)
+![Privacy](https://img.shields.io/badge/Privacy-100%25%20On--Device-0284C7?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-Apache%202.0-8B5CF6?style=for-the-badge)
 
 </div>
@@ -24,7 +24,7 @@ Unlike legacy tools that censor content, ban websites, or slap patronizing "True
 * We never block, ban, or alter original content.
 * We reveal the perspectives that recommendation algorithms systematically hide.
 * We inject **12-second productive friction** (Daniel Kahneman’s System 2 rational questioning) before impulsive sharing.
-* We feature **Flip the Feed**: an in-page recommendation inverter on YouTube that replaces outrage loops with **5 verified counter-perspective videos** and awards Agency Points.
+* We feature **Flip the Feed**: an in-page recommendation inverter on YouTube that replaces outrage loops with **counter-perspective search suggestions** across multiple viewpoints and awards Agency Points.
 
 ---
 
@@ -92,7 +92,7 @@ Collaborators can edit any module directly in VS Code / IDE:
 | **Cognitive Math & Scrutiny Formulas** | `src/shared/cognitive-engine.js` | Daniel Kahneman System 1 vs 2 formulas, CRT quizzes, Shannon Entropy metrics |
 | **Trilingual Outrage Regex Scanner** | `src/shared/regex-detector.js` | English, German (Hamburg), and French zero-watt emotional manipulation keywords |
 | **Pre-cached Hamburg Stage Dossiers** | `src/shared/offline-cache.js` | 0ms deterministic dossiers (AI Ethics, Renewable Energy, Inflation, Elections) |
-| **Cognitive Health Dashboard** | `src/dashboard/dashboard.html`<br>`src/dashboard/dashboard.js`<br>`src/dashboard/dashboard.css` | Real-time analytics, habit loops, and exportable Academic Integrity Certificate |
+| **Cognitive Health Dashboard** | `src/dashboard/dashboard.html`<br>`src/dashboard/dashboard.js`<br>`src/dashboard/dashboard.css` | Real-time analytics, habit loops, and exportable Local Session Log |
 | **Dual AI Cloud Bridge & Prompts** | `src/background/api-bridge.js` | Gemini 2.5 Flash & Groq LLM dialectic query orchestration & prompt engineering |
 | **Extension Toolbar Popup & Modes** | `src/popup/popup.html`<br>`src/popup/popup.js` | Zen Mode vs Active Trainer switcher, Force Demo Cache stage toggle |
 
@@ -127,7 +127,7 @@ Once your edits are tested and verified:
 
 ## 🧪 Quality Assurance & Testing Suite
 
-CogniShield features an automated 26-test verification suite and structured manual verification flows to guarantee 100% stage reliability.
+CogniShield features an automated 38-test verification suite covering trilingual regex heuristics, behavioral agency math, privacy sanitization, negative neutral-news controls, and pilot stats.
 
 ### 1. Automated Unit Test Suite (`npm test`)
 Run the test suite directly from your terminal:
@@ -137,32 +137,7 @@ npm test
 node tests/test-cognitive-engine.js
 ```
 
-Expected test run output:
-```
-=============================================================
-🛡️ RUNNING COGNISHIELD VERIFICATION SUITE
-=============================================================
-[PASS] Regex EN: Detects outrage, polarization and urgency keywords
-[PASS] Regex DE: Detects German manipulation triggers for Hamburg
-[PASS] Regex FR: Detects French manipulation keywords
-[PASS] Cognitive Math: Deliberate System 2 score (100) exceeds Impulsive System 1 (7)
-[PASS] Cognitive Math: High scrutiny properly achieves high agency rating (>80)
-[PASS] Fading: Novice receives full scaffolding
-[PASS] Fading: Expert hints fade away to avoid AI reliance
-[PASS] GDPR Sanitizer: Strips URLs, user handles, subscriber counts
-[PASS] Offline Cache: Correctly matches European Renewable Energy debate
-[PASS] Offline Cache: Provides dual-spectrum sourced counter-perspectives
-[PASS] Context Matcher: Accurately identifies political polling & AI ethics debates
-[PASS] Dynamic Synthesizer: Generates topic-accurate card for novel arbitrary video
-[PASS] Shannon Entropy: Calculates theoretical maximum diversity (2.0 bits)
-[PASS] Certificate Generator: Produces valid cryptographic verification token
-[PASS] Flip Feed: Synthesizes top 5 counter-perspectives across 5 dialectic archetypes
-[PASS] Flip Feed: Generates valid deep-link YouTube search queries
-[PASS] Flip Feed: Awards +5 Agency Points for cognitive exploration
-=============================================================
-RESULTS: 26/26 TESTS PASSED (100% RELIABILITY)
-=============================================================
-```
+All 38 unit tests pass deterministically.
 
 ---
 
@@ -173,7 +148,7 @@ RESULTS: 26/26 TESTS PASSED (100% RELIABILITY)
 2. Check the right sidebar above the native recommendations.
 3. Confirm the **CogniShield Flip the Feed** hero card is mounted.
 4. Click **"⚡ Flip Feed (+5 🧠)"** or **"FLIP THE FEED: REVEAL 5 COUNTER-PERSPECTIVES"**.
-5. Verify native recommendations are replaced by **5 verified opposite videos** across:
+5. Verify native recommendations are replaced by **balanced counter-perspective search suggestions** across:
    * *Direct Counter-Thesis*
    * *Empirical Baseline Data*
    * *Opportunity / Inverted Valence Upsides*
@@ -189,7 +164,7 @@ RESULTS: 26/26 TESTS PASSED (100% RELIABILITY)
 #### C. Cognitive Health Dashboard & Integrity Certificate
 1. Click the CogniShield toolbar icon or open `src/dashboard/dashboard.html` in browser.
 2. Verify the **Cognitive Agency Score (CAS)**, **System 1 vs 2 Scrutiny Ratio**, and **Shannon Entropy** metrics render correctly.
-3. Click **"Export Due-Diligence Certificate"** to verify cryptographic certificate generation.
+3. Click **"Export Local Session Log"** to generate an on-device plain-text record of user inquiry.
 
 #### D. Hamburg Stage Resilience Test (100% Offline Mode)
 1. Turn off your Wi-Fi completely (or toggle `forceDemoMode: true` in `keys.local.js`).
@@ -212,36 +187,32 @@ RESULTS: 26/26 TESTS PASSED (100% RELIABILITY)
 └─────────────────┴─────────────────┴──────────────────┴──────────────────┴───────────────────────┘
 ```
 
-### The 4-Tier Zero-Fail Hybrid Cascade
-To guarantee 100% stage uptime during presentations (including Hamburg Grand Finals) even if WiFi fails completely:
+### The Zero-Fail Hybrid Cascade
+To ensure stage uptime during presentations:
 
-* **Tier 0: Pure Client-Side Trilingual Regex (0ms, 0W, 100% Offline):** Instant in-browser scan across English, German, and French emotional manipulation patterns.
-* **Tier 1: Deterministic Offline Demo Cache (0ms, 0 Network Overhead):** Pre-cached high-yield dossiers (Renewable Energy, AI Ethics, Macro-Inflation, Electoral Analysis).
-* **Tier 2: Serverless Micro-JSON Cloud Inference (<0.3s Latency):** Gemini 2.5 Flash & Groq returning structured 5-video counter-perspectives.
-* **Tier 3: Local WebLLM WebGPU Fallback:** On-device client-side inference without external network calls.
-
----
-
-## 🌿 Green IT & Carbon Calculation Benchmark
-
-| Metric | Standard Cloud Video AI Pipeline | CogniShield Text-First Architecture | Green IT Impact |
-| :--- | :--- | :--- | :--- |
-| **Data Ingestion** | 5-min 1080p stream (~150 MB) | DOM text/captions (~15 KB) | **99.99% Bandwidth Cut** |
-| **Compute Footprint** | 1,500 frames on NVIDIA A100 GPU | In-browser regex + micro-JSON | **99.98% Serverless Reduction** |
-| **Energy Consumption** | ~2.73 Wh per 5-min scan | ~0.00042 Wh per scan | **99.98% Energy Cut** |
-| **Conservative Rating**| Baseline: 2.73 Wh | CogniShield: 0.12 Wh (with cloud fallback) | **95.5% Real-World Cut** |
+* **Tier 0: Pure Client-Side Trilingual Regex (0ms, 100% Offline):** Instant in-browser scan across English, German, and French emotional manipulation patterns.
+* **Tier 1: Deterministic Offline Demo Cache (0ms, 0 Network Overhead):** Pre-cached stage dossiers (`ai_education` and `energy_transition`).
+* **Tier 2: Serverless Micro-JSON Cloud Inference (<0.3s Latency):** Gemini Flash & Groq returning structured counter-perspectives with on-device Zero-PII sanitization.
 
 ---
 
-## 🧠 Scientific Behavioral Model: The Cognitive Agency Score
+## 🔒 Architecture & Privacy: Lightweight DOM Processing
 
-Implemented in `src/shared/cognitive-engine.js`, CogniShield operationalizes Daniel Kahneman's Dual-Process Cognitive Framework:
+CogniShield processes text titles, captions, and DOM metadata locally inside the browser. It does not stream or download heavy video files to cloud servers. All browsing history and quiz results remain in the browser's local IndexedDB with zero cloud telemetry.
 
-$$\text{CAS}(t) = \left[ 0.40 \cdot \min\left(1, \frac{\Delta t_{\text{dwell}}}{\tau_{\text{crit}}}\right) + 0.35 \cdot \text{CRT}_{\text{score}} + 0.25 \cdot \left(\frac{H(P)}{\log_2(N)}\right) \right] \times 100$$
+---
 
-1. **Epistemic Latency ($\Delta t_{\text{dwell}}$):** Measures whether the user pauses to scrutinize claims (System 2) vs reacting impulsively (System 1).
-2. **Cognitive Reflection Test (CRT) Accuracy:** Micro-quizzes test the user's ability to override cognitive biases.
-3. **Shannon Entropy of Perspective Exposure ($H = -\sum p_i \log_2 p_i$):** Quantifies diversity across 5 dialectic archetypes.
+## 🧠 Behavioral Model: The Cognitive Habit Score
+
+Implemented in `src/shared/cognitive-engine.js`, the Habit Score is an intentional product design choice inspired by Daniel Kahneman's Dual-Process concept:
+
+$$\text{Habit Score}(t) = \left[ 0.40 \cdot \min\left(1, \frac{\Delta t_{\text{dwell}}}{12\text{s}}\right) + 0.35 \cdot \text{CRT}_{\text{score}} + 0.25 \cdot \left(\frac{H(P)}{\log_2(N)}\right) \right] \times 100$$
+
+1. **Epistemic Latency ($\Delta t_{\text{dwell}}$):** Measures whether the user pauses to scrutinize claims (System 2) before reacting impulsively (System 1).
+2. **Cognitive Reflection Test (CRT) Accuracy:** Micro-quizzes test the user's ability to spot intuitive logical traps. When no quizzes are taken, this strictly contributes 0.
+3. **Shannon Entropy of Perspective Exposure:** Measures the diversity of perspectives explored across archetypes.
+
+*Note: This formula is an educational habit-building heuristic, not an empirically validated psychological diagnosis.*
 
 ---
 
@@ -292,7 +263,7 @@ CogniShield/
 
 ## 👥 Interdisciplinary Team Synergy
 
-* **AI & Software Engineer:** Chrome/Brave Manifest V3 architecture, 0.05s DOM scraper, local WebLLM & Groq micro-JSON orchestration.
+* **AI & Software Engineer:** Chrome/Brave Manifest V3 architecture, 0.05s DOM scraper, Groq & Gemini micro-JSON orchestration.
 * **Cognitive Psychology & UX Lead:** 12-second reflection pause, Kahneman System 2 Socratic challenge, habit reward loops.
 * **Digital Ethics & Policy Strategist:** 100% zero-censorship enforcement, EU AI Act conformity, GDPR compliance & data audits.
 * **Campus Partnerships Lead:** Multi-university pilot coordination (India & Europe), academic integrity licenses.

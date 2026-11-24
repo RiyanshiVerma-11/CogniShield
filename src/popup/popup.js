@@ -133,8 +133,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
         if (badgeApiStatus) {
           const hasKey = !!(geminiApiKey || groqApiKey);
-          badgeApiStatus.textContent = hasKey ? "READY" : "OFFLINE";
-          badgeApiStatus.style.color = hasKey ? "#10B981" : "#94A3B8";
+          badgeApiStatus.textContent = hasKey ? "ACTIVE" : "OFFLINE";
+          badgeApiStatus.style.color = hasKey ? "#10B981" : "#EF4444";
+          badgeApiStatus.style.background = hasKey ? "rgba(16, 185, 129, 0.15)" : "rgba(239, 68, 68, 0.15)";
+          badgeApiStatus.style.borderColor = hasKey ? "rgba(16, 185, 129, 0.3)" : "rgba(239, 68, 68, 0.3)";
         }
       });
     });
@@ -181,26 +183,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // Export Academic Certificate
+  // Export Local Session Log
   btnExport.addEventListener("click", () => {
-    const token = "CS-VERIFY-" + Math.random().toString(36).substring(2, 8).toUpperCase() + "-" + Date.now().toString(36).toUpperCase();
+    const token = "CS-LOG-" + Math.random().toString(36).substring(2, 8).toUpperCase() + "-" + Date.now().toString(36).toUpperCase();
     const certText = `
 =============================================================
-🛡️ COGNISHIELD ACADEMIC DUE-DILIGENCE CERTIFICATE
-Accreditation Standard: European Standards & Guidelines (ESG)
+🛡️ COGNISHIELD LOCAL SESSION LOG
+Notice: On-device reflection log. Not a university credential.
 =============================================================
-Verification Token : ${token}
+Session Token      : ${token}
 Timestamp          : ${new Date().toISOString()}
-Session Status     : VERIFIED MULTI-PERSPECTIVE SCRUTINY
-Cognitive Agency   : 78 / 100 (System 2 Scrutiny Active)
+Session Status     : MULTI-PERSPECTIVE EXPLORATION
+Cognitive Habit    : 78 / 100 (Reflection Scrutiny Active)
 
-Verified Epistemic Archetypes Engaged:
-[x] Peer-Reviewed Empirical Data
+Epistemic Archetypes Engaged:
+[x] Empirical Data & Research
 [x] Statutory & Regulatory Frameworks
-[x] Macroeconomic Census Backing
+[x] Macroeconomic & Structural Context
 
-GDPR & Ethics Compliance:
-100% Client-Side Local Execution (Zero-Cloud Retention).
+Privacy & On-Device Storage:
+100% Client-Side Local Execution (No Account, No Cloud Tracking).
 =============================================================
 `.trim();
 
@@ -208,7 +210,7 @@ GDPR & Ethics Compliance:
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `CogniShield_Academic_Certificate_${Date.now()}.txt`;
+    a.download = `CogniShield_Session_Log_${Date.now()}.txt`;
     a.click();
     URL.revokeObjectURL(url);
   });

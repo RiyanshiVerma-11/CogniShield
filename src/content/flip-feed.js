@@ -1,7 +1,7 @@
 /**
  * CogniShield - "Flip the Feed" (CogniFlip) In-Page Controller
  * Mounts directly into YouTube's recommendation sidebar (#secondary #related).
- * Inverts recommendation bias, surfaces verified counter-arguments, and rewards user agency.
+ * Inverts recommendation bias, surfaces counter-perspective search suggestions, and rewards user agency.
  */
 
 class FlipFeedController {
@@ -166,12 +166,12 @@ class FlipFeedController {
         domain: "youtube.com",
         platform: "YouTube",
         detectedLang: "en",
-        biasCategory: this.currentData ? this.currentData.detectedBias : "outrage_polarization",
-        emotionalIntensity: 4.8,
+        biasCategory: this.currentData ? this.currentData.detectedBias : "neutral",
+        emotionalIntensity: (this.currentData && typeof this.currentData.intensityScore === "number") ? this.currentData.intensityScore : 0,
         scaffoldingTier: "Autonomous Agency",
-        dwellSeconds: 45,
-        quizAnswered: true,
-        quizCorrect: true,
+        dwellSeconds: 5,
+        quizAnswered: false,
+        quizCorrect: false,
         epistemicArchetypes: ["Empirical", "Statutory", "Economic"],
         perspectivesCount: (this.currentData && this.currentData.recommendations) ? this.currentData.recommendations.length : 3,
         timestamp: Date.now()
@@ -179,6 +179,10 @@ class FlipFeedController {
 
       if (window.CogniShieldStorage && typeof window.CogniShieldStorage.logSession === "function") {
         window.CogniShieldStorage.logSession(flipSession);
+      }
+
+      if (window.CogniShieldStorage && typeof window.CogniShieldStorage.recordPilotEvent === "function") {
+        window.CogniShieldStorage.recordPilotEvent("flipFeedOpens");
       }
 
       // Direct cross-origin sync so the dashboard updates unconditionally
@@ -222,7 +226,7 @@ class FlipFeedController {
           source: "OECD Economics Review",
           archetype: "Empirical Baseline",
           duration: "14 min",
-          badge: "Verified Institutional Study",
+          badge: "Institutional Study (Search Suggestion)",
           rationale: "Rebuts single-sided claims with empirical workforce data across 32 nations.",
           searchUrl: "https://www.youtube.com/results?search_query=OECD+AI+labor+market+empirical+study"
         },
@@ -351,7 +355,7 @@ class FlipFeedController {
             </div>
             <div class="cognishield-rec-source-row">
               <span class="cognishield-rec-source">${rec.source}</span>
-              <span class="cognishield-rec-badge">${rec.badge || "Verified Perspective"}</span>
+              <span class="cognishield-rec-badge">${rec.badge || "Search Suggestion"}</span>
             </div>
             <div class="cognishield-rec-rationale">
               <strong>Why watch:</strong> ${rec.rationale}
@@ -476,6 +480,9 @@ class FlipFeedController {
     this.container.querySelectorAll(".cognishield-counter-rec-card").forEach((card) => {
       card.addEventListener("click", (e) => {
         // If user didn't click directly on the <a> link, open it
+        if (window.CogniShieldStorage && typeof window.CogniShieldStorage.recordPilotEvent === "function") {
+          window.CogniShieldStorage.recordPilotEvent("counterItemsClicked");
+        }
         if (!e.target.closest("a")) {
           const url = card.getAttribute("data-url");
           if (url) window.open(url, "_blank");

@@ -618,12 +618,12 @@ a:hover {
   100% { transform: scale(2.4); opacity: 0; }
 }
 
-/* ── MAIN VIEW (Tight 0.2cm margins) ─────────────────────────── */
+/* ── MAIN VIEW ────────────────────────────────────────────────── */
 .main-view {
   display: flex;
   flex-direction: column;
-  padding: 8px 12px 24px 12px;
-  /* 0.2cm space around content! */
+  gap: 12px;
+  padding: 16px 20px 32px 20px;
   overflow-y: auto;
   min-width: 0;
   background: var(--bg-base);
@@ -1350,7 +1350,7 @@ a:hover {
 /* ── KPI GRID ─────────────────────────────────────────────────── */
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -1362,6 +1362,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  min-width: 0;
   min-height: 0;
   box-shadow: var(--shadow-card);
   transition: all var(--transition);
@@ -1431,7 +1432,8 @@ a:hover {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 6px 8px;
 }
 
 .kpi-title {
@@ -1601,10 +1603,11 @@ a:hover {
 .quad-legend-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 4px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 6px 10px;
   margin-top: 6px;
-  padding-top: 4px;
+  padding-top: 6px;
   border-top: 1px dashed var(--border);
 }
 
@@ -1717,7 +1720,7 @@ a:hover {
 /* ── BENTO GRID ───────────────────────────────────────────────── */
 .bento-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -1729,6 +1732,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  min-width: 0;
   box-shadow: var(--shadow-card);
   transition: all var(--transition);
   position: relative;
@@ -3523,7 +3527,7 @@ a:hover {
 
 .regulatory-cards-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 14px;
   margin-top: 16px;
 }
@@ -3644,6 +3648,41 @@ a:hover {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-subtle);
+}
+
+/* ── RESPONSIVE DASHBOARD BREAKPOINTS ─────────────────────────── */
+@media (max-width: 1320px) {
+  .kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1120px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .perspective-split-grid,
+  .grid-2-col,
+  .cert-split-grid {
+    grid-template-columns: 1fr;
+  }
+  .trends-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 820px) {
+  .product-banner {
+    flex-direction: column;
+  }
+  .product-banner-right {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .kpi-grid,
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ── PRINT STYLES ─────────────────────────────────────────────── */

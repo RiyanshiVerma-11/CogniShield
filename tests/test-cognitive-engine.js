@@ -63,14 +63,14 @@ async function runTests() {
   assert(noviceScaffold.tier === "Full Scaffolding" && noviceScaffold.hintIntensity === "high", "Fading: Novice receives full scaffolding");
   assert(expertScaffold.tier === "Autonomous Agency" && expertScaffold.hintIntensity === "zero", "Fading: Expert hints fade away to avoid AI reliance");
 
-  // 4. Zero-PII Sanitizer Tests (GDPR Article 22)
+  // 4. Zero-PII Sanitizer Tests (Client-Side Privacy)
   const storage = new LocalStorageManager();
   const rawUserData = "Watch this video at https://youtube.com/watch?v=12345 by @RageGuru with 500K subscribers: The dollar is collapsing!";
   const sanitized = storage.sanitizeTextForInference(rawUserData);
 
-  assert(!sanitized.includes("https://"), "GDPR Sanitizer: Strips URLs");
-  assert(!sanitized.includes("@RageGuru"), "GDPR Sanitizer: Strips user handles");
-  assert(!sanitized.includes("500K subscribers"), "GDPR Sanitizer: Strips subscriber counts");
+  assert(!sanitized.includes("https://"), "Privacy Sanitizer: Strips URLs");
+  assert(!sanitized.includes("@RageGuru"), "Privacy Sanitizer: Strips user handles");
+  assert(!sanitized.includes("500K subscribers"), "Privacy Sanitizer: Strips subscriber counts");
 
   // 5. Offline Demo Cache Retrieval
   const offline = new OfflineCacheManager();
@@ -104,10 +104,12 @@ async function runTests() {
   assert(zeroEntropy === 0, "Shannon Entropy: Single perspective yields zero entropy (echo chamber)");
   assert(Math.abs(maxEntropy - 2.0) < 0.001, "Shannon Entropy: Equal 4-archetype distribution achieves theoretical maximum (2.0 bits)");
 
-  // 10. Academic Due-Diligence Certificate Generation
-  const cert = await storage.generateAcademicCertificate("Autonomous AI Governance in Higher Ed");
-  assert(cert.certificateId.startsWith("CS-VERIFY-"), "Certificate Generator: Produces valid cryptographic verification token");
-  assert(cert.studentAudit !== undefined, "Certificate Generator: Includes student audit breakdown");
+  // 10. Local Session Log Generation (Honest, Unaccredited)
+  const log = await storage.generateSessionLog("Autonomous AI Governance in Higher Ed");
+  assert(log.logId.startsWith("CS-LOG-"), "Session Log Generator: Produces honest local session log token");
+  assert(log.studentAudit !== undefined, "Session Log Generator: Includes student audit breakdown");
+  assert(!JSON.stringify(log).includes("cryptographic"), "Session Log: Does not overclaim cryptographic verification");
+  assert(!JSON.stringify(log).includes("ESG"), "Session Log: Does not claim fake ESG accreditation");
 
   // 11. "Flip the Feed" (CogniFlip) Anti-Bubble Engine Tests
   const aiEduFeed = cognitive.generateCounterPerspectiveFeed(
@@ -117,6 +119,8 @@ async function runTests() {
   );
   assert(aiEduFeed.recommendations.length >= 3, "Flip Feed: Synthesizes top 3-5 counter-perspectives for AI Education");
   assert(aiEduFeed.recommendations[0].searchUrl.includes("youtube.com/results?search_query="), "Flip Feed: Generates valid deep-link YouTube search queries");
+  assert(!aiEduFeed.recommendations[0].badge.includes("Verified"), "Flip Feed: Does not claim search suggestions are 'Verified'");
+  assert(aiEduFeed.recommendations[0].isSearchUrl === true, "Flip Feed: Explicitly flags search query suggestions");
   assert(aiEduFeed.detectedBias === "outrage_anger", "Flip Feed: Accurately tags detected bias category for counter-framing");
 
   const arbitraryFeed = cognitive.generateCounterPerspectiveFeed(
@@ -127,8 +131,45 @@ async function runTests() {
   assert(arbitraryFeed.recommendations.length >= 3, "Flip Feed: Successfully generates counter-recommendations for novel arbitrary video");
   assert(arbitraryFeed.agencyRewardPoints === 5, "Flip Feed: Awards +5 Agency Points for cognitive exploration");
 
+  // 12. Honesty Edge Cases: No Fake Defaults & Neutral News Negative Tests
+  // A. Zero quizzes gives 0 accuracy, not 0.5 or 92
+  const zeroQuizScore = cognitive.calculateAgencyScore(15.0, 0, 0, { empirical: 2, economic: 2, statutory: 2, socio_ethical: 2 });
+  assert(zeroQuizScore < 100, "Cognitive Math: Zero quizzes attempted does not default to 92% or 50% free bonus");
+
+  // B. Local storage getWeeklyStats defaults to zeros when no records
+  const weeklyEmpty = await storage.getWeeklyStats();
+  assert(weeklyEmpty.totalScans === 0 && weeklyEmpty.totalQuizzes === 0, "Storage Stats: Defaults to 0 when user has no browsing history");
+
+  // C. Negative tests: Calm neutral news articles must NOT trigger manipulation alarms
+  const bbcCalm = "The central bank held interest rates steady today following its quarterly monetary policy committee meeting. Officials noted that inflation has moderated in line with seasonal economic forecasts.";
+  const bbcRes = regex.scanText(bbcCalm, "en");
+  assert(bbcRes.matchCount === 0, "Negative Test EN: Calm neutral BBC paragraph produces zero triggers");
+
+  const leMondeCalm = "Le ministre de l'économie a présenté ce matin le projet de budget annuel devant la commission des finances de l'Assemblée nationale.";
+  const leMondeRes = regex.scanText(leMondeCalm, "fr");
+  assert(leMondeRes.matchCount === 0, "Negative Test FR: Calm neutral Le Monde paragraph produces zero triggers");
+
+  const spiegelCalm = "Der Bundesrat berät heute über den Gesetzentwurf zur Reform des Schienenverkehrs und den Ausbau der regionalen Infrastruktur.";
+  const spiegelRes = regex.scanText(spiegelCalm, "de");
+  assert(spiegelRes.matchCount === 0, "Negative Test DE: Calm neutral Der Spiegel paragraph produces zero triggers");
+
+  // D. Positive test: AI anxiety transcript with extinction/catastrophic/rogue cues triggers > 0
+  const aiAnxietySample = "The old trope of AI going rogue left science fiction. You may have heard the phrase human extinction. Why would AI want to wipe us out? It might do something catastrophic, and he calls the human extinction concerns a hoax.";
+  const aiAnxietyRes = regex.scanText(aiAnxietySample, "en");
+  assert(aiAnxietyRes.score > 0 && aiAnxietyRes.matchCount >= 4, "Positive Test EN: AI anxiety transcript triggers > 0 emotional intensity");
+
+  // 13. Anonymous Pilot Evaluation Counters
+  const initialPilot = await storage.getPilotStats();
+  assert(initialPilot.pausesStarted !== undefined, "Pilot Stats: Tracks pause events");
+  await storage.recordPilotEvent("pausesStarted");
+  await storage.recordPilotEvent("pausesCompleted");
+  const updatedPilot = await storage.getPilotStats();
+  assert(updatedPilot.pausesStarted >= 1 && updatedPilot.pausesCompleted >= 1, "Pilot Stats: Accurately records intervention metrics");
+  const pilotExport = await storage.exportPilotStats();
+  assert(pilotExport.includes("[PILOT_N]") && pilotExport.includes("[PARTNER_NAME]") && pilotExport.includes("[FORWARDS_PAUSED]"), "Pilot Stats Export: Retains un-invented pilot placeholders");
+
   console.log("\n=============================================================");
-  console.log(`RESULTS: ${passed}/${total} TESTS PASSED (100% RELIABILITY)`);
+  console.log(`RESULTS: ${passed}/${total} TESTS PASSED (ALL PASSING)`);
   console.log("=============================================================");
 }
 

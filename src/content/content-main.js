@@ -169,14 +169,9 @@
         });
       }
 
-      // Reconcile dynamic intensity and bias category
-      if (intensityScore > 0) {
-        if (matchedDossier) matchedDossier.emotional_intensity = intensityScore;
-      } else if (matchedDossier && matchedDossier.emotional_intensity) {
-        intensityScore = parseFloat(matchedDossier.emotional_intensity);
-      } else {
-        intensityScore = 1.5;
-        if (matchedDossier) matchedDossier.emotional_intensity = intensityScore;
+      // Reconcile dynamic intensity and bias category (always from real text scan, never hardcoded topic scores)
+      if (matchedDossier) {
+        matchedDossier.emotional_intensity = intensityScore;
       }
 
       if (biasCategory !== "neutral") {
@@ -190,8 +185,14 @@
         window.CogniShieldHUD.updateAmbientStatus(intensityScore, highlightStats.highlightedCount);
 
         // 5. Initial Load into HUD via Cache / Synthesizer
-        if (matchedDossier) {
+        // Only show real topic-matched dossiers immediately.
+        // If the dossier is the generic dynamic_universal fallback, show a
+        // "waiting for Live AI" state instead — never fake perspectives.
+        if (matchedDossier && matchedDossier.id !== "dynamic_universal") {
           window.CogniShieldHUD.loadDossier(matchedDossier, highlightStats.categoryCounts, { isLiveAi: false, tier: "Smart Local Engine" });
+        } else {
+          // Show analysis-in-progress state; Live AI will fill in real data
+          window.CogniShieldHUD.loadWaitingState(effectiveTitle, intensityScore, highlightStats.categoryCounts);
         }
 
         // 5b. Update "Flip the Feed" (CogniFlip) for YouTube
@@ -237,7 +238,8 @@
                     liveData.contextTitle = effectiveTitle;
                   }
                   window.CogniShieldHUD.loadDossier(liveData, highlightStats.categoryCounts, { isLiveAi: true, tier: response.tier || "Google Gemini 2.5 Flash" });
-                  const newScore = parseFloat(liveData.emotional_intensity) || intensityScore;
+                  const parsedLiveScore = parseFloat(liveData.emotional_intensity);
+                  const newScore = Number.isFinite(parsedLiveScore) ? Math.min(10, Math.max(0, parsedLiveScore)) : intensityScore;
                   intensityScore = newScore;
                   if (liveData.bias_category) {
                     biasCategory = liveData.bias_category;

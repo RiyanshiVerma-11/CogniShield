@@ -15,8 +15,8 @@ Meanwhile, generative AI tools summarize information passively, inducing **"Cogn
 ### Our Winning Solution: The Zero-Censorship Cognitive Copilot
 Unlike legacy fact-checkers that ban URLs or slap patronizing "False" badges (triggering psychological reactance and censorship backlash), CogniShield operates on an empowering premise:
 * **Zero Censorship:** It never blocks, hides, or deletes any video, post, or article.
-* **Smart Text-First Green IT:** It never downloads or decodes heavy video streams. It parses text captions, DOM semantics, and metadata in sub-50ms at zero bandwidth overhead (99.98% energy reduction).
-* **Flip the Feed (YouTube Inverter):** Replaces outrage-inducing recommendation rabbit holes with **5 verified counter-perspective video queries** across 5 dialectic archetypes and rewards +5 Agency Points.
+* **Smart Text-First Architecture:** It never downloads or decodes heavy video streams. It parses text captions, DOM semantics, and metadata in sub-50ms directly inside the browser.
+* **Flip the Feed (YouTube Inverter):** Replaces outrage-inducing recommendation rabbit holes with **counter-perspective search suggestions** across balanced archetypes and awards Agency Points.
 * **Active Cognitive Scaffolding:** It inserts productive, adaptive friction (12-second reflection & Socratic micro-quizzes) into moments of high emotional manipulation to awaken System 2 thinking.
 * **The Empowerment Paradox:** Success is defined by users needing the tool *less* over time as their own critical reasoning habits mature.
 
@@ -77,13 +77,12 @@ During evaluation, Sopra Steria’s executive jury (CTOs, CSR leaders, and cogni
 │    (10 pts)                │ when YouTube changes DOM."  │ Tier 1 (Cache) ➔ Tier 2 (Gemini + Groq) +   │
 │                            │                             │ Triple-redundancy scrapers (timedtext/ARIA) │
 ├────────────────────────────┼─────────────────────────────┼─────────────────────────────────────────────┤
-│ 6. Societal Impact & B2B   │ "Universities won't buy a   │ B2B 'Epistemic Due-Diligence Certificate'   │
-│    (10 pts)                │ student extension; 18-month │ solves university crisis of AI hallucination│
-│                            │ procurement cycles."        │ in student research and essay submissions.  │
+│ 6. Societal Impact & Second│ "Who actually benefits?     │ Primary: College students in class groups   │
+│    Seat (10 pts)           │ Society is too broad."      │ who pause before forwarding. Second seat:   │
+│                            │                             │ faculty literacy lead sees aggregate count. │
 ├────────────────────────────┼─────────────────────────────┼─────────────────────────────────────────────┤
-│ 7. Ethical & Green IT      │ "Where is proof of 95.5%    │ Peer-reviewed Joule benchmark: 0.00042 Wh   │
-│    (5 pts)                 │ carbon reduction? Is prompt │ (text-first) vs 2.73 Wh (video stream CV) = │
-│                            │ data leaking to cloud APIs?"│ 99.98% cut. Client-side Zero-PII Sanitizer. │
+│ 7. Architecture & Privacy  │ "Is student data leaking to │ On-device DOM parsing; zero user accounts;  │
+│    (5 pts)                 │ cloud APIs or servers?"     │ Client-side Zero-PII Sanitizer on fallback. │
 └────────────────────────────┴─────────────────────────────┴─────────────────────────────────────────────┘
 ```
 
@@ -114,19 +113,19 @@ During evaluation, Sopra Steria’s executive jury (CTOs, CSR leaders, and cogni
                 │                                                               │
                 ▼                                                               │
 ┌──────────────────────────────────────────────┐                   ┌────────────┴─────────────┐
-│       4-TIER HYBRID AI DISPATCH ENGINE       │                   │   LOCAL INDEXEDDB STORAGE│
+│       HYBRID DISPATCH & FALLBACK ENGINE      │                   │   LOCAL INDEXEDDB STORAGE│
 │  Tier 0: Pure Client-Side Regex (0ms, 0W)    │                   │  • 100% On-Device Privacy│
-│  Tier 1: Pre-Cached Offline Dossiers (0ms)   │                   │  • GDPR Art. 22 Compliant│
-│  Tier 2: Gemini 2.5 Flash + Groq Failover    │                   │  • Epistemic Log Storage │
-│  Tier 3: Local Deterministic / WebLLM        │                   │  • Zero Cloud Retention  │
+│  Tier 1: Pre-Cached Stage Dossiers (0ms)     │                   │  • Zero-PII Client Guard │
+│  Tier 2: Gemini Flash + Groq Failover        │                   │  • Epistemic Log Storage │
+│  Tier 3: Local Deterministic Heuristics      │                   │  • Zero Cloud Retention  │
 └──────────────────────────────────────────────┘                   └──────────────────────────┘
 ```
 
-### 1. Scraper Triple Redundancy
-* **Tier A (Network Intercept):** Hooks into YouTube's internal `timedtext` JSON API response for instant 0.05s transcript retrieval.
+### 1. Scraper Redundancy Architecture
+* **Tier A (Network Intercept - API Stub):** Method signature defined in `youtube-scraper.js` (reserved for direct caption network stream wiring).
 * **Tier B (Accessibility DOM Selectors):** Scrapes using European Accessibility Act mandated attributes: `[aria-label="Captions"]` and `ytd-transcript-renderer` (never breaks during class name obfuscation).
-* **Tier C (Semantic Metadata):** Parses Video Title, Description, Tags, and Pinned Comments to extract 80% contextual semantics even when captions are disabled.
-* **Editorial News Scraper (`news-scraper.js`):** Extracts article headline, author byline, and body paragraphs across BBC, Le Monde, Indian Express, Substack, etc.
+* **Tier C (Semantic Metadata):** Parses Video Title, Description, Tags, and Pinned Comments to extract semantic context when on-screen captions are absent.
+* **Editorial News Scraper (`news-scraper.js`):** Extracts article headline and body paragraphs across major news hosts (BBC, Le Monde, Der Spiegel, Reuters, etc.).
 
 ### 2. Client-Side Data Sanitization Gateway (GDPR Compliance)
 Before any text excerpt leaves the client for Tier 2 cloud inference:
@@ -162,17 +161,11 @@ $$\text{CAS}(t) = \left[ 0.40 \cdot \min\left(1, \frac{\Delta t_{\text{dwell}}}{
 
 ---
 
-## 🌿 6. Green IT & Carbon Calculation Audit
+## 🔒 6. Architecture & Privacy: Lightweight DOM Processing
 
-Our Green IT documentation benchmarks CogniShield against standard video stream inference:
+CogniShield processes text titles, captions, and DOM metadata locally inside the browser. It does not stream or download heavy video files to cloud servers. All browsing history, pause records, and quiz results remain in the browser's local IndexedDB with zero cloud telemetry.
 
-| Processing Parameter | Standard Cloud Video AI Pipeline | CogniShield Text-First Architecture | Green IT Improvement |
-| :--- | :--- | :--- | :--- |
-| **Data Ingestion** | 5-min 1080p stream (~150 MB) | JSON captions/DOM (~15 KB) | **99.99% Bandwidth Cut** |
-| **Compute Workload** | 1,500 frames on NVIDIA A100 GPU | Pure JS regex + micro-JSON | **99.98% Compute Cut** |
-| **Energy Consumption** | ~2.73 Wh per 5-min scan | ~0.00042 Wh per scan | **99.98% Energy Cut** |
-| **Network Transfer** | Transatlantic round-trip (6,000 km) | Local in-browser / European edge | **Zero Transatlantic Latency** |
-| **Conservative Claim**| Baseline: 2.73 Wh | CogniShield: 0.12 Wh (with cloud fallback) | **95.5% Carbon Reduction** |
+Before any optional cloud LLM fallback, our client sanitizer strips URLs, user handles (`@user`, `u/user`), timestamps, subscriber counts, and emails.
 
 ---
 
@@ -188,7 +181,7 @@ Our Green IT documentation benchmarks CogniShield against standard video stream 
 │   │   ├── regex-detector.js         # Client-side manipulation dictionary (EN, DE, FR)
 │   │   ├── cognitive-engine.js       # CAS mathematical formulas & Flip-Feed synthesis
 │   │   ├── offline-cache.js          # Fail-safe pre-cached dossiers (Energy, AI, Economy)
-│   │   └── local-storage.js          # GDPR Art. 22 IndexedDB wrapper + Zero-PII Sanitizer
+│   │   └── local-storage.js          # Privacy-first IndexedDB wrapper + Zero-PII Sanitizer
 │   │
 │   ├── background/
 │   │   ├── service-worker.js         # Tab listener, dwell-time tracker, lifecycle manager
@@ -196,9 +189,9 @@ Our Green IT documentation benchmarks CogniShield against standard video stream 
 │   │
 │   ├── content/
 │   │   ├── content-main.js           # Injected orchestrator binding scrapers, heatmap & HUD
-│   │   ├── flip-feed.js              # YouTube in-page recommendation inverter (5 counter-videos)
+│   │   ├── flip-feed.js              # YouTube in-page recommendation inverter (5 counter-perspectives)
 │   │   ├── scrapers/
-│   │   │   ├── youtube-scraper.js    # Triple-redundant (timedtext, ARIA DOM, Metadata)
+│   │   │   ├── youtube-scraper.js    # On-screen captions & semantic metadata extractor
 │   │   │   ├── news-scraper.js       # Readability-style web news article content extractor
 │   │   │   ├── twitter-scraper.js    # X/Twitter feed & quote tweet extractor
 │   │   │   └── reddit-scraper.js     # Reddit post & community context scraper
@@ -227,17 +220,13 @@ Our Green IT documentation benchmarks CogniShield against standard video stream 
 
 ## 🎓 8. Business Model: B2B "CogniShield Campus" & Integrity Certificate
 
-### 1. B2C Public Utility (100% Free)
-Free for individual students and digital citizens. Fosters organic viral growth across European university campuses, establishes brand authority, and fulfills CSR social missions.
+### 1. Public Student Utility (100% Free & Open Source)
+Free for individual students. Fosters organic adoption across college batches and student discussion groups.
 
-### 2. B2B Academic Integrity Licensing ("CogniShield Campus")
-* **Target Audience:** Universities, Colleges, Research Libraries, and High Schools (€4,000–€5,000/year per campus).
-* **The Existential Problem:** European universities face a crisis of students submitting unverified, hallucinated ChatGPT summaries in essays without consulting real source literature.
-* **The Solution — Epistemic Due-Diligence Certificate:**
-  * When researching assignments, CogniShield logs student engagement with multiple source archetypes (`[Academic]`, `[Economic]`, `[Statutory]`).
-  * Students generate a cryptographic verification token proving they reviewed at least 3 contrasting source perspectives and completed Socratic reflection prior to drafting.
-  * Professors accept this certificate as proof of independent research rigor.
-* **Year 1 Target:** 10 European university pilots = **€50,000 ARR**.
+### 2. Community Model: Campus Media Literacy Lead
+* **Primary Beneficiary:** College students who encounter manipulated posts, panic notices, and one-sided videos and are about to forward them in class WhatsApp groups, Reddit, X, or YouTube.
+* **Second Seat:** Campus media literacy faculty coordinator or student club lead.
+* **Aggregate Only:** The second seat receives only anonymous aggregate intervention counts (`[PILOT_N]` cohort size, `[FORWARDS_PAUSED]` pauses completed). Zero individual tracking or profiling.
 
 ---
 
@@ -255,13 +244,13 @@ Free for individual students and digital citizens. Fosters organic viral growth 
 
 ### Verified Acceptance Criteria:
 1. ✅ **Manifest V3 Extension:** Loads unpacked in Chrome and Brave with zero errors or warnings.
-2. ✅ **YouTube In-Page "Flip the Feed":** Mounts directly above recommendations column; clicking replaces outrage videos with 5 verified counter-perspectives across 5 dialectic archetypes and awards +5 Agency Points.
-3. ✅ **Multi-Platform Scrapers:** YouTube (timedtext + ARIA + metadata), News portals (BBC, Le Monde, Indian Express), X/Twitter, and Reddit successfully extract context in <50ms.
+2. ✅ **YouTube In-Page "Flip the Feed":** Mounts directly above recommendations column; clicking replaces outrage videos with counter-perspective search suggestions across multiple archetypes and awards Agency Points.
+3. ✅ **Multi-Platform Scrapers:** YouTube (ARIA + metadata), News portals (BBC, Le Monde, Der Spiegel, Reuters), X/Twitter, and Reddit successfully extract context in <50ms.
 4. ✅ **Zero-Watt Regex Heatmap:** Trilingual (EN, DE, FR) emotional manipulation detection runs client-side in 0ms with zero network calls.
-5. ✅ **Dual Cloud AI Bridge:** Gemini 2.5 Flash as primary LLM with automatic failover to Groq (Llama / Qwen) on HTTP 429 rate limit.
-6. ✅ **Hamburg Stage Resilience (100% Offline):** "Force Demo Cache" toggle provides instant zero-latency responses even in complete Wi-Fi dead-zones.
-7. ✅ **Academic Integrity Dashboard:** Cryptographic Due-Diligence Certificate generation and local IndexedDB telemetry active.
-8. ✅ **Automated Test Suite:** 26/26 tests passing (`npm test`) covering regex, cognitive formulas, entropy, fading, and Flip-Feed synthesis.
+5. ✅ **Dual Cloud AI Bridge:** Gemini Flash as primary LLM with automatic failover to Groq on HTTP 429 rate limit.
+6. ✅ **Stage Demo Resilience (100% Offline):** "Force Demo Cache" toggle provides instant zero-latency responses with stage pack dossiers (`ai_education` and `energy_transition`).
+7. ✅ **Academic Integrity Dashboard:** Local Session Log generation and on-device IndexedDB telemetry active.
+8. ✅ **Automated Test Suite:** 38/38 tests passing (`npm test`) covering regex, cognitive formulas, entropy, fading, neutral-news negative controls, and pilot stats.
 
 ---
 *Created for the Sopra Steria International Student Challenge 2026–2027. All rights reserved by Team CogniShield.*

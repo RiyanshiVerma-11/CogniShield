@@ -4,46 +4,49 @@
  */
 
 import { AIBridge } from "./api-bridge.js";
-import { LOCAL_AI_KEYS } from "../config/keys.local.js";
 
 console.log("[CogniShield] Service Worker loaded.");
 
 const aiBridge = new AIBridge();
 const tabDwellMap = new Map();
 
-// Initialize secure local configuration on install/update/load
+// Initialize local configuration on install/update/load (preserving user preferences)
 function initializeKeys() {
-  const localKeys = LOCAL_AI_KEYS || { geminiApiKey: "", groqApiKey: "" };
-  chrome.storage.local.get(["geminiApiKey", "groqApiKey", "forceDemoMode"], (existing) => {
-    // Prefer keys already saved in storage; fall back to hardcoded local keys
-    let geminiKey = existing.geminiApiKey || localKeys.geminiApiKey || "";
-    let groqKey = existing.groqApiKey || localKeys.groqApiKey || "";
+  chrome.storage.local.get(["geminiApiKey", "groqApiKey", "forceDemoMode", "userMode", "selectedLang"], (existing) => {
+    const geminiKey = existing.geminiApiKey || "";
+    const groqKey = existing.groqApiKey || "";
 
     chrome.storage.local.set({
-      userMode: "trainer", // "zen" or "trainer"
+      userMode: existing.userMode || "trainer",
       forceDemoMode: existing.forceDemoMode ?? false,
-      selectedLang: "auto",
+      selectedLang: existing.selectedLang || "auto",
       geminiApiKey: geminiKey,
       groqApiKey: groqKey
     }, () => {
-      console.log("[CogniShield] Keys initialized:", {
-        gemini: geminiKey ? "SET (" + geminiKey.slice(0, 8) + "...)" : "EMPTY",
-        groq: groqKey ? "SET (" + groqKey.slice(0, 8) + "...)" : "EMPTY"
+      console.log("[CogniShield] Config initialized:", {
+        mode: existing.userMode || "trainer",
+        gemini: geminiKey ? "SET" : "OFFLINE_CACHE",
+        groq: groqKey ? "SET" : "OFFLINE_CACHE"
       });
     });
   });
 }
 
-// Ensure keys are populated immediately whenever worker boots up
+// Ensure config is populated immediately whenever worker boots up
 initializeKeys();
 
 chrome.runtime.onInstalled.addListener(initializeKeys);
 chrome.runtime.onStartup.addListener(initializeKeys);
 
-// Track Tab Dwell-Time for Kahneman System 1/2 Latency Scrutiny
+// Track Tab Dwell-Time for System 1/2 Latency Scrutiny
 chrome.tabs.onActivated.addListener(activeInfo => {
-  const tabId = activeInfo.tabId;
-  tabDwellMap.set(tabId, Date.now());
+  tabDwellMap.set(activeInfo.tabId, Date.now());
+});
+
+chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
+  if (changeInfo.url) {
+    tabDwellMap.set(tabId, Date.now());
+  }
 });
 
 // Message Dispatcher
@@ -52,8 +55,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     const tabId = sender.tab ? sender.tab.id : null;
     const startTime = tabDwellMap.get(tabId) || Date.now();
     const rawElapsed = Math.round((Date.now() - startTime) / 1000);
-    // Cap dwell tracking at 45s max to prevent uncapped background tabs from inflating telemetry
-    const elapsedSeconds = Math.min(rawElapsed, 45);
+    // Cap per-tab dwell tracking at 120s max
+    const elapsedSeconds = Math.min(Math.max(0, rawElapsed), 120);
     sendResponse({ dwellSeconds: elapsedSeconds });
     return true;
   }
@@ -67,9 +70,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "FLIP_FEED_ANALYZE") {
     chrome.storage.local.get(["forceDemoMode", "geminiApiKey", "groqApiKey"], async (settings) => {
       try {
-        const localKeys = LOCAL_AI_KEYS || {};
-        let geminiKey = settings.geminiApiKey || localKeys.geminiApiKey || "";
-        let groqKey = settings.groqApiKey || localKeys.groqApiKey || "";
+        const geminiKey = settings.geminiApiKey || "";
+        const groqKey = settings.groqApiKey || "";
 
         const title = request.payload?.title || "";
         const textPayload = request.payload?.textPayload || "";
@@ -89,49 +91,52 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   if (request.action === "LOG_SESSION_SYNC") {
     const session = request.session;
-    if (session) {
-      chrome.storage.local.get(["_cognishield_sessions_store"], (res) => {
-        let store = res._cognishield_sessions_store || [];
-        // Add unique ID if missing
-        if (!session.id) session.id = "sess_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
-        store.unshift(session);
-        if (store.length > 500) store = store.slice(0, 500);
-        chrome.storage.local.set({
-          _cognishield_sessions_store: store,
-          _live_bus_event: { type: "SESSION_LOGGED", timestamp: Date.now() }
-        }, () => {
-          sendResponse({ status: "SAVED", id: session.id });
-        });
-      });
+    if (!session) {
+      sendResponse({ status: "INVALID" });
+      return true;
     }
+    chrome.storage.local.get(["_cognishield_sessions_store"], (res) => {
+      let store = res._cognishield_sessions_store || [];
+      if (!session.id) session.id = "sess_" + Date.now() + "_" + Math.floor(Math.random() * 1000);
+      store.unshift(session);
+      if (store.length > 500) store = store.slice(0, 500);
+      chrome.storage.local.set({
+        _cognishield_sessions_store: store,
+        _live_bus_event: { type: "SESSION_LOGGED", timestamp: Date.now() }
+      }, () => {
+        sendResponse({ status: "SAVED", id: session.id });
+      });
+    });
     return true;
   }
 
   if (request.action === "UPDATE_SESSION_SYNC") {
     const { id, updates } = request;
-    if (id && updates) {
-      chrome.storage.local.get(["_cognishield_sessions_store"], (res) => {
-        let store = res._cognishield_sessions_store || [];
-        let updated = false;
-        store = store.map(item => {
-          if (item.id === id) {
-            updated = true;
-            return Object.assign({}, item, updates);
-          }
-          return item;
-        });
-        if (updated) {
-          chrome.storage.local.set({
-            _cognishield_sessions_store: store,
-            _live_bus_event: { type: "SESSION_UPDATED", timestamp: Date.now() }
-          }, () => {
-            sendResponse({ status: "UPDATED" });
-          });
-        } else {
-          sendResponse({ status: "NOT_FOUND" });
-        }
-      });
+    if (!id || !updates) {
+      sendResponse({ status: "INVALID" });
+      return true;
     }
+    chrome.storage.local.get(["_cognishield_sessions_store"], (res) => {
+      let store = res._cognishield_sessions_store || [];
+      let updated = false;
+      store = store.map(item => {
+        if (item.id === id) {
+          updated = true;
+          return Object.assign({}, item, updates);
+        }
+        return item;
+      });
+      if (updated) {
+        chrome.storage.local.set({
+          _cognishield_sessions_store: store,
+          _live_bus_event: { type: "SESSION_UPDATED", timestamp: Date.now() }
+        }, () => {
+          sendResponse({ status: "UPDATED" });
+        });
+      } else {
+        sendResponse({ status: "NOT_FOUND" });
+      }
+    });
     return true;
   }
 
@@ -145,9 +150,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.action === "ANALYZE_LIVE_CONTENT") {
     chrome.storage.local.get(["forceDemoMode", "geminiApiKey", "groqApiKey"], async (settings) => {
       try {
-        const localKeys = LOCAL_AI_KEYS || {};
-        let geminiKey = settings.geminiApiKey || localKeys.geminiApiKey || "";
-        let groqKey = settings.groqApiKey || localKeys.groqApiKey || "";
+        const geminiKey = settings.geminiApiKey || "";
+        const groqKey = settings.groqApiKey || "";
 
         const textPayload = request.payload?.textPayload || request.payload?.title || "";
         const result = await aiBridge.dispatchAnalysis(textPayload, {
