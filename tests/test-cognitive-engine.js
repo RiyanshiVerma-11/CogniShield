@@ -169,8 +169,11 @@ async function runTests() {
   assert(pilotExport.includes("[PILOT_N]") && pilotExport.includes("[PARTNER_NAME]") && pilotExport.includes("[FORWARDS_PAUSED]"), "Pilot Stats Export: Retains un-invented pilot placeholders");
 
   console.log("\n=============================================================");
-  console.log(`RESULTS: ${passed}/${total} TESTS PASSED (ALL PASSING)`);
+  console.log(`RESULTS: ${passed}/${total} TESTS PASSED (${passed === total ? "ALL PASSING" : "FAILURES DETECTED"})`);
   console.log("=============================================================");
+  if (passed !== total) {
+    process.exitCode = 1;
+  }
 }
 
 runTests();

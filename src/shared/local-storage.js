@@ -154,6 +154,9 @@ class LocalStorageManager {
       if (typeof BroadcastChannel !== "undefined") {
         if (!this._liveBus) {
           this._liveBus = new BroadcastChannel("cognishield_live_bus");
+          if (typeof this._liveBus.unref === "function") {
+            this._liveBus.unref();
+          }
         }
         this._liveBus.postMessage({ type: eventType, data, timestamp: Date.now() });
       }
